@@ -1917,6 +1917,30 @@ button.primary{
     }
 
 }
+
+#learnersList td[contenteditable]{
+
+    cursor:text;
+
+    transition:.2s;
+
+}
+
+#learnersList td[contenteditable]:hover{
+
+    background:#eff6ff;
+
+}
+
+#learnersList td[contenteditable]:focus{
+
+    outline:none;
+
+    background:#dbeafe;
+
+    box-shadow:inset 0 0 0 2px #2563eb;
+
+}
 </style>
 </head>
 
@@ -3986,53 +4010,122 @@ Peter Kimani"
 
       <option value="">-- Select Subject --</option>
 
-      <!-- Languages -->
-      <option value="English">English</option>
-      <option value="Kiswahili">Kiswahili</option>
-      <option value="Kenya Sign Language">Kenya Sign Language</option>
+<!-- ================= LANGUAGES ================= -->
+<optgroup label="📖 Languages">
+  <option value="English">English</option>
+  <option value="Kiswahili">Kiswahili</option>
+  <option value="Kenya Sign Language">Kenya Sign Language</option>
+  <option value="French">French</option>
+  <option value="German">German</option>
+  <option value="Arabic">Arabic</option>
+  <option value="Mandarin">Mandarin</option>
+</optgroup>
 
-      <!-- Mathematics -->
-      <option value="Mathematics">Mathematics</option>
+<!-- ================= MATHEMATICS ================= -->
+<optgroup label="➗ Mathematics">
+  <option value="Mathematics">Mathematics</option>
+</optgroup>
 
-      <!-- Sciences -->
-      <option value="Biology">Biology</option>
-      <option value="Chemistry">Chemistry</option>
-      <option value="Physics">Physics</option>
-      <option value="General Science">General Science</option>
+<!-- ================= PRIMARY / JUNIOR CBC ================= -->
+<optgroup label="🌱 Primary & Junior School CBC">
+  <option value="Integrated Science">Integrated Science</option>
+  <option value="Science">Science</option>
+  <option value="Social Studies">Social Studies</option>
+  <option value="Social Studies & CRE">Social Studies & CRE</option>
+  <option value="Agriculture & Nutrition">Agriculture & Nutrition</option>
+  <option value="Agriculture">Agriculture</option>
+  <option value="Creative Arts">Creative Arts</option>
+  <option value="Art & Craft">Art & Craft</option>
+  <option value="Music">Music</option>
+  <option value="Life Skills">Life Skills</option>
+  <option value="Physical Education">Physical Education</option>
+  <option value="Pre-Technical Studies">Pre-Technical Studies</option>
+</optgroup>
 
-      <!-- Humanities -->
-      <option value="History">History</option>
-      <option value="Geography">Geography</option>
-      <option value="CRE">Christian Religious Education (CRE)</option>
-      <option value="IRE">Islamic Religious Education (IRE)</option>
-      <option value="HRE">Hindu Religious Education (HRE)</option>
+<!-- ================= SCIENCES ================= -->
+<optgroup label="🔬 Sciences">
+  <option value="Biology">Biology</option>
+  <option value="Chemistry">Chemistry</option>
+  <option value="Physics">Physics</option>
+  <option value="General Science">General Science</option>
+</optgroup>
 
-      <!-- Technical & Applied -->
-      <option value="Agriculture">Agriculture</option>
-      <option value="Computer Studies">Computer Studies</option>
-      <option value="Business Studies">Business Studies</option>
-      <option value="Home Science">Home Science</option>
-      <option value="Woodwork">Woodwork</option>
-      <option value="Metalwork">Metalwork</option>
-      <option value="Building & Construction">Building & Construction</option>
-      <option value="Power Mechanics">Power Mechanics</option>
-      <option value="Electricity">Electricity</option>
-      <option value="Drawing & Design">Drawing & Design</option>
-      <option value="Aviation Technology">Aviation Technology</option>
+<!-- ================= HUMANITIES ================= -->
+<optgroup label="🌍 Humanities">
+  <option value="History">History</option>
+  <option value="Geography">Geography</option>
+  <option value="CRE">Christian Religious Education (CRE)</option>
+  <option value="IRE">Islamic Religious Education (IRE)</option>
+  <option value="HRE">Hindu Religious Education (HRE)</option>
+</optgroup>
 
-      <!-- Creative Arts -->
-      <option value="Music">Music</option>
-      <option value="Art & Design">Art & Design</option>
-      <option value="Theatre & Film">Theatre & Film</option>
+<!-- ================= TECHNOLOGY & APPLIED ================= -->
+<optgroup label="🛠 Technology & Applied">
+  <option value="Computer Studies">Computer Studies</option>
+  <option value="Business Studies">Business Studies</option>
+  <option value="Home Science">Home Science</option>
+  <option value="Woodwork">Woodwork</option>
+  <option value="Metalwork">Metalwork</option>
+  <option value="Building & Construction">Building & Construction</option>
+  <option value="Power Mechanics">Power Mechanics</option>
+  <option value="Electricity">Electricity</option>
+  <option value="Drawing & Design">Drawing & Design</option>
+  <option value="Aviation Technology">Aviation Technology</option>
+</optgroup>
 
-      <!-- Sports -->
-      <option value="Physical Education">Physical Education</option>
+<!-- ================= CREATIVE ARTS ================= -->
+<optgroup label="🎨 Creative Arts">
+  <option value="Art & Design">Art & Design</option>
+  <option value="Theatre & Film">Theatre & Film</option>
+</optgroup>
 
-      <!-- Foreign Languages -->
-      <option value="French">French</option>
-      <option value="German">German</option>
-      <option value="Arabic">Arabic</option>
-      <option value="Mandarin">Mandarin</option>
+<!-- ================= SENIOR SCHOOL (GRADE 10–12 CBC) ================= -->
+<optgroup label="🎓 Senior School (Grade 10–12)">
+
+  <option value="English Language">English Language</option>
+  <option value="Kiswahili Language">Kiswahili Language</option>
+  <option value="Literature in English">Literature in English</option>
+  <option value="Advanced Mathematics">Advanced Mathematics</option>
+
+  <option value="Biological Sciences">Biological Sciences</option>
+  <option value="Physical Sciences">Physical Sciences</option>
+  <option value="Earth & Space Sciences">Earth & Space Sciences</option>
+
+  <option value="History & Citizenship">History & Citizenship</option>
+  <option value="Geography">Geography</option>
+
+  <option value="Computer Science">Computer Science</option>
+  <option value="Information Technology">Information Technology</option>
+  <option value="Software Development">Software Development</option>
+
+  <option value="Accounting">Accounting</option>
+  <option value="Business Management">Business Management</option>
+  <option value="Economics">Economics</option>
+
+  <option value="Agriculture">Agriculture</option>
+  <option value="Animal Production">Animal Production</option>
+  <option value="Crop Production">Crop Production</option>
+
+  <option value="Electrical Engineering">Electrical Engineering</option>
+  <option value="Mechanical Engineering">Mechanical Engineering</option>
+  <option value="Building Technology">Building Technology</option>
+  <option value="Mechatronics">Mechatronics</option>
+
+  <option value="Fashion Design">Fashion Design</option>
+  <option value="Textile Design">Textile Design</option>
+  <option value="Interior Design">Interior Design</option>
+
+  <option value="Music">Music</option>
+  <option value="Fine Art">Fine Art</option>
+  <option value="Performing Arts">Performing Arts</option>
+  <option value="Film & Media Studies">Film & Media Studies</option>
+
+  <option value="Sports & Exercise Science">Sports & Exercise Science</option>
+
+  <option value="Community Service Learning">Community Service Learning</option>
+  <option value="Life Skills Education">Life Skills Education</option>
+
+</optgroup>
 
 </select>
 
@@ -5248,14 +5341,16 @@ background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
 
 <div id="hostel" class="section" style="display:none; padding:20px;">
 
-  <h2 style="
+<h2 style="
     background:#0f172a;
     color:white;
-    padding:15px;
+    padding:15px 20px;
     border-radius:12px;
-  ">
+    margin:0 0 25px 0;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+">
     🏨 Advanced Hostel Management
-  </h2>
+</h2>
 
   <!-- ================= DASHBOARD ================= -->
 <div class="report-grid">
@@ -6805,7 +6900,7 @@ const schoolData = {
 
       amountPaid: 0,
       trialStartedAt: now,
-      trialEndsAt: now + (10 * 24 * 60 * 60 * 1000),
+      trialEndsAt: now + (0 * 24 * 60 * 60 * 1000),
 
       subscriptionStartedAt: 0,
       subscriptionEndsAt: 0,
@@ -7093,12 +7188,12 @@ infoBox.innerHTML = `
   ✔ After payment, send details for activation<br><br>
 
   <b>📞 PAYBILL / TILL / NUMBER</b><br>
-  0712 000 000<br><br>
+  0792755676<br><br>
 
   <b>📲 WhatsApp Activation</b><br>
   Send message to activate your account:<br><br>
 
-  👉 <a href="https://wa.me/254712000000" target="_blank"
+  👉 <a href="https://wa.me/254792755676" target="_blank"
      style="color:#16a34a;font-weight:bold;">
      Click to Chat RASM Support
   </a><br><br>
@@ -7118,30 +7213,37 @@ infoBox.innerHTML = `
 
       const box = popup.querySelector("#packageInfo");
       if (!box) return;
+if (val === "weekly") {
+  box.innerHTML = "🔵 7 Days Access — Weekly plan";
+}
 
-      if (val === "hourly") {
-        box.innerHTML = "⚡ 1 Hour Access — Quick usage";
-      }
+if (val === "starter") {
+  box.innerHTML = "🟢 30 Days Access — Starter plan";
+}
 
-      if (val === "daily") {
-        box.innerHTML = "🟡 24 Hours Access — Daily package";
-      }
+if (val === "standard") {
+  box.innerHTML = "🔷 90 Days Access — Standard plan";
+}
 
-      if (val === "weekly") {
-        box.innerHTML = "🔵 7 Days Access — Weekly plan";
-      }
+if (val === "premium_1year") {
+  box.innerHTML = "🟣 1 Year Access — Premium plan";
+}
 
-      if (val === "starter") {
-        box.innerHTML = "🟢 30 Days Access — Starter plan";
-      }
+if (val === "premium_2years") {
+  box.innerHTML = "🟣 2 Years Access — Premium plan";
+}
 
-      if (val === "standard") {
-        box.innerHTML = "🔷 90 Days Access — Standard plan";
-      }
+if (val === "premium_5years") {
+  box.innerHTML = "🟣 5 Years Access — Premium plan";
+}
 
-      if (val === "premium") {
-        box.innerHTML = "🟣 365 Days Access — Premium plan";
-      }
+if (val === "premium_10years") {
+  box.innerHTML = "🟣 10 Years Access — Premium plan";
+}
+
+if (val === "premium_lifetime") {
+  box.innerHTML = "💎 Permanent Lifetime Access";
+}
 
     });
 
@@ -7259,35 +7361,47 @@ function lockEntireSystem(title, message) {
               "
             >
 
-              <option value="">
-                -- Select Package --
-              </option>
 
-              <option value="hourly">
-                ⚡ Quick Access — KES 300 (1 Hour)
-              </option>
+  <option value="">
+    -- Select Package --
+  </option>
 
-              <option value="daily">
-                🟡 Daily Package — KES 500 (24 Hours)
-              </option>
+  <!-- Short-Term -->
+  <option value="weekly">
+    🔵 Weekly — KES 2,000 (7 Days)
+  </option>
 
-              <option value="weekly">
-                🔵 Weekly Package — KES 1,200 (7 Days)
-              </option>
+  <!-- Monthly -->
+  <option value="starter">
+    🟢 Starter — KES 3,000 (30 Days)
+  </option>
 
-              <option value="starter">
-                🟢 Starter — KES 3,000 (30 Days)
-              </option>
+  <!-- Quarterly -->
+  <option value="standard">
+    🔷 Standard — KES 10,000 (90 Days)
+  </option>
 
-              <option value="standard">
-                🔷 Standard — KES 5,000 (90 Days)
-              </option>
+  <!-- Annual & Long-Term -->
+  <option value="premium_1year">
+    🟣 Premium — KES 15,000 (1 Year)
+  </option>
 
-              <option value="premium">
-                🟣 Premium — KES 15,000 (365 Days)
-              </option>
+  <option value="premium_2years">
+    🟣 Premium — KES 30,000 (2 Years)
+  </option>
 
-            </select>
+  <option value="premium_5years">
+    🟣 Premium — KES 75,000 (5 Years)
+  </option>
+
+  <option value="premium_10years">
+    🟣 Premium — KES 150,000 (10 Years)
+  </option>
+
+  <option value="premium_lifetime">
+    🟣 Lifetime — KES 300,000 (Permanent)
+  </option>
+</select>
 
             <!-- ================= PACKAGE INFO ================= -->
 
@@ -7330,7 +7444,7 @@ function lockEntireSystem(title, message) {
                 line-height:1.8;
               ">
 
-                ✔ 2 Minute Free Trial<br>
+         
                 ✔ Secure M-Pesa Payments<br>
                 ✔ Auto Subscription Activation<br>
                 ✔ Full School ERP System Access<br>
@@ -7412,81 +7526,106 @@ function lockEntireSystem(title, message) {
     allowEscapeKey: false,
     showConfirmButton: false,
 
-    didOpen: () => {
+ didOpen: () => {
 
-      const select =
-        document.getElementById("packageSelect");
+  const select = document.getElementById("packageSelect");
+  const info = document.getElementById("packageInfo");
 
-      const info =
-        document.getElementById("packageInfo");
+  select.addEventListener("change", () => {
 
-      select.addEventListener("change", () => {
+    const val = select.value;
 
-        const val = select.value;
+    switch (val) {
 
-        if (val === "hourly") {
+      case "weekly":
+        info.innerHTML = `
+          🔵 <b>Weekly Package</b><br>
+          ✔ 7 Days Full Access<br>
+          ✔ Exams & Reports<br>
+          ✔ Teachers Management<br>
+          ✔ Finance Module
+        `;
+        break;
 
-          info.innerHTML = `
-            ⚡ <b>Quick Access</b><br>
-            ✔ 1 Hour Access<br>
-            ✔ Perfect for emergency usage<br>
-            ✔ Fees + Results + Printing
-          `;
-        }
+      case "starter":
+        info.innerHTML = `
+          🟢 <b>Starter Package</b><br>
+          ✔ 30 Days Full Access<br>
+          ✔ Students & Teachers<br>
+          ✔ Finance & Attendance<br>
+          ✔ CBC Reports
+        `;
+        break;
 
-        if (val === "daily") {
+      case "standard":
+        info.innerHTML = `
+          🔷 <b>Standard Package</b><br>
+          ✔ 90 Days Full Access<br>
+          ✔ Inventory Module<br>
+          ✔ Hostel Module<br>
+          ✔ Complete Examination System
+        `;
+        break;
 
-          info.innerHTML = `
-            🟡 <b>Daily Package</b><br>
-            ✔ 24 Hour Access<br>
-            ✔ Students Management<br>
-            ✔ Fees + Attendance
-          `;
-        }
+      case "premium_1year":
+        info.innerHTML = `
+          🟣 <b>Premium - 1 Year</b><br>
+          ✔ 365 Days Unlimited Access<br>
+          ✔ All ERP Modules Included<br>
+          ✔ Free Updates<br>
+          ✔ Priority Support
+        `;
+        break;
 
-        if (val === "weekly") {
+      case "premium_2years":
+        info.innerHTML = `
+          🟣 <b>Premium - 2 Years</b><br>
+          ✔ 2 Years Unlimited Access<br>
+          ✔ All ERP Modules Included<br>
+          ✔ Free Updates<br>
+          ✔ Priority Support
+        `;
+        break;
 
-          info.innerHTML = `
-            🔵 <b>Weekly Package</b><br>
-            ✔ 7 Days Access<br>
-            ✔ Exams + Reports<br>
-            ✔ Teachers + Fees
-          `;
-        }
+      case "premium_5years":
+        info.innerHTML = `
+          🟣 <b>Premium - 5 Years</b><br>
+          ✔ 5 Years Unlimited Access<br>
+          ✔ All ERP Modules Included<br>
+          ✔ Free Updates<br>
+          ✔ Dedicated Support
+        `;
+        break;
 
-        if (val === "starter") {
+      case "premium_10years":
+        info.innerHTML = `
+          🟣 <b>Premium - 10 Years</b><br>
+          ✔ 10 Years Unlimited Access<br>
+          ✔ All ERP Modules Included<br>
+          ✔ Lifetime Updates During Subscription<br>
+          ✔ VIP Support
+        `;
+        break;
 
-          info.innerHTML = `
-            🟢 <b>Starter Package</b><br>
-            ✔ 30 Days Access<br>
-            ✔ Finance Module<br>
-            ✔ Students & Teachers
-          `;
-        }
+      case "premium_lifetime":
+        info.innerHTML = `
+          💎 <b>Lifetime License</b><br>
+          ✔ Permanent Access<br>
+          ✔ Unlimited Updates<br>
+          ✔ All Future Features Included<br>
+          ✔ Highest Priority Support
+        `;
+        break;
 
-        if (val === "standard") {
-
-          info.innerHTML = `
-            🔷 <b>Standard Package</b><br>
-            ✔ 90 Days Access<br>
-            ✔ Inventory + Hostel<br>
-            ✔ Full Exams System
-          `;
-        }
-
-        if (val === "premium") {
-
-          info.innerHTML = `
-            🟣 <b>Premium Package</b><br>
-            ✔ 365 Days Access<br>
-            ✔ ALL Modules Included<br>
-            ✔ Priority Support
-          `;
-        }
-
-      });
-
+      default:
+        info.innerHTML = `
+          🚀 Select a package to view benefits.
+        `;
     }
+
+  });
+
+}
 
   });
 
@@ -7507,14 +7646,16 @@ window.activateSubscription = async function () {
   // ================================
   // PACKAGE LABELS
   // ================================
-  const packageLabels = {
-    hourly: "Quick Access (1 Hour)",
-    daily: "Daily Package (24 Hours)",
-    weekly: "Weekly Package (7 Days)",
-    starter: "Starter (30 Days)",
-    standard: "Standard (90 Days)",
-    premium: "Premium (365 Days)"
-  };
+const packageLabels = {
+  weekly: "Weekly (7 Days)",
+  starter: "Starter (30 Days)",
+  standard: "Standard (90 Days)",
+  premium_1year: "Premium (1 Year)",
+  premium_2years: "Premium (2 Years)",
+  premium_5years: "Premium (5 Years)",
+  premium_10years: "Premium (10 Years)",
+  premium_lifetime: "Lifetime (Permanent)"
+};
 
   const packageName =
     packageLabels[selectedPackage] || selectedPackage;
@@ -7549,36 +7690,53 @@ window.activateSubscription = async function () {
   let amount = 0;
   let duration = 0;
 
-  if (selectedPackage === "hourly") {
-    amount = 300;
-    duration = 1 * 60 * 60 * 1000;
-  }
 
-  if (selectedPackage === "daily") {
-    amount = 500;
-    duration = 24 * 60 * 60 * 1000;
-  }
 
-  if (selectedPackage === "weekly") {
-    amount = 1200;
-    duration = 7 * 24 * 60 * 60 * 1000;
-  }
+// ===========================
+// PACKAGE PRICING
+// ===========================
 
-  if (selectedPackage === "starter") {
-    amount = 3000;
-    duration = 30 * 24 * 60 * 60 * 1000;
-  }
+if (selectedPackage === "weekly") {
+  amount = 2000;
+  duration = 7 * 24 * 60 * 60 * 1000;
+}
 
-  if (selectedPackage === "standard") {
-    amount = 5000;
-    duration = 90 * 24 * 60 * 60 * 1000;
-  }
+if (selectedPackage === "starter") {
+  amount = 3000;
+  duration = 30 * 24 * 60 * 60 * 1000;
+}
 
-  if (selectedPackage === "premium") {
-    amount = 15000;
-    duration = 365 * 24 * 60 * 60 * 1000;
-  }
+if (selectedPackage === "standard") {
+  amount = 10000;
+  duration = 90 * 24 * 60 * 60 * 1000;
+}
 
+if (selectedPackage === "premium_1year") {
+  amount = 15000;
+  duration = 365 * 24 * 60 * 60 * 1000;
+}
+
+if (selectedPackage === "premium_2years") {
+  amount = 30000;
+  duration = 2 * 365 * 24 * 60 * 60 * 1000;
+}
+
+if (selectedPackage === "premium_5years") {
+  amount = 75000;
+  duration = 5 * 365 * 24 * 60 * 60 * 1000;
+}
+
+if (selectedPackage === "premium_10years") {
+  amount = 150000;
+  duration = 10 * 365 * 24 * 60 * 60 * 1000;
+}
+
+if (selectedPackage === "premium_lifetime") {
+  amount = 300000;
+
+  // 100 years (effectively permanent)
+  duration = 100 * 365 * 24 * 60 * 60 * 1000;
+}
   // =====================================
   // PROCESS LOADING UI
   // =====================================
@@ -9689,42 +9847,60 @@ function loadTeachers() {
 <td>
   <div class="dropdown-actions">
 
-    <!-- TOGGLE BUTTON -->
     <button class="action-toggle">
-      ⚙ Actions
+      ⚙️ Actions ▾
     </button>
 
-    <!-- DROPDOWN -->
     <div class="dropdown-menu">
 
-      <button class="dropdown-btn edit-btn"
-        onclick="editTeacher('${id}', \`${name}\`, \`${phone}\`, \`${email}\`, \`${subject}\`, \`${classAssigned}\`)">
-        ✏️ Edit
-      </button>
+      <!-- PROFILE -->
+      <div class="dropdown-title">Teacher</div>
 
-      <button class="dropdown-btn delete-btn"
-        onclick="deleteTeacher('${id}')">
-        🗑 Delete
-      </button>
-
-      <button class="dropdown-btn view-btn"
+      <button class="dropdown-btn"
         onclick="viewTeacherProfile('${id}')">
         👁 View Profile
       </button>
 
-      <button class="dropdown-btn sms-btn"
-        onclick="sendTeacherSMS('${phone}', '${name}')">
+      <button class="dropdown-btn"
+        onclick="editTeacher('${id}', \`${name}\`, \`${phone}\`, \`${email}\`, \`${subject}\`, \`${classAssigned}\`)">
+        ✏️ Edit Details
+      </button>
+
+      <hr>
+
+      <!-- COMMUNICATION -->
+      <div class="dropdown-title">Communication</div>
+
+      <button class="dropdown-btn"
+        onclick="sendTeacherSMS('${phone}','${name}')">
         📩 Send SMS
       </button>
 
-      <button class="dropdown-btn present-btn"
+      <hr>
+
+      <!-- ATTENDANCE -->
+      <div class="dropdown-title">Attendance</div>
+
+      <button class="dropdown-btn success"
         onclick="markTeacherAttendance('${id}','Present')">
         ✅ Mark Present
       </button>
 
-      <button class="dropdown-btn absent-btn"
+      <button class="dropdown-btn danger"
         onclick="markTeacherAttendance('${id}','Absent')">
         ❌ Mark Absent
+      </button>
+
+      <hr>
+
+      <!-- DANGER -->
+      <div class="dropdown-title danger-text">
+        Administration
+      </div>
+
+      <button class="dropdown-btn delete"
+        onclick="deleteTeacher('${id}')">
+        🗑 Delete Teacher
       </button>
 
     </div>
@@ -11977,29 +12153,6 @@ window.loadFeeYears = async function () {
 };
 
 
-async function sendSMS(phone, message) {
-
-  try {
-
-    // 🔥 REPLACE THIS URL WITH YOUR SMS PROVIDER
-    const res = await fetch("https://YOUR_SMS_API_ENDPOINT/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        to: phone,
-        message: message
-      })
-    });
-
-    const data = await res.json();
-    console.log("📩 SMS sent:", data);
-
-  } catch (err) {
-    console.error("❌ SMS failed:", err);
-  }
-}
 
 window.sendNotifications = async () => {
 
@@ -12619,17 +12772,12 @@ function markLearnerAsRecorded(learnerKey) {
 // =========================================================
 function clearMarksFormPreserveSelections() {
 
-    const subject = document.getElementById("subject");
     const mark = document.getElementById("subjectMark");
-
-    if (subject) {
-        subject.selectedIndex = 0;
-        subject.style.border = "";
-    }
 
     if (mark) {
         mark.value = "";
         mark.style.border = "";
+        mark.focus();
     }
 
 }
@@ -12660,22 +12808,43 @@ async function saveMarksToFirebase(
 function autoSelectNextLearner() {
 
   const select = document.getElementById("learnerSelect");
+  const markInput = document.getElementById("subjectMark");
+
   const next = window.__learnerQueue[window.__currentLearnerIndex];
 
   if (!next) {
+
+    if (markInput) {
+      markInput.value = "";
+    }
+
     Swal.fire("Done", "All learners completed", "success");
     return;
   }
 
   select.value = next.key;
 
-  showCurrentLearnerNotice(
-  next.name
-);
+  // 🔥 Force a fresh mark box
+  if (markInput) {
+    markInput.value = "";
+    markInput.focus();
+  }
+
+  showCurrentLearnerNotice(next.name);
+
 }
 
+document.getElementById("learnerSelect")
+?.addEventListener("change", () => {
 
+    const mark = document.getElementById("subjectMark");
 
+    if (mark) {
+        mark.value = "";
+        mark.focus();
+    }
+
+});
 
 
 // =========================================================
@@ -12746,16 +12915,25 @@ document.getElementById("saveMarksButton")
             data
         );
 
-        showAppreciationMessage();
+markLearnerAsRecorded(learner.key);
 
-        markLearnerAsRecorded(learner.key);
+window.__currentLearnerIndex++;
 
-        clearMarksFormPreserveSelections();
+autoSelectNextLearner();
 
-        window.__currentLearnerIndex++;
+showAppreciationMessage();
+// Clear the marks box AFTER changing learner
+setTimeout(() => {
 
-        autoSelectNextLearner();
+    const mark = document.getElementById("subjectMark");
 
+    if (mark) {
+        mark.value = "";
+        mark.style.border = "";
+        mark.focus();
+    }
+
+}, 100);
     }
     finally {
 
@@ -14904,8 +15082,8 @@ gap:20px;
 </div>
       <!-- RIGHT SIDE (STAMP) -->
 <div style="
-  border:2px solid #2196F3;
-  color:#2196F3;
+  border:2px solid #003399;
+ color: #003399;
   padding:10px 15px;
   border-radius:8px;
   font-weight:bold;
@@ -17030,15 +17208,45 @@ function renderNextStudentsBatch() {
                ">
         </td>
 
-        <td>${data.name || "N/A"}</td>
-        <td>${data.gender || "N/A"}</td>
-        <td>${data.grade || "N/A"}</td>
-        <td>${data.age || "N/A"}</td>
-        <td>${data.parentName || "-"}</td>
-        <td>${data.parentPhone || "-"}</td>
-        <td>${data.birthCert || "-"}</td>
-        <td>${data.admissionNo || data.adm || "-"}</td>
+    <td contenteditable="true"
+    onblur="updateStudentField('${data.id}','name',this.innerText)">
+    ${data.name || ""}
+</td>
 
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','gender',this.innerText)">
+    ${data.gender || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','grade',this.innerText)">
+    ${data.grade || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','age',this.innerText)">
+    ${data.age || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','parentName',this.innerText)">
+    ${data.parentName || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','parentPhone',this.innerText)">
+    ${data.parentPhone || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','birthCert',this.innerText)">
+    ${data.birthCert || ""}
+</td>
+
+<td contenteditable="true"
+    onblur="updateStudentField('${data.id}','admissionNo',this.innerText)">
+    ${data.admissionNo || data.adm || ""}
+</td>
         <td>
           <button onclick="editPhoto('${data.id}')">
             Edit
@@ -17058,7 +17266,35 @@ function renderNextStudentsBatch() {
   state.loading = false;
 }
 
+window.updateStudentField = async function(studentId, field, value) {
 
+    try {
+
+        const schoolId = window.schoolId;
+
+        await update(
+            ref(db, `schools/${schoolId}/students/${studentId}`),
+            {
+                [field]: value.trim(),
+                updatedAt: Date.now()
+            }
+        );
+
+        console.log("Updated", field);
+
+    } catch (err) {
+
+        console.error(err);
+
+        Swal.fire(
+            "Error",
+            "Failed to save changes.",
+            "error"
+        );
+
+    }
+
+};
 // ======================================================
 // 🚀 AUTO LOAD MORE ON SCROLL
 // ======================================================
@@ -19378,17 +19614,19 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
     learners.forEach(l => {
 
-      const value = l.marks?.[subject.key];
+const value = l.marks?.[subject.key];
 
 if (
-  value !== undefined &&
-  value !== null &&
-  value !== ""
+    value !== undefined &&
+    value !== null &&
+    value !== ""
 ) {
 
-  const level = getLevel(Number(value));
+    const score = Number(value);
 
-  levelSummary[subject.key][level]++;
+    const level = getLevel(score);
+
+    levelSummary[subject.key][level]++;
 
 }
     });
@@ -22090,204 +22328,298 @@ School Administration
 
   run();
 };
-window.sendSelectedResults = function () {
-
-  const examPeriod = safeValue("resultsExamPeriod");
-
-  if (!examPeriod) {
-    return Swal.fire("Select Exam", "Please select exam period", "warning");
-  }
-
-  const selected = document.querySelectorAll(".learnerCheckbox:checked");
-  if (!selected.length) {
-    return Swal.fire("No Selection", "Select learners first", "info");
-  }
-
-  selected.forEach((cb, i) => {
-
-    const row = cb.closest("tr");
-    const key = row.dataset.key;
-
-      const learners = allLoadedLearners;
-    if (!learner) return;
-
-    const report = buildUnifiedReport(learner);
-
-    const phone = formatPhone(learner.parentPhone);
-    if (!phone) return;
-
-    const msg = buildResultMessage(report, examPeriod);
-
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-
-    setTimeout(() => window.open(url, "_blank"), i * 800);
-  });
-
-  Swal.fire("Ready", "WhatsApp messages opened", "success");
-};
-window.sendLoadedResults = function () {
-
-  const examPeriod = safeValue("resultsExamPeriod");
-
-  if (!examPeriod) {
-    return Swal.fire("Select Exam", "Please select exam period", "warning");
-  }
-
-   const learners = allLoadedLearners;
-
-  if (!learners.length) {
-    return Swal.fire("No Data", "Load marks first", "info");
-  }
-
-  let index = 0;
-  const batchSize = 10;
-
-  function runBatch() {
-
-    const batch = learners.slice(index, index + batchSize);
-
-    batch.forEach((l, i) => {
-
-      const phone = formatPhone(l.parentPhone);
-      if (!phone) return;
-
-      const report = buildUnifiedReport(l);
-      const msg = buildResultMessage(report, examPeriod);
-
-      setTimeout(() => {
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
-      }, i * 1000);
-    });
-
-    index += batchSize;
-
-    if (index < learners.length) {
-      setTimeout(runBatch, 2000);
-    } else {
-      Swal.fire("Done", "All messages opened", "success");
-    }
-  }
-
-  runBatch();
-};
-
 function buildResultMessage(
   report,
   examPeriod,
-  mode = "whatsapp"
+  mode = "sms"
 ) {
 
-  // =========================
-  // 🏫 SCHOOL PROFILE
-  // =========================
-  const school =
-    window.currentSchool || {};
+  const school = window.currentSchool || {};
 
-  const schoolName =
-    school.name || "School";
+  const schoolName = school.name || "School";
+  const schoolMotto = school.motto || "";
 
-  const schoolMotto =
-    school.motto || "";
-
-  // =========================
-  // 📱 SMS VERSION
-  // =========================
-  if (mode === "sms") {
-
-    return `
-
+  return `
 ${schoolName}
 
-Name: ${report.name}
+Student: ${report.name}
 Grade: ${report.grade}
 Exam: ${examPeriod}
 
 Total: ${report.total}
-Avg: ${report.average}%
+Average: ${report.average}%
 Level: ${report.level}
 
 ${schoolMotto}
-
-    `.trim();
-
-  }
-
-  // =========================
-  // 💬 WHATSAPP VERSION
-  // =========================
-  return `
-
-🏫 *${schoolName}*
-📊 *REPORT CARD*
-
-👤 Name: ${report.name}
-🏷️ Grade: ${report.grade}
-📝 Exam: ${examPeriod}
-
-📈 Total: ${report.total}
-📊 Average: ${report.average}%
-🎯 Level: ${report.level}
-
-📚 *Subjects*
-${report.subjects
-  .map(
-    s => `• ${s.subject}: ${s.score} (${s.level})`
-  )
-  .join("\n")}
-
-${schoolMotto ? `\n✨ ${schoolMotto}` : ""}
-
-📡 School Management System
-
-  `.trim();
+`
+.trim();
 
 }
-window.sendSmsResultsBtn?.addEventListener?.("click", async function () {
-  Swal.fire("SMS", "Function connected safely", "info");
-});
-window.sendResultsToParents = function () {
 
-  const examPeriod = document.getElementById("resultsExamPeriod")?.value?.trim();
+async function sendSMS(phone, message) {
 
-  if (!examPeriod) {
-    return Swal.fire("Select Exam", "Please select exam period", "warning");
+  try {
+
+    const res = await fetch("/send-sms", {
+
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
+      body: JSON.stringify({
+        phone,
+        message
+      })
+
+    });
+
+    const data = await res.json();
+
+    return data;
+
   }
 
-   const learners = allLoadedLearners;
+  catch (err) {
 
-  if (!learners.length) {
-    return Swal.fire("No Data", "No learners found", "info");
+    console.error(err);
+
+    return {
+      success: false
+    };
+
   }
 
-  let opened = 0;
+}
+window.sendSelectedResults = async function () {
 
-  learners.forEach((learner, index) => {
+  const examPeriod = safeValue("resultsExamPeriod");
 
-    if (!learner?.parentPhone) return;
+  if (!examPeriod)
+    return Swal.fire(
+      "Select Exam",
+      "Please select exam period",
+      "warning"
+    );
 
-    const phone = formatPhone(learner.parentPhone);
-    if (!phone) return;
+  const selected =
+    document.querySelectorAll(".learnerCheckbox:checked");
 
-    const report = buildUnifiedReport(learner);
-    const message = buildResultMessage(report, examPeriod);
-
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-    setTimeout(() => {
-      window.open(url, "_blank");
-    }, index * 800);
-
-    opened++;
-  });
+  if (!selected.length)
+    return Swal.fire(
+      "No Selection",
+      "Select learners first",
+      "info"
+    );
 
   Swal.fire({
-    icon: "success",
-    title: "Results Ready",
-    text: `${opened} WhatsApp chats opened`,
-    timer: 4000,
-    showConfirmButton: false
+
+    title: "Sending SMS...",
+
+    allowOutsideClick: false,
+
+    didOpen: () => Swal.showLoading()
+
   });
+
+  let sent = 0;
+
+  for (const cb of selected) {
+
+    const row = cb.closest("tr");
+
+    const learner =
+      allLoadedLearners.find(
+        l => l.id === row.dataset.key
+      );
+
+    if (!learner) continue;
+
+    const phone =
+      formatPhone(learner.parentPhone);
+
+    if (!phone) continue;
+
+    const report =
+      buildUnifiedReport(learner);
+
+    const message =
+      buildResultMessage(
+        report,
+        examPeriod
+      );
+
+    const res =
+      await sendSMS(phone, message);
+
+    if (res.success)
+      sent++;
+
+  }
+
+  Swal.fire(
+    "Completed",
+    `${sent} SMS sent successfully`,
+    "success"
+  );
+
 };
+
+window.sendLoadedResults = async function () {
+
+  const examPeriod =
+    safeValue("resultsExamPeriod");
+
+  if (!examPeriod)
+    return Swal.fire(
+      "Select Exam",
+      "Please select exam period",
+      "warning"
+    );
+
+  const learners =
+    allLoadedLearners;
+
+  if (!learners.length)
+    return Swal.fire(
+      "No Data",
+      "Load marks first",
+      "info"
+    );
+
+  Swal.fire({
+
+    title: "Sending SMS...",
+
+    allowOutsideClick: false,
+
+    didOpen: () => Swal.showLoading()
+
+  });
+
+  let sent = 0;
+
+  for (const learner of learners) {
+
+    const phone =
+      formatPhone(
+        learner.parentPhone
+      );
+
+    if (!phone) continue;
+
+    const report =
+      buildUnifiedReport(learner);
+
+    const message =
+      buildResultMessage(
+        report,
+        examPeriod
+      );
+
+    const res =
+      await sendSMS(phone, message);
+
+    if (res.success)
+      sent++;
+
+  }
+
+  Swal.fire(
+    "Finished",
+    `${sent} SMS sent`,
+    "success"
+  );
+
+};
+
+window.sendResultsToParents = async function () {
+
+  const examPeriod =
+    document
+      .getElementById("resultsExamPeriod")
+      ?.value
+      ?.trim();
+
+  if (!examPeriod)
+    return Swal.fire(
+      "Select Exam",
+      "Please select exam period",
+      "warning"
+    );
+
+  const learners =
+    allLoadedLearners;
+
+  if (!learners.length)
+    return Swal.fire(
+      "No Data",
+      "No learners found",
+      "info"
+    );
+
+  Swal.fire({
+
+    title: "Sending Results...",
+
+    allowOutsideClick: false,
+
+    didOpen: () => Swal.showLoading()
+
+  });
+
+  let sent = 0;
+
+  for (const learner of learners) {
+
+    const phone =
+      formatPhone(
+        learner.parentPhone
+      );
+
+    if (!phone) continue;
+
+    const report =
+      buildUnifiedReport(
+        learner
+      );
+
+    const message =
+      buildResultMessage(
+        report,
+        examPeriod
+      );
+
+    const res =
+      await sendSMS(
+        phone,
+        message
+      );
+
+    if (res.success)
+      sent++;
+
+  }
+
+  Swal.fire({
+
+    icon: "success",
+
+    title: "Completed",
+
+    text: `${sent} SMS sent successfully`
+
+  });
+
+};
+
+window.sendSmsResultsBtn?.addEventListener(
+"click",
+window.sendResultsToParents
+);
+
+
 document.addEventListener("keydown", function (e) {
 
   if (e.key !== "Enter") return;
@@ -36205,6 +36537,8 @@ window.canAccessResults = function (studentId) {
 
   return false;
 };
+
+
 window.loadStudentResults = async function (studentId, examPeriod, grade) {
 
   if (!window.canAccessResults(studentId)) {
@@ -36274,7 +36608,9 @@ window.loadStudentResults = async function (studentId, examPeriod, grade) {
       examPeriod: foundKey,
       marks
     };
-
+window.currentResultStudentId = studentId;
+window.currentResultGrade = grade;
+window.currentResultExam = examPeriod;
     document.getElementById("resultsContainer").innerHTML =
       renderResultsUI(resultData);
 
@@ -36291,62 +36627,329 @@ window.renderResultsUI = function (data) {
   const marks = data.marks || {};
 
   let rows = "";
-
+let totalMarks = 0;
+let subjectCount = 0;
+let totalPoints = 0;
   for (const [subject, score] of Object.entries(marks)) {
 
     // skip metadata fields
-    if (
-      subject === "name" ||
-      subject === "grade" ||
-      subject === "createdAt" ||
-      subject === "schoolId"
-    ) continue;
+if (
+    subject === "name" ||
+    subject === "grade" ||
+    subject === "createdAt" ||
+    subject === "updatedAt" ||
+    subject === "schoolId" ||
+    subject === "studentId" ||
+    subject === "teacherId" ||
+    subject === "examPeriod"
+) continue;
+const numericScore = Number(score || 0);
 
-    const numericScore = Number(score || 0);
-    const level = getLevel(numericScore);
+if (
+    isNaN(numericScore) ||
+    numericScore < 0 ||
+    numericScore > 100
+) continue;
+
+// Totals
+totalMarks += numericScore;
+subjectCount++;
+
+// Points
+const points = getLevel(numericScore);
+totalPoints += points;
+
+// CBC Level
+const level = getCBCLevel(numericScore);
 
     rows += `
       <tr>
         <td style="padding:8px;border:1px solid #ddd;">
           ${subject}
         </td>
-
-        <td style="padding:8px;border:1px solid #ddd;">
-          ${numericScore}
-        </td>
-
-        <td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:#1565c0;">
-          Level ${level}
-        </td>
+<td style="padding:8px;border:1px solid #ddd;font-weight:bold;">
+    ${numericScore} (${level.code})
+</td>
+<td style="padding:8px;border:1px solid #ddd;font-weight:bold;color:#1565c0;">
+  ${level.name}
+</td>
       </tr>
     `;
-  }
+}
 
-  return `
-    <div style="padding:20px;font-family:Arial;">
+const average =
+    subjectCount
+      ? totalMarks / subjectCount
+      : 0;
 
-      <h2>📊 Student Results</h2>
+const overallLevel = getCBCLevel(average);
 
-      <p><b>Name:</b> ${data.name}</p>
-      <p><b>Grade:</b> ${data.grade}</p>
-      <p><b>Exam:</b> ${data.examPeriod}</p>
+return `
+<div style="padding:20px;font-family:Arial,Helvetica,sans-serif;">
 
-      <table style="width:100%;border-collapse:collapse;margin-top:15px;">
-        <thead>
-          <tr>
-            <th style="text-align:left;padding:8px;border:1px solid #ddd;">Subject</th>
-            <th style="text-align:left;padding:8px;border:1px solid #ddd;">Score</th>
-            <th style="text-align:left;padding:8px;border:1px solid #ddd;">Level</th>
+  <!-- ================= SCHOOL HEADER ================= -->
+  <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      border-bottom:3px solid #2563eb;
+      padding-bottom:15px;
+      margin-bottom:20px;
+  ">
+
+      <!-- School & Student Details -->
+      <div style="flex:1;">
+
+          <h2 style="
+              margin:0;
+              color:#1e3a8a;
+              font-size:28px;
+          ">
+              ${window.currentSchool?.name || "RASM 360 School"}
+          </h2>
+
+          <div style="
+              color:#6b7280;
+              font-style:italic;
+              margin-top:5px;
+              font-size:15px;
+          ">
+              ${window.currentSchool?.motto || ""}
+          </div>
+
+          <div style="
+              color:#6b7280;
+              margin-top:5px;
+              font-size:13px;
+          ">
+              ${window.currentSchool?.address || ""}
+          </div>
+
+          <hr style="
+              margin:15px 0;
+              border:none;
+              border-top:1px solid #e5e7eb;
+          ">
+
+          <p style="margin:6px 0;">
+              <b>👨‍🎓 Learner:</b> ${data.name}
+          </p>
+
+          <p style="margin:6px 0;">
+              <b>🏫 Grade:</b> ${data.grade}
+          </p>
+
+          <p style="margin:6px 0;">
+              <b>📝 Examination:</b> ${data.examPeriod}
+          </p>
+
+      </div>
+
+      <!-- School Logo -->
+      <div style="
+          width:110px;
+          text-align:right;
+      ">
+
+          <img
+              src="${window.currentSchool?.logo || 'https://via.placeholder.com/100?text=LOGO'}"
+              alt="School Logo"
+              style="
+                  width:100px;
+                  height:100px;
+                  object-fit:contain;
+                  border-radius:12px;
+                  border:1px solid #d1d5db;
+                  background:#fff;
+                  padding:6px;
+                  box-shadow:0 3px 8px rgba(0,0,0,.08);
+              "
+          >
+
+      </div>
+
+  </div>
+<div style="
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+">
+
+    <button
+        onclick="viewPreviousResult()"
+        style="
+            padding:10px 18px;
+            border:none;
+            border-radius:8px;
+            background:#6b7280;
+            color:white;
+            cursor:pointer;
+            font-weight:600;
+        ">
+        ⬅ Previous
+    </button>
+
+    <button
+        onclick="viewNextResult()"
+        style="
+            padding:10px 18px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            cursor:pointer;
+            font-weight:600;
+        ">
+        Next ➡
+    </button>
+
+</div>
+  <!-- ================= RESULTS TABLE ================= -->
+
+  <table style="
+      width:100%;
+      border-collapse:collapse;
+      margin-top:15px;
+  ">
+      <thead>
+          <tr style="background:#2563eb;color:white;">
+              <th style="text-align:left;padding:10px;border:1px solid #ddd;">
+                  Subject
+              </th>
+
+              <th style="text-align:left;padding:10px;border:1px solid #ddd;">
+                  Score
+              </th>
+
+              <th style="text-align:left;padding:10px;border:1px solid #ddd;">
+                  CBC Level
+              </th>
           </tr>
-        </thead>
+      </thead>
 
-        <tbody>
+      <tbody>
           ${rows}
-        </tbody>
-      </table>
+      </tbody>
 
-    </div>
-  `;
+  </table>
+<div style="
+  margin-top:20px;
+  background:#f8fafc;
+  border:1px solid #dbeafe;
+  border-radius:10px;
+  padding:15px;
+">
+
+  <h3 style="margin-top:0;">
+    📈 Performance Summary
+  </h3>
+
+  <p><b>Total Subjects:</b> ${subjectCount}</p>
+
+  <p><b>Total Marks:</b> ${totalMarks}</p>
+
+  <p><b>Average Score:</b> ${average.toFixed(1)}% (${overallLevel.code})</p>
+
+  <p><b>Overall Level:</b> ${overallLevel.name}</p>
+<p><b>Total Points:</b> ${totalPoints}</p>
+
+</div>
+
+<!-- Footer -->
+<div style="
+    margin-top:30px;
+    padding-top:15px;
+    border-top:1px solid #e5e7eb;
+    text-align:center;
+    color:#6b7280;
+    font-size:13px;
+    font-weight:500;
+">
+
+    Powered by
+    <span style="
+        color:#2563eb;
+        font-weight:700;
+        letter-spacing:.5px;
+    ">
+        RASM 360 Technologies Kenya 
+    </span>
+
+</div>
+
+</div>
+`;
+
+
+};
+
+window.viewNextResult = function () {
+
+    const learners = allStudents
+        .filter(s => s.grade === window.currentResultGrade)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    const index = learners.findIndex(
+        s => s.id === window.currentResultStudentId
+    );
+
+    if (index === -1) return;
+
+    if (index >= learners.length - 1) {
+
+        Swal.fire(
+            "End",
+            "This is the last learner.",
+            "info"
+        );
+
+        return;
+    }
+
+    const nextStudent = learners[index + 1];
+
+    document.getElementById("checkResultsStudent").value =
+        nextStudent.id;
+
+    window.loadStudentResults(
+        nextStudent.id,
+        window.currentResultExam,
+        window.currentResultGrade
+    );
+
+};
+window.viewPreviousResult = function () {
+
+    const learners = allStudents
+        .filter(s => s.grade === window.currentResultGrade)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    const index = learners.findIndex(
+        s => s.id === window.currentResultStudentId
+    );
+
+    if (index <= 0) {
+
+        Swal.fire(
+            "Start",
+            "This is the first learner.",
+            "info"
+        );
+
+        return;
+    }
+
+    const previousStudent = learners[index - 1];
+
+    document.getElementById("checkResultsStudent").value =
+        previousStudent.id;
+
+    window.loadStudentResults(
+        previousStudent.id,
+        window.currentResultExam,
+        window.currentResultGrade
+    );
+
 };
 window.handleCheckResults = async function () {
 
@@ -36504,6 +37107,37 @@ window.loadResultsFilters = async function () {
 
   gradeSelect.onchange = populateLearners;
 };
+
+function getCBCLevel(score) {
+
+  score = Number(score || 0);
+
+  if (score >= 75) {
+    return {
+      code: "EE",
+      name: "Exceeding Expectation"
+    };
+  }
+
+  if (score >= 50) {
+    return {
+      code: "ME",
+      name: "Meeting Expectation"
+    };
+  }
+
+  if (score >= 25) {
+    return {
+      code: "AE",
+      name: "Approaching Expectation"
+    };
+  }
+
+  return {
+    code: "BE",
+    name: "Below Expectation"
+  };
+}
 window.showResultsSection = function () {
 
   // hide all sections
