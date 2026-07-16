@@ -74,6 +74,15 @@ li{
 /* =========================================================
    🌍 MAIN LAYOUT
 ========================================================= */
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  overscroll-behavior:none;
+}
+
 .main{
   margin-left:240px;
   width:calc(100% - 200px);
@@ -81,19 +90,28 @@ li{
   min-height:100vh;
   transition:all .3s ease;
 }
+
+/* =========================================================
+   🌍 ACTIVE BUTTON
+========================================================= */
+
 .sidebar button.active{
   background:#22c55e !important;
   color:#fff !important;
   font-weight:700;
 
   box-shadow:
-    0 0 0 2px rgba(255,255,255,.1);
+    0 0 0 2px rgba(255,255,255,.08),
+    0 6px 18px rgba(34,197,94,.25);
 }
+
 /* =========================================================
    🌍 SIDEBAR
 ========================================================= */
+
 .sidebar{
-  width:200px;
+
+  width:220px;
   height:100vh;
 
   background:#0f172a;
@@ -101,237 +119,409 @@ li{
   color:#fff;
 
   position:fixed;
-  left:0;
   top:0;
+  left:0;
 
   display:flex;
   flex-direction:column;
 
   overflow:hidden;
-
-  z-index:1000;
 
   border-right:1px solid #1e293b;
 
   box-shadow:
-    0 10px 35px rgba(0,0,0,.18);
+      0 8px 30px rgba(0,0,0,.18);
+
+  z-index:1000;
+
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .sidebar-header{
+
   padding:20px;
-  border-bottom:1px solid rgba(255,255,255,0.1);
+
   text-align:center;
+
+  border-bottom:
+      1px solid rgba(255,255,255,.08);
+
 }
 
 .sidebar-header h2{
+
   font-size:24px;
+
   color:#38bdf8;
+
+  font-weight:bold;
+
 }
 
 .sidebar-header p{
+
   margin-top:5px;
-  font-size:13px;
+
   color:#cbd5e1;
+
+  font-size:13px;
+
 }
 
-/* SCROLL AREA */
+/* =========================================================
+   SCROLL AREA
+========================================================= */
 
 .sidebar-scroll{
+
   flex:1;
+
   overflow-y:auto;
-  padding:15px;
+  overflow-x:hidden;
+
+  padding:15px 12px 30px;
+
   scroll-behavior:smooth;
+
+  -webkit-overflow-scrolling:touch;
+
+  scrollbar-width:thin;
+
+  scrollbar-color:#475569 transparent;
+
 }
 
+/* Chrome */
+
 .sidebar-scroll::-webkit-scrollbar{
+
   width:8px;
+
 }
 
 .sidebar-scroll::-webkit-scrollbar-track{
+
   background:transparent;
+
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb{
-  background:#334155;
-  border-radius:20px;
+
+  background:#475569;
+
+  border-radius:30px;
+
+  border:2px solid transparent;
+
+  background-clip:content-box;
+
 }
 
-/* MENU */
+.sidebar-scroll::-webkit-scrollbar-thumb:hover{
+
+  background:#64748b;
+
+  background-clip:content-box;
+
+}
+
+.sidebar-scroll::-webkit-scrollbar-corner{
+
+  background:transparent;
+
+}
+
+/* =========================================================
+   MENU
+========================================================= */
 
 .menu-section{
+
   margin-bottom:25px;
+
 }
 
 .menu-section h4{
+
   font-size:12px;
+
   color:#94a3b8;
-  margin-bottom:10px;
+
+  margin-bottom:12px;
+
   letter-spacing:1px;
+
+  text-transform:uppercase;
+
 }
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
 .sidebar button,
 .dropdown{
-  width:90%;
-  min-height:46px;
+
+  width:100%;
+
+  min-height:48px;
 
   display:flex;
+
   align-items:center;
 
-  margin-bottom:10px;
-  padding:12px 14px;
+  gap:10px;
+
+  margin-bottom:8px;
+
+  padding:12px 16px;
 
   border:none;
+
   border-radius:12px;
 
   background:#1e293b;
-  color:white;
+
+  color:#fff;
 
   cursor:pointer;
+
   text-align:left;
 
   font-size:14px;
+
   font-weight:500;
 
   transition:
-    background .25s ease,
-    transform .25s ease,
-    box-shadow .25s ease;
+      background .25s,
+      transform .25s,
+      box-shadow .25s;
+
 }
 
-/* SPECIAL BUTTONS */
+.sidebar button:hover,
+.dropdown:hover{
+
+  background:#2563eb;
+
+  transform:translateX(4px);
+
+  box-shadow:
+      0 8px 18px rgba(37,99,235,.25);
+
+}
+
+/* =========================================================
+   SPECIAL BUTTONS
+========================================================= */
 
 .menu-btn{
+
   background:#2563eb !important;
+
   font-weight:bold;
+
 }
 
 .dark-btn{
+
   background:#111827 !important;
+
 }
 
 .green-btn{
-  background:#16a34a !important;
-}
-.logout-btn{
-  width:calc(100% - 30px);
 
-  margin:15px;
+  background:#16a34a !important;
+
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.logout-btn{
+
+  width:calc(100% - 24px);
+
+  margin:12px;
+
+  padding:13px;
 
   background:#dc2626;
+
   color:white;
 
   border:none;
+
   border-radius:12px;
 
-  padding:12px;
-
-  text-align:center;
   cursor:pointer;
 
-  position:sticky;
-  bottom:15px;
+  font-weight:bold;
 
-  transition:.25s ease;
+  position:sticky;
+
+  bottom:10px;
+
+  transition:.25s;
+
 }
 
 .logout-btn:hover{
+
   background:#b91c1c;
+
+  transform:translateY(-2px);
+
 }
 
-/* SUBMENU */
+/* =========================================================
+   SUBMENU
+========================================================= */
 
 .submenu{
+
   max-height:0;
-  overflow:hidden;
 
   opacity:0;
 
+  overflow:hidden;
+
   display:flex;
+
   flex-direction:column;
 
   gap:6px;
 
-  padding-left:10px;
+  padding-left:12px;
 
   transition:
-    max-height .3s ease,
-    opacity .3s ease;
+      max-height .35s ease,
+      opacity .35s ease;
+
 }
 
 .submenu button{
+
   font-size:13px;
+
+  min-height:40px;
+
 }
 
 .submenu button:hover{
+
   background:#2563eb;
+
 }
 
 .submenu.open{
-  max-height:400px;
+
+  max-height:500px;
+
   opacity:1;
+
   overflow-y:auto;
+
+  padding-right:4px;
+
 }
 
 .submenu.open::-webkit-scrollbar{
-  width:6px;
+
+  width:5px;
+
 }
 
 .submenu.open::-webkit-scrollbar-thumb{
-  background:#bbb;
-  border-radius:6px;
+
+  background:#64748b;
+
+  border-radius:30px;
+
 }
 
-/* ACTIVE */
+/* =========================================================
+   ACTIVE
+========================================================= */
 
 .active{
+
   background:#991b1b !important;
+
   color:white !important;
 
   font-weight:600;
 
-  box-shadow:inset 4px 0 0 #ef4444;
-}
+  box-shadow:
+      inset 4px 0 0 #ef4444,
+      0 6px 15px rgba(0,0,0,.18);
 
-/* FOOTER */
-.sidebar-footer{
-  position: sticky;
-  bottom: 0;
-
-  background: #0f172a;
-  padding: 12px;
-
-  border-top: 1px solid rgba(255,255,255,0.1);
-
-  z-index: 10;
-}
-
-.subscription-box{
-  background:#1e293b;
-  padding:12px;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.stats div{
-  margin-bottom:5px;
 }
 
 /* =========================================================
-   🌍 GENERAL CARDS
+   FOOTER
+========================================================= */
+
+.sidebar-footer{
+
+  position:sticky;
+
+  bottom:0;
+
+  background:#0f172a;
+
+  padding:12px;
+
+  border-top:
+      1px solid rgba(255,255,255,.08);
+
+  z-index:10;
+
+}
+
+.subscription-box{
+
+  background:#1e293b;
+
+  padding:12px;
+
+  border-radius:10px;
+
+  font-size:13px;
+
+}
+
+.stats div{
+
+  margin-bottom:5px;
+
+}
+
+/* =========================================================
+   GENERAL CARDS
 ========================================================= */
 
 .card{
+
   background:#fff;
+
   padding:15px;
+
   margin:10px;
 
   display:inline-block;
+
   width:180px;
 
   border-radius:10px;
 
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  box-shadow:
+      0 4px 12px rgba(0,0,0,.08);
+
 }
 
 /* =========================================================
@@ -1226,7 +1416,224 @@ button.primary{
 #supportAttendanceOutput tr:hover{
   background:#e5e7eb;
 }
+/* =========================================================
+   📊 SUPPORT STAFF DASHBOARD CARDS
+========================================================= */
 
+.card{
+
+position:relative;
+
+background:#ffffff;
+
+border-radius:16px;
+
+padding:22px;
+
+overflow:hidden;
+
+box-shadow:0 8px 25px rgba(15,23,42,.08);
+
+border-top:5px solid #2563eb;
+
+transition:all .3s ease;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 15px 35px rgba(37,99,235,.18);
+
+}
+
+.card h3{
+
+margin:0;
+
+font-size:15px;
+
+font-weight:600;
+
+color:#64748b;
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+}
+
+.card h1{
+
+margin-top:18px;
+
+font-size:34px;
+
+font-weight:800;
+
+color:#111827;
+
+word-break:break-word;
+
+}
+
+.card::after{
+
+content:"";
+
+position:absolute;
+
+right:-25px;
+
+bottom:-25px;
+
+width:90px;
+
+height:90px;
+
+background:rgba(37,99,235,.08);
+
+border-radius:50%;
+
+}
+
+/* Different Card Colors */
+
+.card:nth-child(1){
+
+border-top-color:#2563eb;
+
+}
+
+.card:nth-child(2){
+
+border-top-color:#16a34a;
+
+}
+
+.card:nth-child(3){
+
+border-top-color:#f59e0b;
+
+}
+
+.card:nth-child(4){
+
+border-top-color:#7c3aed;
+
+}
+
+.card:nth-child(5){
+
+border-top-color:#0ea5e9;
+
+}
+
+.card:nth-child(6){
+
+border-top-color:#dc2626;
+
+}
+
+.card:nth-child(7){
+
+border-top-color:#10b981;
+
+}
+
+.card:nth-child(8){
+
+border-top-color:#f97316;
+
+}
+
+.card:nth-child(9){
+
+border-top-color:#8b5cf6;
+
+}
+
+/* Currency Cards */
+
+#supportPayroll,
+#payrollAverage,
+#payrollHighest,
+#payrollLowest{
+
+font-size:28px;
+
+color:#2563eb;
+
+}
+
+/* Number Cards */
+
+#totalSupportStaff,
+#activeSupportStaff,
+#supportStaffOnLeave,
+#payrollPaid,
+#payrollPending{
+
+font-size:38px;
+
+font-weight:800;
+
+}
+
+/* Small Animation */
+
+.card h1{
+
+animation:fadeCard .5s ease;
+
+}
+
+@keyframes fadeCard{
+
+from{
+
+opacity:0;
+
+transform:translateY(12px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.card{
+
+padding:18px;
+
+}
+
+.card h1{
+
+font-size:28px;
+
+}
+
+.card h3{
+
+font-size:14px;
+
+}
+
+}
 /* =========================================================
    🌍 SCHOOL TITLE
 ========================================================= */
@@ -5771,58 +6178,87 @@ background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
 
   </div>
 
-  <!-- =========================================================
-       📊 SUMMARY CARDS
-  ========================================================= -->
-  <div style="
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-  ">
+ <!-- =========================================================
+     📊 SUPPORT STAFF DASHBOARD
+========================================================= -->
 
-    <div class="card">
-      <h3>👥 Total Staff</h3>
-      <h1 id="totalSupportStaff">0</h1>
-    </div>
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+">
 
-    <div class="card">
-      <h3>✅ Active Staff</h3>
-      <h1 id="activeSupportStaff">0</h1>
-    </div>
+<!-- Active -->
+<div class="card">
+    <h3>✅ Active Staff</h3>
+    <h1 id="activeSupportStaff">0</h1>
+</div>
 
-    <div class="card">
-      <h3>🏖 On Leave</h3>
-      <h1 id="supportStaffOnLeave">0</h1>
-    </div>
+<!-- On Leave -->
+<div class="card">
+    <h3>🏖 On Leave</h3>
+    <h1 id="supportStaffOnLeave">0</h1>
+</div>
 
-    <div class="card">
-      <h3>💰 Monthly Payroll</h3>
-      <h1 id="supportPayroll">0</h1>
-    </div>
+<!-- Monthly Payroll -->
+<div class="card">
+    <h3>💰 Monthly Payroll</h3>
+    <h1 id="supportPayroll">KES 0</h1>
+</div>
 
-  </div>
+<!-- Paid This Month -->
+<div class="card">
+    <h3>💵 Paid This Month</h3>
+    <h1 id="payrollPaid">0</h1>
+</div>
 
-  <!-- =========================================================
-       🏢 DEPARTMENT STATS
-  ========================================================= -->
-  <div style="margin-bottom:20px;">
+<!-- Pending Salary -->
+<div class="card">
+    <h3>⏳ Pending Salary</h3>
+    <h1 id="payrollPending">0</h1>
+</div>
 
-    <h3 style="margin-bottom:10px;">
-      🏢 Department Distribution
-    </h3>
+<!-- Average Salary -->
+<div class="card">
+    <h3>📊 Average Salary</h3>
+    <h1 id="payrollAverage">KES 0</h1>
+</div>
 
-    <div
-      id="supportDepartmentStats"
-      style="
-        display:flex;
-        flex-wrap:wrap;
-        gap:12px;
-      "
-    ></div>
+<!-- Highest Salary -->
+<div class="card">
+    <h3>📈 Highest Salary</h3>
+    <h1 id="payrollHighest">KES 0</h1>
+</div>
 
-  </div>
+<!-- Lowest Salary -->
+<div class="card">
+    <h3>📉 Lowest Salary</h3>
+    <h1 id="payrollLowest">KES 0</h1>
+</div>
 
+</div>
+
+<!-- =========================================================
+     🏢 DEPARTMENT STATS
+========================================================= -->
+
+<div style="margin-bottom:20px;">
+
+<h3 style="margin-bottom:10px;">
+🏢 Department Distribution
+</h3>
+
+<div
+id="supportDepartmentStats"
+style="
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+">
+</div>
+
+</div>
   <!-- =========================================================
        📅 ATTENDANCE QUICK ACTIONS
   ========================================================= -->
@@ -5863,6 +6299,9 @@ margin-bottom:15px;
 🗑 Delete All Support Staff
 
 </button>
+
+
+
   <!-- =========================================================
   <!-- =========================================================
        📋 SUPPORT STAFF TABLE
@@ -5918,6 +6357,8 @@ margin-bottom:15px;
   </div>
 
 </div>
+
+
 <!-- ================= TRANSPORT MODULE ================= -->
 <div id="transport" style="display:none;padding:20px;">
 
@@ -27209,29 +27650,96 @@ state.loading = false;
 
 
 // =========================================================
-// 🚀 SUPPORT SUMMARY
+// 🚀 SUPPORT SUMMARY + PAYROLL DASHBOARD
 // =========================================================
-function updateSupportSummary(list = []) {
+async function updateSupportSummary(list = []) {
 
   let totalSalary = 0;
   let activeStaff = 0;
   let onLeave = 0;
 
+  let highestSalary = 0;
+  let lowestSalary = 0;
+
+  // ==========================
+  // Calculate Staff Statistics
+  // ==========================
   list.forEach(staff => {
 
-    totalSalary += Number(staff.salary || 0);
+    const salary = Number(staff.salary || 0);
+
+    totalSalary += salary;
 
     if (staff.status === "Active") activeStaff++;
 
     if (staff.status === "On Leave") onLeave++;
+
+    if (highestSalary === 0 || salary > highestSalary)
+      highestSalary = salary;
+
+    if (lowestSalary === 0 || salary < lowestSalary)
+      lowestSalary = salary;
+
   });
 
+  const averageSalary =
+    list.length > 0
+      ? Math.round(totalSalary / list.length)
+      : 0;
+
+  // ==========================
+  // Current Payroll Month
+  // ==========================
+  const year = new Date().getFullYear().toString();
+
+  const month = new Date().toLocaleString("default", {
+    month: "long"
+  });
+
+  // ==========================
+  // Count Paid Staff
+  // ==========================
+  let paidStaff = 0;
+
+  try {
+
+    const payrollSnap =
+      await get(
+        schoolRef(`supportPayroll/${year}/${month}`)
+      );
+
+    if (payrollSnap.exists()) {
+
+      paidStaff =
+        Object.keys(payrollSnap.val()).length;
+
+    }
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
+
+  const pendingStaff =
+    list.length - paidStaff;
+
+  // ==========================
+  // Helper
+  // ==========================
   const setText = (id, value) => {
 
-    const el = document.getElementById(id);
+    const el =
+      document.getElementById(id);
 
-    if (el) el.innerText = value;
+    if (el)
+      el.innerText = value;
+
   };
+
+  // ==========================
+  // Existing Cards
+  // ==========================
 
   setText("totalSupportStaff", list.length);
 
@@ -27240,48 +27748,48 @@ function updateSupportSummary(list = []) {
     "KES " + totalSalary.toLocaleString()
   );
 
-  setText("activeSupportStaff", activeStaff);
+  setText(
+    "activeSupportStaff",
+    activeStaff
+  );
 
-  setText("supportStaffOnLeave", onLeave);
-}
+  setText(
+    "supportStaffOnLeave",
+    onLeave
+  );
 
+  // ==========================
+  // Payroll Dashboard
+  // ==========================
 
-// =========================================================
-// 🚀 DEPARTMENT STATS
-// =========================================================
-function renderDepartmentStats(list = []) {
+  setText(
+    "payrollPaid",
+    paidStaff
+  );
 
-  const deptBox =
-    document.getElementById("supportDepartmentStats");
+  setText(
+    "payrollPending",
+    pendingStaff
+  );
 
-  if (!deptBox) return;
+  setText(
+    "payrollAverage",
+    "KES " +
+    averageSalary.toLocaleString()
+  );
 
-  deptBox.innerHTML = "";
+  setText(
+    "payrollHighest",
+    "KES " +
+    highestSalary.toLocaleString()
+  );
 
-  const totals = {};
+  setText(
+    "payrollLowest",
+    "KES " +
+    lowestSalary.toLocaleString()
+  );
 
-  list.forEach(staff => {
-
-    const dept = staff.department || "Other";
-
-    totals[dept] = (totals[dept] || 0) + 1;
-  });
-
-  Object.entries(totals).forEach(([dept, total]) => {
-
-    deptBox.innerHTML += `
-      <div style="
-        background:white;
-        padding:10px;
-        border-radius:10px;
-        min-width:150px;
-        box-shadow:0 2px 5px rgba(0,0,0,0.1);
-      ">
-        <h4>${dept}</h4>
-        <h2>${total}</h2>
-      </div>
-    `;
-  });
 }
 
 
@@ -27491,31 +27999,201 @@ window.paySupportSalary = async function (staffId) {
         )
       );
 
-    await set(paymentRef, {
+// ===============================
+// 💾 SAVE PAYMENT RECORD
+// ===============================
 
-      month,
+const now = new Date();
 
-      basicSalary,
+const paymentYear = now.getFullYear().toString();
 
-      advances: totalAdvance,
+const paymentMonth = now.toLocaleString("default",{
+    month:"long"
+});
 
-      deductions,
+const paymentDate = now.toLocaleDateString();
 
-      netSalary,
+const paymentTime = now.toLocaleTimeString();
 
-      paidAt: Date.now()
+const paymentMethod = "Cash";   // we'll make this selectable later
 
-    });
+const transactionNo =
+    "SAL-" + Date.now();
 
-    // ===============================
-    // ✅ SUCCESS
-    // ===============================
-    Swal.fire(
-      "Success",
-      `${staff.name} salary paid successfully`,
-      "success"
-    );
+const paymentId =
+    paymentRef.key;
 
+await set(paymentRef,{
+
+    paymentId,
+
+    staffId,
+
+    staffName: staff.name || "",
+
+    staffNumber:
+        staff.staffNumber || "",
+
+    role:
+        staff.role || "",
+
+    department:
+        staff.department || "",
+
+    month: paymentMonth,
+
+    year: paymentYear,
+
+    paymentDate,
+
+    paymentTime,
+
+    paymentMethod,
+
+    transactionNo,
+
+    basicSalary,
+
+    grossSalary: basicSalary,
+
+    allowances:0,
+
+    overtime:0,
+
+    bonus:0,
+
+    nhif,
+
+    nssf,
+
+    paye:0,
+
+    salaryAdvance:totalAdvance,
+
+    otherDeductions:0,
+
+    totalDeductions:deductions,
+
+    netSalary,
+
+    paidBy:
+        currentUser?.displayName || "Administrator",
+
+    remarks:"Salary Paid",
+
+    status:"Paid",
+
+    paidAt:Date.now()
+
+});
+
+// ===============================
+// UPDATE STAFF STATUS
+// ===============================
+
+await update(
+    schoolRef(`supportStaff/${staffId}`),
+{
+
+    lastPaidMonth:
+        paymentMonth,
+
+    lastPaidYear:
+        paymentYear,
+
+    lastPaymentDate:
+        paymentDate,
+
+    lastNetSalary:
+        netSalary,
+
+    paymentStatus:
+        "Paid"
+
+});
+// ===========================================
+// SAVE TO MONTHLY PAYROLL REGISTER
+// ===========================================
+
+const payrollRef = push(
+    schoolRef(
+        `supportPayroll/${paymentYear}/${paymentMonth}`
+    )
+);
+
+await set(payrollRef, {
+
+    payrollId: payrollRef.key,
+
+    paymentId,
+
+    staffId,
+
+    staffName: staff.name || "",
+
+    staffNumber:
+        staff.staffNumber || "",
+
+    department:
+        staff.department || "",
+
+    role:
+        staff.role || "",
+
+    month: paymentMonth,
+
+    year: paymentYear,
+
+    paymentDate,
+
+    paymentTime,
+
+    paymentMethod,
+
+    transactionNo,
+
+    basicSalary,
+
+    grossSalary: basicSalary,
+
+    allowances:0,
+
+    overtime:0,
+
+    bonus:0,
+
+    nhif,
+
+    nssf,
+
+    paye:0,
+
+    salaryAdvance:totalAdvance,
+
+    otherDeductions:0,
+
+    totalDeductions:deductions,
+
+    netSalary,
+
+    paidBy:
+        currentUser?.displayName || "Administrator",
+
+    remarks:"Salary Paid",
+
+    status:"Paid",
+
+    createdAt:Date.now()
+
+});
+   Swal.fire(
+  "Success",
+  `${staff.name} salary paid successfully`,
+  "success"
+);
+
+// Refresh Payroll Dashboard
+loadPayrollDashboard();
   } catch (error) {
 
     console.error(error);
@@ -27753,115 +28431,418 @@ window.markStaffAttendance = async function (
   }
 };
 
-/* ========================================================= 
-   🧾 GENERATE PAYSLIP
+/* =========================================================
+   🧾 MODERN SUPPORT STAFF PAYSLIP
 ========================================================= */
-window.generateSupportPayslip =
-async function (id) {
 
-  const snap =
-    await get(
-      schoolRef(`supportStaff/${id}`)
-    );
+window.generateSupportPayslip = async function(id){
 
-  if (!snap.exists()) return;
+  const snap = await get(
+    schoolRef(`supportStaff/${id}`)
+  );
+
+  if(!snap.exists()) return;
 
   const s = snap.val();
 
   const nhif = 500;
   const nssf = 200;
 
-  // ===============================
-  // 📌 GET CURRENT MONTH ADVANCES
-  // ===============================
   const month =
-    new Date().toISOString().slice(0, 7);
+      new Date().toLocaleString("default",{
+        month:"long",
+        year:"numeric"
+      });
+
+  const monthKey =
+      new Date().toISOString().slice(0,7);
 
   const advSnap =
-    await get(
-      schoolRef(`supportAdvances/${id}`)
-    );
+      await get(
+        schoolRef(`supportAdvances/${id}`)
+      );
 
   let totalAdvance = 0;
 
-  if (advSnap.exists()) {
+  if(advSnap.exists()){
 
-    const advances = advSnap.val();
+      Object.values(advSnap.val()).forEach(a=>{
 
-    Object.values(advances).forEach(a => {
+          if(a.month===monthKey){
 
-      if (a.month === month) {
-        totalAdvance += Number(a.amount || 0);
-      }
-    });
+              totalAdvance += Number(a.amount||0);
+
+          }
+
+      });
+
   }
 
-  // ===============================
-  // 📌 TOTAL DEDUCTIONS
-  // ===============================
-  const deductions =
-    nhif + nssf + totalAdvance;
+  const basic =
+      Number(s.salary||0);
 
-  // ===============================
-  // 📌 NET SALARY
-  // ===============================
+  const deductions =
+      nhif+nssf+totalAdvance;
+
   const net =
-    Number(s.salary || 0) - deductions;
+      basic-deductions;
+
+  const initials =
+      (s.name||"")
+      .split(" ")
+      .map(x=>x[0])
+      .join("")
+      .substring(0,2)
+      .toUpperCase();
+
+  const payslipNo =
+      "PS-"+Date.now();
 
   Swal.fire({
 
-    width: 700,
+      width:900,
 
-    html: `
-      <div style="
-        text-align:left;
-        font-family:Arial;
-      ">
+      showConfirmButton:false,
 
-        <h2 style="text-align:center;">
-          🧾 SUPPORT STAFF PAYSLIP
-        </h2>
+      html:`
 
-        <hr>
+<div id="supportPayslip"
+style="
+font-family:Arial;
+background:white;
+border-radius:15px;
+overflow:hidden;
+">
 
-        <p><b>Name:</b> ${s.name}</p>
-        <p><b>Role:</b> ${s.role}</p>
-        <p><b>Department:</b> ${s.department}</p>
+<!-- HEADER -->
 
-        <hr>
+<div style="
+background:#2563eb;
+color:white;
+padding:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
 
-        <p>
-          <b>Basic Salary:</b>
-          KES ${Number(s.salary || 0).toLocaleString()}
-        </p>
+<div>
 
-        <p><b>NHIF:</b> KES ${nhif.toLocaleString()}</p>
+<h2 style="margin:0;">
+🏫 RASM 360 SCHOOL ERP
+</h2>
 
-        <p><b>NSSF:</b> KES ${nssf.toLocaleString()}</p>
+<div>
+Support Staff Payslip
+</div>
 
-        <p>
-          <b>Salary Advances:</b>
-          KES ${totalAdvance.toLocaleString()}
-        </p>
+</div>
 
-        <p>
-          <b>Total Deductions:</b>
-          KES ${deductions.toLocaleString()}
-        </p>
+<div style="
+width:70px;
+height:70px;
+border-radius:50%;
+background:white;
+color:#2563eb;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+font-weight:bold;
+">
 
-        <hr>
+${initials}
 
-        <h2>
-          Net Salary:
-          KES ${net.toLocaleString()}
-        </h2>
+</div>
 
-      </div>
-    `,
+</div>
 
-    confirmButtonText: "Close"
+<!-- STAFF DETAILS -->
+
+<div style="
+padding:20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+">
+
+<div>
+
+<h3>Employee Details</h3>
+
+<p><b>Name:</b> ${s.name}</p>
+
+<p><b>Role:</b> ${s.role}</p>
+
+<p><b>Department:</b> ${s.department}</p>
+
+<p><b>Phone:</b> ${s.phone||"-"}</p>
+
+</div>
+
+<div>
+
+<h3>Payslip Details</h3>
+
+<p><b>Payslip No:</b> ${payslipNo}</p>
+
+<p><b>Month:</b> ${month}</p>
+
+<p><b>Status:</b>
+
+<span style="
+background:#16a34a;
+color:white;
+padding:4px 10px;
+border-radius:20px;
+">
+
+Generated
+
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+<!-- TABLES -->
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+padding:20px;
+">
+
+<div>
+
+<h3 style="color:#16a34a;">
+Earnings
+</h3>
+
+<table width="100%"
+border="1"
+style="
+border-collapse:collapse;
+">
+
+<tr>
+
+<th>Description</th>
+
+<th>Amount</th>
+
+</tr>
+
+<tr>
+
+<td>Basic Salary</td>
+
+<td>KES ${basic.toLocaleString()}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div>
+
+<h3 style="color:#dc2626;">
+Deductions
+</h3>
+
+<table width="100%"
+border="1"
+style="
+border-collapse:collapse;
+">
+
+<tr>
+
+<th>Description</th>
+
+<th>Amount</th>
+
+</tr>
+
+<tr>
+
+<td>NHIF</td>
+
+<td>${nhif.toLocaleString()}</td>
+
+</tr>
+
+<tr>
+
+<td>NSSF</td>
+
+<td>${nssf.toLocaleString()}</td>
+
+</tr>
+
+<tr>
+
+<td>Salary Advance</td>
+
+<td>${totalAdvance.toLocaleString()}</td>
+
+</tr>
+
+<tr>
+
+<th>Total</th>
+
+<th>${deductions.toLocaleString()}</th>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- NET SALARY -->
+
+<div style="
+margin:20px;
+background:#16a34a;
+color:white;
+padding:25px;
+border-radius:15px;
+text-align:center;
+">
+
+<div style="font-size:18px;">
+NET SALARY
+</div>
+
+<div style="
+font-size:34px;
+font-weight:bold;
+">
+
+KES ${net.toLocaleString()}
+
+</div>
+
+</div>
+
+<!-- SIGNATURES -->
+
+<div style="
+display:flex;
+justify-content:space-between;
+padding:25px;
+">
+
+<div>
+
+____________________
+
+<br>
+
+Prepared By
+
+</div>
+
+<div>
+
+____________________
+
+<br>
+
+Authorized By
+
+</div>
+
+</div>
+
+</div>
+
+`,
+
+footer:`
+
+<button
+onclick="printSupportPayslip()"
+class="swal2-confirm swal2-styled"
+style="background:#2563eb;">
+
+🖨 Print Payslip
+
+</button>
+
+`
+
   });
-};
+
+}
+
+/* =========================================================
+   PRINT PAYSLIP
+========================================================= */
+
+window.printSupportPayslip=function(){
+
+const content=document.getElementById("supportPayslip").innerHTML;
+
+const w=window.open("","","width=900,height=900");
+
+w.document.write(`
+<html>
+
+<head>
+
+<title>Payslip</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:30px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+td,th{
+
+border:1px solid #ccc;
+
+padding:8px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+${content}
+
+</body>
+
+</html>
+`);
+
+w.document.close();
+
+w.print();
+
+}
 
 /* =========================================================
    📩 SEND SMS
@@ -33844,110 +34825,346 @@ function buildBorrowerOptions(list){
 }
 
 /* =========================================================
-   VIEW BORROWINGS
+   📚 VIEW BORROWING HISTORY (MODERN)
 ========================================================= */
 
-window.viewBorrowings = function(bookId) {
+window.viewBorrowings = function(bookId){
 
   const schoolId = window.schoolId;
 
   onValue(
     ref(db, `libraryBorrowings/${schoolId}`),
-    (snap) => {
+    (snap)=>{
 
-      let html = "";
-
-      if (!snap.exists()) {
+      if(!snap.exists()){
 
         Swal.fire(
           "No Records",
-          "No borrowing history found",
+          "No borrowing history found.",
           "info"
         );
 
         return;
+
       }
 
-      html += `
-      <div style="max-height:400px;overflow:auto;">
-      `;
+      let total=0;
+      let returned=0;
+      let html="";
 
-      snap.forEach(child => {
+      html+=`
 
-        const d = child.val();
-        const key = child.key;
+<div style="margin-bottom:15px;">
 
-        if (d.bookId !== bookId) return;
+<input
+id="borrowSearch"
+placeholder="🔍 Search borrower..."
+style="
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:15px;
+">
 
-        html += `
+</div>
 
-        <div style="
-          background:#f1f5f9;
-          padding:12px;
-          margin-bottom:10px;
-          border-radius:10px;
-          text-align:left;
-        ">
+<div style="
+display:flex;
+gap:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+">
 
-          <b>${d.borrowerName}</b><br>
+<div style="
+flex:1;
+background:#2563eb;
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+">
 
-          👤 ${d.borrowerType}<br>
-          🆔 ${d.borrowerAdm}<br>
-          📅 Borrowed: ${d.borrowDate}<br>
-          ⏰ Due: ${d.dueDate}<br>
+<h2 id="totalBorrowings">0</h2>
 
-          <br>
+<div>Total Borrowings</div>
 
-          ${
-            d.returned
-            ? `
-              <span style="
-                background:#16a34a;
-                color:white;
-                padding:5px 10px;
-                border-radius:20px;
-              ">
-                Returned
-              </span>
-            `
-            : `
-              <button
-                onclick="returnBorrowedBook(
-                  '${key}',
-                  '${bookId}'
-                )"
-                style="
-                  background:#2563eb;
-                  color:white;
-                  border:none;
-                  padding:8px 12px;
-                  border-radius:6px;
-                  cursor:pointer;
-                ">
-                Return Book
-              </button>
-            `
-          }
+</div>
 
-        </div>
-        `;
+<div style="
+flex:1;
+background:#16a34a;
+color:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+">
+
+<h2 id="returnedBooks">0</h2>
+
+<div>Returned</div>
+
+</div>
+
+</div>
+
+<div
+id="borrowCards"
+style="
+max-height:450px;
+overflow-y:auto;
+padding-right:5px;
+">
+
+`;
+
+      snap.forEach(child=>{
+
+        const d=child.val();
+
+        const key=child.key;
+
+        if(d.bookId!==bookId) return;
+
+        total++;
+
+        if(d.returned) returned++;
+
+        const initials=(d.borrowerName||"")
+          .split(" ")
+          .map(n=>n[0])
+          .join("")
+          .substring(0,2)
+          .toUpperCase();
+
+        html+=`
+
+<div
+class="borrow-card"
+data-name="${(d.borrowerName||"").toLowerCase()}"
+style="
+background:white;
+border-radius:14px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:12px;
+">
+
+<div style="
+width:50px;
+height:50px;
+border-radius:50%;
+background:#2563eb;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+font-weight:bold;
+">
+
+${initials}
+
+</div>
+
+<div>
+
+<div style="
+font-size:17px;
+font-weight:bold;
+">
+
+${d.borrowerName}
+
+</div>
+
+<div style="
+color:#64748b;
+font-size:13px;
+">
+
+${d.borrowerType}
+
+</div>
+
+</div>
+
+</div>
+
+${
+d.returned
+
+?
+
+`<span style="
+background:#16a34a;
+color:white;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+">
+✅ Returned
+</span>`
+
+:
+
+`<span style="
+background:#dc2626;
+color:white;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+">
+📕 Borrowed
+</span>`
+
+}
+
+</div>
+
+<hr style="margin:12px 0;">
+
+<div style="
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+font-size:14px;
+">
+
+<div>
+
+<b>🆔 Admission</b><br>
+
+${d.borrowerAdm}
+
+</div>
+
+<div>
+
+<b>📅 Borrowed</b><br>
+
+${d.borrowDate}
+
+</div>
+
+<div>
+
+<b>⏰ Due Date</b><br>
+
+${d.dueDate}
+
+</div>
+
+<div>
+
+<b>Status</b><br>
+
+${d.returned ? "Returned":"Pending"}
+
+</div>
+
+</div>
+
+${
+!d.returned
+
+?
+
+`
+
+<div style="margin-top:18px;">
+
+<button
+onclick="returnBorrowedBook('${key}','${bookId}')"
+style="
+width:100%;
+background:#2563eb;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+
+📚 Return Book
+
+</button>
+
+</div>
+
+`
+
+:""
+
+}
+
+</div>
+
+`;
+
       });
 
-      html += `</div>`;
+      html+=`</div>`;
 
       Swal.fire({
 
-        title: "Borrowing Records",
+title:"📚 Book Borrowing History",
 
-        html,
+html,
 
-        width: 700
+width:850,
 
-      });
+didOpen:()=>{
+
+document.getElementById("totalBorrowings").innerText=total;
+
+document.getElementById("returnedBooks").innerText=returned;
+
+const search=document.getElementById("borrowSearch");
+
+search.addEventListener("keyup",function(){
+
+const q=this.value.toLowerCase();
+
+document.querySelectorAll(".borrow-card").forEach(card=>{
+
+card.style.display=
+
+card.dataset.name.includes(q)
+
+?
+
+"block"
+
+:
+
+"none";
+
+});
+
+});
+
+}
+
+});
 
     },
-    { onlyOnce:true }
+    {onlyOnce:true}
   );
+
 };
 window.loadReturnsCenter = function(){
 
