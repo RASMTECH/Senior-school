@@ -501,28 +501,6 @@ body{
 
 }
 
-/* =========================================================
-   GENERAL CARDS
-========================================================= */
-
-.card{
-
-  background:#fff;
-
-  padding:15px;
-
-  margin:10px;
-
-  display:inline-block;
-
-  width:180px;
-
-  border-radius:10px;
-
-  box-shadow:
-      0 4px 12px rgba(0,0,0,.08);
-
-}
 
 /* =========================================================
    🌍 INPUTS
@@ -2876,6 +2854,48 @@ border-radius:8px;
 background:#f3f4f6;
 
 }
+/* Smooth Premium Entrance */
+.swalFadeIn{
+    animation: swalFadeIn .6s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+/* Smooth Premium Exit */
+.swalFadeOut{
+    animation: swalFadeOut .65s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@keyframes swalFadeIn{
+    from{
+        opacity:0;
+        transform:translateY(25px) scale(.92);
+        filter:blur(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+        filter:blur(0);
+    }
+}
+
+@keyframes swalFadeOut{
+    0%{
+        opacity:1;
+        transform:scale(1);
+        filter:blur(0);
+    }
+
+    40%{
+        opacity:.85;
+        transform:scale(1.03);
+    }
+
+    100%{
+        opacity:0;
+        transform:translateY(-15px) scale(.92);
+        filter:blur(10px);
+    }
+}
+
 </style>
 </head>
 
@@ -5651,12 +5671,12 @@ width:100%;
 
 
 <div id="performanceSection" class="section" style="display:none; padding:20px;">
-  <h2>🏆 Performance Insight</h2>
+
   <div id="performanceContent"></div>
 </div>
 
 <div id="topGradeSection" class="section" style="display:none; padding:20px;">
-  <h2>🥇 Top Performing Grade</h2>
+T
   <div id="topGradeContent"></div>
 </div>
 
@@ -5666,8 +5686,7 @@ width:100%;
 </div>
 
 <div id="termPerformanceSection" class="section" style="display:none; padding:20px;">
-  <h2>📊 Termly Performance</h2>
-  <div id="termPerformanceContent"></div>
+    <div id="termPerformanceContent"></div>
 </div>
 
 <div id="certificatesSection" class="section" style="display:none; padding:20px;">
@@ -6744,53 +6763,147 @@ margin-bottom:15px;
     "
   >
 
-  <!-- ================= FORM ================= -->
-  <div style="
-    background:white;
-    padding:20px;
-    border-radius:14px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.08);
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-bottom:25px;
-  ">
+<!-- ================= INVENTORY FORM ================= -->
 
+<div style="
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:25px;
+">
+
+    <!-- Item Name -->
     <input
-      id="itemName"
-      placeholder="Item Name"
-      style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;"
+        id="itemName"
+        placeholder="📦 Item Name"
+        class="form-control"
     >
 
+    <!-- Category -->
+    <select
+        id="category"
+        class="form-control">
+
+        <option value="Furniture">🪑 Furniture</option>
+        <option value="Electronics">💻 Electronics</option>
+        <option value="Laboratory">🧪 Laboratory</option>
+        <option value="Sports">⚽ Sports</option>
+        <option value="Library">📚 Library</option>
+        <option value="ICT">🖥 ICT</option>
+        <option value="Kitchen">🍽 Kitchen</option>
+        <option value="Office">🏢 Office</option>
+        <option value="Cleaning">🧹 Cleaning</option>
+        <option value="General" selected>📦 General</option>
+
+    </select>
+
+    <!-- Quantity -->
     <input
-      id="quantity"
-      type="number"
-      placeholder="Quantity"
-      style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;"
+        id="quantity"
+        type="number"
+        min="1"
+        placeholder="🔢 Quantity"
+        class="form-control"
     >
 
+    <!-- Unit Cost -->
     <input
-      id="location"
-      placeholder="Store Location"
-      style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;"
+        id="unitCost"
+        type="number"
+        min="0"
+        placeholder="💰 Unit Cost (KES)"
+        class="form-control"
     >
 
+    <!-- Minimum Stock -->
+    <input
+        id="minStock"
+        type="number"
+        min="0"
+        value="5"
+        placeholder="⚠ Minimum Stock"
+        class="form-control"
+    >
+
+    <!-- Store Location -->
+    <input
+        id="location"
+        placeholder="📍 Store Location"
+        class="form-control"
+    >
+
+    <!-- Department -->
+    <select
+        id="department"
+        class="form-control">
+
+        <option value="Administration">Administration</option>
+        <option value="Academics">Academics</option>
+        <option value="ICT">ICT</option>
+        <option value="Library">Library</option>
+        <option value="Sports">Sports</option>
+        <option value="Kitchen">Kitchen</option>
+        <option value="Maintenance">Maintenance</option>
+        <option value="Laboratory">Laboratory</option>
+        <option value="Boarding">Boarding</option>
+        <option value="General" selected>General</option>
+
+    </select>
+
+    <!-- Supplier -->
+    <input
+        id="supplier"
+        placeholder="🏪 Supplier (Optional)"
+        class="form-control"
+    >
+
+    <!-- Purchase Date -->
+    <input
+        id="purchaseDate"
+        type="date"
+        class="form-control"
+    >
+
+    <!-- Condition -->
+    <select
+        id="condition"
+        class="form-control">
+
+        <option value="Excellent">🟢 Excellent</option>
+        <option value="Good" selected>🟢 Good</option>
+        <option value="Fair">🟡 Fair</option>
+        <option value="Poor">🔴 Poor</option>
+
+    </select>
+
+    <!-- Add Button -->
     <button
-      onclick="addInventory()"
-      style="
-        background:#2563eb;
+        onclick="addInventory()"
+        style="
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
         color:white;
         border:none;
-        border-radius:10px;
-        padding:12px;
+        border-radius:12px;
+        padding:14px;
         cursor:pointer;
-        font-weight:600;
-      "
+        font-size:15px;
+        font-weight:bold;
+        box-shadow:0 5px 15px rgba(37,99,235,.3);
+        transition:.25s;
+        "
+        onmouseover="this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.transform='translateY(0)'"
     >
-      ➕ Add Item
+
+        ➕ Register Inventory Item
+
     </button>
 
-  </div>
+</div>
 <button
 onclick="deleteAllInventory()"
 style="
@@ -6996,61 +7109,78 @@ font-weight:bold;
 
     </div>
 
-    <!-- ======================================================
-         BOOKS TAB
-    ======================================================= -->
+<!-- ======================================================
+     BOOKS TAB
+======================================================= -->
 
-    <div id="booksTab" class="libraryTab">
+<div id="booksTab" class="libraryTab">
 
-        <!-- BOOK FORM -->
-        <div style="
-            background:white;
-            padding:20px;
-            border-radius:14px;
-            box-shadow:0 4px 15px rgba(0,0,0,.08);
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:15px;
-            margin-bottom:25px;">
+    <!-- BOOK FORM -->
+    <div style="
+        background:white;
+        padding:20px;
+        border-radius:14px;
+        box-shadow:0 4px 15px rgba(0,0,0,.08);
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:15px;
+        margin-bottom:25px;">
 
-            <input
-                id="bookTitle"
-                placeholder="Book Title"
-                style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+        <input
+            id="bookTitle"
+            placeholder="📖 Book Title"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-            <input
-                id="bookAuthor"
-                placeholder="Author"
-                style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+        <input
+            id="bookAuthor"
+            placeholder="✍️ Author"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-            <input
-                id="bookCategory"
-                placeholder="Category"
-                style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+        <input
+            id="bookPublisher"
+            placeholder="🏢 Publisher"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-            <input
-                id="bookISBN"
-                placeholder="ISBN Number"
-                style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+        <input
+            id="bookEdition"
+            placeholder="📚 Edition (Optional)"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-            <input
-                id="bookQuantity"
-                type="number"
-                placeholder="Quantity"
-                style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+        <input
+            id="bookCategory"
+            placeholder="📂 Category"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-            <button
-                onclick="addBook()"
-                style="
-                    background:#2563eb;
-                    color:white;
-                    border:none;
-                    border-radius:10px;
-                    padding:12px;
-                    cursor:pointer;
-                    font-weight:600;">
+        <input
+            id="bookShelf"
+            placeholder="🗄 Shelf / Location"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
 
-                ➕ Add Book
+        <input
+            id="bookISBN"
+            placeholder="🔢 ISBN Number"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+
+        <input
+            id="bookQuantity"
+            type="number"
+            min="1"
+            placeholder="📚 Number of Copies"
+            style="padding:12px;border:1px solid #cbd5e1;border-radius:10px;">
+
+        <button
+            onclick="addBook()"
+            style="
+                background:#2563eb;
+                color:white;
+                border:none;
+                border-radius:10px;
+                padding:12px;
+                cursor:pointer;
+                font-weight:600;
+                grid-column:1/-1;">
+
+                     ➕ Add Book
 
             </button>
 
@@ -7084,108 +7214,140 @@ margin-bottom:15px;
         </div>
 
     </div>
+<!-- ======================================================
+     RETURNS TAB
+======================================================= -->
 
-    <!-- ======================================================
-         RETURNS TAB
-    ======================================================= -->
+<div
+    id="returnsTab"
+    class="libraryTab"
+    style="display:none;">
+
+    <h2 style="margin-bottom:20px;">
+        📦 Library Returns Center
+    </h2>
+
+    <!-- DASHBOARD -->
 
     <div
-        id="returnsTab"
-        class="libraryTab"
-        style="display:none;">
-
-        <h2 style="margin-bottom:20px;">
-            📦 Library Returns Center
-        </h2>
-
-        <!-- DASHBOARD -->
-
-        <div
-            id="returnsDashboard"
-            style="
-                display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-                gap:15px;
-                margin-bottom:20px;">
-
-        </div>
-
-        <!-- SEARCH -->
-
-        <div
-            style="
-                display:flex;
-                flex-wrap:wrap;
-                gap:10px;
-                margin-bottom:20px;">
-
-            <input
-                id="returnSearch"
-                placeholder="Search learner, admission or book..."
-                style="
-                    flex:1;
-                    padding:12px;
-                    border:1px solid #ddd;
-                    border-radius:8px;">
-
-            <select
-                id="returnFilter"
-                style="
-                    padding:12px;
-                    border-radius:8px;">
-
-                <option value="All">All Borrowers</option>
-                <option value="Student">Students</option>
-                <option value="Teacher">Teachers</option>
-                <option value="Support Staff">Support Staff</option>
-
-            </select>
-
-            <button
-                id="returnSelectedBtn"
-                style="
-                    background:#16a34a;
-                    color:white;
-                    border:none;
-                    border-radius:8px;
-                    padding:12px 20px;
-                    cursor:pointer;
-                    font-weight:600;">
-
-                Return Selected
-
-            </button>
-
-        </div>
-
-        <!-- SELECT ALL -->
-
-        <div style="margin-bottom:15px;">
-
-            <label style="font-weight:600;">
-
-                <input
-                    type="checkbox"
-                    id="selectAllBorrowings">
-
-                Select All
-
-            </label>
-
-        </div>
-
-        <!-- RETURNS LIST -->
-
-        <div
-            id="returnsContainer"
-            style="
-                display:flex;
-                flex-direction:column;
-                gap:15px;">
-
-        </div>
+        id="returnsDashboard"
+        style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:15px;
+            margin-bottom:20px;">
 
     </div>
+
+    <!-- FILTERS -->
+
+    <div
+        style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:12px;
+            margin-bottom:20px;">
+
+        <!-- Search -->
+
+        <input
+            id="returnSearch"
+            placeholder="🔍 Search learner, admission, book or book number..."
+            style="
+                padding:12px;
+                border:1px solid #ddd;
+                border-radius:8px;">
+
+        <!-- Grade -->
+
+        <select
+            id="returnGradeFilter"
+            style="
+                padding:12px;
+                border:1px solid #ddd;
+                border-radius:8px;">
+
+            <option value="All">🎓 All Grades</option>
+
+        </select>
+
+        <!-- Year -->
+
+        <select
+            id="returnYearFilter"
+            style="
+                padding:12px;
+                border:1px solid #ddd;
+                border-radius:8px;">
+
+            <option value="All">📅 All Years</option>
+
+        </select>
+
+        <!-- Borrower Type -->
+
+        <select
+            id="returnFilter"
+            style="
+                padding:12px;
+                border:1px solid #ddd;
+                border-radius:8px;">
+
+            <option value="All">👥 All Borrowers</option>
+            <option value="Student">🎓 Students</option>
+            <option value="Teacher">👨‍🏫 Teachers</option>
+            <option value="Support Staff">🧑‍🔧 Support Staff</option>
+
+        </select>
+
+        <!-- Return Selected -->
+
+        <button
+            id="returnSelectedBtn"
+            style="
+                background:#16a34a;
+                color:white;
+                border:none;
+                border-radius:8px;
+                padding:12px;
+                cursor:pointer;
+                font-weight:600;
+                white-space:nowrap;">
+
+            ↩️ Return Selected
+
+        </button>
+
+    </div>
+
+    <!-- SELECT ALL -->
+
+    <div style="margin-bottom:15px;">
+
+        <label style="font-weight:600;">
+
+            <input
+                type="checkbox"
+                id="selectAllBorrowings">
+
+            Select All
+
+        </label>
+
+    </div>
+
+    <!-- RETURNS LIST -->
+
+    <div
+        id="returnsContainer"
+        style="
+            display:flex;
+            flex-direction:column;
+            gap:15px;">
+
+    </div>
+
+</div>
 
 </div>
 <!-- ================= EXTRA PRINT CONTENTS ================= -->
@@ -30409,12 +30571,12 @@ expectedRevenue > 0
 // UPDATE DASHBOARD CARDS
 // ======================================
 
-const busesCard = document.getElementById("transportBuses");
-const learnersCard = document.getElementById("transportLearners");
-const expectedCard = document.getElementById("transportExpected");
-const collectedCard = document.getElementById("transportCollected");
-const outstandingCard = document.getElementById("transportOutstanding");
-const collectionCard = document.getElementById("transportCollection");
+const busesCard = document.getElementById("transportBusCard");
+const learnersCard = document.getElementById("transportLearnersCard");
+const expectedCard = document.getElementById("expectedRevenueCard");
+const collectedCard = document.getElementById("collectedRevenueCard");
+const outstandingCard = document.getElementById("outstandingRevenueCard");
+const collectionCard = document.getElementById("collectionRateCard");
 
 if (busesCard)
     busesCard.textContent = activeBuses;
@@ -31337,60 +31499,192 @@ window.loadTransportStats = function () {
 };
 window.viewTransportRevenue = async function () {
 
-  const schoolId = window.schoolId;
+    const schoolId = window.schoolId;
 
-  const snap = await get(schoolRef("transport"));
+    const snap = await get(schoolRef("transport"));
 
-  if (!snap.exists()) {
-    Swal.fire("No Data", "No transport records found", "info");
-    return;
-  }
+    if (!snap.exists()) {
+        Swal.fire("No Data", "No transport records found.", "info");
+        return;
+    }
 
-  let total = 0;
+    let overallExpected = 0;
+    let overallCollected = 0;
+    let overallOutstanding = 0;
 
-  let html = `<div style="text-align:left;font-size:13px">`;
+    let html = `
+    <div style="max-height:550px;overflow:auto;text-align:left;">
+    `;
 
-  snap.forEach(busSnap => {
+    snap.forEach(busSnap => {
 
-    const bus = busSnap.val();
+        const bus = busSnap.val();
 
-    const fees = bus.fees || {};
+        const fees = bus.fees || {};
 
-    let busTotal = 0;
-    let paid = 0;
-    let unpaid = 0;
+        let expected = 0;
+        let collected = 0;
+        let outstanding = 0;
 
-    Object.values(fees).forEach(f => {
+        let learnerRows = "";
 
-      const amount = Number(f.fee || 0);
+        Object.values(fees).forEach(fee => {
 
-      busTotal += amount;
+            const amount = Number(fee.fee || 0);
 
-      if (f.paid) paid++;
-      else unpaid++;
+            expected += amount;
+
+            if (fee.paid) {
+                collected += amount;
+            } else {
+                outstanding += amount;
+            }
+
+            learnerRows += `
+            <tr>
+                <td style="padding:6px;">${fee.student}</td>
+                <td style="padding:6px;">KES ${amount.toLocaleString()}</td>
+                <td style="padding:6px;">
+                    ${
+                        fee.paid
+                        ? "<span style='color:green;font-weight:bold;'>✅ Paid</span>"
+                        : "<span style='color:red;font-weight:bold;'>❌ Debt</span>"
+                    }
+                </td>
+            </tr>
+            `;
+        });
+
+        overallExpected += expected;
+        overallCollected += collected;
+        overallOutstanding += outstanding;
+
+        const rate =
+            expected > 0
+            ? ((collected / expected) * 100).toFixed(1)
+            : 0;
+
+        html += `
+
+        <div style="
+            margin-bottom:25px;
+            border:1px solid #ddd;
+            border-radius:12px;
+            overflow:hidden;
+        ">
+
+            <div style="
+                background:#1e40af;
+                color:white;
+                padding:12px;
+                font-size:17px;
+                font-weight:bold;
+            ">
+                🚌 ${bus.busName}
+            </div>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+                gap:10px;
+                padding:15px;
+                background:#f8fafc;
+            ">
+
+                <div>
+                    <b>Expected</b><br>
+                    KES ${expected.toLocaleString()}
+                </div>
+
+                <div style="color:green;">
+                    <b>Collected</b><br>
+                    KES ${collected.toLocaleString()}
+                </div>
+
+                <div style="color:red;">
+                    <b>Outstanding</b><br>
+                    KES ${outstanding.toLocaleString()}
+                </div>
+
+                <div>
+                    <b>Collection Rate</b><br>
+                    ${rate}%
+                </div>
+
+            </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:13px;
+            ">
+
+                <thead style="
+                    background:#e2e8f0;
+                ">
+                    <tr>
+                        <th style="padding:8px;text-align:left;">Learner</th>
+                        <th style="padding:8px;text-align:left;">Fee</th>
+                        <th style="padding:8px;text-align:left;">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    ${
+                        learnerRows ||
+                        `<tr>
+                            <td colspan="3" style="padding:12px;text-align:center;color:gray;">
+                                No learners assigned
+                            </td>
+                        </tr>`
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        `;
+
     });
 
-    total += busTotal;
-
     html += `
-      <div style="padding:10px;border-bottom:1px solid #eee">
-        🚌 <b>${bus.busName}</b><br>
-        💰 Total: KES ${busTotal}<br>
-        ✅ Paid: ${paid} | ❌ Pending: ${unpaid}
-      </div>
+
+        <div style="
+            background:#0f172a;
+            color:white;
+            padding:18px;
+            border-radius:12px;
+            font-size:16px;
+            margin-top:20px;
+        ">
+
+            <h3 style="margin-top:0;">📊 Overall Summary</h3>
+
+            <div>💰 Expected Revenue: <b>KES ${overallExpected.toLocaleString()}</b></div>
+
+            <div style="color:#4ade80;">
+                ✅ Collected: <b>KES ${overallCollected.toLocaleString()}</b>
+            </div>
+
+            <div style="color:#f87171;">
+                ❌ Outstanding Debt: <b>KES ${overallOutstanding.toLocaleString()}</b>
+            </div>
+
+        </div>
+
+    </div>
     `;
-  });
 
-  html += `
-    <hr>
-    <b>Total Revenue: KES ${total}</b>
-  </div>`;
+    Swal.fire({
+        title: "🚌 Transport Revenue Report",
+        html: html,
+        width: 1000,
+        confirmButtonText: "Close"
+    });
 
-  Swal.fire({
-    title: "Transport Revenue",
-    html,
-    width: 600
-  });
 };
 window.setTransportFee = async function (busId, studentName) {
 
@@ -32307,196 +32601,471 @@ window.deleteICT = async function (id) {
   Swal.fire("Deleted", "Device removed", "success");
 };
 /* =========================================================
-   ADD INVENTORY ITEM
+   ADD INVENTORY ITEM (ERP ASSET MANAGEMENT)
 ========================================================= */
 
 window.addInventory = async function () {
 
-  try {
+    try {
+
+        const schoolId = window.schoolId;
+
+        if (!schoolId) {
+            Swal.fire(
+                "Error",
+                "No school session found",
+                "error"
+            );
+            return;
+        }
+
+        // =====================================
+        // READ INPUTS
+        // =====================================
+
+        const itemName =
+            document.getElementById("itemName").value.trim();
+
+        const quantity =
+            Number(document.getElementById("quantity").value);
+
+        const location =
+            document.getElementById("location").value.trim();
+
+        const category =
+            document.getElementById("category")?.value || "General";
+
+        const department =
+            document.getElementById("department")?.value || "General";
+
+        const supplier =
+            document.getElementById("supplier")?.value.trim() || "";
+
+        const purchaseDate =
+            document.getElementById("purchaseDate")?.value || "";
+
+        const warranty =
+            document.getElementById("warranty")?.value || "";
+
+        const serialNumber =
+            document.getElementById("serialNumber")?.value.trim() || "";
+
+        const model =
+            document.getElementById("model")?.value.trim() || "";
+
+        const brand =
+            document.getElementById("brand")?.value.trim() || "";
+
+        const unitCost =
+            Number(document.getElementById("unitCost")?.value || 0);
+
+        const minStock =
+            Number(document.getElementById("minStock")?.value || 5);
+
+        const depreciationRate =
+            Number(document.getElementById("depreciationRate")?.value || 0);
+
+        // =====================================
+        // VALIDATION
+        // =====================================
+
+        if (
+            !itemName ||
+            quantity <= 0 ||
+            !location
+        ) {
+
+            Swal.fire(
+                "Missing Fields",
+                "Item Name, Quantity and Location are required.",
+                "warning"
+            );
+
+            return;
+        }
+
+        openSweetLoader("Registering Assets...");
+
+        // =====================================
+        // CREATE PREFIX
+        // =====================================
+
+        const prefix =
+            itemName
+            .replace(/[^A-Za-z]/g, "")
+            .substring(0, 3)
+            .toUpperCase() || "AST";
+
+        // =====================================
+        // GENERATE ASSETS
+        // =====================================
+
+        const assets = {};
+
+        for (let i = 1; i <= quantity; i++) {
+
+            const assetNumber =
+                `${prefix}-${String(i).padStart(4, "0")}`;
+
+            assets[assetNumber] = {
+
+                assetNumber,
+
+                itemNumber: i,
+
+                status: "Available",
+
+                condition: "Good",
+
+                issuedTo: null,
+
+                issuedToType: null,
+
+                issuedDate: null,
+
+                expectedReturn: null,
+
+                returnedDate: null,
+
+                currentLocation: location,
+
+                currentDepartment: department,
+
+                supplier,
+
+                purchaseDate,
+
+                warranty,
+
+                serialNumber:
+                    serialNumber
+                        ? `${serialNumber}-${i}`
+                        : "",
+
+                model,
+
+                brand,
+
+                unitCost,
+
+                remarks: "",
+
+                maintenanceHistory: [],
+
+                repairs: [],
+
+                depreciationRate,
+
+                createdAt: Date.now()
+
+            };
+
+        }
+
+        // =====================================
+        // SAVE INVENTORY
+        // =====================================
+
+        const data = {
+
+            itemName,
+
+            category,
+
+            department,
+
+            supplier,
+
+            purchaseDate,
+
+            warranty,
+
+            serialNumber,
+
+            model,
+
+            brand,
+
+            quantity,
+
+            stock: quantity,
+
+            available: quantity,
+
+            issued: 0,
+
+            damaged: 0,
+
+            repair: 0,
+
+            disposed: 0,
+
+            lost: 0,
+
+            location,
+
+            unitCost,
+
+            minStock,
+
+            depreciationRate,
+
+            assetCode: prefix,
+
+            totalValue: quantity * unitCost,
+
+            createdAt: Date.now(),
+
+            transactions: [
+
+                {
+
+                    action: "Inventory Created",
+
+                    qty: quantity,
+
+                    date: Date.now(),
+
+                    by:
+                        localStorage.getItem("staffName") ||
+                        "System"
+
+                }
+
+            ],
+
+            assets
+
+        };
+
+        await push(
+            ref(db, `inventory/${schoolId}`),
+            data
+        );
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Success",
+            `${quantity} assets registered successfully.`,
+            "success"
+        );
+
+        // =====================================
+        // CLEAR FORM
+        // =====================================
+
+        [
+            "itemName",
+            "quantity",
+            "location",
+            "supplier",
+            "purchaseDate",
+            "warranty",
+            "serialNumber",
+            "model",
+            "brand",
+            "unitCost",
+            "minStock",
+            "depreciationRate"
+        ].forEach(id => {
+
+            const el = document.getElementById(id);
+
+            if (el) el.value = "";
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+/* =========================================================
+   LOAD INVENTORY DASHBOARD (ERP VERSION)
+========================================================= */
+
+window.loadInventoryStats = function () {
 
     const schoolId = window.schoolId;
 
     if (!schoolId) {
-
-      Swal.fire(
-        "Error",
-        "No school session found",
-        "error"
-      );
-
-      return;
+        console.warn("schoolId not ready");
+        return;
     }
 
-    // INPUTS
-    const item =
-      document.getElementById("itemName")?.value.trim();
+    onValue(
+        ref(db, `inventory/${schoolId}`),
 
-    const qty =
-      document.getElementById("quantity")?.value.trim();
+        (snap) => {
 
-    const location =
-      document.getElementById("location")?.value.trim();
+            const inventoryStats =
+                document.getElementById("inventoryStats");
 
-    // VALIDATION
-    if (!item || !qty || !location) {
+            if (!inventoryStats) return;
 
-      Swal.fire(
-        "Missing Fields",
-        "Fill all inventory fields",
-        "warning"
-      );
+            let totalItems = 0;
+            let totalAssets = 0;
+            let availableAssets = 0;
+            let borrowedAssets = 0;
+            let damagedAssets = 0;
+            let repairAssets = 0;
+            let disposedAssets = 0;
+            let lowStock = 0;
+            let totalValue = 0;
 
-      return;
-    }
+            if (snap.exists()) {
 
-    openSweetLoader("Saving Inventory Item...");
+                snap.forEach(item => {
 
-    // DATA
-const data = {
+                    const d = item.val();
 
-  itemName: item,
+                    totalItems++;
 
-  stock: Number(qty),   // CHANGED (was quantity)
+                    totalValue +=
+                        Number(d.stock || 0) *
+                        Number(d.unitCost || 0);
 
-  location,
+                    if (
+                        Number(d.stock || 0) <=
+                        Number(d.minStock || 5)
+                    ) {
+                        lowStock++;
+                    }
 
-  category:
-    document.getElementById("category")?.value || "General",
+                    const assets = d.assets || {};
 
-  assetCode:
-    "AST-" + Date.now().toString().slice(-6),
+                    Object.values(assets).forEach(asset => {
 
-  unitCost:
-    Number(document.getElementById("unitCost")?.value || 0),
+                        totalAssets++;
 
-  minStock:
-    Number(document.getElementById("minStock")?.value || 5),
+                        switch (asset.status) {
 
-  issued: [],
+                            case "Available":
+                                availableAssets++;
+                                break;
 
-  transactions: [
-    {
-      action: "Created",
-      qty: Number(qty),
-      date: Date.now(),
-      by: localStorage.getItem("staffName") || "System"
-    }
-  ],
+                            case "Issued":
+                            case "Borrowed":
+                                borrowedAssets++;
+                                break;
 
-  createdAt: Date.now()
-};
+                            case "Damaged":
+                                damagedAssets++;
+                                break;
 
-    // SAVE TO FIREBASE
-    await push(
-      ref(db, `inventory/${schoolId}`),
-      data
-    );
+                            case "Repair":
+                            case "Under Repair":
+                                repairAssets++;
+                                break;
 
-    closeSweetLoader();
+                            case "Disposed":
+                                disposedAssets++;
+                                break;
+                        }
 
-    Swal.fire(
-      "Success",
-      "Inventory item added successfully",
-      "success"
-    );
+                    });
 
-    // CLEAR INPUTS
-    document.getElementById("itemName").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("location").value = "";
+                });
 
-  } catch (error) {
+            }
 
-    console.error(error);
+            inventoryStats.innerHTML = `
 
-    closeSweetLoader();
+<div class="dashboard-card">
+    📦
+    <div style="font-size:13px;margin-top:8px;">
+        Inventory Items
+    </div>
+    <h2>${totalItems}</h2>
+</div>
 
-    Swal.fire(
-      "Error",
-      error.message || "Failed to save inventory item",
-      "error"
-    );
-  }
-};
+<div class="dashboard-card">
+    🏷️
+    <div style="font-size:13px;margin-top:8px;">
+        Total Assets
+    </div>
+    <h2>${totalAssets}</h2>
+</div>
 
+<div class="dashboard-card">
+    ✅
+    <div style="font-size:13px;margin-top:8px;">
+        Available
+    </div>
+    <h2>${availableAssets}</h2>
+</div>
 
-window.loadInventoryStats = function(){
+<div class="dashboard-card">
+    📤
+    <div style="font-size:13px;margin-top:8px;">
+        Issued / Borrowed
+    </div>
+    <h2>${borrowedAssets}</h2>
+</div>
 
-const schoolId = window.schoolId;
+<div class="dashboard-card">
+    ⚠️
+    <div style="font-size:13px;margin-top:8px;">
+        Low Stock
+    </div>
+    <h2>${lowStock}</h2>
+</div>
 
-if (!schoolId) {
-  console.warn("schoolId not ready");
-  return;
-}
+<div class="dashboard-card">
+    🔧
+    <div style="font-size:13px;margin-top:8px;">
+        Under Repair
+    </div>
+    <h2>${repairAssets}</h2>
+</div>
 
-  onValue(
-    ref(db,
-    `inventory/${schoolId}`),
+<div class="dashboard-card">
+    ❌
+    <div style="font-size:13px;margin-top:8px;">
+        Damaged
+    </div>
+    <h2>${damagedAssets}</h2>
+</div>
 
-    snap=>{
+<div class="dashboard-card">
+    🗑️
+    <div style="font-size:13px;margin-top:8px;">
+        Disposed
+    </div>
+    <h2>${disposedAssets}</h2>
+</div>
 
-      let totalItems = 0;
-      let lowStock = 0;
-      let borrowed = 0;
-      let totalValue = 0;
+<div class="dashboard-card">
+    💰
+    <div style="font-size:13px;margin-top:8px;">
+        Inventory Value
+    </div>
+    <h2>
+        KES ${totalValue.toLocaleString()}
+    </h2>
+</div>
 
-      snap.forEach(item=>{
-const inventoryStats =
-  document.getElementById("inventoryStats");
-        const d = item.val();
+`;
 
-        totalItems++;
-
-        totalValue +=
-          Number(d.stock || 0) *
-          Number(d.unitCost || 0);
-
-        if(
-          Number(d.stock || 0)
-          <=
-          Number(d.minStock || 5)
-        ){
-          lowStock++;
         }
 
-        if(
-          d.status ===
-          "Borrowed"
-        ){
-          borrowed++;
-        }
-
-      });
-
-      inventoryStats.innerHTML = `
-
-        <div class="dashboard-card">
-          📦 Items
-          <h2>${totalItems}</h2>
-        </div>
-
-        <div class="dashboard-card">
-          ⚠️ Low Stock
-          <h2>${lowStock}</h2>
-        </div>
-
-        <div class="dashboard-card">
-          📤 Borrowed
-          <h2>${borrowed}</h2>
-        </div>
-
-        <div class="dashboard-card">
-          💰 Value
-          <h2>KES ${totalValue.toLocaleString()}</h2>
-        </div>
-
-      `;
-
-    }
-  );
+    );
 
 };
-
 window.filterInventory = function(){
 
   const value =
@@ -32518,15 +33087,23 @@ window.filterInventory = function(){
   });
 
 };
-/* =========================================================
+
 /* =========================================================
    LOAD INVENTORY (ERP UPGRADE)
 ========================================================= */
-
 window.loadInventory = function () {
 
-  const schoolId = window.schoolId;
+  const inventoryList =
+      document.getElementById("inventoryList");
 
+  if(!inventoryList){
+      console.error(
+        "inventoryList element missing"
+      );
+      return;
+  }
+
+  const schoolId = window.schoolId;
   onValue(
     ref(db, `inventory/${schoolId}`),
     (snap) => {
@@ -32600,19 +33177,101 @@ window.loadInventory = function () {
         const d = child.val();
         const key = child.key;
 
-        const stock =
-          Number(d.stock || 0);
+      // =====================================
+// ASSET STATISTICS
+// =====================================
 
-        const minStock =
-          Number(d.minStock || 5);
+const assets = d.assets || {};
 
-        const totalValue =
-          stock *
-          Number(d.unitCost || 0);
+const totalAssets = Object.keys(assets).length;
 
-        let stockBadge = "";
+const availableAssets =
+    Object.values(assets).filter(
+        a => a.status === "Available"
+    ).length;
 
-        if(stock <= 0){
+const issuedAssets =
+    Object.values(assets).filter(
+        a => a.status === "Issued"
+    ).length;
+
+const repairAssets =
+    Object.values(assets).filter(
+        a => a.status === "Repair"
+    ).length;
+
+const damagedAssets =
+    Object.values(assets).filter(
+        a => a.status === "Damaged"
+    ).length;
+
+const disposedAssets =
+    Object.values(assets).filter(
+        a => a.status === "Disposed"
+    ).length;
+// =====================================
+// CURRENT STOCK
+// =====================================
+
+const stock =
+    Number(
+        d.stock ??
+        availableAssets ??
+        0
+    );
+const minStock =
+    Number(d.minStock || 5);
+
+const totalValue =
+    totalAssets *
+    Number(d.unitCost || 0);
+
+let stockBadge="";
+
+if(availableAssets<=0){
+
+    stockBadge=`
+    <span style="
+    background:#dc2626;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    ">
+    Out Of Stock
+    </span>`;
+
+}
+else if(availableAssets<=minStock){
+
+    stockBadge=`
+    <span style="
+    background:#f59e0b;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    ">
+    Low Stock
+    </span>`;
+
+}
+else{
+
+    stockBadge=`
+    <span style="
+    background:#16a34a;
+    color:white;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:11px;
+    ">
+    Available
+    </span>`;
+
+}
+
+      if(stock <= 0){
 
           stockBadge = `
             <span style="
@@ -32672,9 +33331,53 @@ window.loadInventory = function () {
           "
         >
 
-          <td style="border:1px solid #000;padding:10px;">
-            ${i++}
-          </td>
+         <td style="border:1px solid #000;padding:10px;">
+
+<div style="font-weight:bold;font-size:15px;">
+${availableAssets}/${totalAssets}
+</div>
+
+<div style="
+margin-top:6px;
+font-size:12px;
+color:#64748b;
+line-height:1.6;
+">
+
+✅ Available: ${availableAssets}<br>
+
+👤 Issued: ${issuedAssets}<br>
+
+🔧 Repair: ${repairAssets}<br>
+
+⚠ Damaged: ${damagedAssets}<br>
+
+🗑 Disposed: ${disposedAssets}
+
+</div>
+
+<div style="margin-top:10px;">
+
+<button
+onclick="viewInventoryAssets('${key}')"
+style="
+background:#2563eb;
+color:white;
+border:none;
+padding:6px 12px;
+border-radius:8px;
+cursor:pointer;
+font-size:12px;
+font-weight:bold;
+">
+
+📦 View Assets
+
+</button>
+
+</div>
+
+</td>
 
           <td style="border:1px solid #000;padding:10px;">
             ${d.assetCode || "-"}
@@ -32764,123 +33467,150 @@ window.loadInventory = function () {
                 font-weight:600;
               "
             >
-              ⚙️ Actions
-            </button>
+            ⚙️ Actions
+</button>
 
-            <div
-              id="inventory-actions-${key}"
+<div
+id="inventory-actions-${key}"
+style="
+display:none;
+position:fixed;
+background:white;
+border:1px solid #d1d5db;
+border-radius:12px;
+min-width:240px;
+z-index:999999;
+box-shadow:0 12px 30px rgba(0,0,0,.18);
+overflow:hidden;
+">
+
+    ${
+        stock > 0
+        ? `
+        <button
+            onclick="borrowInventory('${key}')"
             style="
-  display:none;
-  position:fixed;
-  background:white;
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  min-width:180px;
-  z-index:999999;
-  box-shadow:0 8px 25px rgba(0,0,0,.15);
-  overflow:hidden;
-"
-            >
+                width:100%;
+                border:none;
+                background:#eff6ff;
+                color:#1d4ed8;
+                padding:14px;
+                text-align:left;
+                cursor:pointer;
+                font-weight:600;
+                transition:.2s;
+            "
+            onmouseover="this.style.background='#dbeafe'"
+            onmouseout="this.style.background='#eff6ff'"
+        >
+            📤 Borrow Assets
+        </button>
+        `
+        : ""
+    }
 
-              ${
-                stock > 0
-                ? `
-                <button
-                  onclick="borrowInventory('${key}')"
-                  style="
-                    width:100%;
-                    border:none;
-                    background:white;
-                    padding:12px;
-                    text-align:left;
-                    cursor:pointer;
-                  "
-                >
-                  📤 Borrow
-                </button>
-                `
-                : ""
-              }
+    ${
+        (d.issued || 0) > 0
+        ? `
+        <button
+            onclick="returnInventory('${key}')"
+            style="
+                width:100%;
+                border:none;
+                background:#ecfdf5;
+                color:#15803d;
+                padding:14px;
+                text-align:left;
+                cursor:pointer;
+                font-weight:600;
+                transition:.2s;
+            "
+            onmouseover="this.style.background='#dcfce7'"
+            onmouseout="this.style.background='#ecfdf5'"
+        >
+            📥 Return Assets
+        </button>
+        `
+        : ""
+    }
 
-              ${
-                d.issued &&
-                d.issued.length > 0
-                ? `
-                <button
-                  onclick="returnInventory('${key}')"
-                  style="
-                    width:100%;
-                    border:none;
-                    background:white;
-                    padding:12px;
-                    text-align:left;
-                    cursor:pointer;
-                  "
-                >
-                  📥 Return
-                </button>
-                `
-                : ""
-              }
+    <button
+        onclick="viewInventoryAssets('${key}')"
+        style="
+            width:100%;
+            border:none;
+            background:#f8fafc;
+            color:#0f172a;
+            padding:14px;
+            text-align:left;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
+        "
+        onmouseover="this.style.background='#e2e8f0'"
+        onmouseout="this.style.background='#f8fafc'"
+    >
+        📦 View Individual Assets
+    </button>
 
-              <button
-                onclick="issueInventory('${key}')"
-                style="
-                  width:100%;
-                  border:none;
-                  background:white;
-                  padding:12px;
-                  text-align:left;
-                  cursor:pointer;
-                "
-              >
-                📦 Issue
-              </button>
+    <button
+        onclick="viewInventoryHistory('${key}')"
+        style="
+            width:100%;
+            border:none;
+            background:#fff7ed;
+            color:#c2410c;
+            padding:14px;
+            text-align:left;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
+        "
+        onmouseover="this.style.background='#fed7aa'"
+        onmouseout="this.style.background='#fff7ed'"
+    >
+        📜 Transaction History
+    </button>
 
-              <button
-                onclick="viewInventoryHistory('${key}')"
-                style="
-                  width:100%;
-                  border:none;
-                  background:white;
-                  padding:12px;
-                  text-align:left;
-                  cursor:pointer;
-                "
-              >
-                📜 History
-              </button>
+    <button
+        onclick="editInventory('${key}')"
+        style="
+            width:100%;
+            border:none;
+            background:#f5f3ff;
+            color:#6d28d9;
+            padding:14px;
+            text-align:left;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
+        "
+        onmouseover="this.style.background='#ede9fe'"
+        onmouseout="this.style.background='#f5f3ff'"
+    >
+        ✏️ Edit Inventory
+    </button>
 
-              <button
-                onclick="editInventory('${key}')"
-                style="
-                  width:100%;
-                  border:none;
-                  background:white;
-                  padding:12px;
-                  text-align:left;
-                  cursor:pointer;
-                "
-              >
-                ✏️ Edit
-              </button>
+    <button
+        onclick="deleteInventory('${key}')"
+        style="
+            width:100%;
+            border:none;
+            background:#fef2f2;
+            color:#dc2626;
+            padding:14px;
+            text-align:left;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
+        "
+        onmouseover="this.style.background='#fee2e2'"
+        onmouseout="this.style.background='#fef2f2'"
+    >
+        🗑️ Delete Inventory
+    </button>
 
-              <button
-                onclick="deleteInventory('${key}')"
-                style="
-                  width:100%;
-                  border:none;
-                  background:#fee2e2;
-                  color:#b91c1c;
-                  padding:12px;
-                  text-align:left;
-                  cursor:pointer;
-                "
-              >
-                🗑️ Delete
-              </button>
-
-            </div>
+</div>
 
           </td>
 
@@ -32952,6 +33682,220 @@ document.addEventListener("click", function (e) {
   }
 
 });
+/* =========================================================
+   VIEW INVENTORY ASSETS
+========================================================= */
+
+window.viewInventoryAssets = async function(id){
+
+    try{
+
+        const schoolId = window.schoolId;
+
+        const snap = await get(
+            ref(db, `inventory/${schoolId}/${id}`)
+        );
+
+        if(!snap.exists()){
+
+            Swal.fire(
+                "Error",
+                "Inventory item not found.",
+                "error"
+            );
+
+            return;
+        }
+
+        const item = snap.val();
+
+        const assets = Object.values(item.assets || {});
+
+        if(assets.length === 0){
+
+            Swal.fire(
+                "No Assets",
+                "This inventory item has no registered assets.",
+                "info"
+            );
+
+            return;
+        }
+
+        let html = `
+
+<div style="
+max-height:500px;
+overflow:auto;
+">
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+">
+
+<thead>
+
+<tr style="
+background:#1e3a8a;
+color:white;
+position:sticky;
+top:0;
+">
+
+<th style="padding:10px;">Asset No</th>
+<th>Status</th>
+<th>Condition</th>
+<th>Borrower</th>
+<th>Location</th>
+<th>Return</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+        assets.forEach(asset=>{
+
+            let badge = "";
+
+            switch(asset.status){
+
+                case "Available":
+
+                    badge = `
+                    <span style="
+                    background:#16a34a;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:20px;
+                    ">
+                    Available
+                    </span>`;
+                    break;
+
+                case "Issued":
+
+                    badge = `
+                    <span style="
+                    background:#2563eb;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:20px;
+                    ">
+                    Issued
+                    </span>`;
+                    break;
+
+                case "Damaged":
+
+                    badge = `
+                    <span style="
+                    background:#dc2626;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:20px;
+                    ">
+                    Damaged
+                    </span>`;
+                    break;
+
+                case "Repair":
+
+                    badge = `
+                    <span style="
+                    background:#f59e0b;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:20px;
+                    ">
+                    Repair
+                    </span>`;
+                    break;
+
+                case "Lost":
+
+                    badge = `
+                    <span style="
+                    background:#7c2d12;
+                    color:white;
+                    padding:3px 8px;
+                    border-radius:20px;
+                    ">
+                    Lost
+                    </span>`;
+                    break;
+
+                default:
+
+                    badge = asset.status || "-";
+            }
+
+            html += `
+
+<tr style="border-bottom:1px solid #eee;">
+
+<td style="padding:10px;">
+<b>${asset.assetNumber}</b>
+</td>
+
+<td>${badge}</td>
+
+<td>${asset.condition || "-"}</td>
+
+<td>${asset.issuedTo || "-"}</td>
+
+<td>${asset.currentLocation || "-"}</td>
+
+<td>${asset.expectedReturn || "-"}</td>
+
+</tr>
+
+`;
+
+        });
+
+        html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        Swal.fire({
+
+            title: `${item.itemName} Assets`,
+
+            html,
+
+            width:1100,
+
+            confirmButtonText:"Close"
+
+        });
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
+
+};
 window.toggleInventoryActions = function(id, event){
 
   const menuId = `inventory-actions-${id}`;
@@ -32983,266 +33927,644 @@ window.toggleInventoryActions = function(id, event){
   menu.style.display =
     menu.style.display === "block" ? "none" : "block";
 };
-window.returnInventory = async function(id){
+/* =========================================================
+   RETURN INVENTORY (ERP VERSION)
+========================================================= */
 
-  const schoolId = window.schoolId;
+window.returnInventory = async function (id) {
 
-  const itemRef = ref(db, `inventory/${schoolId}/${id}`);
-  const snap = await get(itemRef);
+    try {
 
-  if(!snap.exists()) return;
+        const schoolId = window.schoolId;
 
-  const d = snap.val();
+        const itemRef =
+            ref(db, `inventory/${schoolId}/${id}`);
 
-  const issued = d.issued || [];
+        const snap = await get(itemRef);
 
-  if(issued.length === 0){
-    Swal.fire("Info", "No active borrow records", "info");
-    return;
-  }
+        if (!snap.exists()) return;
 
-  // ================= SELECT WHO IS RETURNING =================
-  const { value: selected } = await Swal.fire({
+        const item = snap.val();
 
-    title: "Select Return Record",
+        const assets = item.assets || {};
 
-    input: "select",
+        // ======================================
+        // Find issued assets
+        // ======================================
 
-    inputOptions: issued.reduce((acc, i, index) => {
+        const issuedAssets = Object.values(assets)
+            .filter(asset =>
+                asset.status === "Issued" ||
+                asset.status === "Borrowed"
+            );
 
-      acc[index] =
-        `${i.borrower} - Qty: ${i.qty}`;
+        if (issuedAssets.length === 0) {
 
-      return acc;
+            Swal.fire(
+                "Nothing to Return",
+                "There are no issued assets.",
+                "info"
+            );
 
-    }, {}),
+            return;
 
-    inputPlaceholder: "Select borrower",
+        }
 
-    showCancelButton: true
+        // ======================================
+        // Select Asset
+        // ======================================
 
-  });
+        const options = {};
 
-  if (selected === undefined) return;
+        issuedAssets.forEach(asset => {
 
-  const index = Number(selected);
+            options[asset.assetNumber] =
+                `${asset.assetNumber} • ${asset.issuedTo} (${asset.issuedToType})`;
 
-  const returning = issued[index];
+        });
 
-  if (!returning) return;
+        const { value: assetNumber } =
+            await Swal.fire({
 
-  // ================= RESTORE STOCK =================
-  const newStock =
-    Number(d.stock || 0) +
-    Number(returning.qty || 0);
+                title: "Return Asset",
 
-  // remove ONLY selected record
-  issued.splice(index, 1);
+                input: "select",
 
-  const transactions = d.transactions || [];
+                inputOptions: options,
 
-  transactions.push({
-    action: "Returned",
-    borrower: returning.borrower,
-    qty: returning.qty,
-    date: Date.now(),
-    by: localStorage.getItem("staffName") || "System"
-  });
+                inputPlaceholder: "Select Asset",
 
-  await update(itemRef, {
-    stock: newStock,
-    issued,
-    transactions,
-    status: issued.length ? "Borrowed" : "Available"
-  });
+                showCancelButton: true
 
-  Swal.fire(
-    "Success",
-    `${returning.borrower} returned ${returning.qty} item(s)`,
-    "success"
-  );
+            });
+
+        if (!assetNumber) return;
+
+        // ======================================
+        // Asset Condition
+        // ======================================
+
+        const { value: condition } =
+            await Swal.fire({
+
+                title: "Asset Condition",
+
+                input: "select",
+
+                inputOptions: {
+
+                    Good: "✅ Good",
+
+                    Damaged: "❌ Damaged",
+
+                    Repair: "🔧 Needs Repair",
+
+                    Lost: "🚫 Lost"
+
+                },
+
+                inputValue: "Good",
+
+                showCancelButton: true
+
+            });
+
+        if (!condition) return;
+
+        openSweetLoader("Processing Return...");
+
+        const asset = assets[assetNumber];
+
+        if (!asset) {
+
+            closeSweetLoader();
+
+            return;
+
+        }
+
+        // ======================================
+        // Update Asset
+        // ======================================
+
+        asset.condition = condition;
+
+        asset.returnedDate =
+            new Date().toLocaleDateString();
+
+        asset.returnedAt = Date.now();
+
+        asset.returnedBy =
+            localStorage.getItem("staffName") || "System";
+
+        asset.remarks =
+            `Returned (${condition})`;
+
+        if (condition === "Good") {
+
+            asset.status = "Available";
+
+            asset.issuedTo = null;
+            asset.issuedToType = null;
+            asset.issuedDate = null;
+            asset.expectedReturn = null;
+
+        }
+
+        else if (condition === "Damaged") {
+
+            asset.status = "Damaged";
+
+        }
+
+        else if (condition === "Repair") {
+
+            asset.status = "Repair";
+
+        }
+
+        else if (condition === "Lost") {
+
+            asset.status = "Lost";
+
+        }
+
+        // ======================================
+        // Recalculate Totals
+        // ======================================
+
+        let available = 0;
+        let issued = 0;
+        let damaged = 0;
+        let repair = 0;
+        let lost = 0;
+
+        Object.values(assets).forEach(a => {
+
+            switch (a.status) {
+
+                case "Available":
+                    available++;
+                    break;
+
+                case "Issued":
+                case "Borrowed":
+                    issued++;
+                    break;
+
+                case "Damaged":
+                    damaged++;
+                    break;
+
+                case "Repair":
+                    repair++;
+                    break;
+
+                case "Lost":
+                    lost++;
+                    break;
+
+            }
+
+        });
+
+        const transactions =
+            item.transactions || [];
+
+        transactions.push({
+
+            action: "Asset Returned",
+
+            assetNumber,
+
+            borrower: asset.issuedTo,
+
+            condition,
+
+            date: Date.now(),
+
+            by:
+                localStorage.getItem("staffName") ||
+                "System"
+
+        });
+
+        // ======================================
+        // Save
+        // ======================================
+
+        await update(itemRef, {
+
+            assets,
+
+            available,
+
+            stock: available,
+
+            issued,
+
+            damaged,
+
+            repair,
+
+            lost,
+
+            transactions
+
+        });
+
+        closeSweetLoader();
+
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Return Completed",
+
+            html: `
+
+<b>${assetNumber}</b><br><br>
+
+Condition:
+<b>${condition}</b>
+
+            `
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
+
 };
+
+
 /* =========================================================
    INVENTORY BORROWING + ERP LEVEL TRACKING
 ========================================================= */
+/* =========================================================
+   BORROW INVENTORY (ERP ASSET VERSION)
+========================================================= */
 
-window.borrowInventory = async function(id) {
+window.borrowInventory = async function(id){
 
-  const schoolId = window.schoolId;
+    const schoolId = window.schoolId;
 
-  const { value: formValues } = await Swal.fire({
+    try{
 
-    title: "Borrow Inventory Item",
+        const itemRef =
+            ref(db,`inventory/${schoolId}/${id}`);
 
-    html: `
+        const snap = await get(itemRef);
 
-      <input id="borrowerName"
-        class="swal2-input"
-        placeholder="Staff Name">
+        if(!snap.exists()){
 
-      <input id="department"
-        class="swal2-input"
-        placeholder="Department">
+            Swal.fire(
+                "Error",
+                "Inventory item not found.",
+                "error"
+            );
 
-      <input type="number"
-        id="borrowQty"
-        class="swal2-input"
-        placeholder="Quantity to borrow"
-        value="1">
+            return;
 
-      <input type="date"
-        id="returnDate"
-        class="swal2-input">
+        }
 
-    `,
+        const item = snap.val();
 
-    showCancelButton: true,
+        const assets = item.assets || {};
 
-    preConfirm: () => {
+        // ============================================
+        // AVAILABLE ASSETS
+        // ============================================
 
-      const borrower =
-        document.getElementById("borrowerName").value;
+        const availableAssets = Object.values(assets)
+            .filter(asset=>asset.status==="Available");
 
-      const department =
-        document.getElementById("department").value;
+        if(availableAssets.length===0){
 
-      const qty =
-        Number(document.getElementById("borrowQty").value || 1);
+            Swal.fire(
+                "Unavailable",
+                "No available assets.",
+                "warning"
+            );
 
-      const returnDate =
-        document.getElementById("returnDate").value;
+            return;
 
-      if (!borrower) {
-        Swal.showValidationMessage("Enter borrower name");
-        return false;
-      }
+        }
 
-      if (qty <= 0) {
-        Swal.showValidationMessage("Quantity must be at least 1");
-        return false;
-      }
+        // ============================================
+        // BUILD ASSET CHECKLIST
+        // ============================================
 
-      return {
-        borrower,
-        department,
-        qty,
-        returnDate
-      };
+        let assetHTML="";
+
+        availableAssets.forEach(asset=>{
+
+            assetHTML += `
+
+<label style="
+display:flex;
+align-items:center;
+gap:10px;
+padding:8px;
+border-bottom:1px solid #eee;
+cursor:pointer;
+">
+
+<input
+type="checkbox"
+class="assetBorrowCheck"
+value="${asset.assetNumber}">
+
+<div>
+
+<b>${asset.assetNumber}</b><br>
+
+<small>
+${asset.currentLocation}
+</small>
+
+</div>
+
+</label>
+
+`;
+
+        });
+
+        // ============================================
+
+        const {value:ok}=await Swal.fire({
+
+            title:"Issue Assets",
+
+            width:700,
+
+            html:`
+
+<input
+id="borrowerName"
+class="swal2-input"
+placeholder="Borrower's Name">
+
+<input
+id="department"
+class="swal2-input"
+placeholder="Department">
+
+<input
+type="date"
+id="returnDate"
+class="swal2-input">
+
+<div style="
+margin-top:15px;
+text-align:left;
+font-weight:bold;
+">
+
+Select Assets
+
+</div>
+
+<div style="
+max-height:260px;
+overflow:auto;
+border:1px solid #ddd;
+border-radius:8px;
+padding:8px;
+margin-top:8px;
+">
+
+${assetHTML}
+
+</div>
+
+`,
+
+            showCancelButton:true,
+
+            confirmButtonText:"Issue Assets",
+
+            preConfirm:()=>{
+
+                const borrower=
+                    document.getElementById("borrowerName").value.trim();
+
+                const department=
+                    document.getElementById("department").value.trim();
+
+                const returnDate=
+                    document.getElementById("returnDate").value;
+
+                if(!borrower){
+
+                    Swal.showValidationMessage(
+                        "Enter borrower name."
+                    );
+
+                    return false;
+
+                }
+
+                const selected=[];
+
+                document
+                    .querySelectorAll(".assetBorrowCheck:checked")
+                    .forEach(box=>{
+
+                        selected.push(box.value);
+
+                    });
+
+                if(selected.length===0){
+
+                    Swal.showValidationMessage(
+                        "Select at least one asset."
+                    );
+
+                    return false;
+
+                }
+
+                return{
+
+                    borrower,
+
+                    department,
+
+                    returnDate,
+
+                    selected
+
+                };
+
+            }
+
+        });
+
+        if(!ok) return;
+
+        openSweetLoader("Issuing Assets...");
+
+        // ============================================
+        // UPDATE EACH ASSET
+        // ============================================
+
+        ok.selected.forEach(assetNumber=>{
+
+            assets[assetNumber].status="Issued";
+
+            assets[assetNumber].issuedTo=
+                ok.borrower;
+
+            assets[assetNumber].issuedToType=
+                ok.department;
+
+            assets[assetNumber].issuedDate=
+                new Date().toLocaleDateString();
+
+            assets[assetNumber].expectedReturn=
+                ok.returnDate;
+
+        });
+
+        // ============================================
+        // RECALCULATE COUNTERS
+        // ============================================
+
+        let available=0;
+        let issued=0;
+        let damaged=0;
+        let repair=0;
+        let lost=0;
+
+        Object.values(assets).forEach(asset=>{
+
+            switch(asset.status){
+
+                case "Available":
+                    available++;
+                    break;
+
+                case "Issued":
+                case "Borrowed":
+                    issued++;
+                    break;
+
+                case "Damaged":
+                    damaged++;
+                    break;
+
+                case "Repair":
+                    repair++;
+                    break;
+
+                case "Lost":
+                    lost++;
+                    break;
+
+            }
+
+        });
+
+        // ============================================
+        // TRANSACTION LOG
+        // ============================================
+
+        const transactions=item.transactions || [];
+
+        transactions.push({
+
+            action:"Issued",
+
+            borrower:ok.borrower,
+
+            department:ok.department,
+
+            assets:ok.selected,
+
+            qty:ok.selected.length,
+
+            date:Date.now(),
+
+            by:
+            localStorage.getItem("staffName")
+            || "System"
+
+        });
+
+        // ============================================
+        // SAVE
+        // ============================================
+
+        await update(itemRef,{
+
+            assets,
+
+            stock:available,
+
+            available,
+
+            issued,
+
+            damaged,
+
+            repair,
+
+            lost,
+
+            transactions
+
+        });
+
+        closeSweetLoader();
+
+        Swal.fire({
+
+            icon:"success",
+
+            title:"Assets Issued",
+
+            html:`
+
+<b>${ok.selected.length}</b> asset(s) issued successfully.<br><br>
+
+${ok.selected.join("<br>")}
+
+`
+
+        });
+
     }
 
-  });
+    catch(error){
 
-  if (!formValues) return;
+        console.error(error);
 
-  openSweetLoader("Processing Borrow Request...");
+        closeSweetLoader();
 
-  try {
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
 
-    const itemRef =
-      ref(db, `inventory/${schoolId}/${id}`);
-
-    const snap =
-      await get(itemRef);
-
-    if (!snap.exists()) {
-
-      closeSweetLoader();
-
-      Swal.fire("Error", "Item not found", "error");
-
-      return;
     }
 
-    const d = snap.val();
-
-    const currentStock =
-      Number(d.stock || 0);
-
-    const borrowQty =
-      Number(formValues.qty);
-
-    // 🔴 STOCK CHECK
-    if (borrowQty > currentStock) {
-
-      closeSweetLoader();
-
-      Swal.fire(
-        "Error",
-        "Not enough stock available",
-        "error"
-      );
-
-      return;
-    }
-
-    // =========================
-    // ISSUED ARRAY (WHO HAS WHAT)
-    // =========================
-    const issued = d.issued || [];
-
-    issued.push({
-      borrower: formValues.borrower,
-      department: formValues.department,
-      qty: borrowQty,
-      returnDate: formValues.returnDate,
-      date: Date.now()
-    });
-
-    // =========================
-    // TRANSACTIONS (FULL AUDIT)
-    // =========================
-    const transactions = d.transactions || [];
-
-    transactions.push({
-      action: "Borrowed",
-      borrower: formValues.borrower,
-      department: formValues.department,
-      qty: borrowQty,
-      date: Date.now(),
-      by: localStorage.getItem("staffName") || "System"
-    });
-
-    // =========================
-    // UPDATE FIREBASE
-    // =========================
-    await update(itemRef, {
-
-      stock: currentStock - borrowQty,
-
-      issued,
-
-      transactions,
-
-      status:
-        (currentStock - borrowQty) === 0
-        ? "Out Of Stock"
-        : "Borrowed"
-
-    });
-
-    closeSweetLoader();
-
-    Swal.fire(
-      "Success",
-      "Item borrowed successfully",
-      "success"
-    );
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    closeSweetLoader();
-
-    Swal.fire(
-      "Error",
-      error.message,
-      "error"
-    );
-  }
 };
-
 
 window.deleteInventory = async function (id) {
 
@@ -33316,339 +34638,1382 @@ window.deleteAllInventory = async function () {
   }
 
 };
+/* =========================================================
+   INVENTORY HISTORY (ERP VERSION)
+========================================================= */
+
 window.viewInventoryHistory = async function(id){
 
- const schoolId = window.schoolId;
+    const schoolId = window.schoolId;
 
-if (!schoolId) {
-  console.warn("schoolId not ready");
-  return;
-}
+    if(!schoolId){
+        console.warn("schoolId not ready");
+        return;
+    }
 
-  const snap =
-    await get(
-      ref(db,
-      `inventory/${schoolId}/${id}`)
+    const snap = await get(
+        ref(db,`inventory/${schoolId}/${id}`)
     );
 
-  if(!snap.exists()) return;
+    if(!snap.exists()) return;
 
-  const d = snap.val();
+    const item = snap.val();
 
-  const transactions =
-    d.transactions || [];
+    const transactions = item.transactions || [];
 
-  let html = "";
+    let issued = 0;
+    let returned = 0;
+    let repairs = 0;
+    let damaged = 0;
+    let disposed = 0;
 
-  if(transactions.length === 0){
+    let rows = "";
 
-    html = `
-      <div style="
-        padding:20px;
-        text-align:center;
-        color:#64748b;
-      ">
-        No history found
-      </div>
-    `;
+    if(transactions.length){
 
-  } else {
+        transactions
+        .sort((a,b)=>b.date-a.date)
+        .forEach(t=>{
 
-    transactions
-      .sort((a,b)=>b.date-a.date)
-      .forEach(t=>{
+            switch(t.action){
 
-        html += `
-          <div style="
-            padding:12px;
-            border-bottom:1px solid #e5e7eb;
-            text-align:left;
-          ">
+                case "Issued":
+                case "Borrowed":
+                    issued++;
+                    break;
 
-            <div style="
-              font-weight:700;
-              color:#111827;
-            ">
-              ${t.action}
-            </div>
+                case "Returned":
+                case "Asset Returned":
+                    returned++;
+                    break;
 
-            <div>
-              👤 Borrower:
-              <b>${t.borrower || "-"}</b>
-            </div>
+                case "Repair":
+                    repairs++;
+                    break;
 
-            <div>
-              📦 Quantity:
-              <b>${t.qty || 0}</b>
-            </div>
+                case "Damaged":
+                    damaged++;
+                    break;
 
-            <div>
-              🏢 Department:
-              <b>${t.department || "-"}</b>
-            </div>
+                case "Disposed":
+                    disposed++;
+                    break;
 
-            <div>
-              👨💼 Performed By:
-              <b>${t.by || "System"}</b>
-            </div>
+            }
 
-            <div>
-              🕒 ${new Date(
-                t.date
-              ).toLocaleString()}
-            </div>
+            let badge="#2563eb";
 
-          </div>
-        `;
+            if(
+                t.action.includes("Return")
+            ) badge="#16a34a";
 
-      });
+            if(
+                t.action.includes("Damage")
+            ) badge="#dc2626";
 
-  }
+            if(
+                t.action.includes("Repair")
+            ) badge="#f59e0b";
 
-  Swal.fire({
+            if(
+                t.action.includes("Dispose")
+            ) badge="#64748b";
 
-    title: "Inventory History",
+            rows += `
 
-    html,
+<div class="inventory-history-item"
+style="
+padding:15px;
+border-bottom:1px solid #e5e7eb;
+">
 
-    width: 700,
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+flex-wrap:wrap;
+gap:10px;
+">
 
-    confirmButtonText: "Close"
+<span style="
+background:${badge};
+color:white;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+">
 
-  });
+${t.action}
 
-};
+</span>
 
+<small style="color:#64748b;">
+${new Date(t.date).toLocaleString()}
+</small>
 
+</div>
 
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:10px;
+font-size:14px;
+">
 
+<div>
 
+<b>👤 Borrower</b><br>
+${t.borrower || "-"}
 
+</div>
 
+<div>
 
+<b>🏢 Department</b><br>
+${t.department || "-"}
 
+</div>
 
+<div>
 
+<b>📦 Quantity</b><br>
+${t.qty || "-"}
 
+</div>
 
+<div>
 
+<b>🏷 Assets</b><br>
 
-
-
-
-
-
-
-
-
-
-
-
-window.issueInventory = async function(id){
-
-const schoolId = window.schoolId;
-
-if (!schoolId) {
-  console.warn("schoolId not ready");
-  return;
+${
+Array.isArray(t.assets)
+? t.assets.join("<br>")
+: (t.assetNumber || "-")
 }
 
-  const { value } =
-    await Swal.fire({
+</div>
 
-      title:"Issue Stock",
+<div>
 
-      input:"number",
+<b>🔧 Condition</b><br>
 
-      inputLabel:"Quantity To Issue",
+${t.condition || "-"}
 
-      showCancelButton:true
+</div>
+
+<div>
+
+<b>👨‍💼 Performed By</b><br>
+
+${t.by || "System"}
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+        });
+
+    }else{
+
+        rows=`
+
+<div style="
+padding:40px;
+text-align:center;
+color:#64748b;
+">
+
+No transaction history found.
+
+</div>
+
+`;
+
+    }
+
+    Swal.fire({
+
+        title:`📜 ${item.itemName} History`,
+
+        width:1000,
+
+        html:`
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:12px;
+margin-bottom:20px;
+">
+
+<div class="dashboard-card">
+📤
+<h2>${issued}</h2>
+<div>Issued</div>
+</div>
+
+<div class="dashboard-card">
+📥
+<h2>${returned}</h2>
+<div>Returned</div>
+</div>
+
+<div class="dashboard-card">
+🔧
+<h2>${repairs}</h2>
+<div>Repairs</div>
+</div>
+
+<div class="dashboard-card">
+❌
+<h2>${damaged}</h2>
+<div>Damaged</div>
+</div>
+
+<div class="dashboard-card">
+🗑
+<h2>${disposed}</h2>
+<div>Disposed</div>
+</div>
+
+</div>
+
+<input
+id="inventoryHistorySearch"
+placeholder="🔍 Search history..."
+style="
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+margin-bottom:15px;
+">
+
+<div
+id="inventoryHistoryContainer"
+style="
+max-height:500px;
+overflow:auto;
+text-align:left;
+">
+
+${rows}
+
+</div>
+
+`,
+
+        didOpen(){
+
+            document
+            .getElementById("inventoryHistorySearch")
+            .addEventListener("input",function(){
+
+                const q=this.value.toLowerCase();
+
+                document
+                .querySelectorAll(".inventory-history-item")
+                .forEach(card=>{
+
+                    card.style.display=
+                        card.innerText
+                        .toLowerCase()
+                        .includes(q)
+                        ? ""
+                        : "none";
+
+                });
+
+            });
+
+        }
 
     });
 
-  if(!value) return;
-
-  const snap =
-    await get(
-      ref(db,
-      `inventory/${schoolId}/${id}`)
-    );
-
-  if(!snap.exists()) return;
-
-  const d = snap.val();
-
-  const currentQty =
-    Number(d.stock || 0);
-
-  if(Number(value) > currentQty){
-
-    Swal.fire(
-      "Error",
-      "Not enough stock available",
-      "error"
-    );
-
-    return;
-  }
-
-  const newQty =
-    currentQty - Number(value);
-
-  const history =
-    d.history || [];
-
- history.push({
-  action: "Issued",
-  quantity: Number(value),
-  performedBy: localStorage.getItem("staffName") || "System",
-  date: Date.now()
-});
-
-  await update(
-    ref(db,
-    `inventory/${schoolId}/${id}`),
-    {
-      stock: newQty,
-      history
-    }
-  );
-
-  Swal.fire(
-    "Success",
-    "Stock issued successfully",
-    "success"
-  );
 };
-window.viewInventoryReport =
-async function(){
 
-const schoolId = window.schoolId;
 
-if (!schoolId) {
-  console.warn("schoolId not ready");
-  return;
-}
 
-  const snap =
-    await get(
-      ref(db,
-      `inventory/${schoolId}`)
-    );
 
-  if(!snap.exists()) return;
 
-  let totalItems = 0;
-  let borrowed = 0;
-  let lowStock = 0;
-  let value = 0;
 
-  snap.forEach(item=>{
 
-    const d = item.val();
 
-    totalItems +=
-      Number(d.stock || 0);
 
-    value +=
-      Number(
-        d.stock || 0
-      ) *
-      Number(
-        d.unitCost || 0
-      );
 
-    if(
-      d.status ===
-      "Borrowed"
-    ){
-      borrowed++;
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   ISSUE INVENTORY (ERP ASSET VERSION)
+========================================================= */
+
+window.issueInventory = async function (id) {
+
+    const schoolId = window.schoolId;
+
+    if (!schoolId) {
+        Swal.fire("Error", "School session not found", "error");
+        return;
     }
 
-    if(
-      Number(d.stock || 0)
-      <=
-      Number(d.minStock || 5)
-    ){
-      lowStock++;
+    const itemRef = ref(db, `inventory/${schoolId}/${id}`);
+
+    const snap = await get(itemRef);
+
+    if (!snap.exists()) {
+        Swal.fire("Error", "Inventory item not found", "error");
+        return;
     }
 
-  });
+    const d = snap.val();
 
-  Swal.fire({
+    const stock = Number(d.stock || 0);
 
-    title:"Inventory Report",
+    if (stock <= 0) {
+        Swal.fire(
+            "Out of Stock",
+            "There are no available items to issue.",
+            "warning"
+        );
+        return;
+    }
 
-    html:`
+    const { value: formValues } = await Swal.fire({
 
-      📦 Total Stock:
-      <b>${totalItems}</b><br><br>
+        title: `Issue ${d.itemName}`,
 
-      💰 Total Value:
-      <b>KES ${value}</b><br><br>
+        width: 650,
 
-      ⚠️ Low Stock:
-      <b>${lowStock}</b><br><br>
+        html: `
 
-      📤 Borrowed:
-      <b>${borrowed}</b>
+        <input
+            id="issueRecipient"
+            class="swal2-input"
+            placeholder="Issued To">
 
-    `,
+        <input
+            id="issueDepartment"
+            class="swal2-input"
+            placeholder="Department / Office">
 
-    width:500
+        <input
+            id="issueReason"
+            class="swal2-input"
+            placeholder="Reason">
 
-  });
+        <input
+            id="issueQty"
+            type="number"
+            class="swal2-input"
+            placeholder="Quantity"
+            value="1"
+            min="1">
+
+        <select
+            id="issueType"
+            class="swal2-input">
+
+            <option value="Permanent">
+                Permanent Issue
+            </option>
+
+            <option value="Temporary">
+                Temporary Issue
+            </option>
+
+        </select>
+
+        `,
+
+        showCancelButton: true,
+
+        confirmButtonText: "Issue Item",
+
+        preConfirm: () => {
+
+            const recipient =
+                document.getElementById("issueRecipient").value.trim();
+
+            const department =
+                document.getElementById("issueDepartment").value.trim();
+
+            const reason =
+                document.getElementById("issueReason").value.trim();
+
+            const qty =
+                Number(document.getElementById("issueQty").value);
+
+            const type =
+                document.getElementById("issueType").value;
+
+            if (!recipient) {
+
+                Swal.showValidationMessage(
+                    "Enter recipient"
+                );
+
+                return false;
+
+            }
+
+            if (qty <= 0) {
+
+                Swal.showValidationMessage(
+                    "Invalid quantity"
+                );
+
+                return false;
+
+            }
+
+            if (qty > stock) {
+
+                Swal.showValidationMessage(
+                    "Quantity exceeds available stock"
+                );
+
+                return false;
+
+            }
+
+            return {
+                recipient,
+                department,
+                reason,
+                qty,
+                type
+            };
+
+        }
+
+    });
+
+    if (!formValues) return;
+
+    openSweetLoader("Issuing Inventory...");
+
+    try {
+
+        let remaining = formValues.qty;
+
+        const assets = d.assets || {};
+
+        const issuedAssets = [];
+
+        Object.values(assets).forEach(asset => {
+
+            if (
+                remaining > 0 &&
+                asset.status === "Available"
+            ) {
+
+                asset.status =
+                    formValues.type === "Permanent"
+                    ? "Issued"
+                    : "Borrowed";
+
+                asset.issuedTo =
+                    formValues.recipient;
+
+                asset.department =
+                    formValues.department;
+
+                asset.issueReason =
+                    formValues.reason;
+
+                asset.issueDate =
+                    Date.now();
+
+                asset.issueType =
+                    formValues.type;
+
+                issuedAssets.push(asset.assetNumber);
+
+                remaining--;
+
+            }
+
+        });
+
+        const transactions =
+            d.transactions || [];
+
+        transactions.push({
+
+            action: "Issued",
+
+            qty: formValues.qty,
+
+            recipient: formValues.recipient,
+
+            department: formValues.department,
+
+            reason: formValues.reason,
+
+            issueType: formValues.type,
+
+            assetNumbers: issuedAssets,
+
+            by:
+                localStorage.getItem("staffName")
+                || "System",
+
+            date: Date.now()
+
+        });
+
+        await update(itemRef, {
+
+            stock: stock - formValues.qty,
+
+            assets,
+
+            transactions
+
+        });
+
+        closeSweetLoader();
+
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Inventory Issued",
+
+            html: `
+
+            <div style="text-align:left">
+
+                <b>Recipient:</b>
+                ${formValues.recipient}<br><br>
+
+                <b>Issued:</b>
+                ${formValues.qty} item(s)<br><br>
+
+                <b>Asset Numbers</b>
+
+                <div style="
+                    margin-top:8px;
+                    display:flex;
+                    flex-wrap:wrap;
+                    gap:6px;
+                ">
+
+                    ${issuedAssets.map(a => `
+                        <span style="
+                            background:#dbeafe;
+                            color:#1d4ed8;
+                            padding:5px 10px;
+                            border-radius:20px;
+                            font-size:12px;
+                            font-weight:600;
+                        ">
+                            ${a}
+                        </span>
+                    `).join("")}
+
+                </div>
+
+            </div>
+
+            `
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
 
 };
+
+/* =========================================================
+   INVENTORY REPORT (ASSET MANAGEMENT VERSION)
+========================================================= */
+
+window.viewInventoryReport = async function(){
+
+    const schoolId = window.schoolId;
+
+    if (!schoolId) {
+
+        console.warn("schoolId not ready");
+
+        return;
+
+    }
+
+
+    try {
+
+
+        const snap =
+            await get(
+                ref(db,
+                `inventory/${schoolId}`)
+            );
+
+
+        if(!snap.exists()){
+
+            Swal.fire(
+                "No Data",
+                "No inventory records found",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        let totalAssets = 0;
+
+        let available = 0;
+
+        let issued = 0;
+
+        let damaged = 0;
+
+        let repair = 0;
+
+        let disposed = 0;
+
+        let lowStock = 0;
+
+        let totalValue = 0;
+
+
+
+        snap.forEach(item=>{
+
+
+            const d = item.val();
+
+
+
+            const quantity =
+                Number(
+                    d.quantity ||
+                    d.stock ||
+                    0
+                );
+
+
+
+            const assets =
+                d.assets || {};
+
+
+
+            totalAssets += quantity;
+
+
+
+            available +=
+                Object.values(assets)
+                .filter(a =>
+                    a.status === "Available"
+                )
+                .length;
+
+
+
+            issued +=
+                Object.values(assets)
+                .filter(a =>
+                    a.status === "Issued"
+                    ||
+                    a.status === "Borrowed"
+                )
+                .length;
+
+
+
+            damaged +=
+                Object.values(assets)
+                .filter(a =>
+                    a.condition === "Damaged"
+                )
+                .length;
+
+
+
+            repair +=
+                Object.values(assets)
+                .filter(a =>
+                    a.condition === "Repair"
+                )
+                .length;
+
+
+
+            disposed +=
+                Object.values(assets)
+                .filter(a =>
+                    a.status === "Disposed"
+                )
+                .length;
+
+
+
+
+            // FALLBACK FOR OLD ITEMS
+            if(Object.keys(assets).length === 0){
+
+
+                available +=
+                    Number(d.stock || 0);
+
+
+                issued +=
+                    Number(d.issued || 0);
+
+
+            }
+
+
+
+            if(
+                Number(
+                    d.stock ||
+                    0
+                )
+                <=
+                Number(
+                    d.minStock ||
+                    5
+                )
+            ){
+
+                lowStock++;
+
+            }
+
+
+
+            totalValue +=
+
+                Number(
+                    d.quantity ||
+                    d.stock ||
+                    0
+                )
+
+                *
+
+                Number(
+                    d.unitCost ||
+                    0
+                );
+
+
+
+        });
+
+
+
+        Swal.fire({
+
+            title:
+            "📊 Inventory Report",
+
+
+            width:650,
+
+
+            html:`
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                repeat(auto-fit,minmax(180px,1fr));
+                gap:15px;
+                text-align:center;
+            ">
+
+
+            <div class="dashboard-card">
+
+                📦 Total Assets
+
+                <h2>
+                ${totalAssets}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                ✅ Available
+
+                <h2>
+                ${available}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                📤 Issued
+
+                <h2>
+                ${issued}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                ⚠️ Damaged
+
+                <h2>
+                ${damaged}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                🛠 Repair
+
+                <h2>
+                ${repair}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                🗑 Disposed
+
+                <h2>
+                ${disposed}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                📉 Low Stock Items
+
+                <h2>
+                ${lowStock}
+                </h2>
+
+            </div>
+
+
+
+            <div class="dashboard-card">
+
+                💰 Total Value
+
+                <h2>
+
+                KES ${totalValue.toLocaleString()}
+
+                </h2>
+
+            </div>
+
+
+
+            </div>
+
+            `,
+
+
+            confirmButtonText:
+            "Close"
+
+
+        });
+
+
+
+    }
+
+    catch(error){
+
+
+        console.error(error);
+
+
+        Swal.fire(
+
+            "Error",
+
+            error.message,
+
+            "error"
+
+        );
+
+
+    }
+
+
+};
+
+/* =========================================================
+   EDIT INVENTORY ITEM (ASSET AWARE)
+========================================================= */
+
 window.editInventory = async function(id){
 
-  const schoolId = window.schoolId;
+    const schoolId = window.schoolId;
 
-  const snap = await get(
-    ref(db, `inventory/${schoolId}/${id}`)
-  );
+    if(!schoolId){
 
-  if(!snap.exists()) return;
+        Swal.fire(
+            "Error",
+            "School session missing",
+            "error"
+        );
 
-  const d = snap.val();
+        return;
+    }
 
-  const { value } = await Swal.fire({
 
-    title: "Edit Inventory",
+    try{
 
-    html: `
-      <input id="editItem" class="swal2-input" value="${d.itemName || ""}">
-      <input id="editQty" type="number" class="swal2-input" value="${d.stock || 0}">
-      <input id="editCost" type="number" class="swal2-input" value="${d.unitCost || 0}">
-    `,
 
-    showCancelButton: true,
+        const itemRef =
+            ref(
+                db,
+                `inventory/${schoolId}/${id}`
+            );
 
-    preConfirm: () => ({
-      itemName: document.getElementById("editItem").value,
-      stock: Number(document.getElementById("editQty").value),
-      unitCost: Number(document.getElementById("editCost").value)
-    })
 
-  });
+        const snap =
+            await get(itemRef);
 
-  if(!value) return;
 
-  const history = d.history || [];
+        if(!snap.exists()){
 
-  history.push({
-    action: "Edited",
-    date: Date.now()
-  });
+            Swal.fire(
+                "Error",
+                "Inventory item not found",
+                "error"
+            );
 
-  await update(
-    ref(db, `inventory/${schoolId}/${id}`),
-    { ...value, history }
-  );
+            return;
+        }
 
-  Swal.fire("Success", "Item updated", "success");
+
+        const d = snap.val();
+
+
+
+        const currentAssets =
+            d.assets || {};
+
+
+        const currentQuantity =
+            Object.keys(currentAssets).length;
+
+
+
+        const {value}=await Swal.fire({
+
+            title:"✏️ Edit Inventory Item",
+
+            width:600,
+
+            html:`
+
+            <div style="text-align:left">
+
+                <label>
+                    <b>Item Name</b>
+                </label>
+
+                <input
+                id="editItem"
+                class="swal2-input"
+                value="${d.itemName || ""}">
+
+
+                <label>
+                    <b>Total Quantity</b>
+                </label>
+
+                <input
+                id="editQty"
+                type="number"
+                class="swal2-input"
+                value="${currentQuantity}">
+
+
+                <label>
+                    <b>Unit Cost</b>
+                </label>
+
+                <input
+                id="editCost"
+                type="number"
+                class="swal2-input"
+                value="${d.unitCost || 0}">
+
+
+                <label>
+                    <b>Location</b>
+                </label>
+
+                <input
+                id="editLocation"
+                class="swal2-input"
+                value="${d.location || ""}">
+
+
+            </div>
+
+            `,
+
+
+            showCancelButton:true,
+
+
+            confirmButtonText:"Save Changes",
+
+
+            preConfirm:()=>{
+
+
+                const itemName =
+                    document
+                    .getElementById("editItem")
+                    .value.trim();
+
+
+
+                const quantity =
+                    Number(
+                    document
+                    .getElementById("editQty")
+                    .value
+                    );
+
+
+                const unitCost =
+                    Number(
+                    document
+                    .getElementById("editCost")
+                    .value || 0
+                    );
+
+
+                const location =
+                    document
+                    .getElementById("editLocation")
+                    .value.trim();
+
+
+
+                if(!itemName || quantity<=0){
+
+                    Swal.showValidationMessage(
+                        "Enter valid item details"
+                    );
+
+                    return false;
+
+                }
+
+
+                return {
+
+                    itemName,
+                    quantity,
+                    unitCost,
+                    location
+
+                };
+
+            }
+
+        });
+
+
+
+        if(!value) return;
+
+
+
+        openSweetLoader(
+            "Updating Inventory..."
+        );
+
+
+
+        let assets =
+            {...currentAssets};
+
+
+
+        const oldCount =
+            Object.keys(assets).length;
+
+
+
+        // ===============================
+        // ADD NEW ASSETS IF QUANTITY INCREASES
+        // ===============================
+
+
+        if(value.quantity > oldCount){
+
+
+            const prefix =
+                value.itemName
+                .replace(/[^A-Za-z]/g,"")
+                .substring(0,3)
+                .toUpperCase()
+                ||
+                "AST";
+
+
+
+            for(
+                let i=oldCount+1;
+                i<=value.quantity;
+                i++
+            ){
+
+
+                const assetNumber =
+                `${prefix}-${String(i).padStart(4,"0")}`;
+
+
+
+                assets[assetNumber]={
+
+
+                    assetNumber,
+
+
+                    itemNumber:i,
+
+
+                    status:"Available",
+
+
+                    condition:"Good",
+
+
+                    issuedTo:null,
+
+
+                    issuedToType:null,
+
+
+                    issuedDate:null,
+
+
+                    expectedReturn:null,
+
+
+                    returnedDate:null,
+
+
+                    currentLocation:value.location,
+
+
+                    remarks:"Added during edit"
+
+                };
+
+
+            }
+
+
+        }
+
+
+
+        // ===============================
+        // RECALCULATE COUNTS
+        // ===============================
+
+
+        let available=0;
+        let issued=0;
+        let damaged=0;
+
+
+
+        Object.values(assets)
+        .forEach(asset=>{
+
+
+            if(asset.condition==="Damaged"){
+
+                damaged++;
+
+            }
+
+
+            if(asset.status==="Issued"){
+
+                issued++;
+
+            }
+            else{
+
+                available++;
+
+            }
+
+
+        });
+
+
+
+        const transactions =
+            d.transactions || [];
+
+
+
+        transactions.push({
+
+            action:"Edited",
+
+            details:
+            "Inventory details updated",
+
+            date:Date.now(),
+
+            by:
+            localStorage.getItem("staffName")
+            ||
+            "System"
+
+        });
+
+
+
+        await update(
+
+            itemRef,
+
+            {
+
+
+                itemName:value.itemName,
+
+
+                quantity:
+                Object.keys(assets).length,
+
+
+                stock:available,
+
+
+                available,
+
+
+                issued,
+
+
+                damaged,
+
+
+                unitCost:value.unitCost,
+
+
+                location:value.location,
+
+
+                assets,
+
+
+                transactions
+
+            }
+
+        );
+
+
+
+        closeSweetLoader();
+
+
+
+        Swal.fire(
+
+            "Success",
+
+            "Inventory updated successfully",
+
+            "success"
+
+        );
+
+
+
+    }
+
+    catch(error){
+
+
+        console.error(error);
+
+
+        closeSweetLoader();
+
+
+        Swal.fire(
+
+            "Error",
+
+            error.message,
+
+            "error"
+
+        );
+
+    }
+
+
 };
-
 
 /* =========================================================
    🚀 ICT + INVENTORY BORROWING SYSTEM
@@ -34128,80 +36493,139 @@ window.showLibraryTab = function(tabId){
    ✅ Returns Tracking
    ✅ Copies Auto Update
 ========================================================= */
-
 /* =========================================================
-   ADD BOOK
+   ADD BOOK (AUTO GENERATE BOOK NUMBERS)
 ========================================================= */
 
 window.addBook = async function () {
 
-  try {
+    try {
 
-    const schoolId = window.schoolId;
+        const schoolId = window.schoolId;
 
-    if (
-      !bookTitle.value ||
-      !bookAuthor.value ||
-      !bookCategory.value ||
-      !bookQuantity.value
-    ) {
+        if (
+            !bookTitle.value.trim() ||
+            !bookAuthor.value.trim() ||
+            !bookCategory.value.trim() ||
+            !bookQuantity.value
+        ) {
 
-      Swal.fire(
-        "Missing Fields",
-        "Fill all library fields",
-        "warning"
-      );
+            Swal.fire(
+                "Missing Fields",
+                "Fill all library fields",
+                "warning"
+            );
 
-      return;
+            return;
+
+        }
+
+        openSweetLoader("Saving Book...");
+
+        const quantity = Number(bookQuantity.value);
+
+        // ==========================================
+        // CREATE BOOK COPIES
+        // ==========================================
+
+        const copies = {};
+
+        const prefix = bookTitle.value
+            .trim()
+            .substring(0, 3)
+            .toUpperCase();
+
+        for (let i = 1; i <= quantity; i++) {
+
+            const bookNumber =
+                `${prefix}-${String(i).padStart(4, "0")}`;
+
+            copies[bookNumber] = {
+
+                bookNumber,
+
+                copyNumber: i,
+
+                status: "Available",
+
+                borrower: null,
+
+                borrowerAdm: null,
+
+                borrowDate: null,
+
+                dueDate: null,
+
+                returnedDate: null
+
+            };
+
+        }
+
+        // ==========================================
+        // SAVE BOOK
+        // ==========================================
+
+        const data = {
+
+            title: bookTitle.value.trim(),
+
+            author: bookAuthor.value.trim(),
+
+            category: bookCategory.value.trim(),
+
+            isbn: bookISBN.value.trim(),
+
+            quantity,
+
+            available: quantity,
+
+            createdAt: Date.now(),
+
+            copies
+
+        };
+
+ const newRef = await push(
+    ref(db, `library/${schoolId}`),
+    data
+);
+
+console.log("Saved Book ID:", newRef.key);
+console.log("Saved Data:", data);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Success",
+            `${quantity} copies added successfully.`,
+            "success"
+        );
+
+        bookTitle.value = "";
+        bookAuthor.value = "";
+        bookCategory.value = "";
+        bookISBN.value = "";
+        bookQuantity.value = "";
+
+    } catch (error) {
+
+        console.error(error);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
     }
 
-    openSweetLoader("Saving Book...");
-
-    const data = {
-
-      title: bookTitle.value,
-      author: bookAuthor.value,
-      category: bookCategory.value,
-      isbn: bookISBN.value || "",
-
-      quantity: Number(bookQuantity.value),
-
-      available: Number(bookQuantity.value),
-
-      createdAt: Date.now()
-
-    };
-
-    await push(ref(db, `library/${schoolId}`), data);
-
-    closeSweetLoader();
-
-    Swal.fire(
-      "Success",
-      "Book added successfully",
-      "success"
-    );
-
-    bookTitle.value = "";
-    bookAuthor.value = "";
-    bookCategory.value = "";
-    bookISBN.value = "";
-    bookQuantity.value = "";
-
-  } catch (error) {
-
-    console.error(error);
-
-    closeSweetLoader();
-
-    Swal.fire(
-      "Error",
-      error.message,
-      "error"
-    );
-  }
 };
-
+window.borrowBookCopy = function(bookId) {
+    return window.borrowBook(bookId);
+};
 /* =========================================================
    LOAD LIBRARY (ACTION MENU VERSION)
 ========================================================= */
@@ -34254,92 +36678,219 @@ window.loadLibrary = function () {
     snap.forEach(child => {
 
       const d = child.val();
-      const key = child.key;
+const key = child.key;
 
-      const statusBadge =
-        d.available > 0
-          ? `<span style="background:#16a34a;color:white;padding:5px 10px;border-radius:20px;font-size:12px;">Available</span>`
-          : `<span style="background:#dc2626;color:white;padding:5px 10px;border-radius:20px;font-size:12px;">Out Of Stock</span>`;
+// ======================================
+// Calculate Copy Statistics
+// ======================================
 
-      html += `
+const copies = d.copies || {};
 
-      <tr style="border-bottom:1px solid #eee;">
+const totalCopies = Object.keys(copies).length;
 
-        <td style="${tdStyle}">${i++}</td>
+const availableCopies =
+    Object.values(copies).filter(
+        copy => copy.status === "Available"
+    ).length;
 
-        <td style="${tdStyle}">${d.title}</td>
-        <td style="${tdStyle}">${d.author}</td>
-        <td style="${tdStyle}">${d.category}</td>
-        <td style="${tdStyle}">${d.isbn || "-"}</td>
-        <td style="${tdStyle}">
-${d.available}/${d.quantity}
-</td>
+const borrowedCopies =
+    totalCopies - availableCopies;
 
-        <td style="${tdStyle}">
-          ${statusBadge}
-        </td>
+const statusBadge =
+    availableCopies > 0
+        ? `<span style="
+            background:#16a34a;
+            color:white;
+            padding:5px 10px;
+            border-radius:20px;
+            font-size:12px;
+        ">
+            ${availableCopies} Available
+        </span>`
+        : `<span style="
+            background:#dc2626;
+            color:white;
+            padding:5px 10px;
+            border-radius:20px;
+            font-size:12px;
+        ">
+            Out Of Stock
+        </span>`;
 
-        <td style="${tdStyle};position:relative;">
+html += `
 
-          <!-- MAIN ACTION BUTTON -->
-          <button
+<tr style="border-bottom:1px solid #eee;">
+
+    <td style="${tdStyle}">
+        ${i++}
+    </td>
+
+    <td style="${tdStyle}">
+        <strong>${d.title}</strong>
+    </td>
+
+    <td style="${tdStyle}">
+        ${d.author}
+    </td>
+
+    <td style="${tdStyle}">
+        ${d.category}
+    </td>
+
+    <td style="${tdStyle}">
+        ${d.isbn || "-"}
+    </td>
+
+    <td style="${tdStyle}">
+
+        <div style="font-weight:bold;font-size:15px;">
+            ${availableCopies}/${totalCopies}
+        </div>
+
+        <div style="
+            color:#64748b;
+            font-size:12px;
+            margin-top:4px;
+        ">
+
+            📗 Available:
+            ${availableCopies}
+
+            <br>
+
+            📕 Borrowed:
+            ${borrowedCopies}
+
+        </div>
+
+        <button
+            onclick="viewBookCopies('${key}')"
+            style="
+                margin-top:8px;
+                background:#2563eb;
+                color:white;
+                border:none;
+                padding:6px 12px;
+                border-radius:8px;
+                cursor:pointer;
+                font-size:12px;
+                font-weight:600;
+            "
+        >
+
+            📚 View Copies
+
+        </button>
+
+    </td>
+
+    <td style="${tdStyle}">
+        ${statusBadge}
+    </td>
+
+    <td style="${tdStyle};position:relative;">
+
+        <!-- MAIN ACTION BUTTON -->
+
+        <button
             onclick="toggleLibraryActions('${key}', event)"
             style="
-              background:#111827;
-              color:white;
-              border:none;
-              padding:8px 12px;
-              border-radius:8px;
-              cursor:pointer;
-              font-size:12px;
-              font-weight:600;
+                background:#111827;
+                color:white;
+                border:none;
+                padding:8px 12px;
+                border-radius:8px;
+                cursor:pointer;
+                font-size:12px;
+                font-weight:600;
             "
-          >
-            ⚙️ Actions
-          </button>
+        >
 
-          <!-- DROPDOWN -->
-          <div
+            ⚙️ Actions
+
+        </button>
+
+        <!-- DROPDOWN -->
+
+        <div
             id="library-actions-${key}"
             style="
-              display:none;
-              position:fixed;
-              background:white;
-              border:1px solid #e5e7eb;
-              border-radius:10px;
-              min-width:180px;
-              box-shadow:0 10px 25px rgba(0,0,0,0.15);
-              z-index:99999;
-              overflow:hidden;
+                display:none;
+                position:fixed;
+                background:white;
+                border:1px solid #e5e7eb;
+                border-radius:10px;
+                min-width:200px;
+                box-shadow:0 10px 25px rgba(0,0,0,.15);
+                z-index:99999;
+                overflow:hidden;
             "
-          >
+        >
 
             <button
-              onclick="borrowBook('${key}')"
-              style="width:100%;padding:12px;border:none;background:white;text-align:left;cursor:pointer;"
+                onclick="borrowBook('${key}')"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:none;
+                    background:white;
+                    text-align:left;
+                    cursor:pointer;
+                "
             >
-              📚 Borrow
+                📚 Borrow Book
             </button>
 
             <button
-              onclick="viewBorrowings('${key}')"
-              style="width:100%;padding:12px;border:none;background:white;text-align:left;cursor:pointer;"
+                onclick="viewBookCopies('${key}')"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:none;
+                    background:white;
+                    text-align:left;
+                    cursor:pointer;
+                "
             >
-              👀 View Borrowers
+                📖 View All Copies
             </button>
 
             <button
-              onclick="deleteBook('${key}')"
-              style="width:100%;padding:12px;border:none;background:#fee2e2;color:#b91c1c;text-align:left;cursor:pointer;"
+                onclick="viewBorrowings('${key}')"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:none;
+                    background:white;
+                    text-align:left;
+                    cursor:pointer;
+                "
             >
-              🗑️ Delete
+                👥 Borrowing History
             </button>
 
-          </div>
+            <button
+                onclick="deleteBook('${key}')"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:none;
+                    background:#fee2e2;
+                    color:#b91c1c;
+                    text-align:left;
+                    cursor:pointer;
+                "
+            >
+                🗑️ Delete Book
+            </button>
 
-        </td>
+        </div>
 
-      </tr>
+    </td>
+
+</tr>
+
+
 
       `;
     });
@@ -34349,7 +36900,274 @@ ${d.available}/${d.quantity}
     libraryList.innerHTML = html;
   });
 };
+/* =========================================================
+   VIEW ALL BOOK COPIES
+========================================================= */
 
+window.viewBookCopies = function (bookId) {
+
+    const schoolId = window.schoolId;
+
+    onValue(
+        ref(db, `library/${schoolId}/${bookId}`),
+        (snap) => {
+
+            if (!snap.exists()) {
+
+                Swal.fire(
+                    "Not Found",
+                    "Book not found.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+            const book = snap.val();
+
+            const copies = book.copies || {};
+
+            let available = 0;
+            let borrowed = 0;
+
+            let html = `
+
+<h3 style="margin-bottom:5px;">
+
+📚 ${book.title}
+
+</h3>
+
+<div style="
+color:#64748b;
+margin-bottom:15px;
+">
+
+Author:
+<b>${book.author}</b>
+
+<br>
+
+Category:
+<b>${book.category}</b>
+
+</div>
+
+<div style="
+display:flex;
+gap:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+">
+
+<div style="
+flex:1;
+background:#16a34a;
+color:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
+">
+
+<h2 id="availableCopiesCard">0</h2>
+
+<div>Available</div>
+
+</div>
+
+<div style="
+flex:1;
+background:#dc2626;
+color:white;
+padding:15px;
+border-radius:10px;
+text-align:center;
+">
+
+<h2 id="borrowedCopiesCard">0</h2>
+
+<div>Borrowed</div>
+
+</div>
+
+</div>
+
+<div style="
+max-height:450px;
+overflow:auto;
+">
+
+<table style="
+width:100%;
+border-collapse:collapse;
+">
+
+<tr style="
+background:#0f172a;
+color:white;
+">
+
+<th style="padding:10px;">Book No.</th>
+
+<th style="padding:10px;">Copy</th>
+
+<th style="padding:10px;">Status</th>
+
+<th style="padding:10px;">Borrower</th>
+
+<th style="padding:10px;">Borrowed</th>
+
+<th style="padding:10px;">Due</th>
+
+<th style="padding:10px;">Action</th>
+
+</tr>
+
+`;
+
+            Object.values(copies).forEach(copy => {
+
+                const isAvailable =
+                    copy.status === "Available";
+
+                if (isAvailable)
+                    available++;
+                else
+                    borrowed++;
+
+                html += `
+
+<tr style="
+border-bottom:1px solid #eee;
+">
+
+<td style="padding:10px;font-weight:bold;">
+
+${copy.bookNumber}
+
+</td>
+
+<td style="padding:10px;">
+
+${copy.copyNumber}
+
+</td>
+
+<td style="padding:10px;">
+
+${
+isAvailable
+
+?
+
+`<span style="
+color:#16a34a;
+font-weight:bold;
+">
+✅ Available
+</span>`
+
+:
+
+`<span style="
+color:#dc2626;
+font-weight:bold;
+">
+📕 Borrowed
+</span>`
+
+}
+
+</td>
+
+<td style="padding:10px;">
+
+${copy.borrower || "-"}
+
+</td>
+
+<td style="padding:10px;">
+
+${copy.borrowDate || "-"}
+
+</td>
+
+<td style="padding:10px;">
+
+${copy.dueDate || "-"}
+
+</td>
+
+<td style="padding:10px;">
+
+${
+!isAvailable
+
+?
+
+`<button
+onclick="returnBookCopy('${bookId}','${copy.bookNumber}')"
+style="
+background:#2563eb;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+">
+Return
+</button>`
+
+:
+
+`<span style="color:#999;">-</span>`
+
+}
+
+</td>
+
+</tr>
+
+`;
+
+            });
+
+            html += `
+
+</table>
+
+</div>
+
+`;
+
+            Swal.fire({
+
+                title: "📚 Book Copies",
+
+                html,
+
+                width: 1100,
+
+                didOpen: () => {
+
+                    document.getElementById(
+                        "availableCopiesCard"
+                    ).innerText = available;
+
+                    document.getElementById(
+                        "borrowedCopiesCard"
+                    ).innerText = borrowed;
+
+                }
+
+            });
+
+        },
+        { onlyOnce: true }
+    );
+
+};
 window.toggleLibraryActions = function(id, event){
 
   const menuId = `library-actions-${id}`;
@@ -34458,69 +37276,54 @@ window.deleteAllBooks = async function(){
    BORROW BOOK
 ========================================================= */
 
-window.borrowBook = async function(bookId){
+/* =========================================================
+   BORROW BOOK (COPY TRACKING)
+========================================================= */
 
-    try{
+window.borrowBook = async function (bookId) {
+
+    try {
+
+        const schoolId = window.schoolId;
 
         const students = await getStudentsForBorrow();
-
         const teachers = await getTeachersForBorrow();
 
-        const {value:formValues}=await Swal.fire({
+        const { value: formValues } = await Swal.fire({
 
-            title:"Borrow Book",
+            title: "Borrow Book",
 
-            width:650,
+            width: 650,
 
-            html:`
+            html: `
 
             <div style="text-align:left;">
 
                 <label><b>Borrower Type</b></label>
 
-                <select
-                    id="borrowerType"
-                    class="swal2-input">
+                <select id="borrowerType" class="swal2-input">
 
-                    <option value="Student">
+                    <option value="Student">Student</option>
 
-                        Student
-
-                    </option>
-
-                    <option value="Teacher">
-
-                        Teacher
-
-                    </option>
+                    <option value="Teacher">Teacher</option>
 
                 </select>
 
-          <div id="gradeArea">
+                <div id="gradeArea">
 
-<label><b>Grade</b></label>
+                    <label><b>Grade</b></label>
 
-<select
-id="gradeSelectBorrow"
-class="swal2-input">
+                    <select id="gradeSelectBorrow" class="swal2-input">
 
-${buildGradeOptions(students)}
+                        ${buildGradeOptions(students)}
 
-</select>
+                    </select>
 
-</div>
+                </div>
 
-<label id="borrowerLabel">
+                <label><b>Select Borrower</b></label>
 
-<b>Select Learner</b>
-
-</label>
-
-<select
-id="borrowerSelect"
-class="swal2-input">
-
-</select>
+                <select id="borrowerSelect" class="swal2-input"></select>
 
                 <label><b>Due Date</b></label>
 
@@ -34533,27 +37336,41 @@ class="swal2-input">
 
             `,
 
-            didOpen:()=>{
+            didOpen: () => {
 
-                const type=document.getElementById("borrowerType");
+                const type = document.getElementById("borrowerType");
+                const list = document.getElementById("borrowerSelect");
+                const grade = document.getElementById("gradeSelectBorrow");
 
-                const list=document.getElementById("borrowerSelect");
+                function loadStudents() {
 
-                type.onchange=function(){
+                    const selectedGrade = grade.value;
 
-                    if(this.value==="Student"){
+                    list.innerHTML = buildBorrowerOptions(
 
-                        list.innerHTML=
+                        students.filter(s => s.grade == selectedGrade)
 
-                            buildBorrowerOptions(students);
+                    );
 
-                    }
+                }
 
-                    else{
+                loadStudents();
 
-                        list.innerHTML=
+                grade.onchange = loadStudents;
 
-                            buildBorrowerOptions(teachers);
+                type.onchange = function () {
+
+                    if (this.value === "Student") {
+
+                        document.getElementById("gradeArea").style.display = "block";
+
+                        loadStudents();
+
+                    } else {
+
+                        document.getElementById("gradeArea").style.display = "none";
+
+                        list.innerHTML = buildBorrowerOptions(teachers);
 
                     }
 
@@ -34561,51 +37378,31 @@ class="swal2-input">
 
             },
 
-            showCancelButton:true,
+            showCancelButton: true,
 
-            confirmButtonText:"Borrow Book",
+            confirmButtonText: "Borrow Book",
 
-            preConfirm:()=>{
+            preConfirm: () => {
 
-                const type=
+                const option = borrowerSelect.options[borrowerSelect.selectedIndex];
 
-                    document.getElementById("borrowerType").value;
+                if (!option) {
 
-                const select=
-
-                    document.getElementById("borrowerSelect");
-
-                const option=
-
-                    select.options[select.selectedIndex];
-
-                if(!option){
-
-                    Swal.showValidationMessage(
-
-                        "Please select a borrower."
-
-                    );
+                    Swal.showValidationMessage("Please select borrower.");
 
                     return false;
 
                 }
 
-                return{
+                return {
 
-                    borrowerType:type,
+                    borrowerType: borrowerType.value,
 
-                    borrowerName:
+                    borrowerName: option.dataset.name,
 
-                        option.dataset.name,
+                    borrowerAdm: option.dataset.number,
 
-                    borrowerAdm:
-
-                        option.dataset.number,
-
-                    dueDate:
-
-                        document.getElementById("dueDate").value
+                    dueDate: dueDate.value
 
                 };
 
@@ -34613,105 +37410,148 @@ class="swal2-input">
 
         });
 
-        if(!formValues) return;
+        if (!formValues) return;
 
-    openSweetLoader("Borrowing Book...");
+        openSweetLoader("Borrowing Book...");
 
-    const bookRef =
-      ref(db, `library/${schoolId}/${bookId}`);
+        const bookRef = ref(db, `library/${schoolId}/${bookId}`);
 
-    const snap = await get(bookRef);
+        const snap = await get(bookRef);
 
-    if (!snap.exists()) {
+        if (!snap.exists()) {
 
-      closeSweetLoader();
+            closeSweetLoader();
 
-      Swal.fire(
-        "Error",
-        "Book not found",
-        "error"
-      );
+            return Swal.fire("Error", "Book not found", "error");
 
-      return;
-    }
+        }
 
-    const book = snap.val();
+        const book = snap.val();
 
-    if (Number(book.available) <= 0) {
+        const copies = book.copies || {};
 
-      closeSweetLoader();
+        // ======================================
+        // FIND FIRST AVAILABLE COPY
+        // ======================================
 
-      Swal.fire(
-        "Unavailable",
-        "No copies remaining",
-        "warning"
-      );
+        let selectedCopy = null;
 
-      return;
-    }
+        for (const copyNo in copies) {
 
-    /* SAVE BORROW RECORD */
+            if (copies[copyNo].status === "Available") {
 
-    await push(
-      ref(db, `libraryBorrowings/${schoolId}`),
-      {
+                selectedCopy = copyNo;
+
+                break;
+
+            }
+
+        }
+
+        if (!selectedCopy) {
+
+            closeSweetLoader();
+
+            return Swal.fire(
+
+                "Unavailable",
+
+                "No available copies remaining.",
+
+                "warning"
+
+            );
+
+        }
+
+        // ======================================
+        // UPDATE THE COPY
+        // ======================================
+
+        copies[selectedCopy].status = "Borrowed";
+        copies[selectedCopy].borrower = formValues.borrowerName;
+        copies[selectedCopy].borrowerAdm = formValues.borrowerAdm;
+        copies[selectedCopy].borrowerType = formValues.borrowerType;
+        copies[selectedCopy].borrowDate = new Date().toLocaleDateString();
+        copies[selectedCopy].dueDate = formValues.dueDate;
+
+        // ======================================
+        // SAVE BOOK
+        // ======================================
+
+        await update(bookRef, {
+
+            available: Number(book.available) - 1,
+
+            copies
+
+        });
+
+        // ======================================
+        // SAVE BORROW HISTORY
+        // ======================================
+
+       await push(
+    ref(db, `libraryBorrowings/${schoolId}`),
+    {
 
         bookId,
-        bookTitle: book.title,
+        bookTitle,
+        bookNumber,
 
-        borrowerName:
-          formValues.borrowerName,
+        borrowerName,
+        borrowerAdm,
+        borrowerType,
 
-        borrowerAdm:
-          formValues.borrowerAdm,
+        grade:
+            selectedGrade || "",
 
-        borrowerType:
-          formValues.borrowerType,
+        year:
+            new Date().getFullYear(),
 
         borrowDate:
-          new Date().toLocaleDateString(),
+            new Date().toLocaleDateString(),
 
-        dueDate:
-          formValues.dueDate,
+        dueDate,
 
-        returned: false,
+        returned:false,
 
-        createdAt: Date.now()
+        createdAt:Date.now()
 
-      }
-    );
+    }
+);
 
-    /* UPDATE COPIES */
+        closeSweetLoader();
 
-    await update(bookRef, {
+        Swal.fire(
 
-      available:
-        Number(book.available) - 1
+            "Success",
 
-    });
+            `${book.title}<br><br><b>Book Number:</b> ${selectedCopy}<br><br>Borrowed successfully.`,
 
-    closeSweetLoader();
+            "success"
 
-    Swal.fire(
-      "Success",
-      "Book borrowed successfully",
-      "success"
-    );
+        );
 
-  } catch(error) {
+    } catch (error) {
 
-    console.error(error);
+        console.error(error);
 
-    closeSweetLoader();
+        closeSweetLoader();
 
-    Swal.fire(
-      "Error",
-      error.message,
-      "error"
-    );
-  }
-};
-/* =========================================================
+        Swal.fire(
+
+            "Error",
+
+            error.message,
+
+            "error"
+
+        );
+
+    }
+
+};/* =========================================================
    LOAD BORROWERS
 ========================================================= */
 async function getStudentsForBorrow() {
@@ -34848,11 +37688,14 @@ window.viewBorrowings = function(bookId){
 
       }
 
-      let total=0;
-      let returned=0;
-      let html="";
+    let total = 0;
+let returned = 0;
+let html = "";
 
-      html+=`
+const borrowers = {};
+
+html += `
+
 
 <div style="margin-bottom:15px;">
 
@@ -34918,34 +37761,121 @@ padding-right:5px;
 
 `;
 
-      snap.forEach(child=>{
+     snap.forEach(child=>{
 
-        const d=child.val();
+    const d = child.val();
 
-        const key=child.key;
+    const key = child.key;
 
-        if(d.bookId!==bookId) return;
+    // Ignore records for other books
+    if (d.bookId !== bookId) return;
 
-        total++;
+    // Use Admission No. (or name if missing) as unique borrower ID
+    const borrowerId = d.borrowerAdm || d.borrowerName;
 
-        if(d.returned) returned++;
+    // Create borrower only once
+    if (!borrowers[borrowerId]) {
 
-        const initials=(d.borrowerName||"")
-          .split(" ")
-          .map(n=>n[0])
-          .join("")
-          .substring(0,2)
-          .toUpperCase();
+        borrowers[borrowerId] = {
 
-        html+=`
+            name: d.borrowerName,
+            adm: d.borrowerAdm,
+            type: d.borrowerType,
+
+            books: []
+
+        };
+
+    }
+
+    // Store this borrowed book under the borrower
+    borrowers[borrowerId].books.push({
+
+        key: key,
+
+        title: d.bookTitle || "Unknown Book",
+
+        borrowDate: d.borrowDate,
+
+        dueDate: d.dueDate,
+
+        returned: d.returned
+
+    });
+
+    total++;
+
+    if (d.returned) returned++;
+
+ 
+
+      });
+
+      html+=`</div>`;
+Object.values(borrowers).forEach(person => {
+
+    const initials = (person.name || "")
+        .split(" ")
+        .map(n => n[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+    let booksHTML = "";
+
+    let returnedCount = 0;
+
+    person.books.forEach(book => {
+
+        if (book.returned) returnedCount++;
+
+        booksHTML += `
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            padding:10px 0;
+            border-bottom:1px solid #eee;
+        ">
+
+            <div>
+
+                📚 ${book.title}
+
+                <br>
+
+                <small>
+                Borrowed:
+                ${book.borrowDate}
+                </small>
+
+            </div>
+
+            <div>
+
+                ${
+                    book.returned
+                    ? "<span style='color:green'>✅ Returned</span>"
+                    : "<span style='color:red'>📕 Pending</span>"
+                }
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    html += `
 
 <div
 class="borrow-card"
-data-name="${(d.borrowerName||"").toLowerCase()}"
+data-name="${person.name.toLowerCase()}"
 style="
 background:white;
 border-radius:14px;
-padding:15px;
+padding:18px;
 margin-bottom:15px;
 box-shadow:0 5px 15px rgba(0,0,0,.08);
 ">
@@ -34963,16 +37893,16 @@ gap:12px;
 ">
 
 <div style="
-width:50px;
-height:50px;
+width:55px;
+height:55px;
 border-radius:50%;
 background:#2563eb;
-color:white;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:18px;
+color:white;
 font-weight:bold;
+font-size:18px;
 ">
 
 ${initials}
@@ -34982,143 +37912,66 @@ ${initials}
 <div>
 
 <div style="
-font-size:17px;
+font-size:18px;
 font-weight:bold;
 ">
 
-${d.borrowerName}
+${person.name}
+
+</div>
+
+<div style="color:#64748b;">
+
+${person.type}
+
+</div>
+
+<div style="font-size:13px;">
+
+Admission:
+${person.adm}
+
+</div>
+
+</div>
 
 </div>
 
 <div style="
-color:#64748b;
-font-size:13px;
-">
-
-${d.borrowerType}
-
-</div>
-
-</div>
-
-</div>
-
-${
-d.returned
-
-?
-
-`<span style="
-background:#16a34a;
-color:white;
-padding:6px 12px;
-border-radius:30px;
-font-size:12px;
-">
-✅ Returned
-</span>`
-
-:
-
-`<span style="
-background:#dc2626;
-color:white;
-padding:6px 12px;
-border-radius:30px;
-font-size:12px;
-">
-📕 Borrowed
-</span>`
-
-}
-
-</div>
-
-<hr style="margin:12px 0;">
-
-<div style="
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-font-size:14px;
+text-align:right;
 ">
 
 <div>
 
-<b>🆔 Admission</b><br>
-
-${d.borrowerAdm}
+📚 ${person.books.length} Book(s)
 
 </div>
 
 <div>
 
-<b>📅 Borrowed</b><br>
-
-${d.borrowDate}
+✅ ${returnedCount} Returned
 
 </div>
 
-<div>
+<div style="color:#dc2626;">
 
-<b>⏰ Due Date</b><br>
-
-${d.dueDate}
-
-</div>
-
-<div>
-
-<b>Status</b><br>
-
-${d.returned ? "Returned":"Pending"}
+📕 ${person.books.length-returnedCount} Pending
 
 </div>
 
 </div>
 
-${
-!d.returned
-
-?
-
-`
-
-<div style="margin-top:18px;">
-
-<button
-onclick="returnBorrowedBook('${key}','${bookId}')"
-style="
-width:100%;
-background:#2563eb;
-color:white;
-border:none;
-padding:12px;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-">
-
-📚 Return Book
-
-</button>
-
 </div>
 
-`
+<hr>
 
-:""
-
-}
+${booksHTML}
 
 </div>
 
 `;
 
-      });
-
-      html+=`</div>`;
-
+});
       Swal.fire({
 
 title:"📚 Book Borrowing History",
@@ -35197,35 +38050,105 @@ window.loadReturnsCenter = function(){
             closeSweetLoader();
 
             applyReturnsFilters();
-
+populateReturnFilters();
         }
 
     );
 
 }
+function populateReturnFilters() {
 
-function applyReturnsFilters(){
+    const gradeSelect =
+        document.getElementById("returnGradeFilter");
 
-    const search=document
-        .getElementById("returnSearch")
+    const yearSelect =
+        document.getElementById("returnYearFilter");
+
+    if (!gradeSelect || !yearSelect) return;
+
+    const grades = new Set();
+
+    const years = new Set();
+
+    allBorrowings.forEach(item => {
+
+        if (item.grade)
+            grades.add(item.grade);
+
+        if (item.year)
+            years.add(item.year);
+
+    });
+
+    gradeSelect.innerHTML =
+        `<option value="All">All Grades</option>`;
+
+    [...grades]
+    .sort()
+    .forEach(g => {
+
+        gradeSelect.innerHTML +=
+            `<option value="${g}">${g}</option>`;
+
+    });
+
+    yearSelect.innerHTML =
+        `<option value="All">All Years</option>`;
+
+    [...years]
+    .sort()
+    .forEach(y => {
+
+        yearSelect.innerHTML +=
+            `<option value="${y}">${y}</option>`;
+
+    });
+
+}
+function applyReturnsFilters() {
+
+    const search =
+        document.getElementById("returnSearch")
         .value
         .toLowerCase();
 
-    const type=document
-        .getElementById("returnFilter")
+    const type =
+        document.getElementById("returnFilter")
         .value;
 
-    filteredBorrowings=allBorrowings.filter(item=>{
+    const grade =
+        document.getElementById("returnGradeFilter")
+        .value;
 
-        if(item.returned) return false;
+    const year =
+        document.getElementById("returnYearFilter")
+        .value;
 
-        if(type!="All" && item.borrowerType!=type)
+    filteredBorrowings = allBorrowings.filter(item => {
+
+        if (item.returned)
             return false;
 
-        const text=
+        if (type !== "All" &&
+            item.borrowerType !== type)
+            return false;
 
-            (item.borrowerName+" "+item.borrowerAdm+" "+item.bookTitle)
-            .toLowerCase();
+        if (grade !== "All" &&
+            item.grade !== grade)
+            return false;
+
+        if (year !== "All" &&
+            String(item.year) !== year)
+            return false;
+
+        const text = (
+
+            (item.borrowerName || "") + " " +
+            (item.borrowerAdm || "") + " " +
+            (item.bookTitle || "") + " " +
+            (item.bookNumber || "")
+
+        ).toLowerCase();
 
         return text.includes(search);
 
@@ -35234,7 +38157,19 @@ function applyReturnsFilters(){
     renderBorrowings();
 
 }
+document
+.getElementById("returnGradeFilter")
+.addEventListener(
+    "change",
+    applyReturnsFilters
+);
 
+document
+.getElementById("returnYearFilter")
+.addEventListener(
+    "change",
+    applyReturnsFilters
+);
 /* =========================================================
    CALCULATE OVERDUE DAYS
 ========================================================= */
@@ -35309,149 +38244,311 @@ function renderReturnsDashboard(){
 
 }
 
-function renderBorrowings(){
+function renderBorrowings() {
 
     renderReturnsDashboard();
 
-    if(filteredBorrowings.length===0){
+    if (filteredBorrowings.length === 0) {
 
-        returnsContainer.innerHTML=`
-
+        returnsContainer.innerHTML = `
         <div style="
-        padding:40px;
-        text-align:center;
-        color:#888;">
-
+            padding:40px;
+            text-align:center;
+            color:#888;
+        ">
             No active borrowings
-
         </div>`;
 
         return;
-
     }
 
-    let html="";
+    //=========================================
+    // GROUP BY BORROWER
+    //=========================================
 
-    filteredBorrowings.forEach(item=>{
+    const borrowers = {};
 
-        const late=getOverdueInfo(item.dueDate);
+    filteredBorrowings.forEach(item => {
 
-        html+=`
+        const key = item.borrowerAdm || item.borrowerName;
 
-        <div style="
-            background:white;
-            border-radius:14px;
-            padding:18px;
-            margin-bottom:15px;
-            box-shadow:0 4px 10px rgba(0,0,0,.08);
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            flex-wrap:wrap;
-            gap:15px;">
+        if (!borrowers[key]) {
 
-            <div>
+            borrowers[key] = {
 
-                <label>
+                name: item.borrowerName,
+                adm: item.borrowerAdm,
+                type: item.borrowerType,
+                books: []
 
-                    <input
-                        type="checkbox"
-                        ${selectedBorrowings.has(item.id)?"checked":""}
-                        onchange="toggleBorrowSelection('${item.id}')">
+            };
 
-                </label>
+        }
 
-            </div>
-
-            <div style="flex:1;min-width:250px;">
-
-                <h3 style="margin:0;">
-                    ${item.borrowerName}
-                </h3>
-
-                <div style="color:#666;margin-top:6px;">
-
-                    📖 ${item.bookTitle}<br>
-
-                    🆔 ${item.borrowerAdm}<br>
-
-                    👤 ${item.borrowerType}<br>
-
-                    📅 Borrowed:
-                    ${item.borrowDate}<br>
-
-                    ⏰ Due:
-                    ${item.dueDate}
-
-                </div>
-
-                ${
-                    late.overdue
-
-                    ?
-
-                    `<div style="
-                    margin-top:10px;
-                    display:inline-block;
-                    background:#dc2626;
-                    color:white;
-                    padding:6px 12px;
-                    border-radius:20px;">
-
-                        🔴 ${late.days} Day(s) Late
-
-                    </div>`
-
-                    :
-
-                    `<div style="
-                    margin-top:10px;
-                    display:inline-block;
-                    background:#16a34a;
-                    color:white;
-                    padding:6px 12px;
-                    border-radius:20px;">
-
-                        ✅ Active
-
-                    </div>`
-
-                }
-
-            </div>
-
-            <div>
-
-                <button
-                    onclick="returnBorrowedBook('${item.id}','${item.bookId}')"
-                    class="btn btn-success">
-
-                    Return
-
-                </button>
-
-                <br><br>
-
-                <button
-                    onclick="returnAllForLearner('${item.borrowerAdm}')"
-                    class="btn btn-warning">
-
-                    Return All
-
-                </button>
-
-            </div>
-
-        </div>
-
-        `;
+        borrowers[key].books.push(item);
 
     });
 
-    returnsContainer.innerHTML=html;
+    let html = "";
+
+    Object.values(borrowers).forEach(person => {
+
+        const initials = (person.name || "")
+            .split(" ")
+            .map(x => x[0])
+            .join("")
+            .substring(0,2)
+            .toUpperCase();
+
+        html += `
+
+<div style="
+background:white;
+border-radius:18px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.08);
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:20px;
+">
+
+<div style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<div style="
+width:60px;
+height:60px;
+border-radius:50%;
+background:#2563eb;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:20px;
+">
+
+${initials}
+
+</div>
+
+<div>
+
+<h3 style="margin:0;">
+${person.name}
+</h3>
+
+<div style="color:#64748b;">
+${person.type}
+</div>
+
+<div style="font-size:13px;color:#777;">
+Admission: ${person.adm}
+</div>
+
+</div>
+
+</div>
+
+<div style="
+background:#eff6ff;
+padding:10px 18px;
+border-radius:10px;
+font-weight:bold;
+color:#2563eb;
+">
+
+📚 ${person.books.length} Book(s)
+
+</div>
+
+</div>
+
+
+<!-- BOOK GRID -->
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:15px;
+">
+
+`;
+
+        person.books.forEach(item => {
+
+            const late = getOverdueInfo(item.dueDate);
+
+            html += `
+
+<div style="
+border:1px solid #e5e7eb;
+border-radius:12px;
+padding:15px;
+background:#fafafa;
+">
+
+<div style="
+font-size:14px;
+line-height:1.8;
+color:#555;
+">
+
+📚 <b>${item.bookTitle}</b>
+
+<br>
+
+🔖 Book No:
+<b style="
+color:#2563eb;
+font-size:15px;
+">
+${item.bookNumber}
+</b>
+
+<br>
+
+📅 Borrowed:
+<b>${item.borrowDate}</b>
+
+<br>
+
+⏰ Due:
+<b>${item.dueDate}</b>
+
+</div>
+
+<div style="margin-top:12px;">
+
+${late.overdue ?
+
+`<span style="
+background:#dc2626;
+color:white;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+display:inline-block;
+">
+
+🔴 ${late.days} Day(s) Late
+
+</span>`
+
+:
+
+`<span style="
+background:#16a34a;
+color:white;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+display:inline-block;
+">
+
+✅ Active
+
+</span>`
 
 }
 
+</div>
+
+<div style="
+display:flex;
+gap:10px;
+margin-top:18px;
+flex-wrap:wrap;
+">
+
+<button
+onclick="returnBorrowedBook('${item.id}','${item.bookId}')"
+style="
+flex:1;
+background:#16a34a;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+">
+
+↩️ Return
+
+</button>
+
+<button
+onclick="toggleBorrowSelection('${item.id}')"
+style="
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+">
+
+☑️ Select
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+        });
+
+        html += `
+
+</div>
+
+<div style="
+text-align:right;
+margin-top:18px;
+">
+
+<button
+onclick="returnAllForLearner('${person.adm}')"
+style="
+background:#f59e0b;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+font-size:14px;
+">
+
+📦 Return All Books
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+    returnsContainer.innerHTML = html;
+
+}
 window.toggleBorrowSelection=function(id){
 
     if(selectedBorrowings.has(id))
@@ -44982,6 +48079,33 @@ console.log("❌ Registration failed", error);
 });
 
 }
+document.addEventListener("DOMContentLoaded", function () {
+
+    Swal.fire({
+        imageUrl: "https://rasmtech.github.io/Teacher-1-images/Screenshot_20260708_134219_ChatGPT.jpg",
+        imageAlt: "Teacher Swap Kenya",
+        imageWidth: "100%",
+        width: 700,
+
+        showConfirmButton: true,
+        confirmButtonText: "Continue",
+        confirmButtonColor: "#16a34a",
+
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        backdrop: true,
+        padding: 0,
+
+        showClass: {
+            popup: "swalFadeIn"
+        },
+
+        hideClass: {
+            popup: "swalFadeOut"
+        }
+    });
+
+});
 
 </script>
 </body>
