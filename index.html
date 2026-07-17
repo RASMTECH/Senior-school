@@ -2854,48 +2854,96 @@ border-radius:8px;
 background:#f3f4f6;
 
 }
-/* Smooth Premium Entrance */
-.swalFadeIn{
-    animation: swalFadeIn .6s cubic-bezier(.22,.61,.36,1) forwards;
+/* Splash Container */
+.splash-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
 }
 
-/* Smooth Premium Exit */
-.swalFadeOut{
-    animation: swalFadeOut .65s cubic-bezier(.4,0,.2,1) forwards;
+/* Logo Animation */
+.logoZoom{
+    width:180px;
+    height:180px;
+    object-fit:contain;
+    display:block;
+    margin:auto;
+
+    animation:logoSplash 9s ease-in-out forwards;
 }
 
-@keyframes swalFadeIn{
-    from{
-        opacity:0;
-        transform:translateY(25px) scale(.92);
-        filter:blur(8px);
+/* Typing Text */
+.typing{
+    margin-top:25px;
+    width:90%;
+    max-width:700px;
+
+    color:#16a34a;
+    font-size:24px;
+    font-weight:700;
+    font-family:'Segoe UI',sans-serif;
+    line-height:1.6;
+    letter-spacing:1px;
+
+    text-align:center;
+
+    /* Allow the text to wrap instead of hiding */
+    white-space:normal;
+    word-break:break-word;
+
+    min-height:80px;
+
+    border-right:3px solid #16a34a;
+    padding-right:6px;
+
+    animation:blinkCursor .7s infinite;
+}
+
+/* Cursor Blink */
+@keyframes blinkCursor{
+    0%,100%{
+        border-color:#16a34a;
     }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-        filter:blur(0);
+    50%{
+        border-color:transparent;
     }
 }
 
-@keyframes swalFadeOut{
+/* Logo Zoom Animation */
+@keyframes logoSplash{
+
     0%{
-        opacity:1;
+        transform:scale(.2);
+        opacity:0;
+    }
+
+    15%{
         transform:scale(1);
-        filter:blur(0);
+        opacity:1;
     }
 
     40%{
-        opacity:.85;
-        transform:scale(1.03);
+        transform:scale(1.15);
+    }
+
+    60%{
+        transform:scale(1.4);
+    }
+
+    80%{
+        transform:scale(2);
+        opacity:1;
     }
 
     100%{
+        transform:scale(6);
         opacity:0;
-        transform:translateY(-15px) scale(.92);
-        filter:blur(10px);
     }
-}
 
+}
 </style>
 </head>
 
@@ -48082,26 +48130,40 @@ console.log("❌ Registration failed", error);
 document.addEventListener("DOMContentLoaded", function () {
 
     Swal.fire({
-        imageUrl: "https://rasmtech.github.io/Teacher-1-images/Screenshot_20260708_134219_ChatGPT.jpg",
-        imageAlt: "Teacher Swap Kenya",
-        imageWidth: "100%",
-        width: 700,
+        html: `
+            <div class="splash-container">
+                <img src="https://i.imgur.com/43PIBvB.png"
+                     class="logoZoom"
+                     alt="RASM TECH 360">
 
-        showConfirmButton: true,
-        confirmButtonText: "Continue",
-        confirmButtonColor: "#16a34a",
-
+                <div id="typingText" class="typing"></div>
+            </div>
+        `,
+        width: 450,
+        background: "transparent",
+        showConfirmButton: false,
         allowOutsideClick: false,
         allowEscapeKey: false,
-        backdrop: true,
+        backdrop: "#ffffff",
         padding: 0,
+        timer: 9000,
 
-        showClass: {
-            popup: "swalFadeIn"
-        },
+        didOpen: () => {
 
-        hideClass: {
-            popup: "swalFadeOut"
+            const message = "RASM TECH 360 - NUMBER ONE SCHOOL MANAGEMENT SYSTEM";
+            const target = document.getElementById("typingText");
+
+            let i = 0;
+
+            function typeWriter() {
+                if (i < message.length) {
+                    target.innerHTML += message.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 70); // typing speed
+                }
+            }
+
+            typeWriter();
         }
     });
 
