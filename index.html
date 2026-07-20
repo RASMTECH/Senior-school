@@ -28640,7 +28640,64 @@ window.markStaffAttendance = async function (
     );
   }
 };
+window.renderDepartmentStats = function(staffArray = []) {
 
+    const container =
+        document.getElementById("supportDepartmentStats");
+
+    if (!container) return;
+
+    if (!staffArray.length) {
+        container.innerHTML =
+            "<div style='color:#666'>No department data available.</div>";
+        return;
+    }
+
+    const counts = {};
+
+    staffArray.forEach(staff => {
+
+        const dept =
+            (staff.department || "Unassigned").trim();
+
+        counts[dept] = (counts[dept] || 0) + 1;
+
+    });
+
+    let html = "";
+
+    Object.entries(counts)
+        .sort((a,b)=>b[1]-a[1])
+        .forEach(([dept,total])=>{
+
+            html += `
+                <div style="
+                    background:#2563eb;
+                    color:white;
+                    padding:12px;
+                    border-radius:10px;
+                    min-width:180px;
+                    text-align:center;
+                    font-weight:bold;
+                ">
+                    <div style="font-size:15px;">
+                        ${dept}
+                    </div>
+
+                    <div style="
+                        margin-top:8px;
+                        font-size:28px;
+                    ">
+                        ${total}
+                    </div>
+                </div>
+            `;
+
+        });
+
+    container.innerHTML = html;
+
+};
 /* =========================================================
    🧾 MODERN SUPPORT STAFF PAYSLIP
 ========================================================= */
@@ -40314,93 +40371,7 @@ async function(
   });
 
 };
-window.checkCourseAccess = async function(courseId, price){
 
-  try {
-
-    const uid = window.currentUser?.uid;
-
-    if(!uid){
-      return Swal.fire(
-        "Login Required",
-        "Please login first",
-        "warning"
-      );
-    }
-
-    if(price <= 0){
-      return window.openCourse(courseId);
-    }
-
-    console.log("Checking payment...");
-    console.log("UID:", uid);
-    console.log("Course:", courseId);
-
-    const snap = await get(
-      ref(
-        db,
-        `coursePayments/${uid}/${courseId}`
-      )
-    );
-
-    console.log("Payment Exists:", snap.exists());
-
-    if(snap.exists()){
-      return window.openCourse(courseId);
-    }
-
-    Swal.fire({
-      title: "Unlock Course",
-      html: `
-        <input
-          id="coursePhone"
-          class="swal2-input"
-          placeholder="2547XXXXXXXX"
-        >
-      `,
-      showCancelButton:true,
-      confirmButtonText:"Pay Now"
-    }).then(async(result)=>{
-
-      if(!result.isConfirmed) return;
-
-      const phone =
-        document.getElementById("coursePhone")
-        ?.value
-        ?.trim();
-
-      if(!phone){
-        return Swal.fire(
-          "Error",
-          "Phone required",
-          "error"
-        );
-      }
-
-      await window.requestCoursePayment(
-        courseId,
-        price,
-        phone
-      );
-
-    });
-
-  } catch(err){
-
-    console.error(
-      "COURSE ACCESS ERROR:",
-      err
-    );
-
-    Swal.fire(
-      "Error",
-      err.message || "Unable to check course access",
-      "error"
-    );
-
-  }
-
-};
 
 
 // =========================================
@@ -40515,7 +40486,48 @@ window.openCourse = function (id) {
   });
 
 };
+window.toggleCourseLock = async function(courseId){
 
+    const schoolId = window.schoolId;
+
+    const course = window.courses.find(c => c.id === courseId);
+
+    if(!course) return;
+
+    const newStatus = !course.locked;
+
+    try{
+
+        await update(
+            ref(db, `schools/${schoolId}/courses/${courseId}`),
+            {
+                locked: newStatus
+            }
+        );
+
+        course.locked = newStatus;
+
+        renderCourses();
+
+        Swal.fire(
+            "Success",
+            newStatus ? "Course Locked" : "Course Unlocked",
+            "success"
+        );
+
+    }catch(err){
+
+        console.error(err);
+
+        Swal.fire(
+            "Error",
+            err.message,
+            "error"
+        );
+
+    }
+
+};
 window.editCourse = function(id){
 
   const role =
@@ -41397,42 +41409,70 @@ if (!schoolId) {
     );
   }
 };
-// =========================================
-// LOAD ASSIGNMENTS
-// =========================================
-
 window.loadAssignments = async function () {
 
   try {
 
-   const schoolId = window.schoolId;
+    const schoolId = window.schoolId;
 
-if (!schoolId) {
-  throw new Error("School ID missing. Please login again.");
-}
+    if (!schoolId) {
+      throw new Error("School ID missing. Please login again.");
+    }
 
-    if (!schoolId) return;
+    // ==========================
+    // LOAD ASSIGNMENTS
+    // ==========================
 
-    const snapshot = await get(
-      ref(
-        db,
-        `schools/${schoolId}/assignments`
-      )
+    const assignmentSnap = await get(
+      ref(db, `schools/${schoolId}/assignments`)
     );
 
     assignments = [];
 
-    if (snapshot.exists()) {
+    if (assignmentSnap.exists()) {
 
-      snapshot.forEach(child => {
+      assignmentSnap.forEach(child => {
 
         assignments.push({
 
           firebaseId: child.key,
 
-          ...child.val()
+          ...child.val(),
+
+          submissions: [] // always initialize
+
         });
+
       });
+
+    }
+
+    // ==========================
+    // LOAD SUBMISSIONS
+    // ==========================
+
+    const submissionSnap = await get(
+      ref(db, `schools/${schoolId}/assignmentSubmissions`)
+    );
+
+    if (submissionSnap.exists()) {
+
+      submissionSnap.forEach(child => {
+
+        const submission = child.val();
+
+        const assignment = assignments.find(
+          a => a.id === submission.assignmentId
+        );
+
+        if (assignment) {
+
+          assignment.submissions.push(submission);
+
+        }
+
+      });
+
     }
 
     assignments.sort(
@@ -41444,23 +41484,26 @@ if (!schoolId) {
     window.renderAssignments();
 
     const totalAssignments =
-      document.getElementById(
-        "totalAssignments"
-      );
+      document.getElementById("totalAssignments");
 
     if (totalAssignments) {
 
       totalAssignments.textContent =
         assignments.length;
+
     }
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(
       "LOAD_ASSIGNMENTS_ERROR:",
       error
     );
+
   }
+
 };
 
 
@@ -41506,31 +41549,14 @@ window.renderAssignments = function () {
   }
 
   // LOOP ASSIGNMENTS
+let html = "";
   assignments.forEach(a => {
 
     const dueDate = new Date(a.deadline);
     const now = new Date();
     const expired = now > dueDate;
 
-    // QUESTIONS DISPLAY
-    const questionsHTML =
-      a.questions.map((q, index) => `
-        <div style="
-          margin-bottom:15px;
-          padding:14px;
-          background:#f8fafc;
-          border-radius:10px;
-        ">
-          <b>Question ${index + 1}</b>
-
-          <div style="
-            margin-top:8px;
-            line-height:1.7;
-          ">
-            ${escapeHtml(q)}
-          </div>
-        </div>
-      `).join("");
+   
 
     // DYNAMIC FLOW
     const dynamicAnswersHTML = `
@@ -41592,7 +41618,7 @@ window.renderAssignments = function () {
       </div>
     `;
 
-    container.innerHTML += `
+    html += `
 
       <div style="
         background:#ffffff;
@@ -41639,10 +41665,7 @@ window.renderAssignments = function () {
           ⏱ Duration: ${a.duration} Minutes
         </p>
 
-        <!-- QUESTIONS -->
-        <div style="margin-top:15px;color:#334155;">
-          ${questionsHTML}
-        </div>
+      
 
         <!-- STATS (HIDDEN FROM PARENTS) -->
         ${isTeacher ? `
@@ -41657,8 +41680,10 @@ window.renderAssignments = function () {
         </div>
         ` : ""}
 
-        <!-- STUDENT AREA -->
-        <div id="submissionArea-${a.id}" style="
+       ${!isTeacher ? `
+
+<!-- STUDENT AREA -->
+<div id="submissionArea-${a.id}" style="
           margin-top:18px;
           padding-top:18px;
           border-top:1px solid #e2e8f0;
@@ -41740,9 +41765,11 @@ window.renderAssignments = function () {
             📤 Submit Answers
           </button>
 
-        </div>
+      </div>
 
-        <!-- TEACHER ONLY ACTIONS -->
+` : ""}
+
+<!-- TEACHER ONLY ACTIONS -->
         ${isTeacher ? `
         <div style="
           margin-top:20px;
@@ -41789,7 +41816,12 @@ window.renderAssignments = function () {
 
     `;
   });
-};// =========================================
+
+container.innerHTML = html;
+
+};
+
+// =========================================
 // SUBMIT ASSIGNMENT
 // FIREBASE COMPLIANT
 // =========================================
@@ -48168,7 +48200,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ==========================================
+// SMART SCROLL - Scroll wherever mouse is
+// ==========================================
 
+document.addEventListener("wheel", function (e) {
+
+    const scrollable = e.target.closest(
+        ".sidebar-scroll, .submenu, .table-responsive, .table-wrapper, .table-container"
+    );
+
+    if (!scrollable) return;
+
+    const canScroll =
+        scrollable.scrollHeight > scrollable.clientHeight ||
+        scrollable.scrollWidth > scrollable.clientWidth;
+
+    if (!canScroll) return;
+
+    e.preventDefault();
+
+    scrollable.scrollBy({
+        top: e.deltaY,
+        left: e.deltaX,
+        behavior: "auto"
+    });
+
+}, { passive: false });
 </script>
 </body>
 </html>
