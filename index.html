@@ -2352,26 +2352,6 @@ font-size:14px;
 .print-only{
   display:none;
 }
-
-/* Visible only when printing */
-@media print{
-
-  .print-only{
-    display:block !important;
-  }
-
-  .school-stamp{
-    display:block !important;
-    border:3px solid #0056b3 !important;
-    color:#0056b3 !important;
-    background:white !important;
-    page-break-inside:avoid;
-
-    /* Ensures blue prints in Chrome/Edge */
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-}
 .modal-box {
   position: relative;
 }
@@ -16467,10 +16447,10 @@ function renderMarksTable(learners, append = false) {
 
       }
 
-      subjectCells += `
-        <td>${value ?? "-"}</td>
-        <td>${value != null ? getLevel(value) : "-"}</td>
-      `;
+  subjectCells += `
+    <td>${value ?? "-"}</td>
+    <td>${value != null ? getLevelDisplay(value) : "-"}</td>
+`;
 
     });
 
@@ -16569,7 +16549,21 @@ function getLevel(score) {
     return 1;
 
 }
+const levelLabels = {
+    8: "8(EE1)",
+    7: "7(EE2)",
+    6: "6(ME2)",
+    5: "5(ME1)",
+    4: "4(AE2)",
+    3: "3(AE1)",
+    2: "2(BE2)",
+    1: "1(BE1)"
+};
 
+function getLevelDisplay(score) {
+    const level = getLevel(score);
+    return levelLabels[level] || "-";
+}
 
 // =========================================================
 // 🚀 STUDENT POINTS (DYNAMIC SUBJECTS)
@@ -18001,37 +17995,45 @@ gap:20px;
 <b>Principal:</b> ${reportMeta.principal}</p>
 
 </div>
-      <!-- RIGHT SIDE (STAMP) -->
-<div style="
-  border:2px solid #003399;
- color: #003399;
-  padding:10px 15px;
-  border-radius:8px;
-  font-weight:bold;
-  font-size:13px;
-  line-height:1.4;
-  text-align:left;
+<!-- RIGHT SIDE (STAMP) -->
+<div class="school-stamp" style="
+    display:inline-block;
+    align-self:flex-start;
 
-  transform: rotate(-2deg);
+    border:2px solid #003399;
+    color:#003399;
+    background:#fff;
 
-  text-transform:uppercase;
-  letter-spacing:1px;
-  min-width:180px;
+    padding:8px 14px;
+
+    border-radius:8px;
+
+    font-weight:700;
+    font-size:13px;
+    line-height:1.25;
+
+    text-align:left;
+
+    transform:rotate(-2deg);
+
+    text-transform:uppercase;
+    letter-spacing:.5px;
+
+    white-space:nowrap;
+
+    box-sizing:border-box;
+
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
 ">
 
-  ${
-    window.currentSchool?.name ||
-    "School Name"
-  }<br>
+    <div>${window.currentSchool?.name || "School Name"}</div>
 
-  ${
-    window.currentSchool?.address ||
-    ""
-  }<br>
+    <div>${window.currentSchool?.address || ""}</div>
 
-  ICT Department<br>
+    <div>ICT Department</div>
 
-  Date: ${printDate}
+    <div>Date: ${printDate}</div>
 
 </div>
 
@@ -18039,7 +18041,6 @@ gap:20px;
 
 </div>
 `;
-
         index++;
         setTimeout(renderNext, 30);
       }
@@ -20336,7 +20337,9 @@ window.addEventListener("scroll", () => {
   if (nearBottom) {
     renderNextStudentsBatch();
   }
-});async function generateSubjectPerformance(selectedGrade, selectedExamPeriod) {
+});
+
+async function generateSubjectPerformance(selectedGrade, selectedExamPeriod) {
 
   // ===============================
   // 🔥 FORCE READ FROM UI
@@ -22505,20 +22508,52 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
 }));
 
-  // ================= LEVEL FUNCTION =================
-  function getLevel(score) {
+// ================= LEVEL FUNCTION =================
+function getLevel(score) {
 
-    if (score >= 90) return "8";
-    if (score >= 75) return "7";
-    if (score >= 58) return "6";
-    if (score >= 41) return "5";
-    if (score >= 31) return "4";
-    if (score >= 21) return "3";
-    if (score >= 11) return "2";
+    score = Number(score);
 
-    return "BE 1";
-  }
+    if (score >= 90) return 8;
+    if (score >= 75) return 7;
+    if (score >= 58) return 6;
+    if (score >= 41) return 5;
+    if (score >= 31) return 4;
+    if (score >= 21) return 3;
+    if (score >= 11) return 2;
 
+    return 1;
+}
+
+// Display labels only
+const levelLabels = {
+    8: "8(EE1)",
+    7: "7(EE2)",
+    6: "6(ME2)",
+    5: "5(ME1)",
+    4: "4(AE2)",
+    3: "3(AE1)",
+    2: "2(BE2)",
+    1: "1(BE1)"
+};
+
+function getLevelDisplay(score) {
+    return levelLabels[getLevel(score)] || "-";
+}
+function getLevelName(score) {
+
+    const names = {
+        8: "EE1",
+        7: "EE2",
+        6: "ME2",
+        5: "ME1",
+        4: "AE2",
+        3: "AE1",
+        2: "BE2",
+        1: "BE1"
+    };
+
+    return names[getLevel(score)] || "-";
+}
   // ================= FILTERS =================
   const grade =
     (
@@ -22625,16 +22660,16 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
   subjects.forEach(subject => {
 
-    levelSummary[subject.key] = {
-      "8": 0,
-      "7": 0,
-      "6": 0,
-      "5": 0,
-      "4": 0,
-      "3": 0,
-      "2": 0,
-      "BE 1": 0
-    };
+   levelSummary[subject.key] = {
+  8: 0,
+  7: 0,
+  6: 0,
+  5: 0,
+  4: 0,
+  3: 0,
+  2: 0,
+  1: 0
+};
 
     learners.forEach(l => {
 
@@ -22776,7 +22811,7 @@ ${window.getSchoolPrintHeader("MERIT LIST REPORT")}
   subjects.forEach(s => {
 
     html += `
-      <th colspan="2"
+      <th colspan="3"
           class="subhead">
           ${s.name}
       </th>
@@ -22791,13 +22826,14 @@ ${window.getSchoolPrintHeader("MERIT LIST REPORT")}
 <tr>
 `;
 
-  subjects.forEach(() => {
+subjects.forEach(() => {
 
     html += `
-      <th>Score</th>
-      <th>Level</th>
+      <th>Sco</th>
+      <th>Pts</th>
+      <th>Lev</th>
     `;
-  });
+});
 
   html += `
 </tr>
@@ -22851,10 +22887,18 @@ const score =
     ? Number(value)
     : "";
 
-      html += `
+    html += `
 
 <td>${score}</td>
-<td>${score === "" ? "" : getLevel(score)}</td>
+
+<td>
+    ${score === "" ? "" : getLevel(score)}
+</td>
+
+<td>
+    ${score === "" ? "" : getLevelName(score)}
+</td>
+
 `;
     });
 
@@ -22881,6 +22925,7 @@ const score =
     html += `
 <td>${totals[s.key]}</td>
 <td>-</td>
+<td>-</td>
 `;
   });
 
@@ -22904,6 +22949,7 @@ const score =
     html += `
 <td>${avg(totals[s.key])}</td>
 <td>-</td>
+<td>-</td>
 `;
   });
 
@@ -22926,14 +22972,14 @@ const score =
 <thead>
 <tr>
 <th>Subject</th>
-<th>Level 8</th>
-<th>Level 7</th>
-<th>Level 6</th>
-<th>Level 5</th>
-<th>Level 4</th>
-<th>Level 3</th>
-<th>Level 2</th>
-<th>BE 1</th>
+<th>8 (EE1)</th>
+<th>7 (EE2)</th>
+<th>6 (ME2)</th>
+<th>5 (ME1)</th>
+<th>4 (AE2)</th>
+<th>3 (AE1)</th>
+<th>2 (BE2)</th>
+<th>1 (BE1)</th>
 </tr>
 </thead>
 
@@ -22949,15 +22995,14 @@ const score =
 <td class="subject-name">
   ${subject.name}
 </td>
-
-<td>${levelSummary[subject.key]["8"]}</td>
-<td>${levelSummary[subject.key]["7"]}</td>
-<td>${levelSummary[subject.key]["6"]}</td>
-<td>${levelSummary[subject.key]["5"]}</td>
-<td>${levelSummary[subject.key]["4"]}</td>
-<td>${levelSummary[subject.key]["3"]}</td>
-<td>${levelSummary[subject.key]["2"]}</td>
-<td>${levelSummary[subject.key]["BE 1"]}</td>
+<td>${levelSummary[subject.key][8]}</td>
+<td>${levelSummary[subject.key][7]}</td>
+<td>${levelSummary[subject.key][6]}</td>
+<td>${levelSummary[subject.key][5]}</td>
+<td>${levelSummary[subject.key][4]}</td>
+<td>${levelSummary[subject.key][3]}</td>
+<td>${levelSummary[subject.key][2]}</td>
+<td>${levelSummary[subject.key][1]}</td>
 
 </tr>
 `;
@@ -23155,16 +23200,36 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
 }));
 
-  function getLevel(score) {
-    if (score >= 90) return "EE 1";
-    if (score >= 75) return "EE 2";
-    if (score >= 58) return "ME 1";
-    if (score >= 41) return "ME 2";
-    if (score >= 31) return "AE 1";
-    if (score >= 21) return "AE 2";
-    if (score >= 11) return "BE 1";
-    return "BE 2";
-  }
+ function getLevel(score) {
+
+    score = Number(score);
+
+    if (score >= 90) return 8;
+    if (score >= 75) return 7;
+    if (score >= 58) return 6;
+    if (score >= 41) return 5;
+    if (score >= 31) return 4;
+    if (score >= 21) return 3;
+    if (score >= 11) return 2;
+
+    return 1;
+}
+
+function getLevelName(score) {
+
+    const names = {
+        8: "EE1",
+        7: "EE2",
+        6: "ME2",
+        5: "ME1",
+        4: "AE2",
+        3: "AE1",
+        2: "BE2",
+        1: "BE1"
+    };
+
+    return names[getLevel(score)] || "";
+}
 
   // ===============================
   // 🔥 FILTER + COMPUTE
@@ -23316,30 +23381,20 @@ learnerCount++;
     </style>
 
  ${window.getSchoolPrintHeader("COMBINED MARKS REPORT")}
-
 <div style="
-  margin-bottom:20px;
-  text-align:center;
-  font-size:14px;
+    margin:10px 0 20px;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
 ">
 
-  <p>
-    <strong>Year:</strong>
-    ${year}
-  </p>
-
-  <p>
-    <strong>Grade:</strong>
-    ${rawGrade || 'All Grades'}
-  </p>
-
-  <p>
-    <strong>Exam Period:</strong>
-    ${periodFromUI || 'All Periods'}
-  </p>
+    Year: ${year}
+    &nbsp;/&nbsp;
+    Grade: ${rawGrade || "All Grades"}
+    &nbsp;/&nbsp;
+    Exam Period: ${rawPeriod || "All Periods"}
 
 </div>
-
     <table class="report-table">
       <thead>
         <tr>
@@ -23349,8 +23404,8 @@ learnerCount++;
   `;
 
   subjects.forEach(s => {
-    html += `<th colspan="2" class="subhead">${s.name}</th>`;
-  });
+    html += `<th colspan="3" class="subhead">${s.name}</th>`;
+});
 
   html += `
           <th rowspan="2">Total</th>
@@ -23359,9 +23414,15 @@ learnerCount++;
         <tr>
   `;
 
-  subjects.forEach(() => {
-    html += `<th>Score</th><th>Level</th>`;
-  });
+ subjects.forEach(() => {
+
+    html += `
+        <th>Score</th>
+        <th>Pts</th>
+        <th>Lev</th>
+    `;
+
+});
 
   html += `</tr></thead><tbody>`;
 
@@ -23378,18 +23439,23 @@ learnerCount++;
         <td class="name-cell">${l.name}</td>
         <td>${l.grade}</td>
     `;
-
 subjects.forEach(s => {
 
     const mark = l[s.key];
 
     html += `
         <td>${mark ?? ""}</td>
-        <td>${mark != null ? getLevel(mark) : ""}</td>
+
+        <td>
+            ${mark != null ? getLevel(mark) : ""}
+        </td>
+
+        <td>
+            ${mark != null ? getLevelName(mark) : ""}
+        </td>
     `;
 
 });
-
     html += `
         <td><b>${l.totalMarks}</b></td>
         <td><b>${avg}</b></td>
@@ -23410,7 +23476,11 @@ subjects.forEach(s => {
 
     }, 0);
 
-    html += `<td>${total}</td><td>-</td>`;
+    html += `
+    <td>${total}</td>
+    <td>-</td>
+    <td>-</td>
+`;
 
 });
 
@@ -23437,10 +23507,11 @@ subjects.forEach(s => {
 
     const entered = learnersData.filter(learner => learner[s.key] != null).length;
 
-    html += `
-        <td>${entered ? (total / entered).toFixed(2) : ""}</td>
-        <td>-</td>
-    `;
+  html += `
+    <td>${entered ? (total / entered).toFixed(2) : ""}</td>
+    <td>-</td>
+    <td>-</td>
+`;
 
 });
 
