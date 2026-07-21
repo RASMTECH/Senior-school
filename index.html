@@ -23209,10 +23209,8 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
   if (!gradeMatch || !periodMatch) return;
 const learner = {
-
     name: l.name,
     grade: l.grade
-
 };
 
 let total = 0;
@@ -23220,19 +23218,25 @@ let enteredSubjects = 0;
 
 subjects.forEach(subject => {
 
-    const value = l.marks?.[subject.key];
+    const rawValue = l.marks?.[subject.key];
 
     if (
-        value !== undefined &&
-        value !== null &&
-        value !== ""
+        rawValue !== undefined &&
+        rawValue !== null &&
+        rawValue !== ""
     ) {
 
-        learner[subject.key] = Number(value);
+        const mark = Number(rawValue);
 
-        total += Number(value);
+        learner[subject.key] = mark;
+
+        total += mark;
 
         enteredSubjects++;
+
+    } else {
+
+        learner[subject.key] = null;
 
     }
 
@@ -23240,17 +23244,15 @@ subjects.forEach(subject => {
 
 learner.totalMarks = total;
 
+learner.enteredSubjects = enteredSubjects;
+
 learner.average =
-    enteredSubjects
+    enteredSubjects > 0
         ? total / enteredSubjects
         : 0;
- learner.totalMarks =
-      learner.eng + learner.math + learner.preTech +
-      learner.kiswahili + learner.science + learner.social +
-      learner.agriculture + learner.cre + learner.creativeArt;
 
-    learnersData.push(learner);
-    learnerCount++;
+learnersData.push(learner);
+learnerCount++;
   });
 
   if (!learnersData.length) {
@@ -23395,10 +23397,11 @@ subjects.forEach(s => {
     `;
   });
 
-  // ===============================
-  // TOTALS + AVERAGES (UNCHANGED)
-  // ===============================
-  html += `<tr class="total-row"><td colspan="3">TOTALS</td>`;
+// ===============================
+// TOTALS + AVERAGES
+// ===============================
+html += `<tr class="total-row"><td colspan="3">TOTALS</td>`;
+
 subjects.forEach(s => {
 
     const total = learnersData.reduce((sum, learner) => {
@@ -23411,11 +23414,18 @@ subjects.forEach(s => {
 
 });
 
-  const grandTotal = learnersData.reduce((sum, l) => sum + l.totalMarks, 0);
+const grandTotal = learnersData.reduce((sum, learner) => {
 
-  html += `<td>${grandTotal}</td><td>-</td></tr>`;
+    return sum + Number(learner.totalMarks || 0);
 
-  html += `<tr class="avg-row"><td colspan="3">AVERAGE</td>`;
+}, 0);
+
+html += `<td>${grandTotal}</td><td>-</td></tr>`;
+
+// ===============================
+// AVERAGES
+// ===============================
+html += `<tr class="avg-row"><td colspan="3">AVERAGE</td>`;
 
 subjects.forEach(s => {
 
@@ -23433,9 +23443,14 @@ subjects.forEach(s => {
     `;
 
 });
-  html += `<td>${(grandTotal / learnerCount).toFixed(2)}</td><td>-</td></tr>`;
 
-  html += "</tbody></table>";
+const overallAverage = learnerCount > 0
+    ? grandTotal / learnerCount
+    : 0;
+
+html += `<td>${overallAverage.toFixed(2)}</td><td>-</td></tr>`;
+
+html += "</tbody></table>";
 
   container.innerHTML = html;
 
@@ -41821,11 +41836,7 @@ container.innerHTML = html;
 
 };
 
-// =========================================
-// SUBMIT ASSIGNMENT
-// FIREBASE COMPLIANT
-// =========================================
-// =========================================
+
 // SUBMIT ASSIGNMENT
 // FIREBASE COMPLIANT
 // =========================================
