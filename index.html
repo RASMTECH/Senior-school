@@ -177,23 +177,30 @@ body{
 
 .sidebar-scroll{
 
-  flex:1;
+    flex:1;
 
-  overflow-y:auto;
-  overflow-x:hidden;
+    overflow-y:auto;
+    overflow-x:hidden;
 
-  padding:15px 12px 30px;
+    padding:15px 12px 30px;
 
-  scroll-behavior:smooth;
+    scroll-behavior:auto;
 
-  -webkit-overflow-scrolling:touch;
+    -webkit-overflow-scrolling:touch;
 
-  scrollbar-width:thin;
+    overscroll-behavior:contain;
 
-  scrollbar-color:#475569 transparent;
+    scrollbar-width:thin;
+    scrollbar-color:#64748b transparent;
 
 }
+.sidebar,
+.sidebar-scroll{
 
+    will-change:scroll-position;
+    contain:layout paint;
+
+}
 /* Chrome */
 
 .sidebar-scroll::-webkit-scrollbar{
@@ -305,12 +312,11 @@ body{
 .sidebar button:hover,
 .dropdown:hover{
 
-  background:#2563eb;
+    background:#2563eb;
 
-  transform:translateX(4px);
+    transform:none;
 
-  box-shadow:
-      0 8px 18px rgba(37,99,235,.25);
+    box-shadow:none;
 
 }
 
@@ -2922,6 +2928,88 @@ background:#f3f4f6;
         transform:scale(6);
         opacity:0;
     }
+
+}
+/* ===========================================
+   CERTIFICATE PRINT STYLES
+=========================================== */
+
+.certificate-page{
+    width:1120px;
+    min-height:500px;
+    margin:20px auto;
+    background:#fff;
+    box-sizing:border-box;
+
+    /* Prevent certificate from splitting */
+    page-break-inside:avoid;
+    break-inside:avoid;
+}
+
+/* Add page break ONLY between certificates */
+.certificate-page:not(:last-child){
+    page-break-after:always;
+    break-after:page;
+}
+
+@media print{
+
+    html,
+    body{
+
+        margin:0 !important;
+        padding:0 !important;
+        background:#fff !important;
+
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+
+    }
+
+    @page{
+
+        size:A4 landscape;
+        margin:8mm;
+
+    }
+
+    /* Remove any extra margins/padding */
+    *{
+        margin-top:0;
+    }
+
+    .certificate-page{
+
+        width:100%;
+        margin:0 auto;
+
+        page-break-inside:avoid;
+        break-inside:avoid;
+
+    }
+
+    /* Page break after every certificate except the last */
+    .certificate-page:not(:last-child){
+
+        page-break-after:always;
+        break-after:page;
+
+    }
+
+    /* Never create a blank page after the final certificate */
+    .certificate-page:last-child{
+
+        page-break-after:auto;
+        break-after:auto;
+
+    }
+
+}
+.certificate-page,
+.certificate-page *{
+
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
 
 }
 </style>
@@ -5556,9 +5644,13 @@ width:100%;
 
     <div class="action-panel">
 
-      <button onclick="generateCertificates()" class="action-btn btn-gold">
-        🎓 Top 5 Certificates
-      </button>
+      <button
+    class="action-btn btn-gold"
+    data-target="certificatesSection">
+
+    🎓 Top 5 Certificates
+
+</button>
 
       <button class="action-btn btn-performance"
         data-target="performanceSection">
@@ -5686,10 +5778,6 @@ width:100%;
   <div id="reportOutput"></div>
 </div>
 
-<div id="printAssessmentReport" class="section" style="display:none; padding:20px;">
-  <h2>🖨️ Print Assessment Report</h2>
-  <div id="printAssessmentContent"></div>
-</div>
 
 
 <div id="marksStatus" class="section" style="display:none; padding:20px;">
@@ -5718,9 +5806,86 @@ T
 </div>
 
 <div id="certificatesSection" class="section" style="display:none; padding:20px;">
-  <h2>🎓 Top 5 Certificates</h2>
-  <div id="certificatesContent"></div>
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:20px;
+        flex-wrap:wrap;
+        gap:15px;
+    ">
+
+        <h2 style="
+            margin:0;
+            font-size:30px;
+            font-weight:700;
+            color:#1f2937;
+        ">
+            🎓 Top 5 Certificates
+        </h2>
+
+        <button
+            id="printCertificatesBtn"
+            onclick="printCertificates()"
+            style="
+                display:none;
+                align-items:center;
+                justify-content:center;
+                gap:10px;
+
+                padding:14px 28px;
+
+                background:linear-gradient(135deg,#16a34a,#22c55e);
+                color:#fff;
+
+                border:none;
+                border-radius:50px;
+
+                font-size:17px;
+                font-weight:700;
+
+                cursor:pointer;
+
+                box-shadow:0 8px 25px rgba(22,163,74,.45);
+
+                transition:all .25s ease;
+
+                white-space:nowrap;
+
+                z-index:999;
+            "
+
+            onmouseover="
+                this.style.transform='translateY(-3px) scale(1.03)';
+                this.style.boxShadow='0 14px 35px rgba(22,163,74,.55)';
+            "
+
+            onmouseout="
+                this.style.transform='translateY(0) scale(1)';
+                this.style.boxShadow='0 8px 25px rgba(22,163,74,.45)';
+            "
+
+            onmousedown="
+                this.style.transform='scale(.96)';
+            "
+
+            onmouseup="
+                this.style.transform='translateY(-3px) scale(1.03)';
+            "
+
+        >
+            🖨️ Print Certificates
+        </button>
+
+    </div>
+
+    <div id="certificateContent"></div>
+
 </div>
+
+
+
 
 <div id="groupByPathways" class="section" style="display:none; padding:20px;">
  
@@ -14960,7 +15125,8 @@ const feeBreakdown = Object.entries(feesObj)
           Thank you for your payment 🙏
         </div>
 
-        <button class="btn" onclick="window.print()">🖨️ Print Receipt</button>
+        <button class="btn" 
+>🖨️ Print Receipt</button>
 
       </div>
 
@@ -17603,6 +17769,78 @@ window.submitReportMeta = function () {
     }
 
 };
+
+function calculateLearnerPathways(learner) {
+
+    const pathways = {
+        STEM: ['eng', 'math', 'preTech', 'kiswahili', 'science', 'agriculture'],
+        "Social Sciences": ['kiswahili', 'eng', 'social', 'cre'],
+        "Sports Science": ['kiswahili', 'eng', 'creativeArt']
+    };
+
+    function average(subjects) {
+
+        const scores = subjects
+            .map(subject => Number(learner.marks?.[subject] || 0))
+            .filter(score => score > 0);
+
+        if (!scores.length) return 0;
+
+        return scores.reduce((a, b) => a + b, 0) / scores.length;
+
+    }
+function getPerformanceBand(score) {
+
+    if (score >= 90) return "EE1";
+    if (score >= 75) return "EE2";
+    if (score >= 58) return "ME1";
+    if (score >= 41) return "ME2";
+    if (score >= 31) return "AE1";
+    if (score >= 21) return "AE2";
+    if (score >= 11) return "BE1";
+
+    return "BE2";
+}
+    const stemAvg = average(pathways.STEM);
+
+    const socialAvg = average(pathways["Social Sciences"]);
+
+    const sportsAvg = average(pathways["Sports Science"]);
+
+    const pathwayScores = {
+
+        STEM: stemAvg,
+
+        "Social Sciences": socialAvg,
+
+        "Sports Science": sportsAvg
+
+    };
+
+    const bestPathway =
+        Object.keys(pathwayScores)
+        .reduce((a, b) =>
+            pathwayScores[a] > pathwayScores[b]
+                ? a
+                : b
+        );
+
+    return {
+
+    stemAvg: stemAvg.toFixed(1),
+    stemLevel: getPerformanceBand(stemAvg),
+
+    socialAvg: socialAvg.toFixed(1),
+    socialLevel: getPerformanceBand(socialAvg),
+
+    sportsAvg: sportsAvg.toFixed(1),
+    sportsLevel: getPerformanceBand(sportsAvg),
+
+    bestPathway
+
+};
+
+}
 window.generateAssessmentReports = function () {
 
   const container =
@@ -17615,11 +17853,87 @@ window.generateAssessmentReports = function () {
     return;
   }
 
-  const loader = document.createElement("div");
-  loader.id = "assessmentLoader";
-  loader.innerHTML = `...`;   // KEEP YOUR EXISTING LOADER
-  document.body.appendChild(loader);
+ const loader = document.createElement("div");
+loader.id = "assessmentLoader";
 
+loader.innerHTML = `
+<div style="
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999999;
+font-family:Arial,sans-serif;
+">
+
+<div style="
+width:500px;
+background:#fff;
+border-radius:12px;
+padding:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.35);
+text-align:center;
+">
+
+<h2 style="margin:0;color:#2563eb;">
+📑 Generating Assessment Reports
+</h2>
+
+<p id="loaderStatus"
+style="
+margin-top:10px;
+font-size:15px;
+font-weight:bold;
+color:#444;
+">
+Preparing reports...
+</p>
+
+<div style="
+margin-top:18px;
+height:18px;
+background:#e5e7eb;
+border-radius:30px;
+overflow:hidden;
+">
+
+<div id="loaderBar"
+style="
+width:0%;
+height:100%;
+background:linear-gradient(90deg,#16a34a,#22c55e,#4ade80);
+transition:width .3s;
+">
+</div>
+
+</div>
+
+<div id="loaderPercent"
+style="
+margin-top:10px;
+font-size:24px;
+font-weight:bold;
+color:#16a34a;
+">
+0%
+</div>
+
+<div style="
+margin-top:8px;
+font-size:13px;
+color:#777;
+">
+Please wait while reports are generated...
+</div>
+
+</div>
+
+</div>
+`;
+
+document.body.appendChild(loader);
   setTimeout(() => {
 
     try {
@@ -17849,6 +18163,21 @@ window.generateAssessmentReports = function () {
 
         const s =
           ranked[index];
+const current = index + 1;
+
+const progress =
+Math.round((current / ranked.length) * 100);
+
+status.innerHTML =
+`Generating report <b>${current}</b> of <b>${ranked.length}</b><br>
+${s.name}`;
+
+bar.style.width =
+progress + "%";
+
+percent.innerHTML =
+progress + "%";
+const pathway = calculateLearnerPathways(s);
 const subjects = Object.keys(s.marks || {})
   .filter(key =>
     !["schoolId", "name", "grade", "updatedAt"].includes(key) &&
@@ -17883,33 +18212,41 @@ const subjects = Object.keys(s.marks || {})
     reportMeta.subjectTeachers?.[sub] ||
     "Not Assigned";
 
-  rows += `
-    <tr>
-      <td style="border:3px solid #000;padding:8px;">
+
+   rows += `
+<tr>
+
+    <td style="border:2px solid #000;padding:6px;">
         ${subjectName(sub)}
-      </td>
+    </td>
 
-      <td style="border:3px solid #000;padding:8px;">
+    <td style="border:2px solid #000;padding:6px;text-align:center;">
         ${mark}
-      </td>
+    </td>
 
-      <td style="border:3px solid #000;padding:8px;">
+    <td style="border:2px solid #000;padding:6px;text-align:center;">
         ${level}
-      </td>
+    </td>
 
-      <td style="border:3px solid #000;padding:8px;">
+    <td style="border:2px solid #000;padding:6px;text-align:center;">
         ${subjectPoints}
-      </td>
+    </td>
 
-      <td style="border:3px solid #000;padding:8px;">
+    <td style="border:2px solid #000;padding:6px;">
         ${teacher}
-      </td>
+    </td>
 
-      <td style="border:3px solid #000;padding:8px;">
+    <td style="
+        border:2px solid #000;
+        padding:6px;
+        text-align:center;
+        font-size:12px;
+    ">
         ${getSignature(teacher)}
-      </td>
-    </tr>
-  `;
+    </td>
+
+</tr>
+`;
 });
 
         const avg =
@@ -17921,9 +18258,9 @@ const subjects = Object.keys(s.marks || {})
 border:2px solid #000;
 margin:20px 0;
 padding:15px;
-page-break-after:always;
+break-inside:avoid;
+page-break-inside:avoid;
 ">
-
 ${schoolHeader(s)}
 
 <table style="
@@ -17971,91 +18308,228 @@ Points:
 
 </p>
 
+
+<!-- ================= REPORT FOOTER ================= -->
+
 <div style="
-margin-top:10px;
+margin-top:12px;
 border-top:2px solid #000;
-padding-top:10px;
+padding-top:12px;
 display:flex;
 justify-content:space-between;
+align-items:flex-start;
 gap:20px;
 ">
 
-<div>
+    <!-- LEFT SIDE -->
 
-<p><b>Performance:</b> ${getPerformanceLevel(Number(avg))}</p>
+    <div style="
+    flex:1;
+    font-size:14px;
+    line-height:1.6;
+    ">
 
-<p><b>Comment:</b> ${getPerformanceComment(Number(avg))}</p>
+        <p><b>Performance:</b> ${getPerformanceLevel(Number(avg))}</p>
 
-<p><b>Closing:</b> ${reportMeta.closingDate}
-|
-<b>Opening:</b> ${reportMeta.openingDate}</p>
+        <p><b>Comment:</b> ${getPerformanceComment(Number(avg))}</p>
 
-<p><b>Class Teacher:</b> ${reportMeta.classTeacher}
-|
-<b>Principal:</b> ${reportMeta.principal}</p>
+        <p>
+            <b>Closing:</b> ${reportMeta.closingDate}
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <b>Opening:</b> ${reportMeta.openingDate}
+        </p>
 
-</div>
-<!-- RIGHT SIDE (STAMP) -->
-<div class="school-stamp" style="
-    display:inline-block;
-    align-self:flex-start;
+        <p>
+            <b>Class Teacher:</b> ${reportMeta.classTeacher}
+        </p>
 
-    border:2px solid #003399;
-    color:#003399;
-    background:#fff;
+        <p>
+            <b>Principal:</b> ${reportMeta.principal}
+        </p>
 
-    padding:8px 14px;
+        <!-- SCHOOL STAMP -->
 
-    border-radius:8px;
+        <div class="school-stamp" style="
+            margin-top:15px;
+            width:220px;
+            border:2px solid #003399;
+            border-radius:8px;
+            padding:10px;
+            color:#003399;
+            font-weight:bold;
+            font-size:13px;
+            transform:rotate(-2deg);
+            background:#fff;
+            -webkit-print-color-adjust:exact;
+            print-color-adjust:exact;
+        ">
 
-    font-weight:700;
-    font-size:13px;
-    line-height:1.25;
+            <div>${window.currentSchool?.name || "School Name"}</div>
 
-    text-align:left;
+            <div>${window.currentSchool?.address || ""}</div>
 
-    transform:rotate(-2deg);
+            <div>ICT Department</div>
 
-    text-transform:uppercase;
-    letter-spacing:.5px;
+            <div>Date: ${printDate}</div>
 
-    white-space:nowrap;
+        </div>
 
-    box-sizing:border-box;
+    </div>
 
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
+    <!-- RIGHT SIDE -->
+
+    <div style="
+    width:230px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    ">
+
+        <!-- PATHWAY PERFORMANCE -->
+
+        <div style="
+            border:2px solid #1e3a8a;
+            border-radius:8px;
+            overflow:hidden;
+        ">
+
+            <div style="
+                background:#1e3a8a;
+                color:#fff;
+                padding:7px;
+                text-align:center;
+                font-weight:bold;
+            ">
+                PATHWAY PERFORMANCE
+            </div>
+
+            <table style="
+                width:100%;
+                border-collapse:collapse;
+                font-size:12px;
+            ">
+
+                <tr>
+                    <td style="border:1px solid #ccc;padding:6px;">
+                        STEM
+                    </td>
+                    <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
+                        ${pathway.stemAvg} (${pathway.stemLevel})
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid #ccc;padding:6px;">
+                        Social Sciences
+                    </td>
+                    <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
+                        ${pathway.socialAvg} (${pathway.socialLevel})
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid #ccc;padding:6px;">
+                        Sports Science
+                    </td>
+                    <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
+                        ${pathway.sportsAvg} (${pathway.sportsLevel})
+                    </td>
+                </tr>
+
+            </table>
+
+            <div style="
+                padding:8px;
+                background:#f8fafc;
+                border-top:1px solid #ccc;
+                text-align:center;
+            ">
+
+                <div style="
+                    font-size:11px;
+                    color:#666;
+                ">
+                    RECOMMENDED PATHWAY
+                </div>
+
+                <div style="
+                    margin-top:5px;
+                    font-size:15px;
+                    font-weight:bold;
+                    color:#15803d;
+                ">
+                    ${pathway.bestPathway}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div> <!-- END RIGHT SIDE -->
+
+</div> <!-- END REPORT FOOTER -->
+
+</div> <!-- END REPORT CARD -->
+
+<!-- REPORT FOOTER -->
+
+<div style="
+    margin-top:20px;
+    padding-top:8px;
+    border-top:1px solid #999;
+    text-align:center;
+    font-size:11px;
+    color:#555;
+    font-style:italic;
+    letter-spacing:0.5px;
 ">
-
-    <div>${window.currentSchool?.name || "School Name"}</div>
-
-    <div>${window.currentSchool?.address || ""}</div>
-
-    <div>ICT Department</div>
-
-    <div>Date: ${printDate}</div>
-
+    Report generated by <b>RASM TECH 360 KENYA</b>
 </div>
 
-</div>
+</div> <!-- END REPORT CARD -->
+${index < ranked.length - 1
+    ? '<div style="page-break-after:always;"></div>'
+    : ''}
 
-</div>
 `;
-        index++;
-        setTimeout(renderNext, 30);
-      }
 
-      renderNext();
+index++;
 
-    } catch (err) {
-      console.error(err);
-      container.innerHTML = "<p style='color:red;'>Error generating reports</p>";
-      loader.remove();
-    }
+setTimeout(renderNext, 30);
 
-  }, 500);
+}
+const status =
+document.getElementById("loaderStatus");
+
+const bar =
+document.getElementById("loaderBar");
+
+const percent =
+document.getElementById("loaderPercent");
+renderNext();
+
+} catch (err) {
+
+console.error(err);
+
+container.innerHTML =
+  "<p style='color:red;'>Error generating reports</p>";
+
+status.innerHTML =
+`✅ Successfully generated ${ranked.length} reports`;
+
+bar.style.width = "100%";
+percent.innerHTML = "100%";
+
+setTimeout(() => {
+    loader.remove();
+}, 800);
+
+}
+
+}, 500);
+
 };
-
 function getSignature(name) {
   if (!name || name === "Not Assigned") return "—";
   return `<span style="font-family:cursive;">${name}</span>`;
@@ -18084,6 +18558,767 @@ document.querySelectorAll(".action-btn").forEach(btn => {
   });
 
 });
+
+
+// =====================================================
+// 🏆 TOP 5 CERTIFICATE GENERATOR
+// PART 1 - ENGINE
+// =====================================================
+
+window.generateCertificates = function () {
+
+    const container =
+        document.getElementById("certificateContent");
+
+    if (!container) {
+
+        Swal.fire(
+            "Missing Container",
+            "certificateContent not found.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+    // ==========================================
+    // LOADER
+    // ==========================================
+
+    const loader =
+        document.createElement("div");
+
+    loader.id =
+        "certificateLoader";
+
+    loader.innerHTML = `
+
+    <div style="
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.75);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        z-index:999999;
+        font-family:Arial;
+    ">
+
+        <div style="
+            width:520px;
+            background:#fff;
+            border-radius:14px;
+            padding:25px;
+            text-align:center;
+            box-shadow:0 15px 50px rgba(0,0,0,.35);
+        ">
+
+            <h2 style="
+                margin:0;
+                color:#d97706;
+            ">
+                🎓 Generating Certificates
+            </h2>
+
+            <div
+                id="certificateStatus"
+                style="
+                margin-top:18px;
+                font-size:16px;
+                font-weight:bold;
+                ">
+                Loading learners...
+            </div>
+
+            <div style="
+                margin-top:20px;
+                background:#eee;
+                height:18px;
+                border-radius:30px;
+                overflow:hidden;
+            ">
+
+                <div
+                    id="certificateBar"
+                    style="
+                    width:0%;
+                    height:100%;
+                    background:
+                    linear-gradient(
+                    90deg,
+                    #FFD700,
+                    #F59E0B
+                    );
+                    transition:.3s;
+                    ">
+                </div>
+
+            </div>
+
+            <div
+                id="certificatePercent"
+                style="
+                margin-top:10px;
+                font-size:24px;
+                font-weight:bold;
+                color:#d97706;
+                ">
+                0%
+            </div>
+
+        </div>
+
+    </div>
+
+    `;
+
+    document.body.appendChild(loader);
+
+    const status =
+        loader.querySelector(
+            "#certificateStatus"
+        );
+
+    const bar =
+        loader.querySelector(
+            "#certificateBar"
+        );
+
+    const percent =
+        loader.querySelector(
+            "#certificatePercent"
+        );
+
+    try{
+
+        // ==========================================
+        // LEARNERS
+        // ==========================================
+
+        const learners =
+            [...getFilteredLearners()];
+
+        if(!learners.length){
+
+            container.innerHTML=`
+
+            <div style="
+                padding:40px;
+                text-align:center;
+                color:red;
+                font-weight:bold;
+            ">
+                No learners found.
+            </div>
+
+            `;
+
+            loader.remove();
+
+            return;
+
+        }
+
+        // ==========================================
+        // SORT
+        // ==========================================
+
+        learners.sort(
+
+            (a,b)=>
+
+            Number(b.total||0)
+
+            -
+
+            Number(a.total||0)
+
+        );
+
+        const topStudents =
+            learners.slice(0,5);
+
+        const school =
+            window.currentSchool || {};
+
+        const schoolLogo =
+            school.logo ||
+            "https://i.imgur.com/KkbIFjL.png";
+
+        const medals=[
+
+            "🥇 FIRST POSITION",
+
+            "🥈 SECOND POSITION",
+
+            "🥉 THIRD POSITION",
+
+            "🏅 FOURTH POSITION",
+
+            "🎖 FIFTH POSITION"
+
+        ];
+
+        const colors=[
+
+            "#d4af37",
+
+            "#bfc5ca",
+
+            "#b87333",
+
+            "#2563eb",
+
+            "#16a34a"
+
+        ];
+
+        const titles=[
+
+            "Certificate of Outstanding Performance",
+
+            "Certificate of Academic Excellence",
+
+            "Certificate of Achievement",
+
+            "Certificate of Merit",
+
+            "Certificate of Excellence"
+
+        ];
+
+        let html="";
+
+        // ==========================================
+        // BUILD CERTIFICATES
+        // ==========================================
+
+        topStudents.forEach((student,index)=>{
+
+            const progress =
+
+                Math.round(
+
+                ((index+1)
+
+                /
+
+                topStudents.length)
+
+                *100
+
+                );
+
+            status.innerHTML=
+
+            `Generating Certificate
+
+            ${index+1}
+
+            of
+
+            ${topStudents.length}
+
+            <br><br>
+
+            <b>${student.name}</b>`;
+
+            bar.style.width=
+
+                progress+"%";
+
+            percent.innerHTML=
+
+                progress+"%";
+
+            const average=
+
+                Number(
+
+                student.average||0
+
+                ).toFixed(1);
+
+           const total =
+    Number(student.total || 0);
+
+const level = getCertificateLevel(total);
+            const learnerPhoto=
+
+                student.photo||
+
+                student.image||
+
+                student.profile||
+
+                "https://i.imgur.com/AXrekYa.jpeg";
+
+            html += `
+<div class="certificate-page" style="
+width:1120px;
+height:195mm;
+margin:20px auto;
+padding:30px;
+background:#fffdf7;
+border:12px solid ${colors[index]};
+border-radius:20px;
+box-sizing:border-box;
+position:relative;
+overflow:hidden;
+font-family:'Times New Roman',serif;
+">
+<!-- Decorative Border -->
+
+<div style="
+position:absolute;
+top:15px;
+left:15px;
+right:15px;
+bottom:15px;
+border:3px solid ${colors[index]};
+border-radius:12px;
+pointer-events:none;
+"></div>
+
+<!-- HEADER -->
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<img
+src="${schoolLogo}"
+style="
+width:110px;
+height:110px;
+object-fit:contain;
+">
+
+<div style="
+flex:1;
+text-align:center;
+">
+
+<h1 style="
+margin:0;
+font-size:38px;
+color:${colors[index]};
+">
+${school.name || "SCHOOL NAME"}
+</h1>
+
+<div style="
+margin-top:5px;
+font-size:18px;
+">
+${school.address || ""}
+</div>
+
+<div style="
+margin-top:6px;
+font-style:italic;
+font-weight:bold;
+font-size:18px;
+">
+${school.motto || ""}
+</div>
+
+</div>
+
+<img
+src="${learnerPhoto}"
+style="
+width:110px;
+height:110px;
+border-radius:50%;
+border:5px solid ${colors[index]};
+object-fit:cover;
+">
+
+</div>
+
+<hr style="
+margin:25px 0;
+border:2px solid ${colors[index]};
+">
+
+<div style="
+text-align:center;
+font-size:24px;
+letter-spacing:4px;
+color:#444;
+">
+CERTIFICATE OF ACHIEVEMENT
+</div>
+
+<div style="
+text-align:center;
+margin-top:20px;
+font-size:18px;
+">
+THIS CERTIFICATE IS PROUDLY PRESENTED TO
+</div>
+
+<div style="
+text-align:center;
+margin-top:18px;
+font-size:46px;
+font-weight:bold;
+color:${colors[index]};
+text-decoration:underline;
+">
+${student.name}
+</div>
+
+<div style="
+margin-top:25px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+">
+${titles[index]}
+</div>
+
+<div style="
+margin-top:30px;
+padding:0 60px;
+font-size:19px;
+line-height:1.5;
+text-align:center;
+">
+
+For demonstrating outstanding academic excellence
+during
+
+<b>${reportMeta?.term || ""}</b>
+
+Term,
+
+<b>${reportMeta?.year || ""}</b>
+
+and emerging as
+
+<b>${medals[index]}</b>
+
+in the class.
+
+Your commitment,
+hard work,
+discipline
+and determination are highly appreciated.
+
+</div>
+
+<div style="
+display:flex;
+justify-content:center;
+margin-top:30px;
+">
+
+<div style="
+padding:16px 50px;
+background:${colors[index]};
+color:#fff;
+font-size:28px;
+font-weight:bold;
+border-radius:50px;
+box-shadow:0 5px 18px rgba(0,0,0,.25);
+">
+
+${medals[index]}
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-top:20px;
+">
+
+<div style="
+border:2px solid ${colors[index]};
+border-radius:10px;
+padding:18px;
+text-align:center;
+">
+
+<div style="font-size:13px;">
+GRADE
+</div>
+
+<div style="
+font-size:28px;
+font-weight:bold;
+">
+
+${student.grade}
+
+</div>
+
+</div>
+
+<div style="
+border:2px solid ${colors[index]};
+border-radius:10px;
+padding:18px;
+text-align:center;
+">
+
+<div style="font-size:13px;">
+TOTAL MARKS
+</div>
+
+<div style="
+font-size:28px;
+font-weight:bold;
+">
+
+${total}<span style="
+display:inline-block;
+margin-left:8px;
+padding:4px 10px;
+background:${colors[index]};
+color:#fff;
+border-radius:20px;
+font-size:15px;
+font-weight:bold;
+letter-spacing:.5px;
+">
+${level}
+</span>
+
+</div>
+
+</div>
+
+<div style="
+border:2px solid ${colors[index]};
+border-radius:10px;
+padding:18px;
+text-align:center;
+">
+
+<div style="font-size:13px;">
+AVERAGE
+</div>
+
+<div style="
+font-size:28px;
+font-weight:bold;
+">
+
+${average}%
+
+</div>
+
+</div>
+
+<div style="
+border:2px solid ${colors[index]};
+border-radius:10px;
+padding:18px;
+text-align:center;
+">
+
+<div style="font-size:13px;">
+POSITION
+</div>
+
+<div style="
+font-size:30px;
+font-weight:bold;
+">
+
+${index+1}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+margin-top:35px;
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+">
+
+<div style="
+width:240px;
+text-align:center;
+">
+
+<div style="
+border-top:2px solid #000;
+padding-top:8px;
+font-weight:bold;
+">
+
+CLASS TEACHER
+
+</div>
+
+</div>
+
+<div style="
+width:170px;
+height:170px;
+border:5px solid ${colors[index]};
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:${colors[index]};
+transform:rotate(-12deg);
+">
+
+OFFICIAL
+<br>
+SCHOOL
+<br>
+SEAL
+
+</div>
+
+<div style="
+width:240px;
+text-align:center;
+">
+
+<div style="
+font-family:cursive;
+font-size:34px;
+color:#1e3a8a;
+">
+
+${reportMeta?.principal || ""}
+
+</div>
+
+<div style="
+border-top:2px solid #000;
+padding-top:8px;
+font-weight:bold;
+">
+
+PRINCIPAL
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+margin-top:30px;
+text-align:center;
+font-size:12px;
+color:#666;
+">
+
+Generated by
+<b>RASM TECH 360 KENYA</b>
+
+</div>
+
+</div>
+
+`;
+        });
+
+        // ==========================================
+        // DISPLAY CERTIFICATES
+        // ==========================================
+
+        container.innerHTML = html;
+const printBtn = document.getElementById("printCertificatesBtn");
+
+if (printBtn) {
+    printBtn.style.display = "inline-flex";
+} else {
+    console.error("Print button not found.");
+}
+        status.innerHTML = `
+            ✅ Successfully Generated
+            <br><br>
+            <b>${topStudents.length}</b>
+            Certificates
+        `;
+
+        bar.style.width = "100%";
+
+        percent.innerHTML = "100%";
+
+        container.scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "start"
+
+        });
+
+        setTimeout(() => {
+
+            loader.remove();
+
+        }, 800);
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        loader.remove();
+
+        container.innerHTML = `
+
+        <div style="
+            padding:40px;
+            text-align:center;
+            color:red;
+            font-weight:bold;
+        ">
+
+            Failed to generate certificates.
+
+            <br><br>
+
+            ${err.message}
+
+        </div>
+
+        `;
+
+    }
+
+};
+// ================= CERTIFICATE PERFORMANCE LEVEL =================
+
+function getCertificateLevel(totalMarks) {
+
+    totalMarks = Number(totalMarks) || 0;
+
+    if (totalMarks >= 788) return "EE1";
+    if (totalMarks >= 676) return "EE2";
+    if (totalMarks >= 563) return "ME1";
+    if (totalMarks >= 451) return "ME2";
+    if (totalMarks >= 338) return "AE1";
+    if (totalMarks >= 226) return "AE2";
+    if (totalMarks >= 113) return "BE1";
+
+    return "BE2";
+}
 
 // ==========================
 // 🔥 PERFORMANCE INSIGHT (FIXED)
@@ -48309,6 +49544,181 @@ document.addEventListener("wheel", function (e) {
     });
 
 }, { passive: false });
+// =======================================
+// PRINT CERTIFICATES
+// =======================================
+
+window.printCertificates = function(){
+
+    const content =
+        document.getElementById("certificateContent");
+
+    if(!content){
+
+        Swal.fire(
+            "Error",
+            "Certificate container not found.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if(content.innerHTML.trim()===""){
+
+        Swal.fire(
+            "Nothing to Print",
+            "Generate the certificates first.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+    const printWindow =
+        window.open(
+            "",
+            "_blank",
+            "width=1400,height=900"
+        );
+
+    printWindow.document.open();
+
+    printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Top Student Certificates</title>
+
+<style>
+
+html,
+body{
+
+    margin:0;
+    padding:0;
+    width:100%;
+    background:#ffffff;
+
+    font-family:Arial,sans-serif;
+
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+    color-adjust:exact !important;
+
+}
+
+@page{
+
+    size:A4 landscape;
+    margin:4mm;
+
+}
+
+body{
+
+    margin:0;
+    padding:0;
+
+}
+
+/* ===================================== */
+/* CERTIFICATE */
+/* ===================================== */
+
+.certificate-page{
+
+    width:100%;
+    height:195mm;
+
+    margin:0;
+    padding:0;
+
+    overflow:hidden;
+
+    box-sizing:border-box;
+
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+
+}
+
+/* Every certificate starts on a new page */
+
+.certificate-page:not(:last-child){
+
+    page-break-after:always !important;
+    break-after:page !important;
+
+}
+
+/* No blank page after last certificate */
+
+.certificate-page:last-child{
+
+    page-break-after:auto !important;
+    break-after:auto !important;
+
+}
+
+/* Never split any element */
+
+.certificate-page,
+.certificate-page *{
+
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+
+}
+
+img{
+
+    max-width:100%;
+    display:block;
+
+}
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+${content.innerHTML}
+
+</body>
+
+</html>
+
+`);
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    setTimeout(()=>{
+
+        printWindow.print();
+
+        printWindow.close();
+
+    },700);
+
+};
 </script>
 </body>
 </html>
