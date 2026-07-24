@@ -5611,9 +5611,7 @@ width:100%;
 
     <div class="action-panel">
 
-      <button onclick="sendResultsToParents()" class="action-btn btn-green">
-        📤 Send All Results
-      </button>
+     
 
       <button onclick="sendSelectedResults()" class="action-btn btn-blue">
         ✅ Send Selected
@@ -5623,9 +5621,7 @@ width:100%;
         📤 Send Loaded Grade
       </button>
 
-      <button id="sendSmsResultsBtn" class="action-btn sms-btn">
-        📩 SMS Results
-      </button>
+     
 
       <button onclick="deleteSelectedLearnersMarks()" class="action-btn delete-btn">
         <i class="fa fa-trash"></i> Delete Selected
@@ -16302,20 +16298,25 @@ const recordedSubjects = new Set();
     // ================================================
     // DETECT RECORDED SUBJECTS AUTOMATICALLY
     // ================================================
-    Object.keys(marks).forEach(key => {
+ const ignoredFields = [
+    "schoolId",
+    "name",
+    "grade",
+    "updatedAt",
+    "createdAt",
+    "timestamp",
+    "average",
+    "total",
+    "points",
+    "rank",
+    "examPeriod"
+];
 
-        if (
-            ![
-                "schoolId",
-                "name",
-                "grade",
-                "updatedAt"
-            ].includes(key)
-        ) {
-            recordedSubjects.add(key);
-        }
-
-    });
+Object.keys(marks).forEach(key => {
+    if (!ignoredFields.includes(key)) {
+        recordedSubjects.add(key);
+    }
+});
 
     const name =
         marks.name ||
@@ -20636,7 +20637,15 @@ async function generateSubjectChampions(selectedGrade, selectedExamPeriod) {
     )
       .toString()
       .trim();
+// =====================================
+// CBC Grade Detection
+// =====================================
+const gradeText = gradeFromUI.toLowerCase();
 
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
   const container = document.getElementById("subjectChampionsContent");
 
   // ===============================
@@ -20699,11 +20708,21 @@ const subjects = (window.schoolSubjects || []).map(subject => ({
 
 }));
 
+function getLevel(score) {
 
-  // ===============================
-  // 🔹 LEVELS
-  // ===============================
-  function getLevel(score) {
+    score = Number(score) || 0;
+
+    // Grades 4–6
+    if (isGrade4To6) {
+
+        if (score >= 75) return "EE";
+        if (score >= 50) return "ME";
+        if (score >= 25) return "AE";
+        return "BE";
+
+    }
+
+    // Grades 7+
     if (score >= 90) return "EE 1";
     if (score >= 75) return "EE 2";
     if (score >= 58) return "ME 1";
@@ -20712,20 +20731,34 @@ const subjects = (window.schoolSubjects || []).map(subject => ({
     if (score >= 21) return "AE 2";
     if (score >= 11) return "BE 1";
     return "BE 2";
-  }
+}
 
   function getPoints(level) {
+
+    // Grades 4–6
+    if (isGrade4To6) {
+
+        return {
+            "EE": 4,
+            "ME": 3,
+            "AE": 2,
+            "BE": 1
+        }[level] || 0;
+
+    }
+
+    // Grades 7+
     return {
-      "EE 1": 8,
-      "EE 2": 7,
-      "ME 1": 6,
-      "ME 2": 5,
-      "AE 1": 4,
-      "AE 2": 3,
-      "BE 1": 2,
-      "BE 2": 1
+        "EE 1": 8,
+        "EE 2": 7,
+        "ME 1": 6,
+        "ME 2": 5,
+        "AE 1": 4,
+        "AE 2": 3,
+        "BE 1": 2,
+        "BE 2": 1
     }[level] || 0;
-  }
+}
 
   updateProgress(55, "Finding top performers...");
   await new Promise(r => setTimeout(r, 500));
@@ -20841,9 +20874,11 @@ const subjects = (window.schoolSubjects || []).map(subject => ({
             Level
           </th>
 
-          <th style="border:2px solid black;padding:8px;">
-            Points
-          </th>
+       ${!isGrade4To6 ? `
+<th style="border:2px solid black;padding:8px;">
+    Points
+</th>
+` : ""}
 
         </tr>
       </thead>
@@ -20881,9 +20916,11 @@ const subjects = (window.schoolSubjects || []).map(subject => ({
           ${level}
         </td>
 
-        <td style="border:2px solid black;padding:8px;">
-          ${points}
-        </td>
+      ${!isGrade4To6 ? `
+<td style="border:2px solid black;padding:8px;">
+    ${points}
+</td>
+` : ""}
 
       </tr>
     `;
@@ -21007,34 +21044,95 @@ async function generateLevelSummary(selectedGrade, selectedExamPeriod) {
 // ===============================
 // 🔹 USE RECORDED SUBJECTS
 // ===============================
-const subjects = (window.schoolSubjects || []).map(key => ({
+// ===============================
+// 🔹 ONLY SUBJECTS RECORDED FOR THIS GRADE
+// ===============================
+const subjectMap = {};
 
+learners.forEach(learner => {
+const validSubjects = new Set(
+    (window.schoolSubjects || []).map(s =>
+        typeof s === "string" ? s : s.key
+    )
+);
+
+Object.entries(learner.marks || {}).forEach(([key, value]) => {
+
+    if (!validSubjects.has(key)) return;
+
+    if (
+        value !== "" &&
+        value !== null &&
+        value !== undefined &&
+        !isNaN(Number(value))
+    ) {
+
+        subjectMap[key] =
+            window.subjectDisplayNames?.[key] ||
+            key
+                .replace(/([A-Z])/g, " $1")
+                .replace(/[_-]/g, " ")
+                .replace(/^./, c => c.toUpperCase());
+
+    }
+
+});
+});
+
+const subjects = Object.keys(subjectMap).map(key => ({
     key,
-
-    name:
-        window.subjectDisplayNames?.[key] ||
-        key
-            .replace(/([A-Z])/g, " $1")
-            .replace(/^./, c => c.toUpperCase())
-
+    name: subjectMap[key]
 }));
+if (!subjects.length) {
 
+    hideLoader();
 
-  // ===============================
-  // 🔹 LEVELS
-  // ===============================
-  const levels = ['8','7','6','5','4','3','2','1'];
+    container.innerHTML = `
+        <div style="
+            padding:20px;
+            text-align:center;
+            color:red;
+            font-weight:bold;
+        ">
+            No recorded subjects found for this grade.
+        </div>
+    `;
 
-  const levelLabels = {
-    '8': '8(EE1)',
-    '7': '7(EE2)',
-    '6': '6(ME2)',
-    '5': '5(ME1)',
-    '4': '4(AE2)',
-    '3': '3(AE1)',
-    '2': '2(BE2)',
-    '1': '1(BE1)'
-  };
+    return;
+}
+// =====================================
+// CBC GRADE DETECTION
+// =====================================
+const gradeText = String(gradeFromUI || "").toLowerCase();
+
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
+
+// LEVELS
+// =====================================
+const levels = isGrade4To6
+    ? ['4','3','2','1']
+    : ['8','7','6','5','4','3','2','1'];
+
+const levelLabels = isGrade4To6
+? {
+    '4': '4 (EE)',
+    '3': '3 (ME)',
+    '2': '2 (AE)',
+    '1': '1 (BE)'
+}
+: {
+    '8': '8 (EE1)',
+    '7': '7 (EE2)',
+    '6': '6 (ME1)',
+    '5': '5 (ME2)',
+    '4': '4 (AE1)',
+    '3': '3 (AE2)',
+    '2': '2 (BE1)',
+    '1': '1 (BE2)'
+};
 
   // ===============================
   // 🔹 DATA STRUCTURE
@@ -21076,24 +21174,42 @@ subjects.forEach(subject => {
 
         const score = Number(value);
 
-        const level =
-            score >= 90 ? "8" :
-            score >= 75 ? "7" :
-            score >= 58 ? "6" :
-            score >= 41 ? "5" :
-            score >= 31 ? "4" :
-            score >= 21 ? "3" :
-            score >= 11 ? "2" :
-            "1";
+       let level;
+
+if (isGrade4To6) {
+
+    level =
+        score >= 75 ? "4" :
+        score >= 50 ? "3" :
+        score >= 25 ? "2" :
+        "1";
+
+} else {
+
+    level =
+        score >= 90 ? "8" :
+        score >= 75 ? "7" :
+        score >= 58 ? "6" :
+        score >= 41 ? "5" :
+        score >= 31 ? "4" :
+        score >= 21 ? "3" :
+        score >= 11 ? "2" :
+        "1";
+
+}
 
         summary[subject.name][level]++;
 
-        if (
-            (level === "8" || level === "7") &&
-            !topPerformers[subject.name]
-        ) {
-            topPerformers[subject.name] = learner.name;
-        }
+        const topLevels = isGrade4To6
+    ? ["4"]
+    : ["8", "7"];
+
+if (
+    topLevels.includes(level) &&
+    !topPerformers[subject.name]
+) {
+    topPerformers[subject.name] = learner.name;
+}
 
     });
 
@@ -21644,6 +21760,14 @@ async function generateSubjectPerformance(selectedGrade, selectedExamPeriod) {
       .toString()
       .trim();
 
+// CBC Grade Detection
+// =====================================
+const gradeText = gradeFromUI.toLowerCase();
+
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
   const container = document.getElementById("subjectPerformanceContent");
 
   // ===============================
@@ -21694,24 +21818,78 @@ async function generateSubjectPerformance(selectedGrade, selectedExamPeriod) {
 // ===============================
 // 🔹 DYNAMIC RECORDED SUBJECTS
 // ===============================
-const subjects = (window.schoolSubjects || []).map(key => ({
+// ===============================
+// 🔹 ONLY SUBJECTS RECORDED FOR THIS GRADE
+// ===============================
 
-    key,
+const recordedSubjects = new Set();
 
-    name:
-        window.subjectDisplayNames?.[key] ||
-        key
-            .replace(/([A-Z])/g, " $1")
-            .replace(/^./, c => c.toUpperCase())
+(window.schoolSubjects || []).forEach(subject => {
 
-}));
+    const hasMarks = learners.some(learner => {
 
+        const value = learner.marks?.[subject];
 
-  // ===============================
-  // 🔹 LEVEL FUNCTION
-  // ===============================
+        return (
+            value !== undefined &&
+            value !== null &&
+            value !== "" &&
+            !isNaN(Number(value))
+        );
+
+    });
+
+    if (hasMarks) {
+        recordedSubjects.add(subject);
+    }
+
+});
+
+const subjects = (window.schoolSubjects || [])
+
+    .filter(subject => recordedSubjects.has(subject))
+
+    .map(subject => ({
+
+        key: subject,
+
+        name:
+
+            window.subjectDisplayNames?.[subject] ||
+
+            ({
+                eng: "English",
+                math: "Mathematics",
+                kiswahili: "Kiswahili",
+                science: "Integrated Science",
+                social: "Social Studies",
+                agriculture: "Agriculture",
+                cre: "Religious Education",
+                preTech: "Pre-Technical Studies",
+                creativeArt: "Creative Arts"
+            }[subject]) ||
+
+            subject
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, c => c.toUpperCase())
+
+    }));
+
   function getLevel(score) {
 
+    score = Number(score) || 0;
+
+    // CBC Grades 4-6
+    if (isGrade4To6) {
+
+        if (score >= 75) return "EE";
+        if (score >= 50) return "ME";
+        if (score >= 25) return "AE";
+        return "BE";
+
+    }
+
+    // Grades 7+
     if (score >= 90) return "EE 1";
     if (score >= 75) return "EE 2";
     if (score >= 58) return "ME 1";
@@ -21721,24 +21899,34 @@ const subjects = (window.schoolSubjects || []).map(key => ({
     if (score >= 11) return "BE 1";
 
     return "BE 2";
-  }
+}
 
-  // ===============================
-  // 🔹 POINTS FUNCTION
-  // ===============================
-  function getPoints(level) {
+ function getPoints(level) {
 
+    // CBC Grades 4-6
+    if (isGrade4To6) {
+
+        return {
+            "EE": 4,
+            "ME": 3,
+            "AE": 2,
+            "BE": 1
+        }[level] || 0;
+
+    }
+
+    // Grades 7+
     return {
-      "EE 1": 8,
-      "EE 2": 7,
-      "ME 1": 6,
-      "ME 2": 5,
-      "AE 1": 4,
-      "AE 2": 3,
-      "BE 1": 2,
-      "BE 2": 1
+        "EE 1": 8,
+        "EE 2": 7,
+        "ME 1": 6,
+        "ME 2": 5,
+        "AE 1": 4,
+        "AE 2": 3,
+        "BE 1": 2,
+        "BE 2": 1
     }[level] || 0;
-  }
+}
 
   // ===============================
   // 🔹 COMPUTE MEANS
@@ -23097,54 +23285,95 @@ window.generateSubjectRanking = async function (
         "Ranking learners..."
     );
 
-    // =====================================
-    // KCSE GRADE
-    // =====================================
-    function getKCSEGrade(mark){
+   // =====================================
+// CBC LEVELS
+// =====================================
+const gradeText = String(gradeFromUI || "").toLowerCase();
 
-        mark = Number(mark);
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
 
-        if(mark>=80) return "A";
-        if(mark>=75) return "A-";
-        if(mark>=70) return "B+";
-        if(mark>=65) return "B";
-        if(mark>=60) return "B-";
-        if(mark>=55) return "C+";
-        if(mark>=50) return "C";
-        if(mark>=45) return "C-";
-        if(mark>=40) return "D+";
-        if(mark>=35) return "D";
-        if(mark>=30) return "D-";
+function getLevel(score) {
 
-        return "E";
+    score = Number(score) || 0;
+
+    // Grades 4–6
+    if (isGrade4To6) {
+
+        if (score >= 75) return 4;
+        if (score >= 50) return 3;
+        if (score >= 25) return 2;
+        return 1;
 
     }
+
+    // Grades 7–12
+    if (score >= 90) return 8;
+    if (score >= 75) return 7;
+    if (score >= 58) return 6;
+    if (score >= 41) return 5;
+    if (score >= 31) return 4;
+    if (score >= 21) return 3;
+    if (score >= 11) return 2;
+
+    return 1;
+
+}
+
+function getLevelName(score) {
+
+    const level = getLevel(score);
+
+    if (isGrade4To6) {
+
+        return {
+            4: "EE",
+            3: "ME",
+            2: "AE",
+            1: "BE"
+        }[level] || "";
+
+    }
+
+    return {
+        8: "EE1",
+        7: "EE2",
+        6: "ME1",
+        5: "ME2",
+        4: "AE1",
+        3: "AE2",
+        2: "BE1",
+        1: "BE2"
+    }[level] || "";
+
+}
 
     // =====================================
     // BUILD RANKING
     // =====================================
-    const ranked =
+  const ranked =
 
-        learners
+    learners
 
-        .map(student=>{
+    .map(student => {
 
-            const score =
-                Number(
-                    student.marks?.[subjectKey] ?? 0
-                );
+        const score = Number(student.marks?.[subjectKey] ?? 0);
 
-            return{
+        return {
 
-                name:student.name,
+            name: student.name,
 
-                score,
+            score,
 
-                grade:getKCSEGrade(score)
+            points: getLevel(score),
 
-            };
+            level: getLevelName(score)
 
-        })
+        };
+
+    })
 
         // Ignore learners without marks
         .filter(student=>student.score>0)
@@ -23206,7 +23435,9 @@ color:white;
 
 <th style="padding:10px;border:1px solid #000;">Marks</th>
 
-<th style="padding:10px;border:1px solid #000;">Grade</th>
+<th style="padding:10px;border:1px solid #000;">Points</th>
+
+<th style="padding:10px;border:1px solid #000;">Level</th>
 
 </tr>
 
@@ -23216,20 +23447,20 @@ color:white;
 
 `;
 
-    ranked.forEach((student,index)=>{
+ranked.forEach((student,index)=>{
 
-        let bg="";
+    let bg="";
 
-        if(index===0)
-            bg="#fff8dc";
+    if(index===0)
+        bg="#fff8dc";
 
-        else if(index===1)
-            bg="#f5f5f5";
+    else if(index===1)
+        bg="#f5f5f5";
 
-        else if(index===2)
-            bg="#fbe9e7";
+    else if(index===2)
+        bg="#fbe9e7";
 
-        html+=`
+    html+=`
 
 <tr style="background:${bg};">
 
@@ -23273,7 +23504,19 @@ text-align:center;
 font-weight:bold;
 ">
 
-${student.grade}
+${student.points}
+
+</td>
+
+<td
+style="
+border:1px solid black;
+padding:8px;
+text-align:center;
+font-weight:bold;
+">
+
+${student.level}
 
 </td>
 
@@ -23281,9 +23524,9 @@ ${student.grade}
 
 `;
 
-    });
+});
 
-    html += `
+html += `
 
 </tbody>
 
@@ -23291,25 +23534,24 @@ ${student.grade}
 
 `;
 
-    container.innerHTML = html;
+container.innerHTML = html;
 
-    hideLoader();
+hideLoader();
 
-    updateProgress(
-        100,
-        "Complete ✅"
-    );
+updateProgress(
+    100,
+    "Complete ✅"
+);
 
-    container.scrollIntoView({
+container.scrollIntoView({
 
-        behavior:"smooth",
+    behavior:"smooth",
 
-        block:"start"
+    block:"start"
 
-    });
+});
 
 };
-
 window.generatePathwayGrouping = async function (selectedGrade, selectedExamPeriod) {
 
     try {
@@ -23762,37 +24004,22 @@ window.generateMeritList = async function (mainGrade, selectedPeriod) {
   if (section)
     section.style.display = "block";
 
-  // ================= SUBJECTS =================
-// ================= SUBJECTS (DYNAMIC) =================
-const subjects = (window.schoolSubjects || []).map(key => ({
-
-  key,
-
-  name:
-    ({
-      eng: "English",
-      math: "Mathematics",
-      kiswahili: "Kiswahili",
-      science: "Integrated Science",
-      social: "Social Studies",
-      agriculture: "Agriculture",
-      cre: "Religious Education",
-      preTech: "Pre-Technical Studies",
-      creativeArt: "Creative Arts"
-    }[key]) ||
-
-    // fallback for newly added subjects
-    key
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, c => c.toUpperCase())
-
-}));
-
 // ================= LEVEL FUNCTION =================
 function getLevel(score) {
 
-    score = Number(score);
+    score = Number(score) || 0;
 
+    // Grades 4-6
+    if (isGrade4To6) {
+
+        if (score >= 75) return 4;
+        if (score >= 50) return 3;
+        if (score >= 25) return 2;
+        return 1;
+
+    }
+
+    // Grades 7-12
     if (score >= 90) return 8;
     if (score >= 75) return 7;
     if (score >= 58) return 6;
@@ -23806,35 +24033,49 @@ function getLevel(score) {
 
 // Display labels only
 const levelLabels = {
-    8: "8(EE1)",
-    7: "7(EE2)",
-    6: "6(ME2)",
-    5: "5(ME1)",
-    4: "4(AE2)",
-    3: "3(AE1)",
-    2: "2(BE2)",
-    1: "1(BE1)"
+    8: "8 (EE1)",
+    7: "7 (EE2)",
+    6: "6 (ME1)",
+    5: "5 (ME2)",
+    4: "4 (AE1)",
+    3: "3 (AE2)",
+    2: "2 (BE1)",
+    1: "1 (BE2)"
 };
 
 function getLevelDisplay(score) {
     return levelLabels[getLevel(score)] || "-";
 }
+
 function getLevelName(score) {
 
-    const names = {
+    const level = getLevel(score);
+
+    // CBC Grades 4–6
+    if (isGrade4To6) {
+
+        return {
+            4: "EE",
+            3: "ME",
+            2: "AE",
+            1: "BE"
+        }[level] || "-";
+
+    }
+
+    // Grades 7–12
+    return {
         8: "EE1",
         7: "EE2",
-        6: "ME2",
-        5: "ME1",
-        4: "AE2",
-        3: "AE1",
-        2: "BE2",
-        1: "BE1"
-    };
+        6: "ME1",
+        5: "ME2",
+        4: "AE1",
+        3: "AE2",
+        2: "BE1",
+        1: "BE2"
+    }[level] || "-";
 
-    return names[getLevel(score)] || "-";
-}
-  // ================= FILTERS =================
+}  // ================= FILTERS =================
   const grade =
     (
       mainGrade ??
@@ -23854,7 +24095,10 @@ function getLevelName(score) {
     )
       .toString()
       .trim();
+// ================= CBC GRADE DETECTION =================
+const gradeNo = parseInt(String(grade).match(/\d+/)?.[0] || 0);
 
+const isGrade4To6 = gradeNo >= 4 && gradeNo <= 6;
   // ================= FILTER LEARNERS =================
   updateProgress(25, "Filtering learners...");
   await new Promise(r => setTimeout(r, 300));
@@ -23890,8 +24134,68 @@ function getLevelName(score) {
 
     return;
   }
+// ==========================================
+// USE ONLY SUBJECTS RECORDED FOR THIS GRADE
+// ==========================================
 
-  // ================= TOTALS =================
+// ==========================================
+// USE ONLY RECORDED SUBJECTS FOR THIS GRADE
+// ==========================================
+
+const recordedSubjects = new Set();
+
+(window.schoolSubjects || []).forEach(subject => {
+
+    const hasMarks = learners.some(learner => {
+
+        const value = learner.marks?.[subject];
+
+        return (
+            value !== null &&
+            value !== "" &&
+            value !== undefined &&
+            !isNaN(Number(value))
+        );
+
+    });
+
+    if (hasMarks) {
+
+        recordedSubjects.add(subject);
+
+    }
+
+});
+
+const subjects = (window.schoolSubjects || [])
+
+    .filter(subject => recordedSubjects.has(subject))
+
+    .map(subject => ({
+
+        key: subject,
+
+        name:
+
+            window.subjectDisplayNames?.[subject] ||
+
+            ({
+                eng: "English",
+                math: "Mathematics",
+                kiswahili: "Kiswahili",
+                science: "Integrated Science",
+                social: "Social Studies",
+                agriculture: "Agriculture",
+                cre: "Religious Education",
+                preTech: "Pre-Technical Studies",
+                creativeArt: "Creative Arts"
+            }[subject]) ||
+
+            subject
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, c => c.toUpperCase())
+
+    }));  // ================= TOTALS =================
   updateProgress(40, "Calculating totals...");
   await new Promise(r => setTimeout(r, 300));
 
@@ -23940,15 +24244,22 @@ function getLevelName(score) {
 
   subjects.forEach(subject => {
 
-   levelSummary[subject.key] = {
-  8: 0,
-  7: 0,
-  6: 0,
-  5: 0,
-  4: 0,
-  3: 0,
-  2: 0,
-  1: 0
+levelSummary[subject.key] = isGrade4To6
+? {
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0
+}
+: {
+    8: 0,
+    7: 0,
+    6: 0,
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0
 };
 
     learners.forEach(l => {
@@ -24109,10 +24420,11 @@ ${window.getSchoolPrintHeader("MERIT LIST REPORT")}
 subjects.forEach(() => {
 
     html += `
-      <th>Sco</th>
-      <th>Pts</th>
-      <th>Lev</th>
+        <th>Sco</th>
+        <th>${isGrade4To6 ? "Lvl" : "Pts"}</th>
+        <th>${isGrade4To6 ? "Band" : "Lev"}</th>
     `;
+
 });
 
   html += `
@@ -24252,15 +24564,26 @@ const score =
 <thead>
 <tr>
 <th>Subject</th>
+
+${
+isGrade4To6
+?`
+<th>4 (EE)</th>
+<th>3 (ME)</th>
+<th>2 (AE)</th>
+<th>1 (BE)</th>
+`
+: `
 <th>8 (EE1)</th>
 <th>7 (EE2)</th>
-<th>6 (ME2)</th>
-<th>5 (ME1)</th>
-<th>4 (AE2)</th>
-<th>3 (AE1)</th>
-<th>2 (BE2)</th>
-<th>1 (BE1)</th>
-</tr>
+<th>6 (ME1)</th>
+<th>5 (ME2)</th>
+<th>4 (AE1)</th>
+<th>3 (AE2)</th>
+<th>2 (BE1)</th>
+<th>1 (BE2)</th>
+`
+}</tr>
 </thead>
 
 <tbody>
@@ -24275,6 +24598,15 @@ const score =
 <td class="subject-name">
   ${subject.name}
 </td>
+${
+isGrade4To6
+? `
+<td>${levelSummary[subject.key][4]}</td>
+<td>${levelSummary[subject.key][3]}</td>
+<td>${levelSummary[subject.key][2]}</td>
+<td>${levelSummary[subject.key][1]}</td>
+`
+: `
 <td>${levelSummary[subject.key][8]}</td>
 <td>${levelSummary[subject.key][7]}</td>
 <td>${levelSummary[subject.key][6]}</td>
@@ -24283,6 +24615,8 @@ const score =
 <td>${levelSummary[subject.key][3]}</td>
 <td>${levelSummary[subject.key][2]}</td>
 <td>${levelSummary[subject.key][1]}</td>
+`
+}
 
 </tr>
 `;
@@ -24299,16 +24633,20 @@ const score =
   updateProgress(90, "Finalizing report...");
   await new Promise(r => setTimeout(r, 300));
 
-  const output =
-    document.getElementById("reportOutput");
+const output = document.getElementById("reportOutput");
 
-  output.innerHTML = html;
+if (!output) {
+    hideLoader();
+    Swal.fire("Error", "Report container not found", "error");
+    return;
+}
 
-  output.scrollIntoView({
+output.innerHTML = html;
+
+output.scrollIntoView({
     behavior: "smooth",
     block: "start"
-  });
-
+});
   updateProgress(100, "Complete ✅");
 
   await new Promise(r => setTimeout(r, 300));
@@ -24433,6 +24771,15 @@ window.combineMarksByGradeWithDetails = async function (selectedGrade, selectedE
 
   // 🔥 normalized version ONLY for filtering
   const periodFromUI = normalize(rawPeriod);
+// =====================================
+// CBC Grade Detection
+// =====================================
+const gradeText = String(gradeFromUI || "").toLowerCase();
+
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
   // ===============================
   // 🔥 LOADER START
   // ===============================
@@ -24451,39 +24798,113 @@ window.combineMarksByGradeWithDetails = async function (selectedGrade, selectedE
   updateProgress(25, "Filtering grade and exam period...");
   await new Promise(r => setTimeout(r, 300));
 
-  // ===============================
-  // 🔥 SUBJECT MAP (UNCHANGED)
-  // ===============================
-  // ===============================
-// 🔥 DYNAMIC SUBJECTS
-// ===============================
-const subjects = (window.schoolSubjects || []).map(key => ({
+ // ==========================================
+// USE ONLY SUBJECTS RECORDED FOR THIS GRADE
+// ==========================================
 
-    key,
+// First filter learners for the selected grade/period
+const filteredLearners = learners.filter(l => {
 
-    name:
-        ({
-            eng: "English",
-            math: "Mathematics",
-            preTech: "Pre-Technical Studies",
-            kiswahili: "Kiswahili",
-            science: "Integrated Science",
-            social: "Social Studies",
-            agriculture: "Agriculture",
-            cre: "Religious Education",
-            creativeArt: "Creative Arts"
-        }[key]) ||
+    const gradeText = normalize(l.grade);
+    const examPeriod = normalize(l.examPeriod || l.period);
 
-        key
-            .replace(/([A-Z])/g, " $1")
-            .replace(/^./, c => c.toUpperCase())
+    function getGradeBase(grade) {
+        return (grade || "")
+            .toString()
+            .trim()
+            .toUpperCase()
+            .match(/\d+/)?.[0];
+    }
 
-}));
+    const selectedBase = getGradeBase(gradeFromUI);
+    const learnerBase = getGradeBase(gradeText);
 
- function getLevel(score) {
+    const gradeMatch =
+        !selectedBase ||
+        selectedBase === "ALL" ||
+        learnerBase === selectedBase;
 
-    score = Number(score);
+    const periodMatch =
+        !periodFromUI ||
+        periodFromUI === "all periods" ||
+        examPeriod === periodFromUI;
 
+    return gradeMatch && periodMatch;
+
+});
+
+// Find only subjects that actually have marks
+const recordedSubjects = new Set();
+
+(window.schoolSubjects || []).forEach(subject => {
+
+    const hasMarks = filteredLearners.some(learner => {
+
+        const value = learner.marks?.[subject];
+
+        return (
+            value !== undefined &&
+            value !== null &&
+            value !== "" &&
+            !isNaN(Number(value))
+        );
+
+    });
+
+    if (hasMarks) {
+
+        recordedSubjects.add(subject);
+
+    }
+
+});
+
+// Build subject list
+const subjects = (window.schoolSubjects || [])
+
+    .filter(subject => recordedSubjects.has(subject))
+
+    .map(subject => ({
+
+        key: subject,
+
+        name:
+
+            window.subjectDisplayNames?.[subject] ||
+
+            ({
+                eng: "English",
+                math: "Mathematics",
+                kiswahili: "Kiswahili",
+                science: "Integrated Science",
+                social: "Social Studies",
+                agriculture: "Agriculture",
+                cre: "Religious Education",
+                preTech: "Pre-Technical Studies",
+                creativeArt: "Creative Arts"
+            }[subject]) ||
+
+            subject
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, c => c.toUpperCase())
+
+    }));
+
+function getLevel(score) {
+
+    score = Number(score) || 0;
+
+    // Grades 4–6
+    if (isGrade4To6) {
+
+        if (score >= 75) return 4;
+        if (score >= 50) return 3;
+        if (score >= 25) return 2;
+        return 1;
+
+    }
+
+    // Grades 7–12
     if (score >= 90) return 8;
     if (score >= 75) return 7;
     if (score >= 58) return 6;
@@ -24497,18 +24918,30 @@ const subjects = (window.schoolSubjects || []).map(key => ({
 
 function getLevelName(score) {
 
-    const names = {
+    const level = getLevel(score);
+
+    if (isGrade4To6) {
+
+        return {
+            4: "EE",
+            3: "ME",
+            2: "AE",
+            1: "BE"
+        }[level] || "";
+
+    }
+
+    return {
         8: "EE1",
         7: "EE2",
-        6: "ME2",
-        5: "ME1",
-        4: "AE2",
-        3: "AE1",
-        2: "BE2",
-        1: "BE1"
-    };
+        6: "ME1",
+        5: "ME2",
+        4: "AE1",
+        3: "AE2",
+        2: "BE1",
+        1: "BE2"
+    }[level] || "";
 
-    return names[getLevel(score)] || "";
 }
 
   // ===============================
@@ -24520,7 +24953,7 @@ function getLevelName(score) {
   updateProgress(40, "Processing student marks...");
   await new Promise(r => setTimeout(r, 300));
 
-  learners.forEach(l => {
+  filteredLearners.forEach(l => {
 
   const gradeText = normalize(l.grade);
   const examPeriod = normalize(l.examPeriod || l.period);
@@ -24694,12 +25127,12 @@ learnerCount++;
         <tr>
   `;
 
- subjects.forEach(() => {
+subjects.forEach(() => {
 
     html += `
         <th>Score</th>
-        <th>Pts</th>
-        <th>Lev</th>
+        <th>${isGrade4To6 ? "Lvl" : "Pts"}</th>
+        <th>Level</th>
     `;
 
 });
@@ -26858,157 +27291,340 @@ window.sendSelectedResults = async function () {
 
 window.sendLoadedResults = async function () {
 
-  const examPeriod =
-    safeValue("resultsExamPeriod");
+    const examPeriod = safeValue("resultsExamPeriod");
 
-  if (!examPeriod)
-    return Swal.fire(
-      "Select Exam",
-      "Please select exam period",
-      "warning"
-    );
+    if (!examPeriod) {
+        return Swal.fire(
+            "Select Exam",
+            "Please select an exam period.",
+            "warning"
+        );
+    }
 
-  const learners =
-    allLoadedLearners;
+    const learners = allLoadedLearners || [];
 
-  if (!learners.length)
-    return Swal.fire(
-      "No Data",
-      "Load marks first",
-      "info"
-    );
+    if (!learners.length) {
+        return Swal.fire(
+            "No Data",
+            "Load marks first.",
+            "info"
+        );
+    }
 
-  Swal.fire({
+    const confirm = await Swal.fire({
+        title: `Send Results to ${learners.length} Parents?`,
+        html: `
+            <div style="font-size:15px;">
+                SMS will be sent to parents with valid phone numbers.
+            </div>
+        `,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Send SMS",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#16a34a"
+    });
 
-    title: "Sending SMS...",
+    if (!confirm.isConfirmed) return;
 
-    allowOutsideClick: false,
+    let sent = 0;
+    let failed = 0;
+    let skipped = 0;
 
-    didOpen: () => Swal.showLoading()
+    Swal.fire({
+        title: "Sending Results...",
+        html: `
+            <div id="smsStatus" style="margin-bottom:12px;">
+                Preparing...
+            </div>
 
-  });
+            <div style="
+                width:100%;
+                height:22px;
+                background:#e5e7eb;
+                border-radius:30px;
+                overflow:hidden;
+            ">
+                <div id="smsProgressBar"
+                     style="
+                        width:0%;
+                        height:100%;
+                        background:#16a34a;
+                        transition:width .3s;">
+                </div>
+            </div>
 
-  let sent = 0;
+            <div id="smsPercent"
+                 style="margin-top:10px;font-weight:bold;">
+                0%
+            </div>
+        `,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false
+    });
 
-  for (const learner of learners) {
+    const total = learners.length;
 
-    const phone =
-      formatPhone(
-        learner.parentPhone
-      );
+    for (let i = 0; i < total; i++) {
 
-    if (!phone) continue;
+        const learner = learners[i];
 
-    const report =
-      buildUnifiedReport(learner);
+        const progress = Math.round(((i + 1) / total) * 100);
 
-    const message =
-      buildResultMessage(
-        report,
-        examPeriod
-      );
+        document.getElementById("smsStatus").innerHTML =
+            `
+            <b>${i + 1} of ${total}</b><br>
+            ${learner.name || "Learner"}
+            `;
 
-    const res =
-      await sendSMS(phone, message);
+        document.getElementById("smsProgressBar").style.width =
+            progress + "%";
 
-    if (res.success)
-      sent++;
+        document.getElementById("smsPercent").innerHTML =
+            progress + "%";
 
-  }
+        const phone = formatPhone(learner.parentPhone);
 
-  Swal.fire(
-    "Finished",
-    `${sent} SMS sent`,
-    "success"
-  );
+        if (!phone) {
+            skipped++;
+            continue;
+        }
+
+        try {
+
+            const report =
+                buildUnifiedReport(learner);
+
+            const message =
+                buildResultMessage(
+                    report,
+                    examPeriod
+                );
+
+            const response =
+                await sendSMS(phone, message);
+
+            if (response?.success) {
+
+                sent++;
+
+            } else {
+
+                failed++;
+
+            }
+
+        } catch (err) {
+
+            console.error(err);
+
+            failed++;
+
+        }
+
+        // Small delay to avoid overwhelming the SMS provider
+        await new Promise(r => setTimeout(r, 200));
+    }
+
+    Swal.fire({
+        icon: sent ? "success" : "warning",
+        title: "SMS Sending Complete",
+        html: `
+            <div style="text-align:left;font-size:15px;line-height:1.8">
+
+                ✅ <b>Sent:</b> ${sent}<br>
+
+                ❌ <b>Failed:</b> ${failed}<br>
+
+                ⏭️ <b>Skipped (No Phone):</b> ${skipped}<br>
+
+                👨‍🎓 <b>Total Learners:</b> ${total}
+
+            </div>
+        `,
+        confirmButtonColor: "#16a34a"
+    });
 
 };
-
 window.sendResultsToParents = async function () {
 
-  const examPeriod =
-    document
-      .getElementById("resultsExamPeriod")
-      ?.value
-      ?.trim();
+    const examPeriod =
+        document
+            .getElementById("resultsExamPeriod")
+            ?.value
+            ?.trim();
 
-  if (!examPeriod)
-    return Swal.fire(
-      "Select Exam",
-      "Please select exam period",
-      "warning"
-    );
+    if (!examPeriod) {
+        return Swal.fire(
+            "Select Exam",
+            "Please select an exam period.",
+            "warning"
+        );
+    }
 
-  const learners =
-    allLoadedLearners;
+    const learners = allLoadedLearners || [];
 
-  if (!learners.length)
-    return Swal.fire(
-      "No Data",
-      "No learners found",
-      "info"
-    );
+    if (!learners.length) {
+        return Swal.fire(
+            "No Data",
+            "No learners found.",
+            "info"
+        );
+    }
 
-  Swal.fire({
+    const confirm = await Swal.fire({
+        title: `Send Results to ${learners.length} Parents?`,
+        html: `
+            <div style="font-size:15px;">
+                Results will be sent via SMS to all parents with valid phone numbers.
+            </div>
+        `,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Send SMS",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#16a34a"
+    });
 
-    title: "Sending Results...",
+    if (!confirm.isConfirmed) return;
 
-    allowOutsideClick: false,
+    let sent = 0;
+    let failed = 0;
+    let skipped = 0;
 
-    didOpen: () => Swal.showLoading()
+    Swal.fire({
+        title: "Sending Results...",
+        html: `
+            <div id="smsStatus"
+                 style="margin-bottom:12px;font-size:15px;">
+                Preparing...
+            </div>
 
-  });
+            <div style="
+                width:100%;
+                height:22px;
+                background:#e5e7eb;
+                border-radius:999px;
+                overflow:hidden;
+            ">
+                <div id="smsProgressBar"
+                     style="
+                        width:0%;
+                        height:100%;
+                        background:#16a34a;
+                        transition:width .3s;">
+                </div>
+            </div>
 
-  let sent = 0;
+            <div id="smsPercent"
+                 style="
+                    margin-top:10px;
+                    font-weight:bold;
+                    color:#374151;
+                 ">
+                0%
+            </div>
+        `,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false
+    });
 
-  for (const learner of learners) {
+    const total = learners.length;
 
-    const phone =
-      formatPhone(
-        learner.parentPhone
-      );
+    for (let i = 0; i < total; i++) {
 
-    if (!phone) continue;
+        const learner = learners[i];
 
-    const report =
-      buildUnifiedReport(
-        learner
-      );
+        const progress = Math.round(((i + 1) / total) * 100);
 
-    const message =
-      buildResultMessage(
-        report,
-        examPeriod
-      );
+        document.getElementById("smsStatus").innerHTML = `
+            <b>${i + 1} of ${total}</b><br>
+            👨‍🎓 ${learner.name || "Learner"}
+        `;
 
-    const res =
-      await sendSMS(
-        phone,
-        message
-      );
+        document.getElementById("smsProgressBar").style.width =
+            progress + "%";
 
-    if (res.success)
-      sent++;
+        document.getElementById("smsPercent").innerHTML =
+            progress + "%";
 
-  }
+        const phone = formatPhone(learner.parentPhone);
 
-  Swal.fire({
+        if (!phone) {
+            skipped++;
+            continue;
+        }
 
-    icon: "success",
+        try {
 
-    title: "Completed",
+            const report =
+                buildUnifiedReport(learner);
 
-    text: `${sent} SMS sent successfully`
+            const message =
+                buildResultMessage(
+                    report,
+                    examPeriod
+                );
 
-  });
+            const result =
+                await sendSMS(
+                    phone,
+                    message
+                );
+
+            if (result?.success) {
+
+                sent++;
+
+            } else {
+
+                failed++;
+
+            }
+
+        } catch (err) {
+
+            console.error(err);
+
+            failed++;
+
+        }
+
+        // Prevent hitting SMS API limits
+        await new Promise(r => setTimeout(r, 200));
+    }
+
+    Swal.fire({
+        icon: sent ? "success" : "warning",
+        title: "SMS Sending Complete",
+        html: `
+            <div style="
+                text-align:left;
+                line-height:1.8;
+                font-size:15px;
+            ">
+
+                👨‍🎓 <b>Total Learners:</b> ${total}<br>
+
+                ✅ <b>Sent Successfully:</b> ${sent}<br>
+
+                ❌ <b>Failed:</b> ${failed}<br>
+
+                ⏭️ <b>Skipped (No Phone):</b> ${skipped}
+
+            </div>
+        `,
+        confirmButtonColor: "#16a34a"
+    });
 
 };
 
 window.sendSmsResultsBtn?.addEventListener(
-"click",
-window.sendResultsToParents
+    "click",
+    window.sendResultsToParents
 );
-
 
 document.addEventListener("keydown", function (e) {
 
@@ -27158,7 +27774,69 @@ const subjectName =
   );
 
   await new Promise(r => setTimeout(r, 300));
+const gradeText = String(
 
+    selectedGrade ??
+    window.reportContext?.grade ??
+    document.getElementById("gradeFilter")?.value ??
+    document.getElementById("gradeSelect")?.value ??
+    ""
+
+).toLowerCase();
+
+const isGrade4To6 =
+    gradeText.includes("4") ||
+    gradeText.includes("5") ||
+    gradeText.includes("6");
+
+function getLevel(score) {
+
+    score = Number(score) || 0;
+
+    if (isGrade4To6) {
+        if (score >= 75) return 4;
+        if (score >= 50) return 3;
+        if (score >= 25) return 2;
+        return 1;
+    }
+
+    if (score >= 90) return 8;
+    if (score >= 75) return 7;
+    if (score >= 58) return 6;
+    if (score >= 41) return 5;
+    if (score >= 31) return 4;
+    if (score >= 21) return 3;
+    if (score >= 11) return 2;
+
+    return 1;
+}
+
+function getLevelName(score) {
+
+    const p = getLevel(score);
+
+    if (isGrade4To6) {
+
+        return {
+            4: "EE",
+            3: "ME",
+            2: "AE",
+            1: "BE"
+        }[p] || "";
+
+    }
+
+    return {
+        8: "EE1",
+        7: "EE2",
+        6: "ME1",
+        5: "ME2",
+        4: "AE1",
+        3: "AE2",
+        2: "BE1",
+        1: "BE2"
+    }[p] || "";
+}
   // ======================================================
   // BUILD RANKING
   // ======================================================
@@ -27166,35 +27844,37 @@ const subjectName =
 
     .map(l => {
 
-      const value =
-        l.marks?.[subjectKey];
+      const value = l.marks?.[subjectKey];
 
-      return {
+const score =
+    value !== undefined &&
+    value !== null &&
+    value !== ""
+        ? Number(value)
+        : null;
 
-        name:
-          l.name || "Unnamed",
+return {
 
-        grade:
-          l.grade || "",
+    name: l.name || "Unnamed",
 
-        score:
-          value !== undefined &&
-          value !== null &&
-          value !== ""
-            ? Number(value)
-            : null
+    grade: l.grade || "",
 
-      };
+    score,
+
+    points: score != null ? getLevel(score) : "",
+
+    level: score != null ? getLevelName(score) : ""
+
+};
 
     })
 
-    // Ignore learners without marks
     .filter(l => l.score !== null && l.score !== undefined)
 
     .sort((a, b) => {
-  if (b.score !== a.score) return b.score - a.score;
-  return a.name.localeCompare(b.name);
-});
+      if (b.score !== a.score) return b.score - a.score;
+      return a.name.localeCompare(b.name);
+    });
 
   updateProgress(
     70,
@@ -27274,7 +27954,15 @@ Grade
 </th>
 
 <th style="border:2px solid #000;padding:8px;">
-Score
+Marks
+</th>
+
+<th style="border:2px solid #000;padding:8px;">
+${isGrade4To6 ? "Level Points" : "Points"}
+</th>
+
+<th style="border:2px solid #000;padding:8px;">
+Level
 </th>
 
 </tr>
@@ -27284,13 +27972,13 @@ Score
 <tbody>
 `;
 
-  ranked.forEach((learner, index) => {
+ranked.forEach((learner, index) => {
 
-    html += `
+html += `
 
 <tr ${index < 3 ? 'style="background:#FFF8DC;font-weight:bold;"' : ""}>
 
-<td style="border:1px solid #000;padding:8px;">
+<td style="border:1px solid #000;padding:8px;text-align:center;">
 ${index + 1}
 </td>
 
@@ -27298,7 +27986,7 @@ ${index + 1}
 ${learner.name}
 </td>
 
-<td style="border:1px solid #000;padding:8px;">
+<td style="border:1px solid #000;padding:8px;text-align:center;">
 ${learner.grade}
 </td>
 
@@ -27306,17 +27994,24 @@ ${learner.grade}
 ${learner.score}
 </td>
 
+<td style="border:1px solid #000;padding:8px;text-align:center;font-weight:bold;">
+${learner.points}
+</td>
+
+<td style="border:1px solid #000;padding:8px;text-align:center;font-weight:bold;">
+${learner.level}
+</td>
+
 </tr>
 
 `;
 
-  });
+});
 
-  html += `
+html += `
 </tbody>
 </table>
 `;
-
   updateProgress(
     90,
     "Finalizing..."
