@@ -13595,60 +13595,99 @@ Object.entries(data).forEach(([feeId, fee]) => {
 
   console.log("✅ Fees loaded (clean structured buttons version)");
 };
+// ======================================================
+// SEND SINGLE FEES SMS
+// ======================================================
+
 window.sendSingleSMS = async (year, studentId) => {
 
-  try {
+    try {
 
-    const snap = await get(
-      schoolRef(`fees/${year}/${studentId}`)
-    );
+        // Loading
+        Swal.fire({
+            title: "Sending SMS...",
+            text: "Please wait.",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
 
-    const fee = snap.val();
+        // Get fee record
+        const snap = await get(
+            schoolRef(`fees/${year}/${studentId}`)
+        );
 
-    if (!fee) {
+        if (!snap.exists()) {
 
-      return Swal.fire(
-        "Error",
-        "Fee record not found",
-        "error"
-      );
+            Swal.close();
+
+            return Swal.fire(
+                "Not Found",
+                "Fee record could not be found.",
+                "warning"
+            );
+        }
+
+        const fee = snap.val();
+
+        // Validate phone
+        const phone = (fee.parentPhone || "").trim();
+
+        if (!phone) {
+
+            Swal.close();
+
+            return Swal.fire(
+                "Missing Phone Number",
+                `${fee.studentName} has no parent's phone number recorded.`,
+                "warning"
+            );
+        }
+
+        // Format balance
+        const balance = Number(fee.balance || 0).toLocaleString();
+
+        // Create message
+        const message =
+`Dear Parent/Guardian,
+
+This is a reminder from ${window.schoolName || "our school"}.
+
+Your child ${fee.studentName} has an outstanding school fee balance of KES ${balance}.
+
+Kindly clear the balance at your earliest convenience.
+
+Thank you.`;
+
+        // Send SMS
+        await sendSMS(phone, message);
+
+        Swal.close();
+
+        Swal.fire({
+            icon: "success",
+            title: "SMS Sent",
+            html: `
+                <b>${fee.studentName}</b><br>
+                SMS successfully sent to<br>
+                <b>${phone}</b>
+            `
+        });
+
+    } catch (error) {
+
+        console.error("SMS Error:", error);
+
+        Swal.close();
+
+        Swal.fire({
+            icon: "error",
+            title: "SMS Failed",
+            text: error.message || "Unable to send SMS."
+        });
+
     }
 
-    const phone = fee.parentPhone;
-
-    if (!phone) {
-
-      return Swal.fire(
-        "Error",
-        "No phone number",
-        "error"
-      );
-    }
-
-    const message =
-      `Dear Parent, ${fee.studentName} owes KES ${fee.balance}. Kindly clear school fees.`;
-
-    await sendSMS(phone, message);
-
-    Swal.fire(
-      "Sent",
-      "SMS sent successfully",
-      "success"
-    );
-
-  } catch (err) {
-
-    console.error(err);
-
-    Swal.fire(
-      "Error",
-      "Failed to send SMS",
-      "error"
-    );
-  }
 };
-
-
 window.showDefaulters = async () => {
 
   const selectedYear =
@@ -19499,68 +19538,292 @@ function generatePerformanceInsight() {
         statusColor = "#F44336";
       }
 
-      // ==========================
-      // 🔥 RENDER
-      // ==========================
-      container.innerHTML = `
-        <h2>🏆 PERFORMANCE INTELLIGENCE DASHBOARD</h2>
+     container.innerHTML = `
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:15px;">
+<div style="
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+padding:30px;
+border-radius:18px;
+color:#fff;
+box-shadow:0 10px 35px rgba(0,0,0,.25);
+margin-bottom:25px;
+">
 
-          <div class="report-card">
-            <div class="report-title">Learners</div>
-            <div class="report-value">${learners.length}</div>
-          </div>
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+">
 
-          <div class="report-card" style="border-left:6px solid #2196F3">
-            <div class="report-title">Average Score</div>
-            <div class="report-value">${avg.toFixed(2)}</div>
-          </div>
+<div>
 
-          <div class="report-card" style="border-left:6px solid #4CAF50">
-            <div class="report-title">Top Student</div>
-            <div class="report-value">${highest.name}</div>
-            <small>${highest.score}</small>
-          </div>
+<div style="
+font-size:14px;
+letter-spacing:2px;
+text-transform:uppercase;
+opacity:.85;
+">
+RASM TECH 360
+</div>
 
-          <div class="report-card" style="border-left:6px solid #F44336">
-            <div class="report-title">Lowest Student</div>
-            <div class="report-value">${lowest.name}</div>
-            <small>${lowest.score}</small>
-          </div>
+<h1 style="
+margin:8px 0;
+font-size:34px;
+font-weight:800;
+">
+📊 Academic Performance Dashboard
+</h1>
 
-        </div>
+<div style="
+font-size:16px;
+opacity:.9;
+">
 
-        <h3>📊 Performance Levels (EE → BE)</h3>
+Exam:
+<b>${reportMeta?.exam || "Current Exam"}</b>
 
-        <div class="report-grid">
+&nbsp;&nbsp;|&nbsp;&nbsp;
 
-          <div class="report-card" style="border-left:6px solid #4CAF50">
-            <div class="report-title">EE</div>
-            <div class="report-value">${levels.EE1 + levels.EE2}</div>
-          </div>
+Term:
+<b>${reportMeta?.term || "-"}</b>
 
-          <div class="report-card" style="border-left:6px solid #2196F3">
-            <div class="report-title">ME</div>
-            <div class="report-value">${levels.ME1 + levels.ME2}</div>
-          </div>
+&nbsp;&nbsp;|&nbsp;&nbsp;
 
-          <div class="report-card" style="border-left:6px solid #FF9800">
-            <div class="report-title">AE</div>
-            <div class="report-value">${levels.AE1 + levels.AE2}</div>
-          </div>
+Year:
+<b>${reportMeta?.year || "-"}</b>
 
-          <div class="report-card" style="border-left:6px solid #9E9E9E">
-            <div class="report-title">BE</div>
-            <div class="report-value">${levels.BE1 + levels.BE2}</div>
-          </div>
+</div>
 
-        </div>
+</div>
 
-        <div style="margin-top:20px;padding:15px;border-radius:10px;background:${statusColor};color:white;font-weight:bold;text-align:center;">
-          ${status}
-        </div>
-      `;
+<div style="
+text-align:center;
+">
+
+<div style="
+font-size:60px;
+font-weight:800;
+line-height:1;
+">
+
+${eePercent.toFixed(0)}%
+
+</div>
+
+<div style="
+font-size:15px;
+opacity:.9;
+">
+
+School Performance
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:25px;
+">
+
+<div style="
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+padding:20px;
+border-radius:18px;
+color:#fff;
+box-shadow:0 8px 25px rgba(37,99,235,.25);
+">
+
+<div style="font-size:42px;">👨‍🎓</div>
+
+<div style="font-size:38px;font-weight:800;">
+${learners.length}
+</div>
+
+<div>Total Learners</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#16a34a,#22c55e);
+padding:20px;
+border-radius:18px;
+color:white;
+box-shadow:0 8px 25px rgba(34,197,94,.25);
+">
+
+<div style="font-size:42px;">📈</div>
+
+<div style="font-size:38px;font-weight:800;">
+${avg.toFixed(1)}
+</div>
+
+<div>Average Marks</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#f59e0b,#fbbf24);
+padding:20px;
+border-radius:18px;
+color:white;
+box-shadow:0 8px 25px rgba(245,158,11,.25);
+">
+
+<div style="font-size:42px;">🥇</div>
+
+<div style="
+font-size:24px;
+font-weight:700;
+">
+
+${highest.name}
+
+</div>
+
+<div>
+
+${highest.score} Marks
+
+</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#dc2626,#ef4444);
+padding:20px;
+border-radius:18px;
+color:white;
+box-shadow:0 8px 25px rgba(239,68,68,.25);
+">
+
+<div style="font-size:42px;">📉</div>
+
+<div style="
+font-size:24px;
+font-weight:700;
+">
+
+${lowest.name}
+
+</div>
+
+<div>
+
+${lowest.score} Marks
+
+</div>
+
+</div>
+
+</div>
+
+<h2 style="
+margin-top:35px;
+margin-bottom:20px;
+">
+
+📊 Performance Distribution
+
+</h2>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:18px;
+">
+
+${[
+["EE","#16a34a",levels.EE1+levels.EE2],
+["ME","#2563eb",levels.ME1+levels.ME2],
+["AE","#f59e0b",levels.AE1+levels.AE2],
+["BE","#dc2626",levels.BE1+levels.BE2]
+].map(item=>{
+
+const percent=((item[2]/learners.length)*100).toFixed(1);
+
+return`
+
+<div style="
+background:#fff;
+border-radius:16px;
+padding:18px;
+box-shadow:0 8px 22px rgba(0,0,0,.08);
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+font-weight:bold;
+margin-bottom:10px;
+">
+
+<span>${item[0]}</span>
+
+<span>${item[2]}</span>
+
+</div>
+
+<div style="
+height:14px;
+background:#e5e7eb;
+border-radius:30px;
+overflow:hidden;
+">
+
+<div style="
+width:${percent}%;
+height:100%;
+background:${item[1]};
+">
+
+</div>
+
+</div>
+
+<div style="
+margin-top:10px;
+font-size:13px;
+color:#666;
+">
+
+${percent}% of learners
+
+</div>
+
+</div>
+
+`;
+
+}).join("")}
+
+</div>
+
+<div style="
+margin-top:30px;
+background:${statusColor};
+color:white;
+padding:22px;
+border-radius:16px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
+">
+
+${status}
+
+</div>
+
+`;
 
     } catch (err) {
       console.error(err);
@@ -19667,18 +19930,95 @@ function generateTopStudents() {
                 "#4CAF50"
             ];
 
-            container.innerHTML=`
+          container.innerHTML=`
 
-                <h2 style="text-align:center;">
-                    🏆 TOP 5 STUDENTS
-                </h2>
+<div style="
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+padding:30px;
+border-radius:20px;
+margin-bottom:25px;
+color:#fff;
+box-shadow:0 15px 35px rgba(0,0,0,.18);
+">
 
-                <div style="
-                    display:grid;
-                    grid-template-columns:
-                    repeat(auto-fit,minmax(260px,1fr));
-                    gap:15px;
-                ">
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+">
+
+<div>
+
+<div style="
+font-size:14px;
+letter-spacing:3px;
+text-transform:uppercase;
+opacity:.8;
+">
+RASM TECH 360
+</div>
+
+<h1 style="
+margin:8px 0;
+font-size:34px;
+font-weight:800;
+">
+🏆 Top Performing Learners
+</h1>
+
+<div style="
+font-size:16px;
+opacity:.9;
+">
+
+Grade:
+<b>${window.reportContext?.grade || "All Grades"}</b>
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+Exam:
+<b>${window.reportContext?.examPeriod || "Current Exam"}</b>
+
+</div>
+
+</div>
+
+<div style="
+text-align:center;
+">
+
+<div style="
+font-size:55px;
+font-weight:bold;
+line-height:1;
+">
+
+${learners.length}
+
+</div>
+
+<div style="
+font-size:15px;
+opacity:.85;
+">
+
+Learners Analysed
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:22px;
+">
 
                 ${learners
                     .slice(0,5)
@@ -19689,18 +20029,20 @@ function generateTopStudents() {
                             ? (student.total/maxTotal)*100
                             : 0;
 
-                        const grade=
-                            getKCSEGrade(
-                                student.average
-                            );
+                       const performanceLevel = getPerformanceLevel(student.total);
 
                         return`
 
                         <div
-                            class="report-card"
-                            style="
-                                border-left:8px solid ${colors[index]};
-                            ">
+style="
+background:#ffffff;
+color:#1f2937;
+border-left:8px solid ${colors[index]};
+border-radius:16px;
+padding:22px;
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+transition:.3s;
+">
 
                             <h3>
 
@@ -19759,13 +20101,19 @@ function generateTopStudents() {
 
                             </p>
 
-                            <p>
-
-                                <b>KCSE Grade:</b>
-
-                                ${grade}
-
-                            </p>
+                           <p>
+    <b>Performance Level:</b>
+    <span style="
+        display:inline-block;
+        padding:4px 10px;
+        background:#2563eb;
+        color:#fff;
+        border-radius:20px;
+        font-weight:bold;
+    ">
+        ${performanceLevel}
+    </span>
+</p>
 
                             <p>
 
@@ -19817,6 +20165,20 @@ function generateTopStudents() {
 
     },400);
 
+}
+function getPerformanceLevel(score) {
+
+    score = Number(score) || 0;
+
+    if (score >= 788) return "EE1";
+    if (score >= 676) return "EE2";
+    if (score >= 563) return "ME1";
+    if (score >= 451) return "ME2";
+    if (score >= 338) return "AE1";
+    if (score >= 226) return "AE2";
+    if (score >= 113) return "BE1";
+
+    return "BE2";
 }
 function generateTermPerformance(selectedGrade, selectedExamPeriod) {
 
@@ -20056,13 +20418,237 @@ function generateTermPerformance(selectedGrade, selectedExamPeriod) {
       // =====================================
       // RENDER
       // =====================================
-      let html = `
+     // =====================================
+// EXECUTIVE DASHBOARD HEADER
+// =====================================
+let html = `
 
-      <h2>
-      📊 Term Performance Dashboard
-      </h2>
+<div style="
+background:linear-gradient(135deg,#0f172a,#1e40af);
+padding:30px;
+border-radius:22px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+">
 
-      <div class="report-grid">
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+">
+
+<div>
+
+<div style="
+font-size:14px;
+letter-spacing:3px;
+text-transform:uppercase;
+opacity:.85;
+">
+
+RASM TECH 360
+
+</div>
+
+<h1 style="
+margin:8px 0;
+font-size:34px;
+font-weight:800;
+">
+
+📊 Executive Performance Dashboard
+
+</h1>
+
+<div style="
+font-size:16px;
+opacity:.92;
+line-height:1.8;
+">
+
+<b>Grade:</b>
+${selectedGrade || "All Grades"}
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+<b>Exam:</b>
+${selectedExamPeriod || "All Exams"}
+
+<br>
+
+<b>Subjects:</b>
+${subjects.length}
+
+&nbsp;&nbsp;|&nbsp;&nbsp;
+
+<b>Learners:</b>
+${filteredLearners.length}
+
+</div>
+
+</div>
+
+<div style="
+text-align:center;
+">
+
+<div style="
+font-size:58px;
+font-weight:800;
+line-height:1;
+color:#4ade80;
+">
+
+${overallAverage}
+
+</div>
+
+<div style="
+font-size:16px;
+opacity:.9;
+">
+
+Overall School Average
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- KPI CARDS -->
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
+margin-bottom:30px;
+">
+
+<div style="
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:white;
+padding:22px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(37,99,235,.25);
+">
+
+<div style="font-size:42px;">👨‍🎓</div>
+
+<div style="
+font-size:36px;
+font-weight:bold;
+margin-top:10px;
+">
+
+${filteredLearners.length}
+
+</div>
+
+<div style="opacity:.9;">
+Learners
+</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#16a34a,#22c55e);
+color:white;
+padding:22px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(22,163,74,.25);
+">
+
+<div style="font-size:42px;">📚</div>
+
+<div style="
+font-size:36px;
+font-weight:bold;
+margin-top:10px;
+">
+
+${subjects.length}
+
+</div>
+
+<div>
+Subjects Assessed
+</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#f59e0b,#fbbf24);
+color:white;
+padding:22px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(245,158,11,.25);
+">
+
+<div style="font-size:42px;">🏆</div>
+
+<div style="
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+">
+
+${best.name}
+
+</div>
+
+<div>
+
+${best.avg.toFixed(2)}%
+
+</div>
+
+</div>
+
+<div style="
+background:linear-gradient(135deg,#dc2626,#ef4444);
+color:white;
+padding:22px;
+border-radius:18px;
+box-shadow:0 8px 25px rgba(239,68,68,.25);
+">
+
+<div style="font-size:42px;">📉</div>
+
+<div style="
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+">
+
+${worst.name}
+
+</div>
+
+<div>
+
+${worst.avg.toFixed(2)}%
+
+</div>
+
+</div>
+
+</div>
+
+<h2 style="
+margin-bottom:18px;
+">
+
+📈 Subject Performance Ranking
+
+</h2>
+
+<div class="report-grid">
 
       <div class="report-card">
       <div class="report-title">
@@ -20388,143 +20974,364 @@ function generateTopGrade() {
 
       }
 
-      // ======================================
-      // HEADER
-      // ======================================
-      let html = `
+     // ======================================
+// EXECUTIVE DASHBOARD
+// ======================================
 
-      <h2>
-      🏆 Grade Performance Dashboard
-      </h2>
+const overallAverage =
+grades.reduce((sum,g)=>sum+g.average,0) /
+grades.length;
 
-      <div class="report-grid">
+const totalLearners =
+grades.reduce((sum,g)=>sum+g.learners,0);
 
-      <div class="report-card">
+const excellentGrades =
+grades.filter(g=>g.average>=90).length;
 
-      <div class="report-title">
-      Best Grade
-      </div>
+const goodGrades =
+grades.filter(g=>g.average>=75 && g.average<90).length;
 
-      <div class="report-value">
-      ${best.grade}
-      </div>
+let html = `
 
-      <small>
-      Avg ${best.average.toFixed(2)}
-      </small>
+<div style="
+background:linear-gradient(135deg,#ff9800,#ff5722);
+padding:25px;
+border-radius:18px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.18);
+">
 
-      </div>
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+">
 
-      <div class="report-card">
+<div>
 
-      <div class="report-title">
-      Lowest Grade
-      </div>
+<h2 style="
+margin:0;
+font-size:30px;
+font-weight:800;
+">
 
-      <div class="report-value">
-      ${worst.grade}
-      </div>
+🏆 Grade Performance Dashboard
 
-      <small>
-      Avg ${worst.average.toFixed(2)}
-      </small>
+</h2>
 
-      </div>
+<div style="
+margin-top:8px;
+font-size:15px;
+opacity:.9;
+">
 
-      <div class="report-card">
+School Grade Performance Analytics
 
-      <div class="report-title">
-      Grades
-      </div>
+</div>
 
-      <div class="report-value">
-      ${grades.length}
-      </div>
+</div>
 
-      </div>
+<div style="
+font-size:55px;
+">
 
-      </div>
+🏫
 
-      <h3 style="margin-top:20px;">
-      📊 Grade Ranking
-      </h3>
+</div>
 
-      `;
+</div>
 
-      grades.forEach((g,index)=>{
+</div>
 
-        const level =
-          getLevel(g.average);
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:25px;
+">
 
-        const width =
-          maxAverage
-            ? (g.average/maxAverage)*100
-            : 0;
+<div class="report-card" style="
+border-left:6px solid #4CAF50;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
 
-        html += `
+<div class="report-title">
+🥇 Best Grade
+</div>
 
-        <div style="
-        margin:15px 0;
-        ">
+<div class="report-value">
+${best.grade}
+</div>
 
-        <div style="
-        display:flex;
-        justify-content:space-between;
-        ">
+<div style="
+margin-top:8px;
+font-weight:bold;
+color:#4CAF50;
+">
 
-        <b>
+Average ${best.average.toFixed(2)}%
 
-        ${index+1}. ${g.grade}
+</div>
 
-        </b>
+</div>
 
-        <span>
+<div class="report-card" style="
+border-left:6px solid #F44336;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
 
-        Avg:
-        ${g.average.toFixed(2)}
+<div class="report-title">
+📉 Lowest Grade
+</div>
 
-        |
+<div class="report-value">
+${worst.grade}
+</div>
 
-        ${level.label}
+<div style="
+margin-top:8px;
+font-weight:bold;
+color:#F44336;
+">
 
-        |
+Average ${worst.average.toFixed(2)}%
 
-        ${g.learners} Learners
+</div>
 
-        </span>
+</div>
 
-        </div>
+<div class="report-card" style="
+border-left:6px solid #2196F3;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
 
-        <div style="
-        height:14px;
-        background:#eee;
-        border-radius:10px;
-        overflow:hidden;
-        margin-top:6px;
-        ">
+<div class="report-title">
+📚 Grades
+</div>
 
-        <div style="
-        width:${width}%;
-        height:100%;
-        background:${level.color};
-        transition:.4s;
-        ">
+<div class="report-value">
+${grades.length}
+</div>
 
-        </div>
+<div style="margin-top:8px;">
+Registered Grades
+</div>
 
-        </div>
+</div>
 
-        </div>
+<div class="report-card" style="
+border-left:6px solid #9C27B0;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
 
-        `;
+<div class="report-title">
+👨‍🎓 Learners
+</div>
 
-      });
+<div class="report-value">
+${totalLearners}
+</div>
 
-      container.innerHTML = html;
+<div style="margin-top:8px;">
+Total Learners
+</div>
 
-      container.scrollIntoView({
-        behavior:"smooth"
-      });
+</div>
+
+<div class="report-card" style="
+border-left:6px solid #FF9800;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
+
+<div class="report-title">
+📊 School Average
+</div>
+
+<div class="report-value">
+${overallAverage.toFixed(2)}%
+</div>
+
+</div>
+
+<div class="report-card" style="
+border-left:6px solid #009688;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
+
+<div class="report-title">
+⭐ EE Grades
+</div>
+
+<div class="report-value">
+${excellentGrades}
+</div>
+
+</div>
+
+<div class="report-card" style="
+border-left:6px solid #8BC34A;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+">
+
+<div class="report-title">
+✅ ME Grades
+</div>
+
+<div class="report-value">
+${goodGrades}
+</div>
+
+</div>
+
+</div>
+
+<h3 style="
+margin-bottom:18px;
+font-size:24px;
+color:#333;
+">
+
+🏅 Grade Ranking
+
+</h3>
+
+`;
+
+grades.forEach((g,index)=>{
+
+const level = getLevel(g.average);
+
+const width =
+maxAverage
+?
+(g.average/maxAverage)*100
+:
+0;
+
+const medal =
+index===0
+?"🥇"
+:index===1
+?"🥈"
+:index===2
+?"🥉"
+:"🏅";
+
+html += `
+
+<div style="
+background:#fff;
+padding:18px;
+margin-bottom:18px;
+border-radius:16px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+border-left:8px solid ${level.color};
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+">
+
+<div>
+
+<div style="
+font-size:24px;
+font-weight:bold;
+">
+
+${medal} ${g.grade}
+
+</div>
+
+<div style="
+margin-top:5px;
+color:#666;
+">
+
+${g.learners} Learners
+
+</div>
+
+</div>
+
+<div style="
+text-align:right;
+">
+
+<div style="
+font-size:24px;
+font-weight:bold;
+color:${level.color};
+">
+
+${g.average.toFixed(2)}%
+
+</div>
+
+<div style="
+display:inline-block;
+padding:5px 14px;
+margin-top:6px;
+border-radius:25px;
+background:${level.color};
+color:#fff;
+font-size:13px;
+font-weight:bold;
+">
+
+${level.label}
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+margin-top:15px;
+height:16px;
+background:#ececec;
+border-radius:30px;
+overflow:hidden;
+">
+
+<div style="
+width:${width}%;
+height:100%;
+background:linear-gradient(90deg,${level.color},#66bb6a);
+transition:width .8s ease;
+">
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+container.innerHTML = html;
+
+container.scrollIntoView({
+
+behavior:"smooth"
+
+});
 
     }
 
@@ -20548,7 +21355,6 @@ function generateTopGrade() {
   },400);
 
 }
-
 // ===============================
 // 🔥 ROBUST FILTER SYSTEM
 // ===============================
@@ -50459,6 +51265,552 @@ ${content.innerHTML}
     },700);
 
 };
+
+// ======================================================
+// 👦👧 GENDER PERFORMANCE DASHBOARD
+// ======================================================
+function generateGenderPerformance() {
+
+    const container =
+        document.getElementById("genderPerformanceContent");
+
+    if (!container) return;
+
+    // ==========================================
+    // LOADER
+    // ==========================================
+    const loader =
+        document.createElement("div");
+
+    loader.id = "genderPerformanceLoader";
+
+    loader.innerHTML = `
+    <div style="
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.55);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column;
+        z-index:99999;
+        color:#fff;
+        font-family:Arial;
+    ">
+
+        <div style="
+            width:55px;
+            height:55px;
+            border:6px solid #eee;
+            border-top:6px solid #2563eb;
+            border-radius:50%;
+            animation:spin .8s linear infinite;
+        "></div>
+
+        <p style="margin-top:15px;">
+            Analysing Gender Performance...
+        </p>
+
+    </div>
+
+    <style>
+    @keyframes spin{
+        from{transform:rotate(0deg);}
+        to{transform:rotate(360deg);}
+    }
+    </style>
+    `;
+
+    document.body.appendChild(loader);
+
+    setTimeout(()=>{
+
+        try{
+
+            const examLearners = getFilteredLearners();
+const registeredLearners = window.allStudents || [];
+
+// Merge gender from registered learners
+const learners = examLearners.map(exam => {
+
+    const student = registeredLearners.find(s =>
+        s.id === exam.id ||
+        (s.admissionNo && exam.admissionNo && s.admissionNo === exam.admissionNo) ||
+        s.name.trim().toLowerCase() === exam.name.trim().toLowerCase()
+    );
+
+    return {
+        ...exam,
+        gender: student?.gender || ""
+    };
+
+});
+
+console.log("Merged Learners", learners);
+            if(!learners.length){
+
+                container.innerHTML=`
+                <div style="
+                    padding:40px;
+                    text-align:center;
+                    color:red;
+                    font-weight:bold;
+                ">
+                    No learner data found.
+                </div>
+                `;
+
+                return;
+
+            }
+
+            // =====================================
+            // GENDER GROUPS
+            // =====================================
+
+            const boys =
+                learners.filter(l=>{
+
+                    const g =
+                        String(l.gender||"")
+                        .toLowerCase();
+
+                    return g==="male" ||
+                           g==="boy";
+
+                });
+
+            const girls =
+                learners.filter(l=>{
+
+                    const g =
+                        String(l.gender||"")
+                        .toLowerCase();
+
+                    return g==="female" ||
+                           g==="girl";
+
+                });
+
+            function average(list){
+
+                if(!list.length)
+                    return 0;
+
+                return list.reduce(
+
+                    (sum,l)=>
+
+                    sum+
+
+                    Number(
+                        l.average||0
+                    ),
+
+                    0
+
+                )/list.length;
+
+            }
+
+            function highest(list){
+
+                if(!list.length)
+                    return null;
+
+                return list.sort(
+
+                    (a,b)=>
+
+                    Number(b.total||0)
+
+                    -
+
+                    Number(a.total||0)
+
+                )[0];
+
+            }
+
+            const boysAverage =
+                average(boys);
+
+            const girlsAverage =
+                average(girls);
+
+            const topBoy =
+                highest([...boys]);
+
+            const topGirl =
+                highest([...girls]);
+
+            let winner =
+                "Tie";
+
+            let winnerColor =
+                "#f59e0b";
+
+            if(boysAverage>girlsAverage){
+
+                winner="Boys";
+
+                winnerColor="#2563eb";
+
+            }
+
+            if(girlsAverage>boysAverage){
+
+                winner="Girls";
+
+                winnerColor="#ec4899";
+
+            }
+
+            // =====================================
+            // DASHBOARD
+            // =====================================
+
+           container.innerHTML = `
+
+<div style="
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+padding:30px;
+border-radius:18px;
+color:#fff;
+margin-bottom:25px;
+box-shadow:0 15px 35px rgba(0,0,0,.18);
+">
+
+<h2 style="
+margin:0;
+font-size:32px;
+font-weight:800;
+">
+👦👧 Gender Performance Dashboard
+</h2>
+
+<p style="
+margin-top:10px;
+opacity:.9;
+font-size:16px;
+">
+Performance comparison between Boys and Girls
+</p>
+
+</div>
+
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+">
+
+<!-- BOYS -->
+
+<div style="
+background:#ffffff;
+color:#1e293b;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+border-left:8px solid #2563eb;
+">
+
+<h2 style="
+margin:0;
+color:#2563eb;
+font-size:28px;
+">
+👦 Boys
+</h2>
+
+<hr style="
+margin:18px 0;
+border:none;
+border-top:1px solid #e5e7eb;
+">
+
+<p style="color:#64748b;margin:0;">
+Learners
+</p>
+
+<h1 style="
+margin:5px 0 20px;
+font-size:42px;
+color:#111827;
+">
+${boys.length}
+</h1>
+
+<p style="color:#64748b;margin:0;">
+Average
+</p>
+
+<h2 style="
+margin:5px 0 20px;
+font-size:32px;
+color:#2563eb;
+">
+${boysAverage.toFixed(2)}%
+</h2>
+
+<p style="color:#64748b;margin:0;">
+Top Performer
+</p>
+
+<h3 style="
+margin-top:8px;
+font-size:22px;
+color:#111827;
+">
+${topBoy ? topBoy.name : "-"}
+</h3>
+
+</div>
+
+<!-- GIRLS -->
+
+<div style="
+background:#ffffff;
+color:#1e293b;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+border-left:8px solid #ec4899;
+">
+
+<h2 style="
+margin:0;
+color:#ec4899;
+font-size:28px;
+">
+👧 Girls
+</h2>
+
+<hr style="
+margin:18px 0;
+border:none;
+border-top:1px solid #e5e7eb;
+">
+
+<p style="color:#64748b;margin:0;">
+Learners
+</p>
+
+<h1 style="
+margin:5px 0 20px;
+font-size:42px;
+color:#111827;
+">
+${girls.length}
+</h1>
+
+<p style="color:#64748b;margin:0;">
+Average
+</p>
+
+<h2 style="
+margin:5px 0 20px;
+font-size:32px;
+color:#ec4899;
+">
+${girlsAverage.toFixed(2)}%
+</h2>
+
+<p style="color:#64748b;margin:0;">
+Top Performer
+</p>
+
+<h3 style="
+margin-top:8px;
+font-size:22px;
+color:#111827;
+">
+${topGirl ? topGirl.name : "-"}
+</h3>
+
+</div>
+
+<!-- WINNER -->
+
+<div style="
+background:#ffffff;
+color:#1e293b;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+border-left:8px solid ${winnerColor};
+">
+
+<h2 style="
+margin:0;
+font-size:28px;
+color:#111827;
+">
+🏆 Overall Winner
+</h2>
+
+<hr style="
+margin:18px 0;
+border:none;
+border-top:1px solid #e5e7eb;
+">
+
+<div style="
+font-size:50px;
+font-weight:800;
+color:${winnerColor};
+margin:25px 0;
+text-align:center;
+">
+
+${winner}
+
+</div>
+
+<div style="
+text-align:center;
+font-size:18px;
+color:#475569;
+">
+
+Difference
+
+<br><br>
+
+<span style="
+font-size:30px;
+font-weight:700;
+color:#111827;
+">
+
+${Math.abs(boysAverage-girlsAverage).toFixed(2)}%
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div style="
+margin-top:35px;
+background:#ffffff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+">
+
+<h2 style="
+margin-top:0;
+color:#111827;
+">
+📊 Average Performance Comparison
+</h2>
+
+<div style="margin-top:25px;">
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+color:#111827;
+font-weight:600;
+">
+
+<span>👦 Boys</span>
+
+<span>${boysAverage.toFixed(2)}%</span>
+
+</div>
+
+<div style="
+height:18px;
+background:#e5e7eb;
+border-radius:30px;
+overflow:hidden;
+">
+
+<div style="
+height:100%;
+width:${boysAverage}%;
+background:linear-gradient(90deg,#3b82f6,#2563eb);
+border-radius:30px;
+"></div>
+
+</div>
+
+<br>
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+color:#111827;
+font-weight:600;
+">
+
+<span>👧 Girls</span>
+
+<span>${girlsAverage.toFixed(2)}%</span>
+
+</div>
+
+<div style="
+height:18px;
+background:#e5e7eb;
+border-radius:30px;
+overflow:hidden;
+">
+
+<div style="
+height:100%;
+width:${girlsAverage}%;
+background:linear-gradient(90deg,#f472b6,#ec4899);
+border-radius:30px;
+"></div>
+
+</div>
+
+</div>
+
+</div>
+`;
+
+            container.scrollIntoView({
+
+                behavior:"smooth"
+
+            });
+
+        }
+
+        catch(err){
+
+            console.error(err);
+
+            container.innerHTML=`
+            <div style="
+                color:red;
+                text-align:center;
+                padding:30px;
+            ">
+                Error generating Gender Performance.
+            </div>
+            `;
+
+        }
+
+        finally{
+
+            loader.remove();
+
+        }
+
+    },400);
+
+}
 </script>
 </body>
 </html>
