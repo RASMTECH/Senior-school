@@ -9576,11 +9576,6 @@ const packageLabels = {
 // PACKAGE PRICING
 // ===========================
 
-if (selectedPackage === "weekly") {
-  amount = 2000;
-  duration = 7 * 24 * 60 * 60 * 1000;
-}
-
 if (selectedPackage === "starter") {
   amount = 3000;
   duration = 30 * 24 * 60 * 60 * 1000;
@@ -26076,98 +26071,242 @@ function getSelectedStudents() {
   return selected;
 }
 
+// ======================================================
+// 🎓 PROMOTE SELECTED LEARNERS
+// ======================================================
+
 window.promoteSelected = async () => {
 
-  // ================= GET SELECTED =================
-  const ids = getSelectedStudents();
+    // ==========================================
+    // GET SELECTED LEARNERS
+    // ==========================================
+    const ids = getSelectedStudents();
 
-  if (!ids.length) {
-    Swal.fire({
-      icon: "warning",
-      title: "No Selection",
-      text: "Please select at least one student"
-    });
-    return;
-  }
-
-  try {
-
-    // ================= FETCH STUDENTS =================
-    const snapshot = await get(schoolRef("students"));
-    const students = snapshot.val();
-
-    const updates = {};
-    const summary = [];
-
-    for (const key in students) {
-
-      if (!ids.includes(key)) continue;
-
-      const student = students[key];
-
-      if (!student.grade) continue;
-
-      const currentGrade = student.grade;
-      const nextGrade = getNextGrade(currentGrade);
-
-      if (!nextGrade) continue;
-
-      updates[`schools/${schoolId}/students/${key}/previousGrade`] = currentGrade;
-      updates[`schools/${schoolId}/students/${key}/grade`] = nextGrade;
-
-      summary.push(`${student.name || "Unnamed"}: ${currentGrade} → ${nextGrade}`);
+    if (!ids.length) {
+        return Swal.fire({
+            icon: "warning",
+            title: "No Learners Selected",
+            text: "Please select one or more learners before promoting.",
+            confirmButtonColor: "#3085d6"
+        });
     }
 
-    // ================= NOTHING FOUND =================
-    if (!summary.length) {
-      Swal.fire({
-        icon: "info",
-        title: "No Eligible Students",
-        text: "No selected students can be promoted"
-      });
-      return;
+    try {
+
+        // ==========================================
+        // LOAD STUDENTS
+        // ==========================================
+        const snapshot = await get(schoolRef("students"));
+        const students = snapshot.val() || {};
+
+        const updates = {};
+        const promoted = [];
+        const skipped = [];
+
+        ids.forEach(id => {
+
+            const student = students[id];
+
+            if (!student) return;
+
+            const currentGrade = student.grade || "";
+            const nextGrade = getNextGrade(currentGrade);
+
+            if (!nextGrade) {
+                skipped.push(
+                    `<li><b>${student.name || "Unnamed Learner"}</b> (${currentGrade})</li>`
+                );
+                return;
+            }
+
+            updates[`schools/${schoolId}/students/${id}/previousGrade`] = currentGrade;
+            updates[`schools/${schoolId}/students/${id}/grade`] = nextGrade;
+
+            promoted.push(
+                `<li><b>${student.name || "Unnamed Learner"}</b><br>
+                <span style="color:#777;">${currentGrade}</span>
+                <span style="color:#0d6efd;"> ➜ </span>
+                <span style="color:green;font-weight:bold;">${nextGrade}</span>
+                </li>`
+            );
+
+        });
+
+        // ==========================================
+        // NOTHING TO PROMOTE
+        // ==========================================
+        if (!promoted.length) {
+            return Swal.fire({
+                icon: "info",
+                title: "No Eligible Learners",
+                text: "None of the selected learners can be promoted."
+            });
+        }
+
+        // ==========================================
+        // CONFIRM PROMOTION
+        // ==========================================
+        const confirm = await Swal.fire({
+
+            icon: "question",
+
+            title: "Promote Learners?",
+
+            html: `
+                <div style="text-align:left;">
+
+                    <p>
+                        <b>Total Selected:</b>
+                        ${ids.length}
+                    </p>
+
+                    <p>
+                        <b>Ready for Promotion:</b>
+                        <span style="color:green;">
+                            ${promoted.length}
+                        </span>
+                    </p>
+
+                    ${
+                        skipped.length
+                        ?
+                        `
+                        <p>
+                            <b>Skipped:</b>
+                            <span style="color:red;">
+                                ${skipped.length}
+                            </span>
+                        </p>
+                        `
+                        :
+                        ""
+                    }
+
+                    <hr>
+
+                    <div style="
+                        max-height:280px;
+                        overflow:auto;
+                        padding-right:8px;
+                    ">
+
+                        <ol>
+                            ${promoted.join("")}
+                        </ol>
+
+                    </div>
+
+                </div>
+            `,
+
+            showCancelButton: true,
+
+            confirmButtonColor: "#28a745",
+
+            cancelButtonColor: "#d33",
+
+            confirmButtonText: "🚀 Promote Learners",
+
+            cancelButtonText: "Cancel"
+
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        // ==========================================
+        // LOADING
+        // ==========================================
+        Swal.fire({
+            title: "Promoting Learners...",
+            html: "Please wait while records are being updated.",
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // ==========================================
+        // UPDATE DATABASE
+        // ==========================================
+        await update(ref(db), updates);
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Promotion Completed 🎉",
+
+            html: `
+                <div style="text-align:left;">
+
+                    <div style="
+                        background:#f8f9fa;
+                        border-radius:10px;
+                        padding:15px;
+                        margin-bottom:15px;
+                    ">
+
+                        <h3 style="margin:0;color:#198754;">
+                            ✅ ${promoted.length} Learners Promoted
+                        </h3>
+
+                        ${
+                            skipped.length
+                            ?
+                            `
+                            <p style="margin-top:8px;color:#dc3545;">
+                                ${skipped.length} learner(s) skipped.
+                            </p>
+                            `
+                            :
+                            ""
+                        }
+
+                    </div>
+
+                    <div style="
+                        max-height:320px;
+                        overflow:auto;
+                    ">
+
+                        <ol>
+                            ${promoted.join("")}
+                        </ol>
+
+                    </div>
+
+                </div>
+            `,
+
+            confirmButtonColor: "#198754"
+
+        });
+
+        // OPTIONAL
+        if (typeof loadStudents === "function") {
+            loadStudents();
+        }
+
     }
 
-    // ================= CONFIRMATION =================
-    const confirm = await Swal.fire({
-      title: "Confirm Promotion",
-      html: `
-        <h4>Students to be promoted:</h4>
-        <pre style="text-align:left;max-height:250px;overflow:auto;">
-${summary.join("\n")}
-        </pre>
-      `,
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Yes, Promote",
-      cancelButtonText: "Cancel"
-    });
+    catch (error) {
 
-    if (!confirm.isConfirmed) return;
+        console.error("Promotion Error:", error);
 
-    // ================= UPDATE FIREBASE =================
-    await update(ref(db), updates);
+        Swal.fire({
+            icon: "error",
+            title: "Promotion Failed",
+            text: error.message || "An unexpected error occurred.",
+            confirmButtonColor: "#d33"
+        });
 
-    // ================= SUCCESS =================
-    Swal.fire({
-      icon: "success",
-      title: "Promotion Successful 🎉",
-      html: `
-        <pre style="text-align:left;max-height:250px;overflow:auto;">
-${summary.join("\n")}
-        </pre>
-      `
-    });
+    }
 
-  } catch (error) {
-    console.error(error);
-    Swal.fire({
-      icon: "error",
-      title: "Promotion Failed",
-      text: "Something went wrong"
-    });
-  }
 };
+
 window.undoPromotion = async () => {
 
   try {
@@ -26225,32 +26364,40 @@ ${summary.join("\n")}
   }
 };
 
+
+// ======================================================
+// GET NEXT GRADE
+// ======================================================
 function getNextGrade(currentGrade) {
 
-  const match = currentGrade.match(/(\d+)\s*([A-Z]?)/i);
-  if (!match) return null;
+    const match = currentGrade.match(/(\d+)\s*([A-Z]?)/i);
 
-  const number = parseInt(match[1]);
-  const letter = match[2] ? match[2].toUpperCase() : "";
+    if (!match) return null;
 
-  if (number >= 12) return null;
+    const number = parseInt(match[1]);
+    const letter = match[2] ? match[2].toUpperCase() : "";
 
-  return `${number + 1}${letter ? " " + letter : ""}`;
+    if (number >= 12) return null;
+
+    return `${number + 1}${letter ? " " + letter : ""}`;
 }
 
+// ======================================================
+// GET PREVIOUS GRADE
+// ======================================================
 function getPreviousGrade(currentGrade) {
 
-  const match = currentGrade.match(/(\d+)\s*([A-Z]?)/i);
-  if (!match) return null;
+    const match = currentGrade.match(/(\d+)\s*([A-Z]?)/i);
 
-  const number = parseInt(match[1]);
-  const letter = match[2] ? match[2].toUpperCase() : "";
+    if (!match) return null;
 
-  if (number <= 1) return null;
+    const number = parseInt(match[1]);
+    const letter = match[2] ? match[2].toUpperCase() : "";
 
-  return `${number - 1}${letter ? " " + letter : ""}`;
+    if (number <= 1) return null;
+
+    return `${number - 1}${letter ? " " + letter : ""}`;
 }
-
 window.deleteSelected = async () => {
 
   const ids = getSelectedStudents();
