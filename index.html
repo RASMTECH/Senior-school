@@ -10439,6 +10439,50 @@ sessionStorage.setItem(
 // =========================
 // GET USER PROFILE
 // =========================
+// 👇 INSERT HERE
+
+// =========================
+// HIDE LOGIN LOADER
+// =========================
+const loader = document.getElementById("modernLoginLoader");
+
+if (loader) {
+  loader.style.display = "none";
+}
+
+// =========================
+// OPEN APP
+// =========================
+const authSection = document.getElementById("authSection");
+    const app =
+      document.getElementById(
+        "app"
+      );
+
+    if (authSection) {
+
+      authSection.style.display =
+        "none";
+    }
+
+    if (app) {
+
+      app.style.display =
+        "block";
+
+      app.style.opacity = "0";
+
+      setTimeout(() => {
+
+        app.style.transition =
+          "0.4s ease";
+
+        app.style.opacity = "1";
+
+      }, 50);
+    }
+
+
 const userSnapRef = await get(ref(db, `users/${uid}`));
 
 if (!userSnapRef.exists()) {
@@ -10597,58 +10641,59 @@ if (loader) {
     // =========================
     // SUCCESS ALERT
     // =========================
-  await Swal.fire({
-  icon: "success",
-  title: "Login Successful",
-  text: `Welcome back to ${schoolName}`,
-  timer: 1500,
-  showConfirmButton: false,
-  background: "#ffffff",
-  color: "#0f172a"
+  // =========================
+// SUCCESS ALERT
+// =========================
+await Swal.fire({
+    icon: "success",
+    title: "🎊 Welcome to RASM 360",
+    html: `
+        <div style="padding:10px;text-align:center;line-height:1.8;">
+
+            <div style="font-size:58px;">🌴☀️🏖️</div>
+
+            <h2 style="color:#16a34a;margin:10px 0;">
+                Happy August Holidays!
+            </h2>
+
+            <p style="font-size:16px;">
+                Welcome back <strong>${schoolName}</strong>.
+            </p>
+
+            <p>
+                The entire <strong>RASM TECH</strong> team wishes you,
+                your learners, teachers and school community a peaceful,
+                joyful and memorable August Holiday.
+            </p>
+
+            <p>
+                Thank you for trusting
+                <strong>RASM 360 School ERP</strong>
+                to power your digital school management.
+            </p>
+
+            <div style="
+                margin-top:18px;
+                padding:15px;
+                border-radius:12px;
+                background:#f0fdf4;
+                border:1px solid #bbf7d0;
+                color:#166534;
+                font-weight:600;
+            ">
+                🌟 Rest • Recharge • Stay Safe • See You Next Term 🌟
+            </div>
+
+        </div>
+    `,
+    confirmButtonText: "🚀 Enter Dashboard",
+    confirmButtonColor: "#2563eb",
+    width: 700,
+    background: "#ffffff",
+    color: "#0f172a",
+    backdrop: "rgba(37,99,235,0.35)"
 });
 
-// 👇 INSERT HERE
-
-// =========================
-// HIDE LOGIN LOADER
-// =========================
-const loader = document.getElementById("modernLoginLoader");
-
-if (loader) {
-  loader.style.display = "none";
-}
-
-// =========================
-// OPEN APP
-// =========================
-const authSection = document.getElementById("authSection");
-    const app =
-      document.getElementById(
-        "app"
-      );
-
-    if (authSection) {
-
-      authSection.style.display =
-        "none";
-    }
-
-    if (app) {
-
-      app.style.display =
-        "block";
-
-      app.style.opacity = "0";
-
-      setTimeout(() => {
-
-        app.style.transition =
-          "0.4s ease";
-
-        app.style.opacity = "1";
-
-      }, 50);
-    }
 
     // =========================
     // SAFE SCHOOL UI UPDATE
@@ -10936,7 +10981,7 @@ if (!document.getElementById("modernDotLoaderStyle")) {
     inset:0;
     background:rgba(15,23,42,0.45);
 
-    backdrop-filter:blur(6px);
+   
 
     display:none;
     align-items:center;
