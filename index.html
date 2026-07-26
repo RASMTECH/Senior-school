@@ -7762,98 +7762,260 @@ margin-bottom:15px;
      class="section"
      style="display:none;">
 
-  <div style="
-    background:linear-gradient(135deg,#059669,#047857);
-    color:white;
-    padding:25px;
-    border-radius:18px;
-    margin-bottom:20px;
-  ">
-    <h2>💰 Fee Balance Checker</h2>
-    <p>View learner fee balances and payment status.</p>
-  </div>
+    <!-- ========================================= -->
+    <!-- HEADER -->
+    <!-- ========================================= -->
 
-  <div style="
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-  ">
-
-    <!-- 👨‍👩‍👧 PARENT PHONE INPUT (NEW CORE FEATURE) -->
-    <input id="feeParentPhone"
-           placeholder="Enter parent phone (e.g. 07xxxxxxxx)"
-           style="
-             width:100%;
-             padding:12px;
-             border:1px solid #ccc;
-             border-radius:10px;
-             margin-bottom:12px;
-           " />
-
-    <small style="color:#666; display:block; margin-bottom:12px;">
-      👆 Required for parents. Admins can ignore this field.
-    </small>
-
-    <!-- YEAR -->
-    <select id="feeBalanceYear"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:12px;
-      ">
-    </select>
-
-    <!-- GRADE -->
-    <select id="feeBalanceGrade"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:12px;
-      ">
-      <option value="">All Grades</option>
-    </select>
-
-    <!-- LEARNER -->
-    <select id="feeBalanceStudent"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:15px;
-      ">
-      <option value="">Select Learner</option>
-    </select>
-
-    <!-- CHECK BUTTON -->
-    <button
-      onclick="checkFeeBalance()"
-      style="
-        background:#059669;
+    <div style="
+        background:linear-gradient(135deg,#059669,#047857);
         color:white;
-        border:none;
-        padding:12px 18px;
-        border-radius:10px;
-        cursor:pointer;
-        width:100%;
-        font-weight:bold;
-      ">
-      🔍 Check Balance
-    </button>
+        padding:25px;
+        border-radius:18px;
+        margin-bottom:20px;
+    ">
 
-    <!-- RESULT -->
-    <div id="feeBalanceResult"
-         style="margin-top:20px;">
+        <h2 style="margin:0;">💰 Fee Balance Checker</h2>
+
+        <p style="margin:8px 0 0;">
+            Quickly view learner fee balances and payment status.
+        </p>
+
     </div>
+<div style="margin-bottom:18px;">
 
-  </div>
+<button
+onclick="showParentLearnerList()"
+style="
+background:white;
+color:#2563eb;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+">
+⬅ Back to Learners
+</button>
 
 </div>
+    <!-- ========================================= -->
+    <!-- INSTRUCTIONS -->
+    <!-- ========================================= -->
+
+    <div style="
+        background:#f0fdf4;
+        border-left:5px solid #16a34a;
+        padding:18px;
+        border-radius:12px;
+        margin-bottom:20px;
+        line-height:1.8;
+    ">
+
+        <h3 style="
+            margin-top:0;
+            color:#166534;
+        ">
+            📖 How to Check Fee Balance
+        </h3>
+
+        <!-- Parent Instructions -->
+        <div id="parentFeeInstructions">
+
+            <div style="
+                background:#ecfdf5;
+                padding:15px;
+                border-radius:10px;
+                border:1px solid #bbf7d0;
+            ">
+
+                <b>👨‍👩‍👧 Parent Instructions</b>
+
+                <ol style="
+                    margin-top:10px;
+                    padding-left:20px;
+                    color:#374151;
+                ">
+
+                    <li>Select the <b>Academic Year</b>.</li>
+
+                    <li>Enter the <b>registered parent phone number</b>.</li>
+
+                    <li>Click <b>🔍 Check Fee Balance</b>.</li>
+
+                    <li>Your learner's fee statement will appear automatically.</li>
+
+                </ol>
+
+            </div>
+
+        </div>
+
+        <!-- Admin Instructions -->
+        <div id="adminFeeInstructions" style="display:none;">
+
+            <div style="
+                background:#eff6ff;
+                padding:15px;
+                border-radius:10px;
+                border:1px solid #bfdbfe;
+            ">
+
+                <b>🏫 Administrator Instructions</b>
+
+                <ol style="
+                    margin-top:10px;
+                    padding-left:20px;
+                    color:#374151;
+                ">
+
+                    <li>Select the <b>Academic Year</b>.</li>
+
+                    <li>Select the <b>Grade</b>.</li>
+
+                    <li>Select the <b>Learner</b>.</li>
+
+                    <li>
+                        You may also search directly using the parent's phone number.
+                    </li>
+
+                    <li>Click <b>🔍 Check Fee Balance</b>.</li>
+
+                </ol>
+
+            </div>
+
+        </div>
+
+        <div style="
+            margin-top:15px;
+            background:#fffbeb;
+            border-left:4px solid #f59e0b;
+            padding:12px;
+            border-radius:10px;
+            color:#92400e;
+            font-size:14px;
+        ">
+            💡 <b>Tip:</b> Parents only require the registered phone number and the academic year to access their learner's fee statement.
+        </div>
+
+    </div>
+
+    <!-- ========================================= -->
+    <!-- SEARCH CARD -->
+    <!-- ========================================= -->
+
+    <div style="
+        background:white;
+        padding:20px;
+        border-radius:16px;
+        box-shadow:0 4px 12px rgba(0,0,0,.08);
+    ">
+
+        <!-- Parent Phone -->
+
+        <input
+            id="feeParentPhone"
+            placeholder="Enter Parent Phone Number (07XXXXXXXX)"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:10px;
+                margin-bottom:12px;
+            "
+        />
+
+        <small style="
+            color:#666;
+            display:block;
+            margin-bottom:15px;
+        ">
+            📱 Parents should enter the registered phone number.
+        </small>
+
+        <!-- Academic Year -->
+
+        <select
+            id="feeBalanceYear"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:10px;
+                margin-bottom:12px;
+            ">
+        </select>
+
+        <!-- Grade (Admins Only) -->
+
+        <div id="feeGradeContainer">
+
+            <select
+                id="feeBalanceGrade"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #ccc;
+                    border-radius:10px;
+                    margin-bottom:12px;
+                ">
+
+                <option value="">All Grades</option>
+
+            </select>
+
+        </div>
+
+        <!-- Learner (Admins Only) -->
+
+        <div id="feeStudentContainer">
+
+            <select
+                id="feeBalanceStudent"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #ccc;
+                    border-radius:10px;
+                    margin-bottom:15px;
+                ">
+
+                <option value="">Select Learner</option>
+
+            </select>
+
+        </div>
+
+        <!-- Search Button -->
+
+        <button
+            onclick="checkFeeBalance()"
+            style="
+                background:#059669;
+                color:white;
+                border:none;
+                padding:13px;
+                border-radius:10px;
+                cursor:pointer;
+                width:100%;
+                font-weight:bold;
+                font-size:15px;
+            ">
+
+            🔍 Check Fee Balance
+
+        </button>
+
+        <!-- Result -->
+
+        <div id="feeBalanceResult"
+             style="margin-top:20px;">
+        </div>
+
+    </div>
+
+</div>
+
 
 <!-- =========================================
      USERS LIST SECTION (UPDATED STYLE)
@@ -7958,120 +8120,265 @@ margin-bottom:15px;
      class="section"
      style="display:none;">
 
-  <!-- HEADER -->
-  <div style="
-    background:linear-gradient(135deg,#2563eb,#1d4ed8);
-    color:white;
-    padding:25px;
-    border-radius:18px;
-    margin-bottom:20px;
-  ">
-    <h2>📊 Check Learner Results</h2>
-    <p>
-      View learner examination results by Grade,
-      Exam Period and Learner.
-    </p>
-  </div>
+    <!-- ====================================== -->
+    <!-- HEADER -->
+    <!-- ====================================== -->
 
-  <!-- CONTENT CARD -->
-  <div style="
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-  ">
-
-    <!-- GRADE -->
-    <label style="
-      display:block;
-      margin-bottom:6px;
-      font-weight:600;
-    ">
-      🎓 Select Grade
-    </label>
-
-    <select id="checkResultsGrade"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:12px;
-      ">
-      <option value="">
-        Select Grade
-      </option>
-    </select>
-
-    <!-- EXAM PERIOD -->
-    <label style="
-      display:block;
-      margin-bottom:6px;
-      font-weight:600;
-    ">
-      📅 Select Exam Period
-    </label>
-
-    <select id="checkResultsExamPeriod"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:12px;
-      ">
-      <option value="">
-        Select Exam Period
-      </option>
-    </select>
-
-    <!-- LEARNER -->
-    <label style="
-      display:block;
-      margin-bottom:6px;
-      font-weight:600;
-    ">
-      👨‍🎓 Select Learner
-    </label>
-
-    <select id="checkResultsStudent"
-      style="
-        width:100%;
-        padding:12px;
-        border:1px solid #ccc;
-        border-radius:10px;
-        margin-bottom:15px;
-      ">
-      <option value="">
-        Select Learner
-      </option>
-    </select>
-
-    <!-- BUTTON -->
-    <button
-      onclick="handleCheckResults()"
-      style="
-        background:#2563eb;
+    <div style="
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
         color:white;
-        border:none;
-        padding:12px 18px;
-        border-radius:10px;
-        cursor:pointer;
-        width:100%;
-      ">
-      📊 View Results
-    </button>
+        padding:25px;
+        border-radius:18px;
+        margin-bottom:20px;
+    ">
 
-    <!-- RESULTS OUTPUT -->
-    <div id="resultsContainer"
-         style="margin-top:20px;">
+        <h2 style="margin:0;">📊 Check Learner Results</h2>
+
+        <p style="margin-top:8px;">
+            View learner examination results quickly and securely.
+        </p>
+
     </div>
 
-  </div>
+    <!-- ====================================== -->
+    <!-- INSTRUCTIONS -->
+    <!-- ====================================== -->
+
+    <div style="
+        background:#eff6ff;
+        border-left:5px solid #2563eb;
+        padding:18px;
+        border-radius:12px;
+        margin-bottom:20px;
+        line-height:1.8;
+    ">
+
+        <h3 style="
+            margin-top:0;
+            color:#1d4ed8;
+        ">
+            📖 How to View Results
+        </h3>
+
+        <!-- Parent Guide -->
+
+        <div id="parentResultsInstructions">
+
+            <div style="
+                background:#f8fafc;
+                border:1px solid #dbeafe;
+                padding:15px;
+                border-radius:10px;
+            ">
+
+                <b>👨‍👩‍👧 Parent Instructions</b>
+
+                <ol style="
+                    margin-top:10px;
+                    padding-left:20px;
+                    color:#374151;
+                ">
+
+                    <li>Enter the <b>registered parent phone number</b>.</li>
+
+                    <li>Select the learner's <b>Grade</b>.</li>
+
+                    <li>Select the <b>Exam Period</b>.</li>
+
+                    <li>Click <b>📊 View Results</b>.</li>
+
+                    <li>The learner's examination results will be displayed automatically.</li>
+
+                </ol>
+
+            </div>
+
+        </div>
+
+        <!-- Admin Guide -->
+
+        <div id="adminResultsInstructions"
+             style="display:none;">
+
+            <div style="
+                background:#f8fafc;
+                border:1px solid #dbeafe;
+                padding:15px;
+                border-radius:10px;
+            ">
+
+                <b>🏫 Administrator Instructions</b>
+
+                <ol style="
+                    margin-top:10px;
+                    padding-left:20px;
+                    color:#374151;
+                ">
+
+                    <li>Select the <b>Grade</b>.</li>
+
+                    <li>Select the <b>Exam Period</b>.</li>
+
+                    <li>Select the <b>Learner</b>.</li>
+
+                    <li>You may also search using the parent's phone number.</li>
+
+                    <li>Click <b>📊 View Results</b>.</li>
+
+                </ol>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- SEARCH CARD -->
+    <!-- ====================================== -->
+
+    <div style="
+        background:white;
+        padding:20px;
+        border-radius:16px;
+        box-shadow:0 4px 12px rgba(0,0,0,.08);
+    ">
+
+        <!-- Parent Phone -->
+
+        <label style="
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+        ">
+            📱 Parent Phone Number
+        </label>
+
+        <input
+            id="checkResultsParentPhone"
+            placeholder="Enter Parent Phone Number (07XXXXXXXX)"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:10px;
+                margin-bottom:15px;
+            "
+        >
+
+        <!-- Grade -->
+
+        <label style="
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+        ">
+            🎓 Select Grade
+        </label>
+
+        <select id="checkResultsGrade"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+
+            <option value="">
+                Select Grade
+            </option>
+
+        </select>
+
+        <!-- Exam -->
+
+        <label style="
+            display:block;
+            margin-bottom:6px;
+            font-weight:600;
+        ">
+            📅 Select Exam Period
+        </label>
+
+        <select id="checkResultsExamPeriod"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+
+            <option value="">
+                Select Exam Period
+            </option>
+
+        </select>
+
+        <!-- Learner (Admins Only) -->
+
+        <div id="checkResultsStudentContainer">
+
+            <label style="
+                display:block;
+                margin-bottom:6px;
+                font-weight:600;
+            ">
+                👨‍🎓 Select Learner
+            </label>
+
+            <select id="checkResultsStudent"
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #ccc;
+                    border-radius:10px;
+                    margin-bottom:15px;
+                ">
+
+                <option value="">
+                    Select Learner
+                </option>
+
+            </select>
+
+        </div>
+
+        <!-- Button -->
+
+        <button
+            onclick="handleCheckResults()"
+            style="
+                background:#2563eb;
+                color:white;
+                border:none;
+                padding:13px;
+                border-radius:10px;
+                cursor:pointer;
+                width:100%;
+                font-size:15px;
+                font-weight:bold;
+            ">
+
+            📊 View Results
+
+        </button>
+
+        <!-- Results -->
+
+        <div id="resultsContainer"
+             style="margin-top:20px;">
+        </div>
+
+    </div>
 
 </div>
-<!-- ===================== ASSIGNMENT HELP MARKETPLACE ===================== -->
 
+
+
+
+<!-- ===================== ASSIGNMENT HELP MARKETPLACE ===================== -->
 <div id="assignmentHelpSection" style="display:none;padding:20px;">
 
   <div style="
@@ -47278,133 +47585,976 @@ window.loadFeeBalanceStudents = function () {
 };
 
 // =====================================================
-// 🔒 SECURE FEE CHECK (PARENT LOCK ENFORCED)
+// 🔒 PARENT / ADMIN FEE BALANCE CHECK
 // =====================================================
 
 window.checkFeeBalance = async function () {
 
-  try {
+    try {
 
-    const role =
-      (window.currentUserRole || "")
-        .toLowerCase();
+        const year =
+            document.getElementById("feeBalanceYear")?.value;
 
-    const year =
-      document.getElementById("feeBalanceYear").value;
+        const phoneInput =
+            document.getElementById("feeParentPhone")?.value.trim() || "";
 
-    const studentId =
-      document.getElementById("feeBalanceStudent").value;
+        const result =
+            document.getElementById("feeBalanceResult");
 
-    const phoneInput =
-      document.getElementById("feeParentPhone")?.value.trim();
+        if (!year) {
 
-    if (!studentId) {
-      return Swal.fire(
-        "Select Learner",
-        "Choose a learner first",
-        "warning"
-      );
+            return Swal.fire({
+                icon: "warning",
+                title: "Academic Year Required",
+                text: "Please select the academic year."
+            });
+
+        }
+
+        Swal.fire({
+            title: "Searching...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        // ======================================
+        // NORMALIZE PHONE
+        // ======================================
+
+        const normalizePhone = phone => {
+
+            if (!phone) return "";
+
+            phone = String(phone)
+                .replace(/\s+/g, "")
+                .replace(/-/g, "");
+
+            if (phone.startsWith("+254"))
+                phone = "0" + phone.substring(4);
+
+            if (phone.startsWith("254"))
+                phone = "0" + phone.substring(3);
+
+            return phone;
+
+        };
+
+        const role =
+            (window.currentUserRole || "")
+            .toLowerCase();
+
+        const students =
+            window.allStudents || [];
+
+        let learners = [];
+
+        // ======================================
+        // PARENT SEARCH
+        // ======================================
+
+        if (role === "parent") {
+
+            if (!phoneInput) {
+
+                Swal.close();
+
+                return Swal.fire({
+                    icon: "warning",
+                    title: "Phone Required",
+                    text: "Enter your registered phone number."
+                });
+
+            }
+
+            learners = students.filter(student =>
+                normalizePhone(student.parentPhone) ===
+                normalizePhone(phoneInput)
+            );
+
+        }
+
+        // ======================================
+        // ADMIN SEARCH
+        // ======================================
+
+        else {
+
+            const studentId =
+                document.getElementById("feeBalanceStudent")?.value;
+
+            if (studentId) {
+
+                const learner =
+                    students.find(s => s.id === studentId);
+
+                if (learner)
+                    learners.push(learner);
+
+            }
+
+            else if (phoneInput) {
+
+                learners = students.filter(student =>
+                    normalizePhone(student.parentPhone) ===
+                    normalizePhone(phoneInput)
+                );
+
+            }
+
+            else {
+
+                Swal.close();
+
+                return Swal.fire({
+                    icon: "warning",
+                    title: "Search Required",
+                    text: "Select a learner or enter a parent phone number."
+                });
+
+            }
+
+        }
+
+        // ======================================
+        // NONE FOUND
+        // ======================================
+
+        if (!learners.length) {
+
+            Swal.close();
+
+            result.innerHTML = "";
+
+            return Swal.fire({
+                icon: "error",
+                title: "No Learner Found",
+                text: "No learner is linked to the supplied details."
+            });
+
+        }
+
+        // ======================================
+        // ONE LEARNER
+        // ======================================
+
+        if (learners.length === 1) {
+
+            Swal.close();
+
+            return showParentFeeStatement(
+                learners[0],
+                year
+            );
+
+        }
+
+       // ======================================
+// MULTIPLE LEARNERS
+// ======================================
+
+Swal.close();
+
+// Save learners so the parent can return to the list later
+window.__parentLearners = learners;
+window.__parentYear = year;
+
+result.innerHTML = `
+
+<div style="
+background:#fff;
+border-radius:16px;
+padding:20px;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+">
+
+<h2 style="
+margin-top:0;
+color:#1e3a8a;
+">
+👨‍👩‍👧‍👦 Select a Learner
+</h2>
+
+<p style="
+color:#64748b;
+margin-bottom:20px;
+">
+${learners.length} learners are linked to this phone number.
+Choose one to view the fee statement.
+</p>
+
+<div style="
+display:grid;
+gap:15px;
+">
+
+${learners.map(student => `
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+border:1px solid #e5e7eb;
+border-radius:12px;
+background:#fafafa;
+">
+
+<div>
+
+<h3 style="
+margin:0;
+color:#111827;
+">
+👨‍🎓 ${student.fullName || student.studentName || student.name || "Unknown Learner"}
+</h3>
+
+<div style="
+margin-top:6px;
+color:#6b7280;
+">
+🏫 ${student.grade}
+</div>
+
+</div>
+
+<button
+onclick="showParentFeeStatementById('${student.id}','${year}')"
+style="
+background:#2563eb;
+color:#fff;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+">
+View Statement
+</button>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</div>
+
+`;
+
     }
 
-    // ==========================
-    // 🔐 PARENT SECURITY CHECK (PHONE MATCH)
-    // ==========================
+    catch (err) {
 
-    if (role === "parent") {
+        console.error(err);
 
-      const student =
-        allStudents.find(s => s.id === studentId);
+        Swal.close();
 
-      if (!student || student.parentPhone !== phoneInput) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: err.message
+        });
 
-        return Swal.fire(
-          "Access Denied",
-          "This learner is not linked to the entered parent phone.",
-          "error"
+    }
+
+};
+// =====================================================
+// SHOW FEE STATEMENT BY LEARNER ID
+// =====================================================
+
+window.showParentFeeStatementById = async function (studentId, year) {
+
+    try {
+
+        Swal.fire({
+            title: "Loading Statement...",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        const learner =
+            (window.allStudents || [])
+            .find(s => s.id === studentId);
+
+        if (!learner) {
+
+            Swal.close();
+
+            return Swal.fire({
+                icon: "error",
+                title: "Learner Not Found"
+            });
+
+        }
+
+        await showParentFeeStatement(
+            learner,
+            year
         );
-      }
+
     }
 
-    // ==========================
-    // FETCH FEES
-    // ==========================
+    catch (err) {
 
-    const snap =
-      await get(schoolRef(`fees/${year}`));
+        console.error(err);
 
-    const data =
-      snap.val() || {};
+        Swal.close();
 
-    let feeData = null;
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: err.message
+        });
 
-    Object.values(data).forEach(fee => {
-      if (fee.studentId === studentId) {
-        feeData = fee;
-      }
-    });
-
-    const result =
-      document.getElementById("feeBalanceResult");
-
-    if (!feeData) {
-
-      result.innerHTML = `
-        <div style="color:red;font-weight:bold;">
-          No fee record found for ${year}
-        </div>
-      `;
-
-      return;
     }
 
-    // ==========================
-    // STATUS CALCULATION
-    // ==========================
-
-    let status = "OWING";
-
-    if (Number(feeData.balance || 0) <= 0) {
-      status = "PAID";
-    } else if (Number(feeData.totalPaid || 0) > 0) {
-      status = "PARTIAL";
-    }
-
-    // ==========================
-    // RENDER RESULT
-    // ==========================
-
-    result.innerHTML = `
-      <div style="
-        background:#f8fafc;
-        padding:20px;
-        border-radius:12px;
-        border:1px solid #e2e8f0;
-      ">
-
-        <h3>👨‍🎓 ${feeData.studentName}</h3>
-
-        <p>🎓 Grade: ${feeData.grade}</p>
-        <p>📅 Year: ${year}</p>
-        <p>💰 Total Paid: ${feeData.totalPaid || 0}</p>
-        <p>⚠ Balance: ${feeData.balance || 0}</p>
-        <p>📌 Status: <b>${status}</b></p>
-
-      </div>
-    `;
-
-  } catch (err) {
-
-    console.error(err);
-
-    Swal.fire(
-      "Error",
-      err.message,
-      "error"
-    );
-  }
 };
 
-window.applyPasswordModalPermissions = function () {
+// =====================================================
+// LOAD LEARNER FEE RECORD
+// =====================================================
+
+window.showParentFeeStatement = async function (
+    learner,
+    year
+) {
+
+    try {
+
+        const result =
+            document.getElementById(
+                "feeBalanceResult"
+            );
+
+        const snapshot =
+            await get(
+                schoolRef(`fees/${year}`)
+            );
+
+        const fees =
+            snapshot.val() || {};
+
+        const feeData =
+            Object.values(fees)
+            .find(fee =>
+                fee.studentId === learner.id
+            );
+
+        Swal.close();
+
+        if (!feeData) {
+
+            result.innerHTML = `
+
+<div style="
+background:#fff5f5;
+padding:25px;
+border-radius:12px;
+border:1px solid #fecaca;
+text-align:center;
+color:#dc2626;
+font-weight:bold;
+">
+
+No fee record found for ${year}
+
+</div>
+
+`;
+
+            return;
+
+        }
+
+        // ======================================
+        // CALCULATIONS
+        // ======================================
+
+        const totalFee =
+            Number(
+                feeData.expectedTotal || 0
+            );
+
+        const totalPaid =
+            Number(
+                feeData.totalPaid || 0
+            );
+
+        const balance =
+            Number(
+                feeData.balance || 0
+            );
+
+        let status = "OWING";
+        let color = "#dc2626";
+        let bg = "#fee2e2";
+
+        if (balance <= 0) {
+
+            status = "PAID";
+            color = "#15803d";
+            bg = "#dcfce7";
+
+        }
+
+        else if (totalPaid > 0) {
+
+            status = "PARTIAL";
+            color = "#d97706";
+            bg = "#fef3c7";
+
+        }
+
+        const percentage =
+            totalFee > 0
+            ? Math.min(
+                100,
+                Math.round(
+                    totalPaid /
+                    totalFee *
+                    100
+                )
+            )
+            : 0;
+
+        const money = value =>
+            Number(value || 0)
+            .toLocaleString();
+
+        // ======================================
+        // BUILD FEE BREAKDOWN
+        // ======================================
+
+        const feeItems =
+            feeData.fees || {};
+
+        let feeRows = "";
+
+        Object.entries(feeItems)
+        .forEach(([category, items]) => {
+
+            let expected = 0;
+
+            if (Array.isArray(items)) {
+
+                items.forEach(item => {
+
+                    if (typeof item === "number") {
+
+                        expected += item;
+
+                    }
+
+                    else if (
+                        typeof item === "object"
+                        && item
+                    ) {
+
+                        expected += Number(
+
+                            item.amount ??
+
+                            item.expected ??
+
+                            item.value ??
+
+                            item.fee ??
+
+                            0
+
+                        );
+
+                    }
+
+                });
+
+            }
+
+            else {
+
+                expected =
+                    Number(items || 0);
+
+            }
+
+            feeRows += `
+
+<tr>
+
+<td style="
+padding:12px;
+border-bottom:1px solid #eee;
+font-weight:600;
+">
+
+${category}
+
+</td>
+
+<td style="
+padding:12px;
+text-align:right;
+border-bottom:1px solid #eee;
+font-weight:bold;
+color:#2563eb;
+">
+
+KSh ${money(expected)}
+
+</td>
+
+</tr>
+
+`;
+
+        });
+
+        // ======================================
+        // ======================================
+// RENDER FEE STATEMENT
+// ======================================
+
+result.innerHTML = `
+
+<div style="
+    max-width:850px;
+    margin:auto;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid #e5e7eb;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+">
+
+    <!-- HEADER -->
+
+    <div style="
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        color:#fff;
+        padding:25px;
+    ">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:20px;
+        ">
+
+            <div>
+
+                <h2 style="
+                    margin:0;
+                    font-size:26px;
+                ">
+                    👨‍🎓 ${learner.fullName || learner.studentName || feeData.studentName}
+                </h2>
+
+                <div style="
+                    margin-top:10px;
+                    opacity:.9;
+                ">
+                    🏫 Grade:
+                    <b>${learner.grade || feeData.grade}</b>
+                </div>
+
+                <div style="margin-top:6px;">
+                    📅 Academic Year:
+                    <b>${year}</b>
+                </div>
+
+            </div>
+
+            <div style="
+                background:white;
+                color:${color};
+                padding:12px 22px;
+                border-radius:40px;
+                font-weight:bold;
+                font-size:16px;
+            ">
+                ${status}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BODY -->
+
+    <div style="padding:25px;">
+
+        <h3 style="
+            margin-top:0;
+            color:#1e293b;
+            border-left:5px solid #2563eb;
+            padding-left:12px;
+        ">
+            📋 Fee Breakdown
+        </h3>
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        ">
+
+            <thead>
+
+                <tr style="
+                    background:#f8fafc;
+                ">
+
+                    <th style="
+                        padding:12px;
+                        text-align:left;
+                    ">
+                        Fee Category
+                    </th>
+
+                    <th style="
+                        padding:12px;
+                        text-align:right;
+                    ">
+                        Amount
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${feeRows || `
+                    <tr>
+
+                        <td colspan="2"
+                            style="
+                                padding:18px;
+                                text-align:center;
+                                color:#6b7280;
+                            ">
+                            No fee categories available.
+                        </td>
+
+                    </tr>
+                `}
+
+            </tbody>
+
+        </table>
+
+        <!-- SUMMARY -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:15px;
+            margin-top:25px;
+        ">
+
+            <div style="
+                background:#eff6ff;
+                padding:18px;
+                border-radius:12px;
+            ">
+
+                <small style="color:#64748b;">
+                    Expected Total Fee
+                </small>
+
+                <h2 style="
+                    margin:10px 0 0;
+                    color:#2563eb;
+                ">
+                    KSh ${money(totalFee)}
+                </h2>
+
+            </div>
+
+            <div style="
+                background:#ecfdf5;
+                padding:18px;
+                border-radius:12px;
+            ">
+
+                <small style="color:#64748b;">
+                    Amount Paid
+                </small>
+
+                <h2 style="
+                    margin:10px 0 0;
+                    color:#15803d;
+                ">
+                    KSh ${money(totalPaid)}
+                </h2>
+
+            </div>
+
+            <div style="
+                background:${balance>0 ? "#fef2f2":"#ecfdf5"};
+                padding:18px;
+                border-radius:12px;
+            ">
+
+                <small style="color:#64748b;">
+                    Outstanding Balance
+                </small>
+
+                <h2 style="
+                    margin:10px 0 0;
+                    color:${balance>0 ? "#dc2626":"#15803d"};
+                ">
+                    KSh ${money(balance)}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- PROGRESS -->
+
+        <div style="
+            margin-top:35px;
+        ">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:8px;
+                font-weight:bold;
+            ">
+
+                <span>Payment Progress</span>
+
+                <span>${percentage}%</span>
+
+            </div>
+
+            <div style="
+                height:14px;
+                background:#e5e7eb;
+                border-radius:30px;
+                overflow:hidden;
+            ">
+
+                <div style="
+                    width:${percentage}%;
+                    height:100%;
+                    background:linear-gradient(90deg,#16a34a,#22c55e);
+                    transition:.4s;
+                ">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div style="
+            margin-top:30px;
+            padding-top:20px;
+            border-top:1px solid #e5e7eb;
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            gap:10px;
+            color:#64748b;
+            font-size:13px;
+        ">
+
+            <div>
+                📅 Generated:
+                ${new Date().toLocaleString()}
+            </div>
+
+            <div>
+                Powered by <b>RASM Tech Smart Schools</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+`;
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        Swal.close();
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: err.message || "Unable to load fee statement."
+        });
+
+    }
+
+};
+
+// =====================================================
+// SHOW LEARNER LIST AGAIN
+// =====================================================
+
+window.showParentLearnerList = function () {
+
+    const learners = window.__parentLearners;
+    const year = window.__parentYear;
+
+    console.log("Saved Learners:", learners);
+
+    const result =
+        document.getElementById("feeBalanceResult");
+
+    // ==========================================
+    // SAFETY CHECK
+    // ==========================================
+
+    if (!Array.isArray(learners) || learners.length === 0) {
+
+        return Swal.fire({
+            icon: "warning",
+            title: "Learner List Expired",
+            text: "Please search again using the parent's phone number."
+        });
+
+    }
+
+    // ==========================================
+    // DISPLAY LEARNERS
+    // ==========================================
+
+    result.innerHTML = `
+
+<div style="
+background:#fff;
+border-radius:16px;
+padding:22px;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:20px;
+">
+
+<div>
+
+<h2 style="
+margin:0;
+color:#1e3a8a;
+">
+👨‍👩‍👧‍👦 Select a Learner
+</h2>
+
+<p style="
+margin:8px 0 0;
+color:#64748b;
+">
+Choose a learner to view the fee statement.
+</p>
+
+</div>
+
+<div style="
+background:#eff6ff;
+padding:8px 14px;
+border-radius:30px;
+font-weight:bold;
+color:#2563eb;
+">
+
+Academic Year: ${year}
+
+</div>
+
+</div>
+
+<div style="
+display:grid;
+gap:15px;
+">
+
+${learners.map(student => `
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+border:1px solid #e5e7eb;
+border-radius:12px;
+background:#fafafa;
+transition:.2s;
+">
+
+<div>
+
+<h3 style="
+margin:0;
+color:#0f172a;
+">
+
+👨‍🎓 ${
+    student.fullName ||
+    student.studentName ||
+    student.name ||
+    student.learnerName ||
+    "Unknown Learner"
+}
+
+</h3>
+
+<div style="
+margin-top:8px;
+color:#64748b;
+">
+
+🏫 ${student.grade || "-"}
+
+</div>
+
+</div>
+
+<button
+onclick="showParentFeeStatementById('${student.id}','${year}')"
+style="
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+">
+
+📄 View Statement
+
+</button>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</div>
+
+`;
+
+};window.applyPasswordModalPermissions = function () {
 
   const role =
     (window.currentUserRole || "").toLowerCase();
@@ -47898,46 +49048,136 @@ window.viewPreviousResult = function () {
 };
 window.handleCheckResults = async function () {
 
-  const role =
-    (window.currentUserRole || "").toLowerCase();
+    const role = (window.currentUserRole || "").toLowerCase();
 
-  const grade =
-    document.getElementById("checkResultsGrade")?.value;
+    const grade =
+        document.getElementById("checkResultsGrade")?.value;
 
-  const examPeriod =
-    document.getElementById("checkResultsExamPeriod")?.value;
+    const examPeriod =
+        document.getElementById("checkResultsExamPeriod")?.value;
 
-  const studentId =
-    document.getElementById("checkResultsStudent")?.value;
+    const phoneInput =
+        document.getElementById("checkResultsParentPhone")?.value.trim() || "";
 
-  if (!grade || !examPeriod || !studentId) {
-    return Swal.fire(
-      "Missing Data",
-      "Select Grade, Exam Period and Learner",
-      "warning"
-    );
-  }
+    let studentId =
+        document.getElementById("checkResultsStudent")?.value;
 
-  // parent lock
-  if (role === "parent") {
+    if (!grade || !examPeriod) {
 
-    const student =
-      allStudents.find(s => s.id === studentId);
+        return Swal.fire(
+            "Missing Data",
+            "Select Grade and Exam Period.",
+            "warning"
+        );
 
-    if (!student || student.parentPhone !== window.currentUserPhone) {
-      return Swal.fire(
-        "Access Denied",
-        "You can only view your child's results",
-        "error"
-      );
     }
-  }
 
-  await window.loadStudentResults(
-    studentId,
-    examPeriod,
-    grade
-  );
+    // ==========================================
+    // PARENT SEARCH USING PHONE
+    // ==========================================
+
+    if (role === "parent") {
+
+        if (!phoneInput) {
+
+            return Swal.fire(
+                "Phone Required",
+                "Enter the registered parent phone number.",
+                "warning"
+            );
+
+        }
+
+        const normalizePhone = phone => {
+
+            phone = String(phone || "")
+                .replace(/\s+/g, "")
+                .replace(/-/g, "");
+
+            if (phone.startsWith("+254"))
+                phone = "0" + phone.substring(4);
+
+            if (phone.startsWith("254"))
+                phone = "0" + phone.substring(3);
+
+            return phone;
+
+        };
+
+        const enteredPhone = normalizePhone(phoneInput);
+
+       const learners = students.filter(student =>
+    normalizePhone(student.parentPhone) === enteredPhone
+);
+
+        if (!learners.length) {
+
+            return Swal.fire(
+                "No Learner Found",
+                "No learner is linked to that phone number in the selected grade.",
+                "error"
+            );
+
+        }
+
+        if (learners.length === 1) {
+
+            studentId = learners[0].id;
+
+        } else {
+
+            const options = {};
+
+            learners.forEach(l => {
+                options[l.id] = l.name;
+            });
+
+            const { value } = await Swal.fire({
+
+                title: "Select Learner",
+
+                input: "select",
+
+                inputOptions: options,
+
+                inputPlaceholder: "Choose Learner",
+
+                showCancelButton: true
+
+            });
+
+            if (!value) return;
+
+            studentId = value;
+
+        }
+
+    }
+
+    // ==========================================
+    // ADMIN VALIDATION
+    // ==========================================
+
+    if (role !== "parent" && !studentId) {
+
+        return Swal.fire(
+            "Missing Learner",
+            "Please select a learner.",
+            "warning"
+        );
+
+    }
+
+    // ==========================================
+    // LOAD RESULTS
+    // ==========================================
+
+    await window.loadStudentResults(
+        studentId,
+        examPeriod,
+        grade
+    );
+
 };
 window.loadResultsFilters = async function () {
 
@@ -52003,6 +53243,137 @@ border-radius:30px;
     },400);
 
 }
+(function () {
+
+    function configureFeeBalanceUI() {
+
+        const role = (window.currentUserRole || "").toLowerCase();
+
+        const gradeBox =
+            document.getElementById("feeGradeContainer");
+
+        const learnerBox =
+            document.getElementById("feeStudentContainer");
+
+        const parentGuide =
+            document.getElementById("parentFeeInstructions");
+
+        const adminGuide =
+            document.getElementById("adminFeeInstructions");
+
+        const phone =
+            document.getElementById("feeParentPhone");
+
+        if (role === "parent") {
+
+            // Hide admin-only fields
+            gradeBox.style.display = "none";
+            learnerBox.style.display = "none";
+
+            // Show parent guide
+            parentGuide.style.display = "block";
+            adminGuide.style.display = "none";
+
+            phone.placeholder =
+                "Enter Your Registered Phone Number";
+
+        } else {
+
+            // Show admin fields
+            gradeBox.style.display = "";
+            learnerBox.style.display = "";
+
+            // Show admin guide
+            parentGuide.style.display = "none";
+            adminGuide.style.display = "block";
+
+            phone.placeholder =
+                "Parent Phone Number (Optional)";
+
+        }
+
+    }
+
+    // Run after page loads
+    document.addEventListener(
+        "DOMContentLoaded",
+        configureFeeBalanceUI
+    );
+
+    // Make callable if section is opened later
+    window.configureFeeBalanceUI =
+        configureFeeBalanceUI;
+
+})();
+// =====================================================
+// CONFIGURE RESULTS PAGE BY USER ROLE
+// =====================================================
+
+(function () {
+
+    function configureResultsUI() {
+
+        const role =
+            (window.currentUserRole || "").toLowerCase();
+
+        const learnerContainer =
+            document.getElementById("checkResultsStudentContainer");
+
+        const parentGuide =
+            document.getElementById("parentResultsInstructions");
+
+        const adminGuide =
+            document.getElementById("adminResultsInstructions");
+
+        const phone =
+            document.getElementById("checkResultsParentPhone");
+
+        if (role === "parent") {
+
+            // Parents don't manually choose learner
+            if (learnerContainer)
+                learnerContainer.style.display = "none";
+
+            if (parentGuide)
+                parentGuide.style.display = "block";
+
+            if (adminGuide)
+                adminGuide.style.display = "none";
+
+            if (phone)
+                phone.placeholder = "Enter Your Registered Phone Number";
+
+        } else {
+
+            // Admins see everything
+            if (learnerContainer)
+                learnerContainer.style.display = "";
+
+            if (parentGuide)
+                parentGuide.style.display = "none";
+
+            if (adminGuide)
+                adminGuide.style.display = "block";
+
+            if (phone)
+                phone.placeholder = "Parent Phone Number (Optional)";
+
+        }
+
+    }
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        configureResultsUI
+    );
+
+    // Call this whenever the Results section is opened
+    window.configureResultsUI =
+        configureResultsUI;
+
+})();
+
+
 </script>
 </body>
 </html>
