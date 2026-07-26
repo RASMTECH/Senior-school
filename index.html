@@ -35,104 +35,93 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-
 /* =========================================================
    🌍 GLOBAL RESET
 ========================================================= */
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#f4f6f9;
-  overflow-x:auto;
-  color:#111827;
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    color:#111827;
+    overflow-x:hidden;
+    overscroll-behavior:none;
 }
 
 ul{
-  list-style:none;
+    list-style:none;
 }
 
 li{
-  background:#fff;
-  margin:6px;
-  padding:10px;
-  border-radius:6px;
+    background:#fff;
+    margin:6px;
+    padding:10px;
+    border-radius:6px;
 }
 
 .section{
-  display:none;
+    display:none;
 }
 
 .section.active{
-  display:block;
+    display:block;
 }
+
 /* =========================================================
-   🌍 MAIN LAYOUT
+   MAIN LAYOUT
 ========================================================= */
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  overscroll-behavior:none;
-}
 
 .main{
-  margin-left:240px;
-  width:calc(100% - 200px);
-  padding:20px;
-  min-height:100vh;
-  transition:all .3s ease;
+
+    margin-left:240px;
+
+    width:calc(100% - 240px);
+
+    min-height:100vh;
+
+    padding:20px;
+
+    transition:.3s;
+
 }
 
 /* =========================================================
-   🌍 ACTIVE BUTTON
-========================================================= */
-
-.sidebar button.active{
-  background:#22c55e !important;
-  color:#fff !important;
-  font-weight:700;
-
-  box-shadow:
-    0 0 0 2px rgba(255,255,255,.08),
-    0 6px 18px rgba(34,197,94,.25);
-}
-
-/* =========================================================
-   🌍 SIDEBAR
+   SIDEBAR
 ========================================================= */
 
 .sidebar{
 
-  width:220px;
-  height:100vh;
+    position:fixed;
 
-  background:#0f172a;
+    top:0;
+    left:0;
 
-  color:#fff;
+    width:220px;
+    height:100vh;
 
-  position:fixed;
-  top:0;
-  left:0;
+    display:flex;
+    flex-direction:column;
 
-  display:flex;
-  flex-direction:column;
+    background:#0f172a;
 
-  overflow:hidden;
+    color:#fff;
 
-  border-right:1px solid #1e293b;
+    overflow:hidden;
 
-  box-shadow:
-      0 8px 30px rgba(0,0,0,.18);
+    border-right:1px solid #1e293b;
 
-  z-index:1000;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+
+    z-index:1000;
 
 }
 
@@ -142,32 +131,33 @@ body{
 
 .sidebar-header{
 
-  padding:20px;
+    flex-shrink:0;
 
-  text-align:center;
+    padding:20px;
 
-  border-bottom:
-      1px solid rgba(255,255,255,.08);
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 
 }
 
 .sidebar-header h2{
 
-  font-size:24px;
+    font-size:24px;
 
-  color:#38bdf8;
+    color:#38bdf8;
 
-  font-weight:bold;
+    font-weight:bold;
 
 }
 
 .sidebar-header p{
 
-  margin-top:5px;
+    margin-top:5px;
 
-  color:#cbd5e1;
+    color:#cbd5e1;
 
-  font-size:13px;
+    font-size:13px;
 
 }
 
@@ -179,65 +169,55 @@ body{
 
     flex:1;
 
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:0;
+
     overflow-y:auto;
+
     overflow-x:hidden;
 
-    padding:15px 12px 30px;
+    padding:15px 12px 20px;
 
-    scroll-behavior:auto;
+    scrollbar-width:thin;
+
+    scrollbar-color:#64748b transparent;
 
     -webkit-overflow-scrolling:touch;
 
-    overscroll-behavior:contain;
-
-    scrollbar-width:thin;
-    scrollbar-color:#64748b transparent;
-
 }
-.sidebar,
-.sidebar-scroll{
-
-    will-change:scroll-position;
-    contain:layout paint;
-
-}
-/* Chrome */
 
 .sidebar-scroll::-webkit-scrollbar{
 
-  width:8px;
+    width:8px;
 
 }
 
 .sidebar-scroll::-webkit-scrollbar-track{
 
-  background:transparent;
+    background:transparent;
 
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb{
 
-  background:#475569;
+    background:#475569;
 
-  border-radius:30px;
+    border-radius:30px;
 
-  border:2px solid transparent;
+    border:2px solid transparent;
 
-  background-clip:content-box;
+    background-clip:content-box;
 
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb:hover{
 
-  background:#64748b;
+    background:#64748b;
 
-  background-clip:content-box;
-
-}
-
-.sidebar-scroll::-webkit-scrollbar-corner{
-
-  background:transparent;
+    background-clip:content-box;
 
 }
 
@@ -247,21 +227,27 @@ body{
 
 .menu-section{
 
-  margin-bottom:25px;
+    margin-bottom:28px;
+
+}
+
+.menu-section:last-child{
+
+    margin-bottom:0;
 
 }
 
 .menu-section h4{
 
-  font-size:12px;
+    margin-bottom:14px;
 
-  color:#94a3b8;
+    color:#94a3b8;
 
-  margin-bottom:12px;
+    font-size:12px;
 
-  letter-spacing:1px;
+    letter-spacing:1px;
 
-  text-transform:uppercase;
+    text-transform:uppercase;
 
 }
 
@@ -272,40 +258,37 @@ body{
 .sidebar button,
 .dropdown{
 
-  width:100%;
+    width:100%;
 
-  min-height:48px;
+    display:flex;
 
-  display:flex;
+    align-items:center;
 
-  align-items:center;
+    gap:10px;
 
-  gap:10px;
+    min-height:48px;
 
-  margin-bottom:8px;
+    margin-bottom:10px;
 
-  padding:12px 16px;
+    padding:12px 16px;
 
-  border:none;
+    border:none;
 
-  border-radius:12px;
+    border-radius:12px;
 
-  background:#1e293b;
+    background:#1e293b;
 
-  color:#fff;
+    color:#fff;
 
-  cursor:pointer;
+    font-size:14px;
 
-  text-align:left;
+    font-weight:500;
 
-  font-size:14px;
+    cursor:pointer;
 
-  font-weight:500;
+    text-align:left;
 
-  transition:
-      background .25s,
-      transform .25s,
-      box-shadow .25s;
+    transition:.25s;
 
 }
 
@@ -314,9 +297,19 @@ body{
 
     background:#2563eb;
 
-    transform:none;
+}
 
-    box-shadow:none;
+.sidebar button.active{
+
+    background:#22c55e !important;
+
+    color:#fff !important;
+
+    font-weight:700;
+
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,.08),
+        0 6px 18px rgba(34,197,94,.25);
 
 }
 
@@ -326,127 +319,169 @@ body{
 
 .menu-btn{
 
-  background:#2563eb !important;
+    background:#2563eb !important;
 
-  font-weight:bold;
+    font-weight:700;
 
 }
 
 .dark-btn{
 
-  background:#111827 !important;
+    background:#111827 !important;
 
 }
 
 .green-btn{
 
-  background:#16a34a !important;
+    background:#16a34a !important;
 
 }
 
 /* =========================================================
-   LOGOUT
-========================================================= */
-
-.logout-btn{
-
-  width:calc(100% - 24px);
-
-  margin:12px;
-
-  padding:13px;
-
-  background:#dc2626;
-
-  color:white;
-
-  border:none;
-
-  border-radius:12px;
-
-  cursor:pointer;
-
-  font-weight:bold;
-
-  position:sticky;
-
-  bottom:10px;
-
-  transition:.25s;
-
-}
-
-.logout-btn:hover{
-
-  background:#b91c1c;
-
-  transform:translateY(-2px);
-
-}
-
-/* =========================================================
-   SUBMENU
+   PREMIUM SUBMENU
 ========================================================= */
 
 .submenu{
 
-  max-height:0;
+    display:flex;
 
-  opacity:0;
+    flex-direction:column;
 
-  overflow:hidden;
+    max-height:0;
 
-  display:flex;
+    opacity:0;
 
-  flex-direction:column;
+    overflow:hidden;
 
-  gap:6px;
+    padding-left:18px;
 
-  padding-left:12px;
+    margin-top:6px;
 
-  transition:
-      max-height .35s ease,
-      opacity .35s ease;
+    border-left:2px solid rgba(255,255,255,.08);
 
-}
-
-.submenu button{
-
-  font-size:13px;
-
-  min-height:40px;
-
-}
-
-.submenu button:hover{
-
-  background:#2563eb;
+    transition:max-height .35s ease,opacity .25s ease;
 
 }
 
 .submenu.open{
 
-  max-height:500px;
+    max-height:3000px;
 
-  opacity:1;
+    opacity:1;
 
-  overflow-y:auto;
+    padding-top:8px;
 
-  padding-right:4px;
-
-}
-
-.submenu.open::-webkit-scrollbar{
-
-  width:5px;
+    padding-bottom:8px;
 
 }
 
-.submenu.open::-webkit-scrollbar-thumb{
+.submenu button{
 
-  background:#64748b;
+    background:#162033;
 
-  border-radius:30px;
+    min-height:44px;
+
+    margin-bottom:10px;
+
+    border-radius:10px;
+
+    border-left:4px solid transparent;
+
+    font-size:13px;
+
+    transition:.2s;
+
+}
+
+.submenu button:last-child{
+
+    margin-bottom:0;
+
+}
+
+.submenu button:hover{
+
+    background:#2563eb;
+
+    border-left-color:#38bdf8;
+
+    transform:translateX(6px);
+
+    box-shadow:0 6px 18px rgba(37,99,235,.28);
+
+}
+
+.submenu button.active{
+
+    background:#16a34a !important;
+
+    border-left-color:#fff;
+
+    color:#fff !important;
+
+    font-weight:700;
+
+}
+
+.submenu{
+
+    scrollbar-width:none;
+
+}
+
+.submenu::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.sidebar-footer{
+
+    flex-shrink:0;
+
+    background:#0f172a;
+
+    padding:12px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 -4px 12px rgba(0,0,0,.15);
+
+}
+
+.logout-btn{
+
+    width:100%;
+
+    margin:0;
+
+    padding:13px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#dc2626;
+
+    color:#fff;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.logout-btn:hover{
+
+    background:#b91c1c;
+
+    transform:translateY(-2px);
 
 }
 
@@ -456,59 +491,39 @@ body{
 
 .active{
 
-  background:#991b1b !important;
+    background:#991b1b !important;
 
-  color:white !important;
+    color:#fff !important;
 
-  font-weight:600;
+    font-weight:600;
 
-  box-shadow:
-      inset 4px 0 0 #ef4444,
-      0 6px 15px rgba(0,0,0,.18);
+    box-shadow:
+        inset 4px 0 0 #ef4444,
+        0 6px 15px rgba(0,0,0,.18);
 
 }
 
 /* =========================================================
-   FOOTER
+   SUBSCRIPTION BOX
 ========================================================= */
-
-.sidebar-footer{
-
-  position:sticky;
-
-  bottom:0;
-
-  background:#0f172a;
-
-  padding:12px;
-
-  border-top:
-      1px solid rgba(255,255,255,.08);
-
-  z-index:10;
-
-}
 
 .subscription-box{
 
-  background:#1e293b;
+    background:#1e293b;
 
-  padding:12px;
+    padding:12px;
 
-  border-radius:10px;
+    border-radius:10px;
 
-  font-size:13px;
+    font-size:13px;
 
 }
 
 .stats div{
 
-  margin-bottom:5px;
+    margin-bottom:5px;
 
-}
-
-
-/* =========================================================
+}/* =========================================================
    🌍 INPUTS
 ========================================================= */
 
@@ -3012,6 +3027,170 @@ background:#f3f4f6;
     break-inside:avoid !important;
 
 }
+
+/* =========================================================
+   SYSTEM FOOTER
+========================================================= */
+
+.system-footer{
+
+    width:100%;
+
+    margin-top:40px;
+
+    padding:16px 24px;
+
+    background:#0f172a;
+
+    color:#cbd5e1;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    border-top:3px solid #2563eb;
+
+    font-size:13px;
+
+    flex-wrap:wrap;
+
+}
+
+.system-footer .footer-left{
+
+    font-weight:600;
+
+}
+
+.system-footer .footer-center{
+
+    color:#94a3b8;
+
+    text-align:center;
+
+    flex:1;
+
+}
+
+.system-footer .footer-right{
+
+    color:#38bdf8;
+
+    font-weight:700;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.system-footer{
+
+    flex-direction:column;
+
+    text-align:center;
+
+    gap:10px;
+
+}
+
+}
+
+/* ==========================================
+   RASM LIVE POPUP
+========================================== */
+
+.rasm-popup{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    width:320px;
+
+    background:#ffffff;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+    border-left:6px solid #16a34a;
+
+    z-index:999999;
+
+    display:none;
+
+    animation:popupIn .45s ease;
+
+}
+
+.popup-school{
+
+    font-weight:bold;
+
+    color:#16a34a;
+
+    margin-bottom:8px;
+
+}
+
+.popup-message{
+
+    color:#374151;
+
+    line-height:1.6;
+
+    font-size:14px;
+
+}
+
+@keyframes popupIn{
+
+    from{
+
+        transform:translateY(50px);
+
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:translateY(0);
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes popupOut{
+
+    from{
+
+        transform:translateY(0);
+
+        opacity:1;
+
+    }
+
+    to{
+
+        transform:translateY(50px);
+
+        opacity:0;
+
+    }
+
+}
 </style>
 </head>
 
@@ -3572,113 +3751,35 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 
         </select>
 
-        <button onclick="printSelectedReport()" class="dark-btn">
-          🖨️ Print Selected
-        </button>
-
-      </div>
-
-      <!-- SETTINGS -->
-      <div class="menu-section">
-
-        <h4>SETTINGS</h4>
-
-        <button onclick="openSchoolProfileForm()" class="green-btn">
-          🏫 School Profile
-        </button>
-
-      </div>
-
-
-   <!-- ADVERTISING SECTION -->
-<div class="menu-section">
-
-  <h4>🚀 WHY SCHOOLS CHOOSE RASM 360</h4>
-
-  <div class="subscription-box">
-
-    <div style="
-      text-align:center;
-      padding:10px;
-      font-size:15px;
-      line-height:1.8;
-    ">
-
-      <h3 style="color:#16a34a;">
-        🏫 RASM 360 School ERP
-      </h3>
-
-      <p>
-        Transform your school with the most powerful,
-        affordable and easy-to-use School Management System.
-      </p>
-
-      <hr>
-
-      <div style="text-align:left;">
-
-        ✅ Student Registration & Admission<br>
-        ✅ CBC & Competency Based Assessment<br>
-        ✅ Exams, Marks & Report Cards<br>
-        ✅ Fee Management & Receipts<br>
-        ✅ Parent Portal Access<br>
-        ✅ SMS & Notifications<br>
-        ✅ Library Management<br>
-        ✅ Inventory & Asset Tracking<br>
-        ✅ Staff & Payroll Management<br>
-        ✅ Attendance Tracking<br>
-        ✅ School Analytics Dashboard<br>
-        ✅ Multi-School Cloud Platform<br>
-
-      </div>
-
-      <hr>
-
-      <div style="
-        color:#2563eb;
-        font-weight:bold;
-        font-size:16px;
-      ">
-        🎁 FREE 1 TERM TRIAL
-      </div>
-
-<p style="color:#f87171;">
-  No installation required.<br>
-  Access anywhere, anytime.
-</p>
-
-<hr>
-
-<div style="
-  padding:12px;
-  border-radius:10px;
-  color:#f87171;
-  font-weight:600;
-">
-  🌍 Trusted by Schools Across Kenya and Beyond
-</div>
-
-<br>
-
-<button class="primary-btn"
-  onclick="window.open('https://rasm360.com','_blank')">
-  🚀 Get Started Today
+     <button onclick="printSelectedReport()" class="dark-btn">
+    🖨️ Print Selected
 </button>
 
-    </div>
+</div>
 
-  </div>
+<!-- SETTINGS -->
+<div class="menu-section">
+
+    <h4>SETTINGS</h4>
+
+    <button onclick="openSchoolProfileForm()" class="green-btn">
+        🏫 School Profile
+    </button>
 
 </div>
-</div>
-    <!-- FIXED LOGOUT -->
-    <div class="sidebar-footer">
-      <button onclick="logout()" class="logout-btn">
+
+</div> <!-- END sidebar-scroll -->
+
+<!-- FIXED LOGOUT -->
+<div class="sidebar-footer">
+
+    <button onclick="logout()" class="logout-btn">
         🚪 Logout
-      </button>
-    </div>
+    </button>
 
-  </div>
+</div>
+
+</div> <!-- END sidebar -->
 
 
 <!-- ================= SCHOOL PROFILE MODAL ================= -->
@@ -8645,6 +8746,33 @@ Loading...
 </div>
 
 </div>
+
+<div id="rasmPopup" class="rasm-popup">
+
+    <div class="popup-school"></div>
+
+    <div class="popup-message"></div>
+
+</div>
+<!-- =====================================================
+     SYSTEM FOOTER
+===================================================== -->
+<footer class="system-footer">
+
+    <div class="footer-left">
+        © <span id="footerYear"></span> RASM 360 School ERP.
+        All Rights Reserved.
+    </div>
+
+    <div class="footer-center">
+        Empowering Schools Through Smart Technology
+    </div>
+
+    <div class="footer-right">
+        Version 5.0
+    </div>
+
+</footer>
 
 <script type="module">
 import {
@@ -53374,6 +53502,178 @@ border-radius:30px;
 })();
 
 
+document.getElementById("footerYear").textContent =
+    new Date().getFullYear();
+const testimonials = [
+
+{
+school:"🏫 Green Hills Academy",
+message:"We've been using RASM 360 for over 2 years. It has completely transformed our school."
+},
+
+{
+school:"👨🏫 Mr. James Mwangi - Mathematics Teacher",
+message:"Recording marks now takes less than 10 minutes. RASM 360 has saved us countless hours."
+},
+
+{
+school:"🏫 St. Mary's Junior School",
+message:"Parents love checking fee balances online without visiting the school."
+},
+
+{
+school:"👩🏫 Mrs. Grace Wanjiru - Class Teacher",
+message:"Generating report cards is now just one click. I can focus more on teaching."
+},
+
+{
+school:"🏫 Bright Future Academy",
+message:"Our school is now fully digital. Admissions, fees and exams are all managed in one place."
+},
+
+{
+school:"👨🏫 Mr. Peter Kariuki - Science Teacher",
+message:"The marks entry page is very fast and easy to use. Excellent work by the RASM 360 team."
+},
+
+{
+school:"🏫 Royal Junior School",
+message:"The report cards are professional and ready within minutes."
+},
+
+{
+school:"👩🏫 Mrs. Faith Achieng - English Teacher",
+message:"I no longer spend evenings calculating totals. RASM 360 does everything automatically."
+},
+
+{
+school:"🏫 Sunrise Academy",
+message:"Our teachers can't imagine working without RASM 360."
+},
+
+{
+school:"👨🏫 Mr. David Kiptoo - ICT Teacher",
+message:"The system is reliable, secure and works perfectly even for large schools."
+},
+
+{
+school:"🏫 Hillside School",
+message:"The customer support team responds quickly whenever we need assistance."
+},
+
+{
+school:"👩🏫 Mrs. Lucy Atieno - Deputy Headteacher",
+message:"Managing learners and staff has become simple and organized."
+},
+
+{
+school:"👨🏫 Mr. John Mutua - Exam Coordinator",
+message:"Exam analysis that used to take days now takes only a few minutes."
+},
+
+{
+school:"🏫 Hope Academy",
+message:"RASM 360 has greatly improved communication between our school and parents."
+},
+
+{
+school:"👩🏫 Mrs. Ann Njeri - CBC Teacher",
+message:"Competency Based Assessment reports are generated beautifully and accurately."
+},
+
+{
+school:"👨🏫 Mr. Kevin Otieno - Geography Teacher",
+message:"I can record marks from my phone even while away from school."
+},
+
+{
+school:"🏫 Victory Learning Centre",
+message:"Student registration is now 100% digital. We've eliminated paper files."
+},
+
+{
+school:"👩💼 School Bursar",
+message:"Fee tracking and receipt generation have become effortless. No more manual calculations."
+},
+
+{
+school:"👨🏫 Mr. Samuel Kimani - Principal",
+message:"RASM 360 has helped us make better decisions using real-time school reports."
+},
+
+{
+school:"👩🏫 Mrs. Esther Chebet - Kiswahili Teacher",
+message:"The learner progress reports help us identify struggling learners much earlier."
+},
+
+{
+school:"🏫 Elite Scholars Academy",
+message:"Our school operations have become faster, smarter and more efficient."
+},
+
+{
+school:"👨👩👧 Parent",
+message:"I can easily monitor my child's fee balance and academic progress. Thank you RASM 360!"
+},
+
+{
+school:"👨🏫 Mr. Brian Ouma - Head of Academics",
+message:"The merit list and subject analysis are the best we've ever used."
+},
+
+{
+school:"🏫 Mountain View School",
+message:"Since adopting RASM 360, our administrative workload has reduced significantly."
+},
+
+{
+school:"👩🏫 Mrs. Caroline Muthoni - Teacher",
+message:"This is by far the easiest school management system I have ever used."
+},
+
+{
+school:"🏫 New Dawn Academy",
+message:"We highly recommend RASM 360 to every school looking to digitize its operations."
+}
+
+];
+function showRandomPopup(){
+
+    const popup=document.getElementById("rasmPopup");
+
+    const school=popup.querySelector(".popup-school");
+
+    const message=popup.querySelector(".popup-message");
+
+    const item=testimonials[Math.floor(Math.random()*testimonials.length)];
+
+    school.innerHTML=item.school;
+
+    message.innerHTML='💬 "'+item.message+'"';
+
+    popup.style.display="block";
+
+    popup.style.animation="popupIn .45s ease";
+
+    setTimeout(()=>{
+
+        popup.style.animation="popupOut .45s ease";
+
+        setTimeout(()=>{
+
+            popup.style.display="none";
+
+        },450);
+
+    },5000);
+
+}
+
+/* First popup after login */
+setTimeout(showRandomPopup,4000);
+
+/* Keep appearing randomly */
+setInterval(showRandomPopup,30000);
 </script>
 </body>
 </html>
