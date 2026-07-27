@@ -5437,10 +5437,10 @@ width:100%;
 <!-- ================= PRIMARY / JUNIOR CBC ================= -->
 <optgroup label="🌱 Primary & Junior School CBC">
   <option value="Scien"> Scie</option>
-  <option value="Science">Science</option>
+  
   <option value="Social">Social </option>
 
-  <option value="Agriculture & Nutrition">Agriculture & Nutrition</option>
+
   <option value="Agric">Agric</option>
   <option value="Creative Arts">Creative Arts</option>
   <option value="Art & Craft">Art & Craft</option>
@@ -5699,7 +5699,20 @@ width:100%;
 >
   <i class="fas fa-database"></i> Load Exam Results
 </button>
-
+<button
+    onclick="deleteClassSubjectMarks()"
+    style="
+        background:#dc2626;
+        color:#fff;
+        border:none;
+        padding:10px 18px;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:bold;
+    ">
+    <i class="fas fa-trash"></i>
+    Delete Subject for Class
+</button>
  <!-- ================= ACTION BUTTONS ================= -->
 <div class="action-groups">
 
@@ -17823,6 +17836,452 @@ function populateGradeSelectors(gradeSet) {
       filter.innerHTML += `<option value="${g}">${g}</option>`;
     });
 }
+
+
+// ======================================================
+// 🗑 DELETE SUBJECT FOR SELECTED GRADE
+// ======================================================
+window.deleteClassSubjectMarks = async function () {
+
+    const examPeriod = normalizeExamPeriod(
+        document.getElementById("resultsExamPeriod")?.value
+    );
+
+    if (!examPeriod) {
+        return Swal.fire(
+            "Select Exam Period",
+            "Please select an exam period first.",
+            "warning"
+        );
+    }
+
+    // ==========================================
+    // CURRENTLY LOADED LEARNERS
+    // ==========================================
+    const learners = window.currentFilteredLearners || [];
+
+    if (!learners.length) {
+        return Swal.fire(
+            "No Learners Loaded",
+            "Please load marks first.",
+            "info"
+        );
+    }
+
+    // ==========================================
+    // GET AVAILABLE GRADES
+    // ==========================================
+    const grades = [
+        ...new Set(
+            learners
+                .map(l => String(l.grade || "").trim())
+                .filter(Boolean)
+        )
+    ].sort();
+
+    if (!grades.length) {
+        return Swal.fire(
+            "No Grades",
+            "No grades were found.",
+            "info"
+        );
+    }
+
+    // ==========================================
+    // BUILD GRADE OPTIONS
+    // ==========================================
+    const gradeOptions = grades
+        .map(g => `<option value="${g}">${g}</option>`)
+        .join("");
+
+    // ==========================================
+    // DETECT SUBJECTS
+    // ==========================================
+    let subjects = (window.schoolSubjects || [])
+        .filter(Boolean)
+        .sort();
+
+    // Fallback if schoolSubjects is empty
+    if (!subjects.length) {
+
+        const subjectSet = new Set();
+
+        learners.forEach(learner => {
+
+            const marks =
+                learner.marks?.[examPeriod] || {};
+
+            Object.keys(marks).forEach(key => {
+
+                if (
+                    ![
+                        "total",
+                        "average",
+                        "mean",
+                        "grade",
+                        "points",
+                        "position",
+                        "rank",
+                        "stream"
+                    ].includes(key)
+                ) {
+                    subjectSet.add(key);
+                }
+
+            });
+
+        });
+
+        subjects = [...subjectSet].sort();
+
+    }
+
+    if (!subjects.length) {
+        return Swal.fire(
+            "No Subjects",
+            "No recorded subjects found.",
+            "info"
+        );
+    }
+
+    const subjectOptions = subjects
+        .map(s => `<option value="${s}">${s}</option>`)
+        .join("");
+
+    // ==========================================
+    // SELECT GRADE + SUBJECT
+    // ==========================================
+    const { value: values } = await Swal.fire({
+
+        title: "🗑 Delete Subject Marks",
+
+        html: `
+
+<div style="text-align:left">
+
+<p><b>Exam Period</b></p>
+
+<div style="
+padding:10px;
+background:#f3f4f6;
+border-radius:8px;
+margin-bottom:15px;
+">
+${examPeriod}
+</div>
+
+<label><b>Select Grade</b></label>
+
+<select
+id="deleteGrade"
+class="swal2-select"
+style="width:100%;margin-bottom:15px;">
+
+${gradeOptions}
+
+</select>
+
+<label><b>Select Subject</b></label>
+
+<select
+id="deleteSubject"
+class="swal2-select"
+style="width:100%;">
+
+${subjectOptions}
+
+</select>
+
+</div>
+
+        `,
+
+        focusConfirm: false,
+
+        showCancelButton: true,
+
+        confirmButtonText: "Continue",
+
+        confirmButtonColor: "#f59e0b",
+
+        preConfirm: () => {
+
+            return {
+
+                grade:
+                    document.getElementById("deleteGrade").value,
+
+                subject:
+                    document.getElementById("deleteSubject").value
+
+            };
+
+        }
+
+    });
+
+    if (!values) return;
+
+    const selectedGrade = values.grade;
+    const subject = values.subject;
+
+    // ==========================================
+    // FILTER LEARNERS FOR GRADE
+    // ==========================================
+    const gradeLearners = learners.filter(l =>
+        String(l.grade || "").trim() === selectedGrade
+    );
+
+    if (!gradeLearners.length) {
+
+        return Swal.fire(
+            "No Learners",
+            "No learners found in the selected grade.",
+            "info"
+        );
+
+    }
+    // ==========================================
+    // CONFIRM DELETE
+    // ==========================================
+    const confirm = await Swal.fire({
+
+        icon: "warning",
+
+        title: "Delete Subject Marks?",
+
+        html: `
+
+<div style="text-align:left;line-height:1.8;">
+
+<p>
+<b>Grade:</b>
+<span style="color:#2563eb;">
+${selectedGrade}
+</span>
+</p>
+
+<p>
+<b>Exam Period:</b>
+<span style="color:#2563eb;">
+${examPeriod}
+</span>
+</p>
+
+<p>
+<b>Subject:</b>
+<span style="
+color:#dc2626;
+font-weight:bold;
+">
+${subject}
+</span>
+</p>
+
+<hr>
+
+<p>
+
+This will permanently delete
+
+<b>${subject}</b>
+
+marks for
+
+<b>${gradeLearners.length}</b>
+
+learner(s) in
+
+<b>${selectedGrade}</b> only.
+
+</p>
+
+<p style="
+color:#dc2626;
+font-weight:bold;
+">
+
+This action cannot be undone.
+
+</p>
+
+</div>
+
+        `,
+
+        showCancelButton: true,
+
+        confirmButtonText: "🗑 Delete Subject",
+
+        cancelButtonText: "Cancel",
+
+        confirmButtonColor: "#dc2626",
+
+        iconColor: "#dc2626"
+
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+
+        showLoader();
+
+        updateProgress(
+            5,
+            `Deleting ${subject}...`
+        );
+
+        const schoolId =
+            window.schoolId ||
+            localStorage.getItem("schoolId") ||
+            sessionStorage.getItem("schoolId");
+
+        let deleted = 0;
+
+        // ==========================================
+        // DELETE SUBJECT FOR SELECTED GRADE ONLY
+        // ==========================================
+        for (let i = 0; i < gradeLearners.length; i++) {
+
+            const learner = gradeLearners[i];
+
+            if (!learner.id) continue;
+
+            await remove(
+
+                ref(
+
+                    db,
+
+                    `schools/${schoolId}/students/${learner.id}/marks/${examPeriod}/${subject}`
+
+                )
+
+            );
+
+            deleted++;
+
+            updateProgress(
+
+                Math.round(
+
+                    5 +
+
+                    ((deleted / gradeLearners.length) * 95)
+
+                ),
+
+                `Deleting ${subject}... (${deleted}/${gradeLearners.length})`
+
+            );
+
+        }
+
+        updateProgress(
+            100,
+            "Refreshing marks..."
+        );
+
+        await loadMarksUnifiedClean();
+
+        hideLoader();
+        // ==========================================
+        // SUCCESS
+        // ==========================================
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Subject Deleted Successfully",
+
+            html: `
+
+<div style="line-height:1.8;">
+
+<p>
+
+<b>${subject}</b>
+
+marks have been deleted successfully.
+
+</p>
+
+<hr>
+
+<p>
+
+<b>Grade:</b>
+
+${selectedGrade}
+
+</p>
+
+<p>
+
+<b>Exam Period:</b>
+
+${examPeriod}
+
+</p>
+
+<p>
+
+<b>Updated Learners:</b>
+
+${deleted}
+
+</p>
+
+</div>
+
+            `,
+
+            confirmButtonColor: "#16a34a"
+
+        });
+
+    }
+    catch (err) {
+
+        hideLoader();
+
+        console.error(err);
+
+        Swal.fire({
+
+            icon: "error",
+
+            title: "Delete Failed",
+
+            html: `
+
+<div style="text-align:left;line-height:1.8;">
+
+<p>
+An error occurred while deleting
+<b>${subject}</b>.
+</p>
+
+<hr>
+
+<p style="color:#dc2626;">
+
+${err.message || "Unknown error."}
+
+</p>
+
+</div>
+
+            `,
+
+            confirmButtonColor: "#dc2626"
+
+        });
+
+    }
+
+};
 document.getElementById("gradeFilter")?.addEventListener("change", function () {
 
   const selected = this.value;
