@@ -18746,35 +18746,113 @@ window.submitReportMeta = function () {
 
 function calculateLearnerPathways(learner) {
 
+    const marks = learner.marks || {};
+
+    // ===========================================
+    // FIND A SUBJECT REGARDLESS OF ITS NAME
+    // ===========================================
+    function getScore(possibleNames) {
+
+        const key = Object.keys(marks).find(subject => {
+
+            const s = subject
+                .toLowerCase()
+                .replace(/[\s\-_\/]/g, "");
+
+            return possibleNames.some(name =>
+                s.includes(
+                    name
+                        .toLowerCase()
+                        .replace(/[\s\-_\/]/g, "")
+                )
+            );
+
+        });
+
+        const value = Number(marks[key]);
+
+        return isNaN(value) ? null : value;
+
+    }
+
+    // ===========================================
+    // SUBJECT GROUPS
+    // ===========================================
     const pathways = {
-        STEM: ['eng', 'math', 'preTech', 'kiswahili', 'science', 'agriculture'],
-        "Social Sciences": ['kiswahili', 'eng', 'social', 'cre'],
-        "Sports Science": ['kiswahili', 'eng', 'creativeArt']
+
+        STEM: [
+
+            ["english","eng"],
+
+            ["mathematics","math"],
+
+            ["pretechnical","pretech"],
+
+            ["kiswahili","kiswa","kisw"],
+
+            ["integratedscience","science","sci","scie"],
+
+            ["agriculture","agric"]
+
+        ],
+
+        "Social Sciences": [
+
+            ["kiswahili","kiswa","kisw"],
+
+            ["english","eng"],
+
+            ["socialstudies","social","sst"],
+
+            ["cre","religious","christian"]
+
+        ],
+
+        "Sports Science": [
+
+            ["kiswahili","kiswa","kisw"],
+
+            ["english","eng"],
+
+            ["creativearts","creativeart","creative","c/a"]
+
+        ]
+
     };
 
-    function average(subjects) {
+    function average(subjectList) {
 
-        const scores = subjects
-            .map(subject => Number(learner.marks?.[subject] || 0))
-            .filter(score => score > 0);
+        const scores = [];
+
+        subjectList.forEach(names => {
+
+            const score = getScore(names);
+
+            if (score !== null)
+                scores.push(score);
+
+        });
 
         if (!scores.length) return 0;
 
-        return scores.reduce((a, b) => a + b, 0) / scores.length;
+        return scores.reduce((a,b)=>a+b,0)/scores.length;
 
     }
-function getPerformanceBand(score) {
 
-    if (score >= 90) return "EE1";
-    if (score >= 75) return "EE2";
-    if (score >= 58) return "ME1";
-    if (score >= 41) return "ME2";
-    if (score >= 31) return "AE1";
-    if (score >= 21) return "AE2";
-    if (score >= 11) return "BE1";
+    function getPerformanceBand(score) {
 
-    return "BE2";
-}
+        if (score >= 90) return "EE1";
+        if (score >= 75) return "EE2";
+        if (score >= 58) return "ME1";
+        if (score >= 41) return "ME2";
+        if (score >= 31) return "AE1";
+        if (score >= 21) return "AE2";
+        if (score >= 11) return "BE1";
+
+        return "BE2";
+
+    }
+
     const stemAvg = average(pathways.STEM);
 
     const socialAvg = average(pathways["Social Sciences"]);
@@ -18792,27 +18870,24 @@ function getPerformanceBand(score) {
     };
 
     const bestPathway =
-        Object.keys(pathwayScores)
-        .reduce((a, b) =>
-            pathwayScores[a] > pathwayScores[b]
-                ? a
-                : b
+        Object.keys(pathwayScores).reduce((a,b)=>
+            pathwayScores[a] > pathwayScores[b] ? a : b
         );
 
     return {
 
-    stemAvg: stemAvg.toFixed(1),
-    stemLevel: getPerformanceBand(stemAvg),
+        stemAvg: stemAvg.toFixed(1),
+        stemLevel: getPerformanceBand(stemAvg),
 
-    socialAvg: socialAvg.toFixed(1),
-    socialLevel: getPerformanceBand(socialAvg),
+        socialAvg: socialAvg.toFixed(1),
+        socialLevel: getPerformanceBand(socialAvg),
 
-    sportsAvg: sportsAvg.toFixed(1),
-    sportsLevel: getPerformanceBand(sportsAvg),
+        sportsAvg: sportsAvg.toFixed(1),
+        sportsLevel: getPerformanceBand(sportsAvg),
 
-    bestPathway
+        bestPathway
 
-};
+    };
 
 }
 window.generateAssessmentReports = function () {
@@ -18957,28 +19032,213 @@ document.body.appendChild(loader);
         return "Below Expectations Two";
       }
 
-      function getPerformanceComment(avg) {
+      function getPerformanceComment(score) {
 
-        if (avg >= 90)
-          return "Excellent performance with outstanding mastery.";
+    score = Math.round(Number(score));
 
-        if (avg >= 75)
-          return "Very good performance with strong understanding.";
+    const comments = {
+1:"Requires immediate academic support to build essential learning skills and confidence.",
 
-        if (avg >= 58)
-          return "Good performance with steady progress.";
+2:"Shows very limited understanding; consistent guidance and practice are urgently required.",
 
-        if (avg >= 41)
-          return "Meets expectations satisfactorily.";
+3:"Beginning to learn basic concepts but needs greater effort and encouragement daily.",
 
-        if (avg >= 31)
-          return "Progressing but requires more effort.";
+4:"Shows limited understanding; regular practice and teacher support will improve performance.",
 
-        if (avg >= 21)
-          return "Below expectations; more guided practice required.";
+5:"Making slow progress; increased participation and revision will strengthen understanding significantly.",
 
-        return "Requires urgent intervention and support.";
-      }
+6:"Developing foundational skills; patience and consistent practice will improve academic achievement.",
+
+7:"Limited understanding demonstrated; remedial support and regular study are highly recommended.",
+
+8:"Needs additional guidance and continuous revision to strengthen learning and confidence.",
+
+9:"Below expected standards; improved concentration and assignment completion will enhance performance.",
+
+10:"Beginning to understand concepts; consistent guidance and practice remain essential daily.",
+
+11:"Showing slight improvement; greater classroom commitment will strengthen overall academic performance.",
+
+12:"Building essential learning skills; regular revision will improve confidence and understanding.",
+
+13:"Emerging understanding shown; continued guided practice will produce better learning outcomes.",
+
+14:"Shows potential; greater consistency and concentration will significantly improve academic achievement.",
+
+15:"Making modest progress; increased study time will strengthen overall classroom performance.",
+
+16:"Developing confidence gradually; active participation will encourage continued academic improvement.",
+
+17:"Progressing steadily; regular revision will help address remaining learning gaps effectively.",
+
+18:"Shows willingness to improve; sustained effort will achieve higher academic standards.",
+
+19:"Encouraging improvement shown; maintaining focus will strengthen future academic performance consistently.",
+
+20:"Gradual progress continues; commitment and practice will improve future learning outcomes.",
+
+21:"Below expectations; consistent effort and participation will greatly improve academic performance.",
+
+22:"Steady improvement demonstrated; continued hard work will produce stronger academic achievement.",
+
+23:"Better understanding developing; increased practice will strengthen performance across learning areas.",
+
+24:"Making satisfactory progress; consistent study habits will improve future academic success.",
+
+25:"Encouraging growth demonstrated; continued commitment will lead to higher academic achievement.",
+26:"Showing steady improvement; consistent effort and timely assignments will bring greater success.",
+
+27:"Growing understanding demonstrated; active participation and regular revision will strengthen academic performance.",
+
+28:"Developing essential skills; focused study will unlock greater academic potential and success.",
+
+29:"Noticeable progress shown; determination and confidence will continue improving overall performance consistently.",
+
+30:"Steady improvement continues; consistent practice and guidance will produce stronger academic results.",
+
+31:"Fair understanding demonstrated; greater participation and study will strengthen future academic achievement.",
+
+32:"Building stronger foundations; continued effort and revision will sustain academic improvement consistently.",
+
+33:"Making satisfactory progress; maintaining positive attitudes will encourage higher academic achievement consistently.",
+
+34:"Encouraging improvement shown; continued commitment will lead to greater academic success and confidence.",
+
+35:"Fair understanding achieved; regular practice will help attain higher academic standards consistently.",
+
+36:"Consistent progress demonstrated; effective study habits will produce stronger academic performance continually.",
+
+37:"Essential learning skills developing; careful revision will enhance confidence and academic achievement.",
+
+38:"Steady progress shown; determination and focus will encourage excellent academic growth consistently.",
+
+39:"Positive improvement demonstrated; confidence and consistent effort will achieve higher academic performance.",
+
+40:"Encouraging progress continues; steady commitment will strengthen future academic development and success.",
+
+41:"Meeting expectations well; continued effort will achieve even greater academic excellence consistently.",
+
+42:"Sound understanding demonstrated; consistent learning habits will strengthen future academic performance greatly.",
+
+43:"Dependable progress shown; regular revision will continue improving confidence and academic achievement.",
+
+44:"Satisfactory mastery demonstrated; active participation will encourage further academic growth and success.",
+
+45:"Consistent performance maintained; positive attitudes will continue strengthening academic achievement and confidence.",
+
+46:"Balanced growth demonstrated; continued commitment will achieve higher academic standards consistently together.",
+
+47:"Steady progress maintained; determination and practice will unlock greater academic potential successfully.",
+
+48:"Strong foundation established; regular study routines will support continuous academic improvement consistently.",
+
+49:"Acceptable performance demonstrated; persistence and confidence will strengthen future academic success greatly.",
+
+50:"Stable academic performance; discipline and revision will achieve higher levels of excellence.",
+
+51:"Steady academic growth demonstrated; continued dedication will achieve even higher academic standards.",
+
+52:"Good understanding shown; sustained commitment will continue strengthening academic performance and confidence.",
+
+53:"Consistent effort demonstrated; regular practice will produce stronger academic achievement and growth.",
+
+54:"Academic performance improving steadily; active participation will strengthen future learning outcomes consistently.",
+
+55:"Positive growth demonstrated; continued determination will open opportunities for greater academic success.",
+
+56:"Consistent performance maintained; regular revision will strengthen understanding and academic excellence further.",
+
+57:"Encouraging progress shown; focus and determination will continue improving academic achievement consistently.",
+
+58:"Good achievement demonstrated; regular study habits will support higher academic excellence consistently.",
+
+59:"Strong understanding shown; continued hard work will produce outstanding academic results consistently.",
+
+60:"Growing confidence demonstrated; positive attitudes will ensure continued academic improvement and success.",
+
+61:"Solid academic ability demonstrated; continued commitment will achieve even greater academic excellence.",
+
+62:"Dependable performance maintained; regular revision will strengthen overall academic achievement and confidence.",
+
+63:"Understanding continues improving; determination and enthusiasm will support outstanding future academic performance.",
+
+64:"Commendable effort demonstrated; continued commitment will produce even greater academic success consistently.",
+
+65:"Confidence and determination shown; consistent effort will unlock greater academic potential successfully.",
+
+66:"Strong commitment demonstrated; continued hard work will achieve even higher academic success consistently.",
+
+67:"Focus and determination demonstrated; continued dedication will strengthen understanding and academic excellence.",
+
+68:"Very pleasing progress; maintaining momentum will produce remarkable academic success and confidence.",
+
+69:"Quality work demonstrated; perseverance will continue strengthening academic achievement and overall excellence.",
+
+70:"Very good performance; sustained commitment will lead to outstanding academic success consistently.",
+71:"Excellent commitment shown; continued dedication will lead to even greater academic success.",
+
+72:"Confidence and consistency demonstrated; maintaining this attitude will sustain academic excellence always.",
+
+73:"Strong understanding demonstrated; continued curiosity and revision will strengthen academic achievement further.",
+
+74:"High preparation demonstrated; continued determination will support even greater academic excellence consistently.",
+
+75:"Very good achievement; consistent effort will lead to outstanding academic success continually.",
+
+76:"Impressive performance demonstrated; continued enthusiasm will produce even greater academic accomplishments consistently.",
+
+77:"Exceptional effort demonstrated; continued dedication will inspire higher academic excellence and success.",
+
+78:"Excellent progress achieved; maintaining momentum will result in remarkable future academic success.",
+
+79:"Strong academic ability demonstrated; continued commitment will achieve even greater learning milestones.",
+
+80:"Outstanding consistency shown; maintaining high standards will produce exceptional academic performance always.",
+
+81:"Excellent achievement demonstrated; curiosity and self-discipline will ensure continued academic success always.",
+
+82:"Remarkable progress shown; sustained dedication will continue strengthening academic excellence and confidence.",
+
+83:"Exceptional ability demonstrated; continued confidence will achieve even greater academic heights consistently.",
+
+84:"Strong analytical skills demonstrated; continued exploration will strengthen academic excellence and innovation.",
+
+85:"Excellent mastery demonstrated; maintaining positive attitudes will inspire continued academic excellence consistently.",
+
+86:"Exceptional commitment shown; continued perseverance will lead to even greater academic accomplishments consistently.",
+
+87:"Outstanding participation demonstrated; maintaining these qualities will ensure continued academic distinction always.",
+
+88:"Remarkable academic growth shown; continued commitment will achieve exceptional future academic success consistently.",
+
+89:"Consistently excellent performance; sustaining these standards will ensure lasting academic excellence always.",
+
+90:"Excellent mastery demonstrated; continued determination will support even greater academic achievements consistently.",
+
+91:"Outstanding achievement demonstrated; continue striving for greatness through dedication and consistent excellence.",
+
+92:"Exceptional performance demonstrated; maintaining these standards will produce extraordinary academic success consistently.",
+
+93:"Highly impressive achievement; continued dedication will strengthen critical thinking and academic excellence.",
+
+94:"Consistently exceeding expectations; maintaining determination will unlock greater academic opportunities ahead.",
+
+95:"Outstanding excellence demonstrated; confidently embrace challenges for even greater academic accomplishments always.",
+
+96:"Exceptional dedication shown; maintaining commitment will ensure continued outstanding academic excellence consistently.",
+
+97:"Remarkable mastery demonstrated; continue inspiring others through discipline, humility and perseverance always.",
+
+98:"Near-perfect performance; continued passion will achieve even greater academic distinction and success.",
+
+99:"Exceptional achievement recognized; maintain excellence while inspiring others through dedicated leadership always.",
+
+100:"Perfect academic mastery demonstrated; continue pursuing excellence with passion, humility and determination."
+    };
+
+    return comments[score] || "No performance comment available.";
+
+}
 
       function getLevel(score) {
 
@@ -19393,13 +19653,14 @@ gap:20px;
 <!-- RIGHT SIDE -->
 
 <div style="
-width:230px;
+width:380px;
+position:relative;
+left:-145px;
+top:129px;
 display:flex;
 flex-direction:column;
-gap:10px;
-">
-
-    <!-- PATHWAY PERFORMANCE -->
+gap:8px;
+">    <!-- PATHWAY PERFORMANCE -->
 
     <div style="
         border:2px solid #1e3a8a;
@@ -19410,9 +19671,10 @@ gap:10px;
         <div style="
             background:#1e3a8a;
             color:#fff;
-            padding:7px;
+            padding:6px;
             text-align:center;
             font-weight:bold;
+            font-size:13px;
         ">
             PATHWAY PERFORMANCE
         </div>
@@ -19420,54 +19682,137 @@ gap:10px;
         <table style="
             width:100%;
             border-collapse:collapse;
-            font-size:12px;
+            table-layout:fixed;
+            font-size:10px;
         ">
 
-            <tr>
-                <td style="border:1px solid #ccc;padding:6px;">
-                    STEM
-                </td>
-                <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
-                    ${pathway.stemAvg} (${pathway.stemLevel})
-                </td>
+            <tr style="background:#e5e7eb;font-weight:bold;">
+                <th style="border:1px solid #ccc;padding:4px;width:18%;">
+                    Pathway
+                </th>
+
+                <th style="border:1px solid #ccc;padding:4px;width:48%;">
+                    Subjects Considered
+                </th>
+
+                <th style="border:1px solid #ccc;padding:4px;width:17%;">
+                    Average
+                </th>
+
+                <th style="border:1px solid #ccc;padding:4px;width:17%;">
+                    Performance
+                </th>
             </tr>
 
             <tr>
-                <td style="border:1px solid #ccc;padding:6px;">
-                    Social Sciences
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    <b>STEM</b>
                 </td>
-                <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
-                    ${pathway.socialAvg} (${pathway.socialLevel})
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    English, Mathematics, Pre-Technical,
+                    Kiswahili, Integrated Science,
+                    Agriculture
                 </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                ">
+                    ${pathway.stemAvg}
+                </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                    font-weight:bold;
+                ">
+                    ${pathway.stemLevel}
+                </td>
+
             </tr>
 
             <tr>
-                <td style="border:1px solid #ccc;padding:6px;">
-                    Sports Science
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    <b>Social Sciences</b>
                 </td>
-                <td style="border:1px solid #ccc;padding:6px;text-align:center;font-weight:bold;">
-                    ${pathway.sportsAvg} (${pathway.sportsLevel})
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    Kiswahili, English,
+                    Social Studies, CRE
                 </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                ">
+                    ${pathway.socialAvg}
+                </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                    font-weight:bold;
+                ">
+                    ${pathway.socialLevel}
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    <b>Sports Science</b>
+                </td>
+
+                <td style="border:1px solid #ccc;padding:4px;">
+                    Kiswahili, English,
+                    Creative Arts & Sports
+                </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                ">
+                    ${pathway.sportsAvg}
+                </td>
+
+                <td style="
+                    border:1px solid #ccc;
+                    padding:4px;
+                    text-align:center;
+                    font-weight:bold;
+                ">
+                    ${pathway.sportsLevel}
+                </td>
+
             </tr>
 
         </table>
 
         <div style="
-            padding:8px;
+            padding:6px;
             background:#f8fafc;
             border-top:1px solid #ccc;
             text-align:center;
         ">
 
             <div style="
-                font-size:11px;
+                font-size:10px;
                 color:#666;
             ">
                 RECOMMENDED PATHWAY
             </div>
 
             <div style="
-                margin-top:5px;
+                margin-top:4px;
                 font-size:15px;
                 font-weight:bold;
                 color:#15803d;
@@ -19481,8 +19826,7 @@ gap:10px;
 
 </div>
 
-` : ""}
-               
+` : ""}    
 
     </div> <!-- END RIGHT SIDE -->
 
@@ -25303,35 +25647,99 @@ window.generatePathwayGrouping = async function (selectedGrade, selectedExamPeri
         updateProgress(10, "Loading marks table...");
         await new Promise(r => setTimeout(r, 300));
 
-        const marksTableBody = document.getElementById("marksList");
-
-        if (!marksTableBody) {
-            hideLoader();
-            Swal.fire("Marks table not found", "", "error");
-            return;
-        }
+     
 
         updateProgress(25, "Preparing pathway rules...");
         await new Promise(r => setTimeout(r, 300));
 
         const pathways = {
-            STEM: ['eng', 'math', 'preTech', 'kiswahili', 'science', 'agriculture'],
-            SocialSciences: ['kiswahili', 'eng', 'social', 'cre'],
-            SportsScience: ['kiswahili', 'eng', 'creativeArt']
-        };
+    STEM: [
+        'eng',
+        'math',
+        'preTech',
+        'kiswahili',
+        'scie',
+        'agriculture'
+    ],
 
-        const subjectMap = {
-            eng: 4,
-            math: 6,
-            preTech: 8,
-            kiswahili: 10,
-            science: 12,
-            social: 14,
-            agriculture: 16,
-            cre: 18,
-            creativeArt: 20
-        };
+    SocialSciences: [
+        'kiswahili',
+        'eng',
+        'social',
+        'cre'
+    ],
 
+    SportsScience: [
+        'kiswahili',
+        'eng',
+        'creativeArts'
+    ]
+};
+// ======================================================
+// SMART SUBJECT DETECTOR
+// ======================================================
+const getScores = (marks, keys) => {
+
+    return keys.map(subjectKey => {
+
+        // Find the real subject key stored in marks
+        const actualKey = Object.keys(marks || {}).find(dbKey => {
+
+            const db = dbKey
+                .toLowerCase()
+                .replace(/[^a-z]/g, "");
+
+            switch (subjectKey) {
+
+                case "eng":
+                    return db.includes("eng");
+
+                case "math":
+                    return db.includes("math");
+
+              case "kiswahili":
+    return db.includes("kiswahili") ||
+           db.includes("kiswa") ||
+           db === "kisw";
+
+                case "preTech":
+                    return db.includes("pre") ||
+                           db.includes("technical");
+
+                case "scie":
+                    return db.includes("science") ||
+                           db.includes("integratedscience") ||
+                           db.includes("scie");
+
+                case "social":
+                    return db.includes("social");
+
+                case "agriculture":
+                    return db.includes("agric");
+
+                case "cre":
+                    return db === "cre" ||
+                           db.includes("christian") ||
+                           db.includes("religious");
+
+                case "creativeArts":
+                    return db.includes("creative") ||
+                           db.includes("arts") ||
+                           db.includes("sports");
+
+                default:
+                    return false;
+            }
+
+        });
+
+        const value = Number(marks?.[actualKey]);
+
+        return isNaN(value) ? 0 : value;
+
+    });
+
+};
         const learners = [];
         const summary = { STEM: 0, 'Social Sciences': 0, 'Sports Science': 0 };
 
@@ -25340,62 +25748,91 @@ window.generatePathwayGrouping = async function (selectedGrade, selectedExamPeri
             return arr.reduce((a, b) => a + b, 0) / arr.length;
         };
 
-        const getScores = (row, keys) => {
-            return keys.map(k => {
-                const cellIndex = subjectMap[k];
-                const value = parseFloat(row.cells[cellIndex]?.textContent?.trim());
-                return isNaN(value) ? 0 : value;
-            });
-        };
-
+    
         updateProgress(45, "Processing learners...");
         await new Promise(r => setTimeout(r, 300));
 
-        marksTableBody.querySelectorAll("tr").forEach(row => {
+// =====================================
+// USE EXACTLY THE LEARNERS CURRENTLY LOADED
+// =====================================
+const filteredLearners =
+    (window.currentFilteredLearners || []).filter(learner => {
 
-            const cells = row.querySelectorAll("td");
-            if (!cells || cells.length < 3) return;
+        const gradeOk =
+            !window.currentLoadedGrade ||
+            window.currentLoadedGrade === "ALL GRADES" ||
+            (learner.grade || "")
+                .toString()
+                .trim()
+                .toUpperCase() ===
+            window.currentLoadedGrade
+                .toString()
+                .trim()
+                .toUpperCase();
 
-            const grade = row.getAttribute("data-grade") || "";
-            const period = row.getAttribute("data-exam-period") || "";
+        const periodOk =
+            !window.currentLoadedExamPeriod ||
+            window.currentLoadedExamPeriod === "ALL PERIODS" ||
+            (learner.examPeriod || "")
+                .toString()
+                .trim() ===
+            window.currentLoadedExamPeriod
+                .toString()
+                .trim();
 
-            if (selectedGrade && grade !== selectedGrade) return;
-            if (selectedExamPeriod && period !== selectedExamPeriod) return;
+        return gradeOk && periodOk;
 
-            const name = row.cells[2]?.textContent?.trim() || "";
-            const cls = row.cells[3]?.textContent?.trim() || "";
+    });
+filteredLearners.forEach(learner => {
 
-            const stemScores = getScores(row, pathways.STEM);
-            const socialScores = getScores(row, pathways.SocialSciences);
-            const sportsScores = getScores(row, pathways.SportsScience);
+    const name = learner.name;
+    const cls = learner.grade;
 
-            const stemAvg = avg(stemScores);
-            const socialAvg = avg(socialScores);
-            const sportsAvg = avg(sportsScores);
+    const stemScores = getScores(
+        learner.marks,
+        pathways.STEM
+    );
 
-            const averages = {
-                STEM: stemAvg,
-                'Social Sciences': socialAvg,
-                'Sports Science': sportsAvg
-            };
+    const socialScores = getScores(
+        learner.marks,
+        pathways.SocialSciences
+    );
 
-            const bestPathway = Object.keys(averages)
-                .reduce((a, b) => averages[a] > averages[b] ? a : b);
+    const sportsScores = getScores(
+        learner.marks,
+        pathways.SportsScience
+    );
 
-            summary[bestPathway]++;
+    const stemAvg = avg(stemScores);
+    const socialAvg = avg(socialScores);
+    const sportsAvg = avg(sportsScores);
 
-            learners.push({
-                name,
-                grade: cls,
-                stemScores,
-                socialScores,
-                sportsScores,
-                stemAvg: stemAvg.toFixed(2),
-                socialAvg: socialAvg.toFixed(2),
-                sportsAvg: sportsAvg.toFixed(2),
-                bestPathway
-            });
-        });
+    const averages = {
+        STEM: stemAvg,
+        "Social Sciences": socialAvg,
+        "Sports Science": sportsAvg
+    };
+
+    const bestPathway =
+        Object.keys(averages).reduce((a, b) =>
+            averages[a] > averages[b] ? a : b
+        );
+
+    summary[bestPathway]++;
+
+    learners.push({
+        name,
+        grade: cls,
+        stemScores,
+        socialScores,
+        sportsScores,
+        stemAvg: stemAvg.toFixed(2),
+        socialAvg: socialAvg.toFixed(2),
+        sportsAvg: sportsAvg.toFixed(2),
+        bestPathway
+    });
+
+});
 
         if (!learners.length) {
             hideLoader();
