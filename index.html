@@ -3628,7 +3628,10 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
       onclick="generateBlankMeritList(); show('generateBlankMerit')">
       📄 Blank Merit Lists
     </button>
-
+<button id="menuOverallTopFive"
+        onclick="generateOverallTopFiveByGrade()">
+    🏆 Overall Top 5 Per Grade
+</button>
     <button id="menuMarksStatus"
       onclick="show('marksStatus')">
       👁️ Marks Recording Status
@@ -5908,7 +5911,23 @@ width:100%;
   <div id="reportOutput" style="overflow-x:auto; width:100%;"></div>
 </div>
 
+<!-- ============================================= -->
+<!-- 🏆 OVERALL TOP 5 PER GRADE REPORT -->
+<!-- ============================================= -->
+<div id="overallTopFiveSection"
+     class="section"
+     style="display:none; padding:20px;">
 
+    <h2>🏆 Overall Top 5 Learners Per Grade</h2>
+
+    <div id="overallTopFiveReport"
+         style="
+            overflow-x:auto;
+            width:100%;
+         ">
+    </div>
+
+</div>
 <div id="subjectPerformance" class="section" style="display:none; padding:20px;">
   <h2>📈 </h2>
   <div id="subjectPerformanceContent"></div>
@@ -16998,7 +17017,7 @@ learners.forEach(learner => {
   );
 
   allLoadedLearners = learners;
-
+window.allLoadedLearners = learners;
   window.reportContext =
     window.reportContext || {};
 
@@ -54878,6 +54897,456 @@ message:"We highly recommend RASM 360 to every school looking to digitize its op
 }
 
 ];
+// ======================================================
+// 🏆 OVERALL TOP 5 PER GRADE (ALL STREAMS COMBINED)
+// ======================================================
+
+window.generateOverallTopFiveByGrade = function () {
+
+    if (!window.allLoadedLearners || !allLoadedLearners.length) {
+
+        return Swal.fire(
+            "No Marks Loaded",
+            "Please load marks first.",
+            "warning"
+        );
+
+    }
+
+    Swal.fire({
+
+        title: "Generating Overall Top 5...",
+        html: "Please wait...",
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+
+    });
+
+    try {
+
+        // =====================================
+        // SHOW REPORT AREA
+        // =====================================
+        document.querySelectorAll(".section").forEach(section => {
+            section.style.display = "none";
+        });
+
+        document.getElementById("meritListSection").style.display = "block";
+
+        // =====================================
+        // GET ALL MAIN GRADES
+        // =====================================
+        const grades = [
+
+            ...new Set(
+
+                allLoadedLearners
+                    .map(l => {
+
+                        const grade =
+                            (l.grade || "")
+                                .trim();
+
+                        return grade.match(/\d+/)?.[0];
+
+                    })
+                    .filter(Boolean)
+
+            )
+
+        ].sort((a, b) => Number(a) - Number(b));
+
+        let html = `
+
+<div style="
+background:white;
+padding:25px;
+border-radius:18px;
+font-family:Arial,sans-serif;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+flex-wrap:wrap;
+gap:10px;
+">
+
+<div>
+
+<h2 style="
+margin:0;
+color:#0f172a;
+">
+🏆 OVERALL TOP 5 LEARNERS PER GRADE
+</h2>
+
+<div style="
+margin-top:6px;
+color:#64748b;
+font-size:14px;
+">
+Generated from loaded marks
+</div>
+
+</div>
+
+<button
+onclick="printOverallTopFiveReport()"
+style="
+background:#16a34a;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+font-size:14px;
+box-shadow:0 4px 10px rgba(0,0,0,.15);
+">
+
+🖨️ Print Report
+
+</button>
+
+</div>
+
+`;
+
+        // =====================================
+        // EACH GRADE
+        // =====================================
+        grades.forEach(mainGrade => {
+
+            const learners = allLoadedLearners.filter(l => {
+
+                const grade =
+                    (l.grade || "")
+                        .trim();
+
+                return grade.match(/\d+/)?.[0] === mainGrade;
+
+            });
+
+        const ranked = learners.map(learner => {
+
+    let total = 0;
+    let count = 0;
+
+    (window.schoolSubjects || []).forEach(subject => {
+
+        const mark = learner.marks?.[subject];
+
+        if (mark !== "" && mark != null) {
+
+            total += Number(mark);
+            count++;
+
+        }
+
+    });
+
+    return {
+
+        learner,
+
+        total,
+
+        average: count ? total / count : 0
+
+    };
+
+});
+
+            ranked.sort((a, b) => {
+
+                if (b.total !== a.total)
+                    return b.total - a.total;
+
+                return b.average - a.average;
+
+            });
+
+            const topFive =
+                ranked.slice(0, 5);
+
+            if (!topFive.length)
+                return;
+
+            html += `
+
+<div style="
+margin-top:35px;
+border:1px solid #e5e7eb;
+border-radius:12px;
+overflow:hidden;
+">
+
+<div style="
+background:#2563eb;
+color:white;
+padding:12px 18px;
+font-size:18px;
+font-weight:bold;
+">
+
+GRADE ${mainGrade}
+
+</div>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+">
+
+<thead>
+
+<tr style="
+background:#f8fafc;
+">
+
+<th style="padding:12px;">Rank</th>
+
+<th>Learner</th>
+
+<th>Stream</th>
+
+<th>Total</th>
+
+<th>Average</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+            topFive.forEach((item, index) => {
+
+                const medals = [
+
+                    "🥇",
+                    "🥈",
+                    "🥉",
+                    "4",
+                    "5"
+
+                ];
+
+              html += `
+
+<tr>
+
+<td style="padding:10px;text-align:center;">
+${medals[index] || index + 1}
+</td>
+
+<td>${item.learner.name}</td>
+
+<td style="text-align:center;">
+${item.learner.grade}
+</td>
+
+<td style="text-align:center;">
+${item.total}
+</td>
+
+<td style="text-align:center;">
+<b>${Number(item.average).toFixed(2)}</b>
+</td>
+
+</tr>
+
+`;
+
+            });
+
+            html += `
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+        });
+
+        html += `
+
+<div style="
+margin-top:30px;
+text-align:center;
+font-size:12px;
+color:#6b7280;
+">
+
+Generated by RASM TECH 360
+
+</div>
+
+</div>
+
+`;
+
+        // =====================================
+        // DISPLAY USING EXISTING REPORT AREA
+        // =====================================
+        document.getElementById("reportOutput").innerHTML = html;
+
+        Swal.close();
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        Swal.fire(
+            "Error",
+            err.message,
+            "error"
+        );
+
+    }
+
+};
+// ======================================================
+// 🖨️ PRINT OVERALL TOP 5 REPORT
+// ======================================================
+
+window.printOverallTopFiveReport = function () {
+
+    const report =
+        document.getElementById("reportOutput");
+
+    if (!report) return;
+
+    const win = window.open("", "_blank");
+
+    win.document.write(`
+<html>
+
+<head>
+
+<title>Overall Top 5 Per Grade</title>
+
+<style>
+
+body{
+
+    font-family:Arial,sans-serif;
+    padding:20px;
+    color:#000;
+    background:#fff;
+
+}
+
+h2,h3{
+
+    color:#000;
+    text-align:center;
+    margin-bottom:10px;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    margin-bottom:25px;
+    border:2px solid #000;
+
+}
+
+thead tr{
+
+    background:#000 !important;
+
+}
+
+th{
+
+    background:#000 !important;
+    color:#fff !important;
+    border:2px solid #000;
+    padding:10px;
+    font-weight:bold;
+    text-align:center;
+
+}
+
+td{
+
+    border:2px solid #000;
+    padding:10px;
+    color:#000;
+    text-align:center;
+
+}
+
+tbody tr{
+
+    background:#fff;
+
+}
+
+tbody tr:nth-child(even){
+
+    background:#fff;
+
+}
+
+button{
+
+    display:none;
+
+}
+
+@media print{
+
+    body{
+        margin:0;
+        padding:15px;
+    }
+
+    table{
+        page-break-inside:avoid;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+${report.innerHTML}
+
+</body>
+
+</html>
+`);
+
+    win.document.close();
+
+    win.focus();
+
+    setTimeout(() => {
+
+        win.print();
+
+        win.close();
+
+    }, 500);
+
+};
 function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
