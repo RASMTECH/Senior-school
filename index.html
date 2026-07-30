@@ -1989,6 +1989,19 @@ font-size:14px;
     background:#dc2626;
     color:#fff;
 }
+.levelGenderCharts{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.chartCard{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    height:320px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
 /* =========================================================
    🌍 MODAL
 ========================================================= */
@@ -3891,7 +3904,45 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
         <p id="totalStudents">0</p>
       </div>
     </div>
+<!-- LOWER PRIMARY -->
+<div class="dashboard-card" style="background:linear-gradient(135deg,#16a34a,#15803d);">
+  <div class="card-icon">🧒</div>
 
+  <div class="card-content">
+    <h3>Lower Primary (G1–G3)</h3>
+    <p id="lowerPrimaryCount">0</p>
+  </div>
+</div>
+
+<!-- UPPER PRIMARY -->
+<div class="dashboard-card" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">
+  <div class="card-icon">🎒</div>
+
+  <div class="card-content">
+    <h3>Upper Primary (G4–G6)</h3>
+    <p id="upperPrimaryCount">0</p>
+  </div>
+</div>
+
+<!-- JUNIOR SECONDARY -->
+<div class="dashboard-card" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);">
+  <div class="card-icon">📘</div>
+
+  <div class="card-content">
+    <h3>Junior Secondary (G7–G9)</h3>
+    <p id="juniorSecondaryCount">0</p>
+  </div>
+</div>
+
+<!-- SENIOR SECONDARY -->
+<div class="dashboard-card" style="background:linear-gradient(135deg,#ea580c,#c2410c);">
+  <div class="card-icon">🎓</div>
+
+  <div class="card-content">
+    <h3>Senior Secondary (G10–G12)</h3>
+    <p id="seniorSecondaryCount">0</p>
+  </div>
+</div>
   </div>
 
 
@@ -3925,7 +3976,25 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
         <h3>Students Per Grade Chart</h3>
    <canvas id="studentGradeChart" style="max-height:250px;"></canvas>
       </div>
+<div class="levelGenderCharts">
 
+    <div class="chartCard">
+        <canvas id="lowerGenderChart"></canvas>
+    </div>
+
+    <div class="chartCard">
+        <canvas id="upperGenderChart"></canvas>
+    </div>
+
+    <div class="chartCard">
+        <canvas id="juniorGenderChart"></canvas>
+    </div>
+
+    <div class="chartCard">
+        <canvas id="seniorGenderChart"></canvas>
+    </div>
+
+</div>
       <div style="background:#ffffff; padding:20px; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
         <h3>Gender Distribution</h3>
       <canvas id="genderChart" style="max-height:250px;"></canvas>
@@ -28547,16 +28616,26 @@ function updateDashboardFromStudents() {
 
   document.getElementById("totalSubjects").innerText =
     SCHOOL_SUBJECTS.length;
+const levelGender = {
+    lower: { Male: 0, Female: 0 },
+    upper: { Male: 0, Female: 0 },
+    junior: { Male: 0, Female: 0 },
+    senior: { Male: 0, Female: 0 }
+};
+const gradeMap = {};
 
-  // ================= DATA MAPS =================
-  const gradeMap = {};
-  const genderMap = {
+const genderMap = {
     Male: 0,
     Female: 0
-  };
+};
 
-  allStudents.forEach(s => {
+// ================= SCHOOL LEVEL COUNTS =================
+let lowerPrimary = 0;
+let upperPrimary = 0;
+let juniorSecondary = 0;
+let seniorSecondary = 0;
 
+allStudents.forEach(s => {
     // ================= GRADE =================
     const grade =
       (s.grade || s.class || "Unknown")
@@ -28564,7 +28643,48 @@ function updateDashboardFromStudents() {
 
     gradeMap[grade] =
       (gradeMap[grade] || 0) + 1;
+// ================= SCHOOL LEVELS =================
+// ================= SCHOOL LEVELS =================
+const gradeNumber = parseInt(grade.match(/\d+/)?.[0]);
 
+if (gradeNumber >= 1 && gradeNumber <= 3) {
+    lowerPrimary++;
+}
+else if (gradeNumber >= 4 && gradeNumber <= 6) {
+    upperPrimary++;
+}
+else if (gradeNumber >= 7 && gradeNumber <= 9) {
+    juniorSecondary++;
+}
+else if (gradeNumber >= 10 && gradeNumber <= 12) {
+    seniorSecondary++;
+}
+const gender = (s.gender || "").trim();
+
+if (gradeNumber >= 1 && gradeNumber <= 3) {
+
+    if (gender === "Male") levelGender.lower.Male++;
+    else if (gender === "Female") levelGender.lower.Female++;
+
+}
+else if (gradeNumber >= 4 && gradeNumber <= 6) {
+
+    if (gender === "Male") levelGender.upper.Male++;
+    else if (gender === "Female") levelGender.upper.Female++;
+
+}
+else if (gradeNumber >= 7 && gradeNumber <= 9) {
+
+    if (gender === "Male") levelGender.junior.Male++;
+    else if (gender === "Female") levelGender.junior.Female++;
+
+}
+else if (gradeNumber >= 10 && gradeNumber <= 12) {
+
+    if (gender === "Male") levelGender.senior.Male++;
+    else if (gender === "Female") levelGender.senior.Female++;
+
+}
     // ================= GENDER =================
     const g =
       (s.gender || "")
@@ -28578,7 +28698,18 @@ function updateDashboardFromStudents() {
       genderMap.Female++;
     }
   });
+// ================= UPDATE SCHOOL LEVEL CARDS =================
+document.getElementById("lowerPrimaryCount").innerText =
+    lowerPrimary.toLocaleString();
 
+document.getElementById("upperPrimaryCount").innerText =
+    upperPrimary.toLocaleString();
+
+document.getElementById("juniorSecondaryCount").innerText =
+    juniorSecondary.toLocaleString();
+
+document.getElementById("seniorSecondaryCount").innerText =
+    seniorSecondary.toLocaleString();
   // ================= GRADE COLORS (AUTO) =================
   const dynamicColors = [
     "#2563eb",
@@ -28721,22 +28852,56 @@ function updateDashboardFromStudents() {
       gradeStats.appendChild(div);
     });
   }
-
-  // ================= CHARTS =================
-  if (typeof renderGradeChart === "function") {
+// ================= CHARTS =================
+if (typeof renderGradeChart === "function") {
     renderGradeChart(gradeMap);
-  }
-
-  if (typeof renderGenderChart === "function") {
-    renderGenderChart(genderMap);
-  }
 }
+
+if (typeof renderGenderChart === "function") {
+    renderGenderChart(genderMap);
+}
+
+// ================= SCHOOL LEVEL GENDER CHARTS =================
+renderLevelDoughnut(
+    "lowerGenderChart",
+    "Lower Primary",
+    levelGender.lower.Male,
+    levelGender.lower.Female
+);
+
+renderLevelDoughnut(
+    "upperGenderChart",
+    "Upper Primary",
+    levelGender.upper.Male,
+    levelGender.upper.Female
+);
+
+renderLevelDoughnut(
+    "juniorGenderChart",
+    "Junior Secondary",
+    levelGender.junior.Male,
+    levelGender.junior.Female
+);
+
+renderLevelDoughnut(
+    "seniorGenderChart",
+    "Senior Secondary",
+    levelGender.senior.Male,
+    levelGender.senior.Female
+);
+}
+
 // =======================================
 // 📊 GLOBAL CHART REFERENCES
 // =======================================
-let gradeChart = null;
-let genderChart = null;
-
+window.gradeChart = null;
+window.genderChart = null;
+window.schoolLevelChart = null;// =======================================
+// 📊 GLOBAL CHART REFERENCES
+// =======================================
+window.gradeChart = null;
+window.genderChart = null;
+window.schoolLevelChart = null;
 
 // =======================================
 // 📊 RENDER GRADE CHART (ULTRA UPGRADED)
@@ -29036,6 +29201,175 @@ function renderGradeChart(gradeMap = {}) {
     gradeSummary.innerHTML = html;
   }
 }
+// ==========================================
+// 🎯 RENDER LEVEL GENDER DOUGHNUT CHART
+// ==========================================
+function renderLevelDoughnut(canvasId, title, male = 0, female = 0) {
+
+    const canvas = document.getElementById(canvasId);
+
+    if (!canvas) return;
+
+    // Destroy previous chart safely
+    const existingChart = Chart.getChart(canvas);
+
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    male = Number(male || 0);
+    female = Number(female || 0);
+
+    const total = male + female;
+
+    new Chart(canvas, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                `Male (${male})`,
+                `Female (${female})`
+            ],
+
+            datasets: [{
+
+                data: [male, female],
+
+                backgroundColor: [
+                    "#2563eb",
+                    "#ec4899"
+                ],
+
+                borderColor: "#ffffff",
+                borderWidth: 4,
+
+                hoverOffset: 12
+
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "65%",
+
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200
+            },
+
+            plugins: {
+
+                title: {
+
+                    display: true,
+
+                    text: `${title} (${total} Learners)`,
+
+                    font: {
+                        size: 16,
+                        weight: "bold"
+                    },
+
+                    padding: {
+                        bottom: 15
+                    }
+
+                },
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        usePointStyle: true,
+
+                        padding: 18,
+
+                        font: {
+                            size: 12,
+                            weight: "bold"
+                        }
+
+                    }
+
+                },
+
+                tooltip: {
+
+                    callbacks: {
+
+                        label(context) {
+
+                            const value = context.raw || 0;
+
+                            const percent = total
+                                ? ((value / total) * 100).toFixed(1)
+                                : 0;
+
+                            return `${value} Learners (${percent}%)`;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        },
+
+        plugins: [{
+
+            id: "centerText",
+
+            beforeDraw(chart) {
+
+                const { ctx } = chart;
+
+                const width = chart.width;
+                const height = chart.height;
+
+                ctx.save();
+
+                // Total learners
+                ctx.font = "bold 28px Arial";
+                ctx.fillStyle = "#111827";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+
+                ctx.fillText(
+                    total,
+                    width / 2,
+                    height / 2 - 10
+                );
+
+                // Label
+                ctx.font = "13px Arial";
+                ctx.fillStyle = "#6b7280";
+
+                ctx.fillText(
+                    "Learners",
+                    width / 2,
+                    height / 2 + 18
+                );
+
+                ctx.restore();
+
+            }
+
+        }]
+
+    });
+
+}
 
 // ================================
 // 📊 RENDER GENDER CHART (UPGRADED)
@@ -29061,55 +29395,66 @@ function renderGenderChart(genderMap = {}) {
   const total = male + female;
 
   // ================================
-  // 🔥 EMPTY STATE
-  // ================================
-  if (total === 0) {
+// 🔥 EMPTY STATE
+// ================================
+if (total === 0) {
 
-    // destroy old chart safely
-    if (window.genderChart) {
-      window.genderChart.destroy();
-      window.genderChart = null;
-    }
-
-    const parent = canvas.parentElement;
-
-    if (parent) {
-
-      parent.innerHTML = `
-        <div style="
-          height:260px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          flex-direction:column;
-          background:white;
-          border-radius:14px;
-          border:2px dashed #cbd5e1;
-          color:#64748b;
-          font-weight:600;
-          font-size:14px;
-        ">
-          <div style="font-size:45px;">📊</div>
-          <div>No gender data available</div>
-        </div>
-      `;
-    }
-
-    return;
+  // Safely destroy previous chart
+  if (
+    window.genderChart &&
+    typeof window.genderChart.destroy === "function"
+  ) {
+    window.genderChart.destroy();
   }
+
+  window.genderChart = null;
+
+  const parent = canvas.parentElement;
+
+  if (parent) {
+
+    // Restore canvas if it had been replaced previously
+    parent.innerHTML = `
+      <canvas id="genderChart"></canvas>
+      <div style="
+        position:absolute;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+        background:white;
+        border-radius:14px;
+        border:2px dashed #cbd5e1;
+        color:#64748b;
+        font-weight:600;
+        font-size:14px;
+      ">
+        <div style="font-size:45px;">📊</div>
+        <div>No gender data available</div>
+      </div>
+    `;
+
+    parent.style.position = "relative";
+    parent.style.height = "260px";
+  }
+
+  return;
+}
 
   // ================================
   // 🔥 RESTORE CANVAS IF REMOVED
   // ================================
   if (canvas.tagName !== "CANVAS") return;
 
-  // ================================
-  // 🔥 DESTROY OLD CHART
-  // ================================
-  if (window.genderChart) {
+if (
+    window.genderChart &&
+    typeof window.genderChart.destroy === "function"
+) {
     window.genderChart.destroy();
-  }
+}
 
+window.genderChart = null;
   // ================================
   // 🔥 CALCULATIONS
   // ================================
