@@ -1633,6 +1633,11 @@ font-size:14px;
 }
 
 }
+@page{
+    size:A4 portrait;
+    margin:6mm;
+}
+
 /* =========================================================
    🌍 SCHOOL TITLE
 ========================================================= */
@@ -3696,10 +3701,6 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
             📄 Blank Merit Lists
           </option>
 
-          <option value="printAssessmentContent">
-            🖨️ Print Assessment Report
-          </option>
-
           <option value="marksStatusContent">
             👁️ Marks Recording Status
           </option>
@@ -5700,6 +5701,7 @@ width:100%;
     📄 Exam Results ......Powered By Rasm 360 Tech Kenya
   </h2>
 </div>
+
 <!-- ================= FILTER GUIDE ================= -->
 
 <div style="
@@ -5707,158 +5709,224 @@ width:100%;
   border-left:5px solid #CA8A04;
   padding:14px 16px;
   border-radius:10px;
-  margin-bottom:16px;
+  margin-bottom:20px;
   color:#78350F;
   font-size:14px;
   box-shadow:0 4px 12px rgba(0,0,0,0.08);
 ">
 
-  📌 <b style="font-size:15px;">How to View Results</b>
+<b style="font-size:15px;">
+📌 How to View Results
+</b>
 
-  <div style="margin-top:8px; line-height:1.8;">
-    1️⃣ Select an <b>Exam Period</b><br>
-    2️⃣ Select a <b>Grade</b> (optional)<br>
-    3️⃣ Click <b>📊 Load Exam Results</b>
-  </div>
+<div style="margin-top:8px;line-height:1.8;">
+
+1️⃣ Select an <b>Exam Period</b><br>
+2️⃣ Select a <b>Grade</b> (optional)<br>
+3️⃣ Click <b>📊 Load Exam Results</b>
 
 </div>
 
-<!-- EXAM PERIOD -->
-<div style="margin-bottom:10px;">
-  <label style="
-    display:block;
-    font-weight:bold;
-    margin-bottom:5px;
-    color:#374151;
-  ">
-    📅 Step 1: Select Exam Period
-  </label>
-
-  <select id="resultsExamPeriod">
-    <option value="">Select Exam Period</option>
-  </select>
 </div>
 
-<!-- GRADE -->
-<div style="margin-bottom:10px;">
-  <label style="
-    display:block;
-    font-weight:bold;
-    margin-bottom:5px;
-    color:#374151;
-  ">
-    🎓 Step 2: Select Grade (Optional)
-  </label>
+<!-- ===================================================== -->
+<!-- FILTERS + REPORTS BAR -->
+<!-- ===================================================== -->
 
-  <select id="gradeFilter">
-    <option value="">All Grades</option>
-  </select>
-</div>
-<button 
-  id="loadMarksByPeriodBtn"
-  style="
-    background-color:#3498db;
-    color:white;
-    border:none;
-    padding:8px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    font-weight:500;
-  "
->
-  <i class="fas fa-database"></i> Load Exam Results
-</button>
-<button
-    onclick="deleteClassSubjectMarks()"
-    style="
-        background:#dc2626;
-        color:#fff;
-        border:none;
-        padding:10px 18px;
-        border-radius:8px;
-        cursor:pointer;
-        font-weight:bold;
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:18px;
+">
+
+    <!-- LEFT SIDE -->
+    <div style="
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    flex:1;
     ">
-    <i class="fas fa-trash"></i>
-    Delete Subject for Class
-</button>
- <!-- ================= ACTION BUTTONS ================= -->
+
+        <!-- EXAM PERIOD -->
+        <div style="min-width:230px;">
+
+            <label style="
+            display:block;
+            font-weight:bold;
+            margin-bottom:5px;
+            color:#374151;
+            ">
+                📅 Step 1: Select Exam Period
+            </label>
+
+            <select id="resultsExamPeriod"
+                style="
+                width:100%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #d1d5db;
+                ">
+                <option value="">Select Exam Period</option>
+            </select>
+
+        </div>
+
+        <!-- GRADE -->
+        <div style="min-width:220px;">
+
+            <label style="
+            display:block;
+            font-weight:bold;
+            margin-bottom:5px;
+            color:#374151;
+            ">
+                🎓 Step 2: Select Grade (Optional)
+            </label>
+
+            <select id="gradeFilter"
+                style="
+                width:100%;
+                padding:10px;
+                border-radius:8px;
+                border:1px solid #d1d5db;
+                ">
+                <option value="">All Grades</option>
+            </select>
+
+        </div>
+
+        <!-- LOAD BUTTON -->
+        <button
+            id="loadMarksByPeriodBtn"
+            style="
+            height:42px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:0 18px;
+            border-radius:8px;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            font-weight:bold;
+            white-space:nowrap;
+            ">
+
+            <i class="fas fa-database"></i>
+            Load Exam Results
+
+        </button>
+
+        <!-- DELETE SUBJECT -->
+        <button
+            onclick="deleteClassSubjectMarks()"
+            style="
+            height:42px;
+            background:#dc2626;
+            color:#fff;
+            border:none;
+            padding:0 18px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:bold;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            white-space:nowrap;
+            ">
+
+            <i class="fas fa-trash"></i>
+            Delete Subject
+
+        </button>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="action-group">
+
+        <button class="action-master-btn reports-btn">
+            📊 Reports & Analysis
+        </button>
+
+        <div class="action-panel">
+
+            <button
+                class="action-btn btn-gold"
+                data-target="certificatesSection">
+                🎓 Top 5 Certificates
+            </button>
+
+            <button
+                class="action-btn btn-performance"
+                data-target="performanceSection">
+                🏆 Performance
+            </button>
+
+            <button
+                class="action-btn btn-grade"
+                data-target="topGradeSection">
+                🥇 Top Grade
+            </button>
+
+            <button
+                class="action-btn btn-students"
+                data-target="topStudentsSection">
+                👨‍🎓 Top Students
+            </button>
+
+            <button
+                class="action-btn btn-term"
+                data-target="termPerformanceSection">
+                📊 Term Performance
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= ACTION BUTTONS ================= -->
+
 <div class="action-groups">
 
-  <!-- RESULTS ACTIONS -->
-  <div class="action-group">
+    <!-- RESULTS ACTIONS -->
+    <div class="action-group">
 
-    <button class="action-master-btn">
-      📤 Results Actions
-    </button>
+        <button class="action-master-btn">
+            📤 Results Actions
+        </button>
 
-    <div class="action-panel">
+        <div class="action-panel">
 
-     
+            <button onclick="sendSelectedResults()" class="action-btn btn-blue">
+                ✅ Send Selected
+            </button>
 
-      <button onclick="sendSelectedResults()" class="action-btn btn-blue">
-        ✅ Send Selected
-      </button>
+            <button onclick="sendLoadedResults()" class="action-btn btn-green">
+                📤 Send Loaded Grade
+            </button>
 
-      <button onclick="sendLoadedResults()" class="action-btn btn-green">
-        📤 Send Loaded Grade
-      </button>
+            <button onclick="deleteSelectedLearnersMarks()" class="action-btn delete-btn">
+                <i class="fa fa-trash"></i>
+                Delete Selected
+            </button>
 
-     
-
-      <button onclick="deleteSelectedLearnersMarks()" class="action-btn delete-btn">
-        <i class="fa fa-trash"></i> Delete Selected
-      </button>
-
-    </div>
-
-  </div>
-
-  <!-- REPORTS -->
-  <div class="action-group">
-
-    <button class="action-master-btn reports-btn">
-      📊 Reports & Analysis
-    </button>
-
-    <div class="action-panel">
-
-      <button
-    class="action-btn btn-gold"
-    data-target="certificatesSection">
-
-    🎓 Top 5 Certificates
-
-</button>
-
-      <button class="action-btn btn-performance"
-        data-target="performanceSection">
-        🏆 Performance
-      </button>
-
-      <button class="action-btn btn-grade"
-        data-target="topGradeSection">
-        🥇 Top Grade
-      </button>
-
-      <button class="action-btn btn-students"
-        data-target="topStudentsSection">
-        👨🎓 Top Students
-      </button>
-
-      <button class="action-btn btn-term"
-        data-target="termPerformanceSection">
-        📊 Term Performance
-      </button>
+        </div>
 
     </div>
-
-  </div>
 
 </div>
+
+
+
+
 <!-- ================= TABLE ================= -->
 <table class="marks-table" style="margin-top:10px; width:100%; min-width:900px;">
 
@@ -16098,7 +16166,31 @@ snapshot.forEach(child => {
 
 });
   window.__learnerQueue = [];
+// =====================================
+// START NEW RECORDING SESSION
+// =====================================
 
+window.__currentLearnerIndex = 0;
+
+window.__marksEntryStartTime = Date.now();
+
+window.__totalLearners =
+    window.__learnerQueue.length;
+
+window.__recordingGrade =
+    document.getElementById("gradeSelect")
+        ?.selectedOptions[0]?.text ||
+    window.__lockedGrade;
+
+window.__recordingSubject =
+    document.getElementById("subject")
+        ?.selectedOptions[0]?.text ||
+    window.__lockedSubject;
+
+window.__recordingExam =
+    document.getElementById("examPeriod")
+        ?.selectedOptions[0]?.text ||
+    window.__lockedExam;
 let recordedCount = 0;
 let firstPending = null;
 
@@ -16233,41 +16325,86 @@ window.__savingMarks = false;
 window.__autoSaveEnabled = false;
 window.__autoSaveTimer = null;
 
-// 👉 NEW: learner workflow system
+// =========================================================
+// 🚀 LEARNER WORKFLOW SYSTEM
+// =========================================================
 window.__learnerQueue = [];
 window.__currentLearnerIndex = 0;
 
+// Recording session
+window.__marksEntryStartTime = null;
+
+// Current session details
+window.__recordingGrade = "";
+window.__recordingSubject = "";
+window.__recordingExam = "";
+window.__totalLearners = 0;
+
+// Lock current selections
 window.__lockedGrade = null;
 window.__lockedExam = null;
+window.__lockedSubject = null;
+
 // =========================================================
 // 🚀 EVENTS
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-    const gradeEl = document.getElementById("gradeSelect");
-    const examEl = document.getElementById("examPeriod");
-    const subjectEl = document.getElementById("subject");
+    const gradeEl =
+        document.getElementById("gradeSelect");
 
-    // Grade changed
+    const examEl =
+        document.getElementById("examPeriod");
+
+    const subjectEl =
+        document.getElementById("subject");
+
+    // =====================================
+    // Grade Changed
+    // =====================================
+
     gradeEl?.addEventListener("change", () => {
 
-        window.__lockedGrade = gradeEl.value;
+        window.__lockedGrade =
+            gradeEl.value;
+
+        window.__recordingGrade =
+            gradeEl.options[gradeEl.selectedIndex]?.text ||
+            gradeEl.value;
 
         loadLearnersFromStudents();
 
     });
 
-    // Exam changed
+    // =====================================
+    // Exam Changed
+    // =====================================
+
     examEl?.addEventListener("change", () => {
 
-        window.__lockedExam = examEl.value;
+        window.__lockedExam =
+            examEl.value;
+
+        window.__recordingExam =
+            examEl.options[examEl.selectedIndex]?.text ||
+            examEl.value;
 
         loadLearnersFromStudents();
 
     });
 
-    // Subject changed
+    // =====================================
+    // Subject Changed
+    // =====================================
+
     subjectEl?.addEventListener("change", () => {
+
+        window.__lockedSubject =
+            subjectEl.value;
+
+        window.__recordingSubject =
+            subjectEl.options[subjectEl.selectedIndex]?.text ||
+            subjectEl.value;
 
         loadLearnersFromStudents();
 
@@ -16276,7 +16413,6 @@ document.addEventListener("DOMContentLoaded", () => {
     attachAutoSaveListeners();
 
 });
-
 
 // =========================================================
 // 🔥 AUTO SAVE TOGGLE
@@ -16471,40 +16607,155 @@ async function saveMarksToFirebase(
 
 }
 
-
 // =========================================================
 // 🚀 AUTO SELECT NEXT LEARNER
 // =========================================================
 function autoSelectNextLearner() {
 
-  const select = document.getElementById("learnerSelect");
-  const markInput = document.getElementById("subjectMark");
+    const select =
+        document.getElementById("learnerSelect");
 
-  const next = window.__learnerQueue[window.__currentLearnerIndex];
+    const markInput =
+        document.getElementById("subjectMark");
 
-  if (!next) {
+    const next =
+        window.__learnerQueue[
+            window.__currentLearnerIndex
+        ];
 
-    if (markInput) {
-      markInput.value = "";
+    // =====================================================
+    // 🎉 ALL LEARNERS COMPLETED
+    // =====================================================
+
+    if (!next) {
+
+        if (markInput) {
+            markInput.value = "";
+        }
+
+        // ---------------------------------------
+        // Capture values BEFORE anything changes
+        // ---------------------------------------
+
+        const grade =
+            window.__lockedGrade ||
+            document.getElementById("gradeSelect")?.value ||
+            "Current Grade";
+
+        const subject =
+            document.getElementById("subject")?.value ||
+            "Current Subject";
+
+        // Total learners
+        const totalLearners =
+            window.__totalLearners ||
+            window.__learnerQueue?.length ||
+            window.__currentLearnerIndex ||
+            0;
+
+        const start =
+            window.__marksEntryStartTime ||
+            Date.now();
+
+        const minutes =
+            Math.max(
+                1,
+                Math.round(
+                    (Date.now() - start) / 60000
+                )
+            );
+
+        Swal.fire({
+
+            icon: "success",
+
+            title: "🎉 Congratulations!",
+
+            width: 560,
+
+            confirmButtonText: "Done",
+
+            confirmButtonColor: "#16a34a",
+
+            allowOutsideClick: false,
+
+            html: `
+
+<div style="padding:15px;">
+
+<div style="
+font-size:26px;
+font-weight:bold;
+color:#2563eb;
+margin-bottom:8px;
+">
+${grade}
+</div>
+
+<div style="
+font-size:20px;
+font-weight:bold;
+color:#16a34a;
+margin-bottom:18px;
+">
+${subject}
+</div>
+
+<div style="
+display:inline-block;
+background:#dcfce7;
+color:#15803d;
+padding:10px 22px;
+border-radius:40px;
+font-size:20px;
+font-weight:bold;
+margin-bottom:18px;
+">
+✅ 100% Completed
+</div>
+
+<div style="
+font-size:18px;
+margin-top:15px;
+">
+<b>${totalLearners}</b> Learners Recorded
+</div>
+
+<div style="
+margin-top:12px;
+font-size:16px;
+color:#555;
+">
+⏱ <b>Time Taken:</b>
+${minutes} Minute${minutes === 1 ? "" : "s"}
+</div>
+
+</div>
+
+`
+
+        });
+
+        return;
+
     }
 
-    Swal.fire("Done", "All learners completed", "success");
-    return;
-  }
+    // =====================================================
+    // LOAD NEXT LEARNER
+    // =====================================================
 
-  select.value = next.key;
+    select.value = next.key;
 
-  // 🔥 Force a fresh mark box
-  if (markInput) {
-    markInput.value = "";
-    markInput.focus();
-  }
+    if (markInput) {
 
-  showCurrentLearnerNotice(next.name);
+        markInput.value = "";
+        markInput.focus();
 
-}
+    }
 
-document.getElementById("learnerSelect")
+    showCurrentLearnerNotice(next.name);
+
+}document.getElementById("learnerSelect")
 ?.addEventListener("change", () => {
 
     const mark = document.getElementById("subjectMark");
@@ -16535,6 +16786,11 @@ document.getElementById("saveMarksButton")
             document.getElementById("examPeriod")?.value
         );
 
+        // =====================================================
+        // 🔥 FIND THE PREVIOUS RECORDED EXAM
+        // =====================================================
+        let previousExamPeriod = null;
+
         const grade =
             document.getElementById("gradeSelect")?.value;
 
@@ -16543,12 +16799,13 @@ document.getElementById("saveMarksButton")
 
         if (!learner?.key || !examPeriod || !grade) {
 
-            return Swal.fire(
+            Swal.fire(
                 "Missing Data",
                 "Select learner, grade and exam.",
                 "error"
             );
 
+            return;
         }
 
         const input = getSubjectInput();
@@ -16557,12 +16814,13 @@ document.getElementById("saveMarksButton")
 
         if (errors.length) {
 
-            return Swal.fire(
+            Swal.fire(
                 "Invalid",
                 errors.join("<br>"),
                 "error"
             );
 
+            return;
         }
 
         const data = {
@@ -16585,35 +16843,42 @@ document.getElementById("saveMarksButton")
             data
         );
 
-markLearnerAsRecorded(learner.key);
+        // ===========================================
+        // Mark learner as recorded
+        // ===========================================
+        markLearnerAsRecorded(learner.key);
 
-window.__currentLearnerIndex++;
+        // Move to next learner
+        window.__currentLearnerIndex++;
 
-autoSelectNextLearner();
+        // This will automatically show the
+        // Congratulations popup when the
+        // last learner is completed.
+        autoSelectNextLearner();
 
-showAppreciationMessage();
-// Clear the marks box AFTER changing learner
-setTimeout(() => {
+        // Clear mark input
+        setTimeout(() => {
 
-    const mark = document.getElementById("subjectMark");
+            const mark =
+                document.getElementById("subjectMark");
 
-    if (mark) {
-        mark.value = "";
-        mark.style.border = "";
-        mark.focus();
-    }
+            if (mark) {
 
-}, 100);
-    }
-    finally {
+                mark.value = "";
+                mark.style.border = "";
+                mark.focus();
+
+            }
+
+        }, 100);
+
+    } finally {
 
         window.__savingMarks = false;
 
     }
 
 });
-
-
 function showCurrentLearnerNotice(name) {
 
   let box =
@@ -16776,206 +17041,353 @@ function normalizeExamPeriod(str) {
 // =========================================================
 // 🚀 LOAD MARKS (FIXED VERSION)
 // =========================================================
+// =========================================================
+// 🚀 LOAD MARKS (UPGRADED VERSION)
+// =========================================================
 async function loadMarksUnifiedClean() {
 
-  if (!auth.currentUser) {
-    return Swal.fire(
-      "Not Logged In",
-      "Please login first",
-      "error"
-    );
-  }
-
-  const schoolId =
-    window.schoolId ||
-    localStorage.getItem("schoolId") ||
-    sessionStorage.getItem("schoolId");
-
-  if (!schoolId) {
-    return Swal.fire(
-      "School Error",
-      "School ID missing (login again)",
-      "error"
-    );
-  }
-
-  window.schoolId = schoolId;
-
-  const examPeriodEl =
-    document.getElementById("resultsExamPeriod");
-
-  if (!examPeriodEl) {
-    return Swal.fire(
-      "Exam period dropdown not found",
-      "",
-      "error"
-    );
-  }
-
-  // =====================================================
-  // 🔥 NORMALIZE EXAM PERIOD
-  // =====================================================
-  const rawExamPeriod =
-    examPeriodEl.value.trim();
-
-  const examPeriod =
-    normalizeExamPeriod(rawExamPeriod);
-
-  if (!examPeriod) {
-    return Swal.fire(
-      "Select Exam Period",
-      "",
-      "warning"
-    );
-  }
-
-  const gradeFilterEl =
-    document.getElementById("resultsGradeFilter");
-
-  const selectedGrade =
-    gradeFilterEl
-      ? gradeFilterEl.value.trim().toUpperCase()
-      : "ALL GRADES";
-
-  showLoader();
-
-  updateProgress(
-    10,
-    "Initializing marks system..."
-  );
-
-  await new Promise(r => setTimeout(r, 300));
-// =====================================================
-// 📚 SUBJECTS WILL BE DETECTED FROM RECORDED MARKS
-// =====================================================
-let subjects = [];
-const recordedSubjects = new Set();
-
-  updateProgress(
-    25,
-    "Fetching student data..."
-  );
-
-  let snapshot;
-
-  try {
-
-    snapshot = await get(
-      ref(
-        db,
-        `schools/${schoolId}/students`
-      )
-    );
-
-  } catch (err) {
-
-    hideLoader();
-
-    return Swal.fire(
-      "Database Error",
-      err.message || "Permission denied",
-      "error"
-    );
-
-  }
-
-  if (!snapshot.exists()) {
-
-    hideLoader();
-
-    return Swal.fire(
-      "No Data Found",
-      "",
-      "info"
-    );
-
-  }
-
-  updateProgress(
-    45,
-    "Processing learners..."
-  );
-
-  const learners = [];
-  const gradeSet = new Set();
-
- snapshot.forEach(child => {
-
-    const data = child.val();
-
-    // =================================================
-    // LOAD MARKS FOR THE SELECTED EXAM PERIOD
-    // =================================================
-    const marks = data?.marks?.[examPeriod];
-
-    if (!marks) return;
-
-    // ================================================
-    // DETECT RECORDED SUBJECTS AUTOMATICALLY
-    // ================================================
- const ignoredFields = [
-    "schoolId",
-    "name",
-    "grade",
-    "updatedAt",
-    "createdAt",
-    "timestamp",
-    "average",
-    "total",
-    "points",
-    "rank",
-    "examPeriod"
-];
-
-Object.keys(marks).forEach(key => {
-    if (!ignoredFields.includes(key)) {
-        recordedSubjects.add(key);
-    }
-});
-
-    const name =
-        marks.name ||
-        data.name ||
-        "Unknown";
-
-    const grade =
-        (
-            marks.grade ||
-            data.grade ||
-            ""
-        )
-        .toString()
-        .trim()
-        .toUpperCase();
-
-    if (grade) {
-        gradeSet.add(grade);
+    if (!auth.currentUser) {
+        return Swal.fire(
+            "Not Logged In",
+            "Please login first",
+            "error"
+        );
     }
 
-    learners.push({
+    const schoolId =
+        window.schoolId ||
+        localStorage.getItem("schoolId") ||
+        sessionStorage.getItem("schoolId");
 
-        id: child.key,
+    if (!schoolId) {
 
-        schoolId,
+        return Swal.fire(
+            "School Error",
+            "School ID missing (login again)",
+            "error"
+        );
 
-        name,
+    }
 
-        grade,
+    window.schoolId = schoolId;
 
-        marks,
+    const examPeriodEl =
+        document.getElementById("resultsExamPeriod");
 
-        examPeriod
+    if (!examPeriodEl) {
+
+        return Swal.fire(
+            "Exam period dropdown not found",
+            "",
+            "error"
+        );
+
+    }
+
+    // ===========================================
+    // CURRENT EXAM
+    // ===========================================
+    const rawExamPeriod =
+        examPeriodEl.value.trim();
+
+    const examPeriod =
+        normalizeExamPeriod(rawExamPeriod);
+
+    if (!examPeriod) {
+
+        return Swal.fire(
+            "Select Exam Period",
+            "",
+            "warning"
+        );
+
+    }
+
+    const gradeFilterEl =
+        document.getElementById("resultsGradeFilter");
+
+    const selectedGrade =
+        gradeFilterEl
+            ? gradeFilterEl.value.trim().toUpperCase()
+            : "ALL GRADES";
+
+    showLoader();
+
+    updateProgress(
+        10,
+        "Initializing marks system..."
+    );
+
+    await new Promise(r => setTimeout(r,300));
+
+    // ===========================================
+    // SUBJECT COLLECTION
+    // ===========================================
+    let subjects = [];
+
+    const recordedSubjects = new Set();
+
+    updateProgress(
+        25,
+        "Fetching student data..."
+    );
+
+    let snapshot;
+
+    try {
+
+        snapshot = await get(
+            ref(
+                db,
+                `schools/${schoolId}/students`
+            )
+        );
+
+    }
+
+    catch(err){
+
+        hideLoader();
+
+        return Swal.fire(
+            "Database Error",
+            err.message || "Permission denied",
+            "error"
+        );
+
+    }
+
+    // ===========================================
+    // NO STUDENTS
+    // ===========================================
+    if(!snapshot.exists()){
+
+        hideLoader();
+
+        return Swal.fire(
+            "No Data Found",
+            "",
+            "info"
+        );
+
+    }
+
+    // ===========================================
+    // FIND PREVIOUS EXAM
+    // ===========================================
+    let previousExamPeriod = null;
+
+    const recordedExamPeriods = new Set();
+
+    snapshot.forEach(child=>{
+
+        const student = child.val();
+
+        if(!student?.marks) return;
+
+        Object.keys(student.marks).forEach(period=>{
+
+            recordedExamPeriods.add(
+                normalizeExamPeriod(period)
+            );
+
+        });
 
     });
 
-});
-// =====================================================
-// USE ONLY RECORDED SUBJECTS
-// =====================================================
-subjects = [...recordedSubjects].sort();
+    const allExamPeriods =
+        [...recordedExamPeriods];
 
-window.schoolSubjects = subjects;
-buildMarksHeader();
+    function examOrder(period){
+
+        const p =
+            normalizeExamPeriod(period)
+            .toUpperCase();
+
+        const year =
+            Number(
+                (p.match(/\d{4}/)||[0])[0]
+            );
+
+        let term = 0;
+
+        if(p.includes("TERM1")) term=1;
+        else if(p.includes("TERM2")) term=2;
+        else if(p.includes("TERM3")) term=3;
+
+        let exam = 0;
+
+        if(p.includes("OPENER")) exam=1;
+        else if(p.includes("MID")) exam=2;
+        else if(p.includes("END")) exam=3;
+
+        return year*100+term*10+exam;
+
+    }
+
+    allExamPeriods.sort(
+        (a,b)=>examOrder(a)-examOrder(b)
+    );
+
+    const currentIndex =
+        allExamPeriods.indexOf(examPeriod);
+
+    if(currentIndex>0){
+
+        previousExamPeriod =
+            allExamPeriods[currentIndex-1];
+
+    }
+
+    console.log(
+        "Current Exam:",
+        examPeriod
+    );
+
+    console.log(
+        "Previous Exam:",
+        previousExamPeriod
+    );
+
+    console.log(
+        "Available Exams:",
+        allExamPeriods
+    );
+
+    // ===========================================
+    // PROCESS LEARNERS
+    // ===========================================
+    updateProgress(
+        45,
+        "Processing learners..."
+    );
+
+    console.time("Processing Learners");
+
+    const learners = [];
+
+    const gradeSet = new Set();
+
+    snapshot.forEach(child=>{
+
+        try{
+
+            const data = child.val();
+
+            console.log(
+                "Student:",
+                child.key,
+                Object.keys(data?.marks || {})
+            );
+
+            const marks =
+                data?.marks?.[examPeriod];
+
+            if(!marks) return;
+
+            const previousMarks =
+                previousExamPeriod
+                    ? data?.marks?.[previousExamPeriod] || {}
+                    : {};
+
+            const ignoredFields = [
+
+                "schoolId",
+                "name",
+                "grade",
+                "updatedAt",
+                "createdAt",
+                "timestamp",
+                "average",
+                "total",
+                "points",
+                "rank",
+                "examPeriod"
+
+            ];
+
+            Object.keys(marks).forEach(key=>{
+
+                if(!ignoredFields.includes(key)){
+
+                    recordedSubjects.add(key);
+
+                }
+
+            });
+
+            const name =
+                marks.name ||
+                data.name ||
+                "Unknown";
+
+            const grade =
+                (
+                    marks.grade ||
+                    data.grade ||
+                    ""
+                )
+                .toString()
+                .trim()
+                .toUpperCase();
+
+            if(grade){
+
+                gradeSet.add(grade);
+
+            }
+
+            learners.push({
+
+                id: child.key,
+
+                schoolId,
+
+                name,
+
+                grade,
+
+                marks,
+
+                previousMarks,
+
+                examPeriod,
+
+                previousExamPeriod
+
+            });
+
+        }
+
+        catch(err){
+
+            console.error(
+                "Error processing learner:",
+                child.key,
+                err
+            );
+
+        }
+
+    });
+
+    console.timeEnd("Processing Learners");
+
+    console.log(
+        "Detected Subjects:",
+        [...recordedSubjects]
+    );
+
+    subjects =
+        [...recordedSubjects].sort();
+
+    window.schoolSubjects =
+        subjects;
+
+    buildMarksHeader();
+
+
+
 // =====================================================
 // CALCULATE TOTALS & AVERAGES
 // =====================================================
@@ -17098,6 +17510,32 @@ Swal.fire({
 hideLoader();
 
 }
+
+// =========================================================
+// ⌨️ PRESS ENTER TO SAVE & MOVE TO NEXT LEARNER
+// =========================================================
+document.addEventListener("DOMContentLoaded", () => {
+
+    const markInput = document.getElementById("subjectMark");
+
+    if (!markInput) return;
+
+    markInput.addEventListener("keydown", function (e) {
+
+        if (e.key !== "Enter") return;
+
+        e.preventDefault();
+
+        // Prevent double saving
+        if (window.__savingMarks) return;
+
+        // Trigger the normal save button
+        document.getElementById("saveMarksButton")?.click();
+
+    });
+
+});
+
 // =========================================================
 // 🚀 BUILD DYNAMIC MARKS HEADER
 // =========================================================
@@ -18832,30 +19270,37 @@ window.submitReportMeta = function () {
 
 };
 
+// ======================================================
+// CALCULATE LEARNER PATHWAY PERFORMANCE
+// ======================================================
+
 function calculateLearnerPathways(learner) {
 
-    const marks = learner.marks || {};
+    const marks = learner?.marks || {};
 
     // ===========================================
-    // FIND A SUBJECT REGARDLESS OF ITS NAME
+    // FIND SUBJECT SCORE USING DIFFERENT NAMES
     // ===========================================
+
     function getScore(possibleNames) {
 
         const key = Object.keys(marks).find(subject => {
 
-            const s = subject
+            const cleanSubject = String(subject)
                 .toLowerCase()
-                .replace(/[\s\-_\/]/g, "");
+                .replace(/[\s\-_/&()]/g, "");
 
             return possibleNames.some(name =>
-                s.includes(
+                cleanSubject.includes(
                     name
                         .toLowerCase()
-                        .replace(/[\s\-_\/]/g, "")
+                        .replace(/[\s\-_/&()]/g, "")
                 )
             );
 
         });
+
+        if (!key) return null;
 
         const value = Number(marks[key]);
 
@@ -18866,68 +19311,70 @@ function calculateLearnerPathways(learner) {
     // ===========================================
     // SUBJECT GROUPS
     // ===========================================
+
     const pathways = {
 
         STEM: [
 
             ["english","eng"],
 
-            ["mathematics","math"],
+            ["mathematics","math","maths"],
 
-            ["pretechnical","pretech"],
+            ["integratedscience","science","sci"],
 
-            ["kiswahili","kiswa","kisw"],
+            ["pretechnical","pretech","technical"],
 
-            ["integratedscience","science","sci","scie"],
+            ["agriculture","agric","agricultureandnutrition"],
 
-            ["agriculture","agric"]
+            ["kiswahili","kisw","kiswa"]
 
         ],
 
         "Social Sciences": [
 
-            ["kiswahili","kiswa","kisw"],
-
             ["english","eng"],
+
+            ["kiswahili","kisw","kiswa"],
 
             ["socialstudies","social","sst"],
 
-            ["cre","religious","christian"]
+            ["cre","christian","religious","religiouseducation"]
 
         ],
 
         "Sports Science": [
 
-            ["kiswahili","kiswa","kisw"],
-
             ["english","eng"],
 
-            ["creativearts","creativeart","creative","c/a"]
+            ["kiswahili","kisw","kiswa"],
+
+            ["creativearts","creativeart","creative","arts","sports","creativeartsandsports"]
 
         ]
 
     };
 
+    // ===========================================
+    // CALCULATE AVERAGE
+    // ===========================================
+
     function average(subjectList) {
 
-        const scores = [];
-
-        subjectList.forEach(names => {
-
-            const score = getScore(names);
-
-            if (score !== null)
-                scores.push(score);
-
-        });
+        const scores = subjectList
+            .map(getScore)
+            .filter(score => score !== null);
 
         if (!scores.length) return 0;
 
-        return scores.reduce((a,b)=>a+b,0)/scores.length;
+        return scores.reduce((a, b) => a + b, 0) / scores.length;
 
     }
 
-    function getPerformanceBand(score) {
+    // ===========================================
+    // PERFORMANCE BAND
+    // ===========================================
+
+    function performanceBand(score) {
 
         if (score >= 90) return "EE1";
         if (score >= 75) return "EE2";
@@ -18941,43 +19388,137 @@ function calculateLearnerPathways(learner) {
 
     }
 
-    const stemAvg = average(pathways.STEM);
+    // ===========================================
+    // CALCULATE SCORES
+    // ===========================================
 
-    const socialAvg = average(pathways["Social Sciences"]);
+    const results = {};
 
-    const sportsAvg = average(pathways["Sports Science"]);
+    Object.keys(pathways).forEach(pathway => {
 
-    const pathwayScores = {
+        const avg = average(pathways[pathway]);
 
-        STEM: stemAvg,
+        results[pathway] = {
+            average: avg,
+            level: performanceBand(avg)
+        };
 
-        "Social Sciences": socialAvg,
+    });
 
-        "Sports Science": sportsAvg
+    // ===========================================
+    // BEST PATHWAY
+    // ===========================================
 
-    };
+    const bestPathway = Object.keys(results).reduce((best, current) =>
 
-    const bestPathway =
-        Object.keys(pathwayScores).reduce((a,b)=>
-            pathwayScores[a] > pathwayScores[b] ? a : b
-        );
+        results[current].average > results[best].average
+            ? current
+            : best
+
+    );
+
+    // ===========================================
+    // RETURN
+    // ===========================================
 
     return {
 
-        stemAvg: stemAvg.toFixed(1),
-        stemLevel: getPerformanceBand(stemAvg),
+        stemAvg: results.STEM.average.toFixed(1),
+        stemLevel: results.STEM.level,
 
-        socialAvg: socialAvg.toFixed(1),
-        socialLevel: getPerformanceBand(socialAvg),
+        socialAvg: results["Social Sciences"].average.toFixed(1),
+        socialLevel: results["Social Sciences"].level,
 
-        sportsAvg: sportsAvg.toFixed(1),
-        sportsLevel: getPerformanceBand(sportsAvg),
+        sportsAvg: results["Sports Science"].average.toFixed(1),
+        sportsLevel: results["Sports Science"].level,
 
-        bestPathway
+        bestPathway,
+
+        allResults: results
 
     };
 
 }
+
+function generatePathwayTable(pathway) {
+
+    return `
+
+<div style="
+border:2px solid #1e3a8a;
+border-radius:8px;
+overflow:hidden;
+">
+
+<div style="
+background:#1e3a8a;
+color:#fff;
+padding:6px;
+text-align:center;
+font-weight:bold;
+">
+PATHWAY PERFORMANCE
+</div>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:11px;
+">
+
+<tr style="background:#eee;">
+<th style="border:1px solid #ccc;padding:4px;">Pathway</th>
+<th style="border:1px solid #ccc;padding:4px;">Average</th>
+<th style="border:1px solid #ccc;padding:4px;">Level</th>
+</tr>
+
+<tr>
+<td style="border:1px solid #ccc;padding:4px;">STEM</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.stemAvg}
+</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.stemLevel}
+</td>
+</tr>
+
+<tr>
+<td style="border:1px solid #ccc;padding:4px;">Social Sciences</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.socialAvg}
+</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.socialLevel}
+</td>
+</tr>
+
+<tr>
+<td style="border:1px solid #ccc;padding:4px;">Sports Science</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.sportsAvg}
+</td>
+<td style="border:1px solid #ccc;padding:4px;text-align:center;">
+${pathway.sportsLevel}
+</td>
+</tr>
+
+</table>
+
+<div style="
+padding:8px;
+text-align:center;
+font-weight:bold;
+color:#15803d;
+">
+Recommended: ${pathway.bestPathway}
+</div>
+
+</div>
+
+`;
+
+}
+
 window.generateAssessmentReports = function () {
 
   const container =
@@ -19076,7 +19617,7 @@ document.body.appendChild(loader);
     try {
 
       const learners = getFilteredLearners();
-      const printDate = new Date().toLocaleDateString();
+      
 
       if (!Array.isArray(learners) || learners.length === 0) {
 
@@ -19093,25 +19634,34 @@ document.body.appendChild(loader);
           (a, b) => b.total - a.total
         );
 
-      const totalLearners =
-        ranked.length;
+    const totalLearners = ranked.length;
 
-      // ==========================================
-      // ONLY SUBJECTS THAT WERE RECORDED
-      // ==========================================
-  
+// ==========================================
+// REPORT SETTINGS
+// ==========================================
 
-      const defaultAvatar =
-        "https://i.imgur.com/AXrekYa.jpeg";
+const defaultAvatar =
+    "https://i.imgur.com/AXrekYa.jpeg";
+
+// Today's print date
+const printDate =
+    new Date().toLocaleDateString();
+
+// Default exam labels
+const defaultCurrentExam =
+    reportMeta.examName || "End Term Exam";
+
+const defaultPreviousExam =
+    reportMeta.previousExamName || "Midterm Exam";
 
       // ==========================================
       // PERFORMANCE
       // ==========================================
       function getPerformanceLevel(avg) {
 
-        if (avg >= 90) return "Exceeding Expectations One";
-        if (avg >= 75) return "Exceeding Expectations Two";
-        if (avg >= 58) return "Meeting Expectations One";
+        if (avg >= 90) return "EE1";
+        if (avg >= 75) return "EE2";
+        if (avg >= 58) return "ME1";
         if (avg >= 41) return "Meeting Expectations Two";
         if (avg >= 31) return "Approaching Expectations One";
         if (avg >= 21) return "Approaching Expectations Two";
@@ -19129,195 +19679,6 @@ document.body.appendChild(loader);
 
 2:"Shows very limited understanding; consistent guidance and practice are urgently required.",
 
-3:"Beginning to learn basic concepts but needs greater effort and encouragement daily.",
-
-4:"Shows limited understanding; regular practice and teacher support will improve performance.",
-
-5:"Making slow progress; increased participation and revision will strengthen understanding significantly.",
-
-6:"Developing foundational skills; patience and consistent practice will improve academic achievement.",
-
-7:"Limited understanding demonstrated; remedial support and regular study are highly recommended.",
-
-8:"Needs additional guidance and continuous revision to strengthen learning and confidence.",
-
-9:"Below expected standards; improved concentration and assignment completion will enhance performance.",
-
-10:"Beginning to understand concepts; consistent guidance and practice remain essential daily.",
-
-11:"Showing slight improvement; greater classroom commitment will strengthen overall academic performance.",
-
-12:"Building essential learning skills; regular revision will improve confidence and understanding.",
-
-13:"Emerging understanding shown; continued guided practice will produce better learning outcomes.",
-
-14:"Shows potential; greater consistency and concentration will significantly improve academic achievement.",
-
-15:"Making modest progress; increased study time will strengthen overall classroom performance.",
-
-16:"Developing confidence gradually; active participation will encourage continued academic improvement.",
-
-17:"Progressing steadily; regular revision will help address remaining learning gaps effectively.",
-
-18:"Shows willingness to improve; sustained effort will achieve higher academic standards.",
-
-19:"Encouraging improvement shown; maintaining focus will strengthen future academic performance consistently.",
-
-20:"Gradual progress continues; commitment and practice will improve future learning outcomes.",
-
-21:"Below expectations; consistent effort and participation will greatly improve academic performance.",
-
-22:"Steady improvement demonstrated; continued hard work will produce stronger academic achievement.",
-
-23:"Better understanding developing; increased practice will strengthen performance across learning areas.",
-
-24:"Making satisfactory progress; consistent study habits will improve future academic success.",
-
-25:"Encouraging growth demonstrated; continued commitment will lead to higher academic achievement.",
-26:"Showing steady improvement; consistent effort and timely assignments will bring greater success.",
-
-27:"Growing understanding demonstrated; active participation and regular revision will strengthen academic performance.",
-
-28:"Developing essential skills; focused study will unlock greater academic potential and success.",
-
-29:"Noticeable progress shown; determination and confidence will continue improving overall performance consistently.",
-
-30:"Steady improvement continues; consistent practice and guidance will produce stronger academic results.",
-
-31:"Fair understanding demonstrated; greater participation and study will strengthen future academic achievement.",
-
-32:"Building stronger foundations; continued effort and revision will sustain academic improvement consistently.",
-
-33:"Making satisfactory progress; maintaining positive attitudes will encourage higher academic achievement consistently.",
-
-34:"Encouraging improvement shown; continued commitment will lead to greater academic success and confidence.",
-
-35:"Fair understanding achieved; regular practice will help attain higher academic standards consistently.",
-
-36:"Consistent progress demonstrated; effective study habits will produce stronger academic performance continually.",
-
-37:"Essential learning skills developing; careful revision will enhance confidence and academic achievement.",
-
-38:"Steady progress shown; determination and focus will encourage excellent academic growth consistently.",
-
-39:"Positive improvement demonstrated; confidence and consistent effort will achieve higher academic performance.",
-
-40:"Encouraging progress continues; steady commitment will strengthen future academic development and success.",
-
-41:"Meeting expectations well; continued effort will achieve even greater academic excellence consistently.",
-
-42:"Sound understanding demonstrated; consistent learning habits will strengthen future academic performance greatly.",
-
-43:"Dependable progress shown; regular revision will continue improving confidence and academic achievement.",
-
-44:"Satisfactory mastery demonstrated; active participation will encourage further academic growth and success.",
-
-45:"Consistent performance maintained; positive attitudes will continue strengthening academic achievement and confidence.",
-
-46:"Balanced growth demonstrated; continued commitment will achieve higher academic standards consistently together.",
-
-47:"Steady progress maintained; determination and practice will unlock greater academic potential successfully.",
-
-48:"Strong foundation established; regular study routines will support continuous academic improvement consistently.",
-
-49:"Acceptable performance demonstrated; persistence and confidence will strengthen future academic success greatly.",
-
-50:"Stable academic performance; discipline and revision will achieve higher levels of excellence.",
-
-51:"Steady academic growth demonstrated; continued dedication will achieve even higher academic standards.",
-
-52:"Good understanding shown; sustained commitment will continue strengthening academic performance and confidence.",
-
-53:"Consistent effort demonstrated; regular practice will produce stronger academic achievement and growth.",
-
-54:"Academic performance improving steadily; active participation will strengthen future learning outcomes consistently.",
-
-55:"Positive growth demonstrated; continued determination will open opportunities for greater academic success.",
-
-56:"Consistent performance maintained; regular revision will strengthen understanding and academic excellence further.",
-
-57:"Encouraging progress shown; focus and determination will continue improving academic achievement consistently.",
-
-58:"Good achievement demonstrated; regular study habits will support higher academic excellence consistently.",
-
-59:"Strong understanding shown; continued hard work will produce outstanding academic results consistently.",
-
-60:"Growing confidence demonstrated; positive attitudes will ensure continued academic improvement and success.",
-
-61:"Solid academic ability demonstrated; continued commitment will achieve even greater academic excellence.",
-
-62:"Dependable performance maintained; regular revision will strengthen overall academic achievement and confidence.",
-
-63:"Understanding continues improving; determination and enthusiasm will support outstanding future academic performance.",
-
-64:"Commendable effort demonstrated; continued commitment will produce even greater academic success consistently.",
-
-65:"Confidence and determination shown; consistent effort will unlock greater academic potential successfully.",
-
-66:"Strong commitment demonstrated; continued hard work will achieve even higher academic success consistently.",
-
-67:"Focus and determination demonstrated; continued dedication will strengthen understanding and academic excellence.",
-
-68:"Very pleasing progress; maintaining momentum will produce remarkable academic success and confidence.",
-
-69:"Quality work demonstrated; perseverance will continue strengthening academic achievement and overall excellence.",
-
-70:"Very good performance; sustained commitment will lead to outstanding academic success consistently.",
-71:"Excellent commitment shown; continued dedication will lead to even greater academic success.",
-
-72:"Confidence and consistency demonstrated; maintaining this attitude will sustain academic excellence always.",
-
-73:"Strong understanding demonstrated; continued curiosity and revision will strengthen academic achievement further.",
-
-74:"High preparation demonstrated; continued determination will support even greater academic excellence consistently.",
-
-75:"Very good achievement; consistent effort will lead to outstanding academic success continually.",
-
-76:"Impressive performance demonstrated; continued enthusiasm will produce even greater academic accomplishments consistently.",
-
-77:"Exceptional effort demonstrated; continued dedication will inspire higher academic excellence and success.",
-
-78:"Excellent progress achieved; maintaining momentum will result in remarkable future academic success.",
-
-79:"Strong academic ability demonstrated; continued commitment will achieve even greater learning milestones.",
-
-80:"Outstanding consistency shown; maintaining high standards will produce exceptional academic performance always.",
-
-81:"Excellent achievement demonstrated; curiosity and self-discipline will ensure continued academic success always.",
-
-82:"Remarkable progress shown; sustained dedication will continue strengthening academic excellence and confidence.",
-
-83:"Exceptional ability demonstrated; continued confidence will achieve even greater academic heights consistently.",
-
-84:"Strong analytical skills demonstrated; continued exploration will strengthen academic excellence and innovation.",
-
-85:"Excellent mastery demonstrated; maintaining positive attitudes will inspire continued academic excellence consistently.",
-
-86:"Exceptional commitment shown; continued perseverance will lead to even greater academic accomplishments consistently.",
-
-87:"Outstanding participation demonstrated; maintaining these qualities will ensure continued academic distinction always.",
-
-88:"Remarkable academic growth shown; continued commitment will achieve exceptional future academic success consistently.",
-
-89:"Consistently excellent performance; sustaining these standards will ensure lasting academic excellence always.",
-
-90:"Excellent mastery demonstrated; continued determination will support even greater academic achievements consistently.",
-
-91:"Outstanding achievement demonstrated; continue striving for greatness through dedication and consistent excellence.",
-
-92:"Exceptional performance demonstrated; maintaining these standards will produce extraordinary academic success consistently.",
-
-93:"Highly impressive achievement; continued dedication will strengthen critical thinking and academic excellence.",
-
-94:"Consistently exceeding expectations; maintaining determination will unlock greater academic opportunities ahead.",
-
-95:"Outstanding excellence demonstrated; confidently embrace challenges for even greater academic accomplishments always.",
-
-96:"Exceptional dedication shown; maintaining commitment will ensure continued outstanding academic excellence consistently.",
-
-97:"Remarkable mastery demonstrated; continue inspiring others through discipline, humility and perseverance always.",
-
-98:"Near-perfect performance; continued passion will achieve even greater academic distinction and success.",
 
 99:"Exceptional achievement recognized; maintain excellence while inspiring others through dedicated leadership always.",
 
@@ -19364,252 +19725,372 @@ document.body.appendChild(loader);
 
       }
 
-      function schoolHeader(s) {
+     function schoolHeader(s) {
 
-        const school =
-          window.currentSchool || {};
+    const school =
+        window.currentSchool || {};
 
-        return `
+    return `
+
+<div style="
+    border-bottom:3px solid #000;
+    padding-bottom:5px;
+    margin-bottom:5px;
+">
 
         <div style="
-            border-bottom:3px solid #000;
-            padding-bottom:10px;
-            margin-bottom:10px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
         ">
-
-          <div style="
-              display:flex;
-              justify-content:space-between;
-              align-items:center;
-          ">
 
             <div>
 
-              ${
-                school.logo
-                  ? `<img src="${school.logo}"
-                    style="
-                      width:80px;
-                      height:80px;
-                      object-fit:cover;
-                      border-radius:8px;
-                    ">`
-                  : ""
-              }
+                ${
+                    school.logo
+                        ? `<img src="${school.logo}"
+                            style="
+                                width:80px;
+                                height:80px;
+                                object-fit:cover;
+                                border-radius:8px;
+                            ">`
+                        : ""
+                }
 
             </div>
 
             <div style="text-align:center;flex:1;">
 
-              <h2 style="margin:0;">
-                ${school.name || "SCHOOL NAME"}
-              </h2>
+                <h2 style="margin:0;">
+                    ${school.name || "SCHOOL NAME"}
+                </h2>
 
-              <p style="margin:2px;">
-                ${school.address || ""}
-              </p>
+                <p style="margin:2px 0;">
+                    ${school.address || ""}
+                </p>
 
-              <p style="margin:2px;">
-                MINISTRY OF EDUCATION SCIENCE AND TECHNOLOGY
-              </p>
+                <p style="margin:2px 0;">
+                    MINISTRY OF EDUCATION SCIENCE AND TECHNOLOGY
+                </p>
 
-              <p style="margin:2px;font-style:italic;">
-                <b>${school.motto || ""}</b>
-              </p>
+              <p style="
+    margin:0 0 2px 0;
+    font-style:italic;
+    line-height:1.05;
+">
+    <b>${school.motto || ""}</b>
+</p>
 
             </div>
 
             <div style="text-align:center;">
 
-              <img
-                src="https://i.imgur.com/KkbIFjL.png"
-                style="width:80px;height:80px;">
+                <img
+                    src="https://i.imgur.com/KkbIFjL.png"
+                    style="
+                        width:80px;
+                        height:80px;
+                    ">
 
-              <br>
+                <br>
 
-              <img
-                src="${defaultAvatar}"
-                style="
-                  width:50px;
-                  height:50px;
-                  border-radius:50%;
-                ">
+                <img
+                    src="${defaultAvatar}"
+                    style="
+                        width:50px;
+                        height:50px;
+                        border-radius:50%;
+                    ">
 
             </div>
 
-          </div>
+        </div>
 
-          <div style="
-              text-align:center;
-              margin-top:10px;
-              font-weight:bold;
-          ">
+       <div style="
+    text-align:center;
+    margin-top:1px;
+    padding-top:0;
+    font-weight:bold;
+    font-size:15px;
+    line-height:1.05;
+">
+
+            <span style="
+                font-size:16px;
+                font-weight:700;
+            ">
+                ${s.name}
+            </span>
+
+            &nbsp;&nbsp;|&nbsp;&nbsp;
 
             GRADE: ${s.grade}
 
-            |
+            &nbsp;&nbsp;|&nbsp;&nbsp;
 
             TERM: ${reportMeta.term}
 
-            |
+            &nbsp;&nbsp;|&nbsp;&nbsp;
 
             YEAR: ${reportMeta.year}
 
-            <br>
-
-            ${s.name}
-
-          </div>
-
         </div>
 
-        `;
-      }
+    </div>
 
-      let html =
-        `<h2 style="text-align:center;">📊 BULK ASSESSMENT REPORTS</h2>`;
+    `;
+}
 
-      let index = 0;
+    let html =
+`<h2 style="text-align:center;">📊 BULK ASSESSMENT REPORTS</h2>`;
 
-      function renderNext() {
+let index = 0;
 
-        if (index >= ranked.length) {
+function renderNext() {
 
-          container.innerHTML = html;
+    if (index >= ranked.length) {
 
-          loader.remove();
+        container.innerHTML = html;
+        loader.remove();
+        return;
 
-          return;
+    }
 
-        }
+    const s = ranked[index];
 
-        const s =
-          ranked[index];
-const current = index + 1;
+    // =====================================
+    // LOADER
+    // =====================================
 
-const progress =
-Math.round((current / ranked.length) * 100);
+    const current = index + 1;
 
-status.innerHTML =
-`Generating report <b>${current}</b> of <b>${ranked.length}</b><br>
-${s.name}`;
+    const progress =
+        Math.round((current / ranked.length) * 100);
 
-bar.style.width =
-progress + "%";
+    status.innerHTML =
+        `Generating report <b>${current}</b> of <b>${ranked.length}</b><br>${s.name}`;
 
-percent.innerHTML =
-progress + "%";
+    bar.style.width = progress + "%";
+    percent.innerHTML = progress + "%";
 
-const pathway = calculateLearnerPathways(s);
+    // =====================================
+    // EXAMS
+    // =====================================
 
-// =====================================
-// GRADE DETECTION
-// =====================================
-const gradeText = String(s.grade || "").toLowerCase();
+    const currentMarks = s.marks || {};
+    const previousMarks = s.previousMarks || {};
 
-// Grades 4–6
-const isGrade4To6 =
-    gradeText.includes("4") ||
-    gradeText.includes("5") ||
-    gradeText.includes("6");
+    const currentExam =
+        s.examPeriod ||
+        reportMeta.examName ||
+        "End Term Exam";
 
-// Grades 7–9
-const isGrade7To9 =
-    gradeText.includes("7") ||
-    gradeText.includes("8") ||
-    gradeText.includes("9");
+    const previousExam =
+        s.previousExamPeriod ||
+        reportMeta.previousExamName ||
+        "Midterm Exam";
 
-// Only Grades 7–9 show the pathway report
-const showPathwayReport = isGrade7To9;
+    // =====================================
+    // PATHWAYS
+    // =====================================
 
-const subjects = Object.keys(s.marks || {})
-  .filter(key =>
-    !["schoolId", "name", "grade", "updatedAt"].includes(key) &&
-    typeof s.marks[key] === "number"
-  )
-  .sort();
+    const pathway =
+        calculateLearnerPathways(s);
 
-let rows = "";
+    // =====================================
+    // GRADE DETECTION
+    // =====================================
 
-let points = 0;
+    const gradeText =
+        String(s.grade || "").toLowerCase();
 
-subjects.forEach(sub => {
+    const isGrade4To6 =
+        gradeText.includes("4") ||
+        gradeText.includes("5") ||
+        gradeText.includes("6");
 
-  const mark =
-    Number(s.marks?.[sub] || 0);
+    const isGrade7To9 =
+        gradeText.includes("7") ||
+        gradeText.includes("8") ||
+        gradeText.includes("9");
 
-  const level =
-    getLevel(mark);
-  let subjectPoints = 1;
+    const showPathwayReport =
+        isGrade7To9;
 
-  if (mark >= 90) subjectPoints = 8;
-  else if (mark >= 75) subjectPoints = 7;
-  else if (mark >= 58) subjectPoints = 6;
-  else if (mark >= 41) subjectPoints = 5;
-  else if (mark >= 31) subjectPoints = 4;
-  else if (mark >= 21) subjectPoints = 3;
-  else if (mark >= 11) subjectPoints = 2;
+    // =====================================
+    // SUBJECTS
+    // =====================================
 
-  points += subjectPoints;
+    const subjects = [
 
-  const teacher =
-    reportMeta.subjectTeachers?.[sub] ||
-    "Not Assigned";
+        ...new Set([
 
+            ...Object.keys(currentMarks),
 
-   rows += `
+            ...Object.keys(previousMarks)
+
+        ])
+
+    ]
+
+    .filter(key =>
+
+        ![
+            "schoolId",
+            "name",
+            "grade",
+            "updatedAt",
+            "createdAt"
+        ].includes(key)
+
+    )
+
+    .sort();
+
+    // =====================================
+    // SUBJECT TABLE
+    // =====================================
+
+    let rows = "";
+
+    let currentPoints = 0;
+    let previousPoints = 0;
+
+    function getPoints(mark) {
+
+        mark = Number(mark) || 0;
+
+        if (mark >= 90) return 8;
+        if (mark >= 75) return 7;
+        if (mark >= 58) return 6;
+        if (mark >= 41) return 5;
+        if (mark >= 31) return 4;
+        if (mark >= 21) return 3;
+        if (mark >= 11) return 2;
+
+        return 1;
+
+    }
+
+    subjects.forEach(sub => {
+
+        const currentMark =
+            Number(currentMarks[sub] ?? 0);
+
+        const previousMark =
+            Number(previousMarks[sub] ?? 0);
+
+        const currentLevel =
+            currentMark ? getLevel(currentMark) : "-";
+
+        const previousLevel =
+            previousMark ? getLevel(previousMark) : "-";
+
+        const currentSubjectPoints =
+            getPoints(currentMark);
+
+        const previousSubjectPoints =
+            getPoints(previousMark);
+
+        currentPoints += currentSubjectPoints;
+        previousPoints += previousSubjectPoints;
+
+        const teacher =
+            reportMeta.subjectTeachers?.[sub] ||
+            "Not Assigned";
+
+        rows += `
+
 <tr>
 
-    <td style="border:2px solid #000;padding:6px;">
-        ${subjectName(sub)}
-    </td>
+<td style="border:2px solid #000;padding:6px;">
+${subjectName(sub)}
+</td>
 
-    <td style="border:2px solid #000;padding:6px;text-align:center;">
-        ${mark}
-    </td>
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${currentMark || "-"}
+</td>
 
-    <td style="border:2px solid #000;padding:6px;text-align:center;">
-        ${level}
-    </td>
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${currentLevel}
+</td>
 
-    ${!isGrade4To6 ? `
-<td style="border:2px solid #000;padding:6px;text-align:center;">
-    ${subjectPoints}
+${!isGrade4To6 ? `
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${currentMark ? currentSubjectPoints : "-"}
 </td>
 ` : ""}
 
-    <td style="border:2px solid #000;padding:6px;">
-        ${teacher}
-    </td>
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${previousMark || "-"}
+</td>
 
-    <td style="
-        border:2px solid #000;
-        padding:6px;
-        text-align:center;
-        font-size:12px;
-    ">
-        ${getSignature(teacher)}
-    </td>
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${previousLevel}
+</td>
+
+${!isGrade4To6 ? `
+<td style="border:2px solid #000;text-align:center;padding:6px;">
+${previousMark ? previousSubjectPoints : "-"}
+</td>
+` : ""}
+
+<td style="border:2px solid #000;padding:6px;">
+${teacher}
+</td>
+
+<td style="border:2px solid #000;text-align:center;padding:6px;font-size:12px;">
+${getSignature(teacher)}
+</td>
 
 </tr>
+
 `;
-});
 
-        const avg =
-          Number(s.average || 0).toFixed(1);
+    });
 
-        html += `
+// ======================================================
+// EXAM STATISTICS
+// ======================================================
+
+const currentAverage = Number(s.average || 0).toFixed(1);
+const avg = Number(currentAverage);
+
+const previousTotal =
+    subjects.reduce((sum, sub) =>
+        sum + Number(previousMarks[sub] || 0), 0);
+
+const previousEntered =
+    subjects.filter(sub =>
+        previousMarks[sub] !== undefined &&
+        previousMarks[sub] !== null
+    ).length;
+
+const previousAverage =
+    previousEntered
+        ? (previousTotal / previousEntered).toFixed(1)
+        : "0.0";
+
+// ======================================================
+// REPORT
+// ======================================================
+
+html += `
 
 <div style="
 border:2px solid #000;
-margin:20px 0;
+margin:15px -6px;
 padding:15px;
+box-sizing:border-box;
+width:calc(100% + 12px);
 break-inside:avoid;
 page-break-inside:avoid;
 ">
 ${schoolHeader(s)}
 
-<table style="
+<table
+style="
 width:100%;
 border-collapse:collapse;
 border:2px solid #000;
@@ -19618,12 +20099,29 @@ border:2px solid #000;
 <tr style="background:#f2f2f2;">
 
 <th style="border:3px solid #000;">Subject</th>
-<th style="border:3px solid #000;">Marks</th>
+
+<th style="border:3px solid #000;">
+${currentExam}<br>Marks
+</th>
+
 <th style="border:3px solid #000;">Level</th>
+
 ${!isGrade4To6 ? `
 <th style="border:3px solid #000;">Points</th>
 ` : ""}
+
+<th style="border:3px solid #000;">
+${previousExam}<br>Marks
+</th>
+
+<th style="border:3px solid #000;">Level</th>
+
+${!isGrade4To6 ? `
+<th style="border:3px solid #000;">Points</th>
+` : ""}
+
 <th style="border:3px solid #000;">Teacher</th>
+
 <th style="border:3px solid #000;">Signature</th>
 
 </tr>
@@ -19632,319 +20130,246 @@ ${rows}
 
 </table>
 
-<p><b>Remark:</b> ${getRemark(Number(avg))}</p>
+<div style="
+margin-top:10px;
+padding:8px;
+background:#f8f8f8;
+border:1px solid #ddd;
+font-weight:bold;
+">
+Remark:
+${getRemark(avg)}
+</div>
 
-<p>
+<!-- ================================================= -->
+<!-- CURRENT & PREVIOUS EXAM SUMMARY -->
+<!-- ================================================= -->
 
-Position:
-<b>${index + 1}</b>
+<table style="
+width:100%;
+margin-top:15px;
+border-collapse:collapse;
+">
 
-|
+<tr>
 
-Total:
-<b>${s.total}</b>
-
-|
-
-Average:
-<b>${avg}</b>
-
-${!isGrade4To6 ? `
-
-|
-
-Points:
-<b>${points}</b>
-
-` : ""}
-
-</p>
-
-<!-- ================= REPORT FOOTER ================= -->
+<td style="
+width:50%;
+vertical-align:top;
+padding-right:10px;
+">
 
 <div style="
-margin-top:12px;
-border-top:2px solid #000;
-padding-top:12px;
+border:2px solid #2563eb;
+border-radius:8px;
+padding:10px;
+background:#eef6ff;
+">
+
+<div style="
+text-align:center;
+font-size:16px;
+font-weight:bold;
+color:#1d4ed8;
+margin-bottom:8px;
+">
+${currentExam}
+</div>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+">
+
+<tr>
+<td style="padding:6px;"><b>Position</b></td>
+<td style="padding:6px;">${index + 1}</td>
+
+<td style="padding:6px;"><b>Total</b></td>
+<td style="padding:6px;">${s.total}</td>
+</tr>
+
+<tr>
+<td style="padding:6px;"><b>Average</b></td>
+<td style="padding:6px;">${currentAverage}</td>
+
+${!isGrade4To6 ? `
+<td style="padding:6px;"><b>Points</b></td>
+<td style="padding:6px;">${currentPoints}</td>
+` : `
+<td></td>
+<td></td>
+`}
+
+</tr>
+
+</table>
+
+</div>
+
+</td>
+
+<td style="
+width:50%;
+vertical-align:top;
+padding-left:10px;
+">
+
+<div style="
+border:2px solid #16a34a;
+border-radius:8px;
+padding:10px;
+background:#f0fdf4;
+">
+
+<div style="
+text-align:center;
+font-size:16px;
+font-weight:bold;
+color:#15803d;
+margin-bottom:8px;
+">
+${previousExam}
+</div>
+
+<table style="
+width:100%;
+border-collapse:collapse;
+font-size:14px;
+">
+
+<tr>
+<td style="padding:6px;"><b>Position</b></td>
+<td style="padding:6px;">-</td>
+
+<td style="padding:6px;"><b>Total</b></td>
+<td style="padding:6px;">${previousTotal}</td>
+</tr>
+
+<tr>
+<td style="padding:6px;"><b>Average</b></td>
+<td style="padding:6px;">${previousAverage}</td>
+
+${!isGrade4To6 ? `
+<td style="padding:6px;"><b>Points</b></td>
+<td style="padding:6px;">${previousPoints}</td>
+` : `
+<td></td>
+<td></td>
+`}
+
+</tr>
+
+</table>
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
+
+<!-- ================================================= -->
+<!-- PERFORMANCE -->
+<!-- ================================================= -->
+
+<div style="
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
 gap:20px;
+margin-top:18px;
+padding-top:15px;
+border-top:2px solid #000;
 ">
 
-    <!-- LEFT SIDE -->
+<div style="
+flex:1;
+font-size:13px;
+line-height:1.35;
+">
 
-    <div style="
-    flex:1;
-    font-size:14px;
-    line-height:1.6;
-    ">
+<p style="margin:3px 0;">
+<b>Performance:</b> ${getPerformanceLevel(avg)}
+</p>
 
-        <p><b>Performance:</b> ${getPerformanceLevel(Number(avg))}</p>
+<p style="margin:3px 0;">
+<b>Comment:</b> ${getPerformanceComment(avg)}
+</p>
 
-        <p><b>Comment:</b> ${getPerformanceComment(Number(avg))}</p>
+<p style="margin:3px 0;">
+<b>Closing:</b> ${reportMeta.closingDate}
+&nbsp;&nbsp;&nbsp;
+<b>Opening:</b> ${reportMeta.openingDate}
+</p>
 
-        <p>
-            <b>Closing:</b> ${reportMeta.closingDate}
-            &nbsp;&nbsp;|&nbsp;&nbsp;
-            <b>Opening:</b> ${reportMeta.openingDate}
-        </p>
-
-        <p>
-            <b>Class Teacher:</b> ${reportMeta.classTeacher}
-        </p>
-
-        <p>
-            <b>Principal:</b> ${reportMeta.principal}
-        </p>
-
-        <!-- SCHOOL STAMP -->
-
-        <div class="school-stamp" style="
-            margin-top:15px;
-            width:220px;
-            border:2px solid #003399;
-            border-radius:8px;
-            padding:10px;
-            color:#003399;
-            font-weight:bold;
-            font-size:13px;
-            transform:rotate(-2deg);
-            background:#fff;
-            -webkit-print-color-adjust:exact;
-            print-color-adjust:exact;
-        ">
-
-            <div>${window.currentSchool?.name || "School Name"}</div>
-
-            <div>${window.currentSchool?.address || ""}</div>
-
-            <div>ICT Department</div>
-
-            <div>Date: ${printDate}</div>
-
-        </div>
-
-    </div>
-
-    <!-- RIGHT SIDE -->
-
-    <div style="
-    width:230px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    ">
-
-       ${showPathwayReport ? `
-
-<!-- RIGHT SIDE -->
+<p style="margin:3px 0;">
+<b>Class Teacher:</b> ${reportMeta.classTeacher}
+&nbsp;&nbsp;&nbsp;&nbsp;
+<b>Principal:</b> ${reportMeta.principal}
+</p>
 
 <div style="
-width:380px;
-position:relative;
-left:-145px;
-top:129px;
-display:flex;
-flex-direction:column;
-gap:8px;
-">    <!-- PATHWAY PERFORMANCE -->
+margin-top:10px;
+width:220px;
+border:2px solid #003399;
+border-radius:8px;
+padding:8px;
+text-align:center;
+color:#003399;
+font-weight:bold;
+font-size:12px;
+transform:rotate(-2deg);
+background:#fff;
+">
 
-    <div style="
-        border:2px solid #1e3a8a;
-        border-radius:8px;
-        overflow:hidden;
-    ">
+<div>${window.currentSchool?.name || "School Name"}</div>
 
-        <div style="
-            background:#1e3a8a;
-            color:#fff;
-            padding:6px;
-            text-align:center;
-            font-weight:bold;
-            font-size:13px;
-        ">
-            PATHWAY PERFORMANCE
-        </div>
+<div>${window.currentSchool?.address || ""}</div>
 
-        <table style="
-            width:100%;
-            border-collapse:collapse;
-            table-layout:fixed;
-            font-size:10px;
-        ">
+<div>ICT Department</div>
 
-            <tr style="background:#e5e7eb;font-weight:bold;">
-                <th style="border:1px solid #ccc;padding:4px;width:18%;">
-                    Pathway
-                </th>
-
-                <th style="border:1px solid #ccc;padding:4px;width:48%;">
-                    Subjects Considered
-                </th>
-
-                <th style="border:1px solid #ccc;padding:4px;width:17%;">
-                    Average
-                </th>
-
-                <th style="border:1px solid #ccc;padding:4px;width:17%;">
-                    Performance
-                </th>
-            </tr>
-
-            <tr>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    <b>STEM</b>
-                </td>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    English, Mathematics, Pre-Technical,
-                    Kiswahili, Integrated Science,
-                    Agriculture
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                ">
-                    ${pathway.stemAvg}
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                    font-weight:bold;
-                ">
-                    ${pathway.stemLevel}
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    <b>Social Sciences</b>
-                </td>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    Kiswahili, English,
-                    Social Studies, CRE
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                ">
-                    ${pathway.socialAvg}
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                    font-weight:bold;
-                ">
-                    ${pathway.socialLevel}
-                </td>
-
-            </tr>
-
-            <tr>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    <b>Sports Science</b>
-                </td>
-
-                <td style="border:1px solid #ccc;padding:4px;">
-                    Kiswahili, English,
-                    Creative Arts & Sports
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                ">
-                    ${pathway.sportsAvg}
-                </td>
-
-                <td style="
-                    border:1px solid #ccc;
-                    padding:4px;
-                    text-align:center;
-                    font-weight:bold;
-                ">
-                    ${pathway.sportsLevel}
-                </td>
-
-            </tr>
-
-        </table>
-
-        <div style="
-            padding:6px;
-            background:#f8fafc;
-            border-top:1px solid #ccc;
-            text-align:center;
-        ">
-
-            <div style="
-                font-size:10px;
-                color:#666;
-            ">
-                RECOMMENDED PATHWAY
-            </div>
-
-            <div style="
-                margin-top:4px;
-                font-size:15px;
-                font-weight:bold;
-                color:#15803d;
-            ">
-                ${pathway.bestPathway}
-            </div>
-
-        </div>
-
-    </div>
+<div>${printDate}</div>
 
 </div>
 
-` : ""}    
-
-    </div> <!-- END RIGHT SIDE -->
-
-</div> <!-- END REPORT FOOTER -->
-
-</div> <!-- END REPORT CARD -->
-
-<!-- REPORT FOOTER -->
-
-<div style="
-    margin-top:20px;
-    padding-top:8px;
-    border-top:1px solid #999;
-    text-align:center;
-    font-size:11px;
-    color:#555;
-    font-style:italic;
-    letter-spacing:0.5px;
-">
-    Report generated by <b>RASM TECH 360 KENYA</b>
 </div>
 
-</div> <!-- END REPORT CARD -->
+${showPathwayReport ? `
+
+<div style="width:360px;">
+
+${generatePathwayTable(pathway)}
+
+</div>
+
+` : ""}
+
+</div>
+
+<div style="
+margin-top:8px;
+padding-top:4px;
+border-top:1px solid #999;
+text-align:center;
+font-size:10px;
+color:#555;
+font-style:italic;
+page-break-inside:avoid;
+break-inside:avoid;
+">
+
+Report generated by <b>RASM TECH 360 KENYA</b>
+
+</div>
+
 ${index < ranked.length - 1
-    ? '<div style="page-break-after:always;"></div>'
-    : ''}
+? '<div style="page-break-after:always;"></div>'
+: ''}
 
-`;
-
-index++;
+`;index++;
 
 setTimeout(renderNext, 30);
 
@@ -19957,7 +20382,9 @@ document.getElementById("loaderBar");
 
 const percent =
 document.getElementById("loaderPercent");
+
 renderNext();
+
 
 } catch (err) {
 
@@ -19967,7 +20394,7 @@ container.innerHTML =
   "<p style='color:red;'>Error generating reports</p>";
 
 status.innerHTML =
-`✅ Successfully generated ${ranked.length} reports`;
+"Error generating reports";
 
 bar.style.width = "100%";
 percent.innerHTML = "100%";
@@ -20147,10 +20574,63 @@ window.generateCertificates = function () {
         // LEARNERS
         // ==========================================
 
-        const learners =
-            [...getFilteredLearners()];
+       // ==========================================
+// GET LEARNERS BASED ON SCHOOL LEVEL
+// ==========================================
 
-        if(!learners.length){
+let learners = [...getFilteredLearners()];
+
+// Make it available everywhere
+let allowedGrades = [];
+
+const firstLearner = learners[0];
+
+if (firstLearner) {
+
+    const gradeNo = parseInt(
+        String(firstLearner.grade)
+            .replace(/[^0-9]/g, "")
+    );
+
+    if (gradeNo >= 4 && gradeNo <= 6) {
+
+        allowedGrades = [4, 5, 6];
+
+    }
+    else if (gradeNo >= 7 && gradeNo <= 9) {
+
+        allowedGrades = [7, 8, 9];
+
+    }
+    else if (gradeNo >= 10 && gradeNo <= 12) {
+
+        allowedGrades = [10, 11, 12];
+
+    }
+    else {
+
+        allowedGrades = [gradeNo];
+
+    }
+
+    learners = (window.allLoadedLearners || []).filter(l => {
+
+        const g = parseInt(
+            String(l.grade)
+                .replace(/[^0-9]/g, "")
+        );
+
+        return allowedGrades.includes(g);
+
+    });
+
+}
+   
+const gradeRangeText =
+    allowedGrades.length > 1
+        ? `${allowedGrades[0]}-${allowedGrades[allowedGrades.length - 1]}`
+        : `${allowedGrades[0]}`;
+     if(!learners.length){
 
             container.innerHTML=`
 
@@ -20454,7 +20934,7 @@ and emerging as
 
 <b>${medals[index]}</b>
 
-in the class.
+in Grades <b>${gradeRangeText}</b>.
 
 Your commitment,
 hard work,
