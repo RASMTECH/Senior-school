@@ -16040,91 +16040,278 @@ ${g}
 
 }
 
+// =====================================================
+// 💰 GENERATE FEE TYPE COLLECTION REPORT
+// =====================================================
+
 window.generateFeeTypeReport = async function () {
 
-const year =
-document.getElementById("reportFeeYear").value;
+    try {
 
-const feeType =
-document.getElementById("reportFeeType").value;
+        const year =
+            document.getElementById("reportFeeYear").value;
 
-const grade =
-document.getElementById("reportFeeGrade").value;
+        const feeType =
+            document.getElementById("reportFeeType").value;
 
-if(!feeType){
+        const grade =
+            document.getElementById("reportFeeGrade").value;
 
-return Swal.fire(
-"Missing",
-"Select Fee Type",
-"warning"
-);
+        if (!year) {
 
-}
+            return Swal.fire(
+                "Missing",
+                "Select Academic Year",
+                "warning"
+            );
 
-const snap =
-await get(
-schoolRef(`fees/${year}`)
-);
+        }
 
-const data =
-snap.val() || {};
+        if (!feeType) {
 
-let rows="";
+            return Swal.fire(
+                "Missing",
+                "Select Fee Type",
+                "warning"
+            );
 
-let count=0;
+        }
 
-let grandTotal=0;
+        const snap =
+            await get(
+                schoolRef(`fees/${year}`)
+            );
 
-Object.values(data).forEach(fee=>{
+        if (!snap.exists()) {
 
-if(
-grade &&
-fee.grade!==grade
-)return;
+            return Swal.fire(
+                "No Records",
+                "No fee records found.",
+                "info"
+            );
 
-const payments=
-fee.fees?.[feeType];
+        }
 
-if(!payments)
-return;
+        const data = snap.val();
 
-const amount=
-Array.isArray(payments)
+        let rows = "";
 
-? payments.reduce(
-(sum,p)=>
-sum+Number(p.amount||0),
-0
-)
+        let learnerCount = 0;
 
-:0;
+        let grandTotal = 0;
 
-count++;
+        let cashTotal = 0;
 
-grandTotal+=amount;
+        let mpesaTotal = 0;
 
-rows+=`
+        let bankTotal = 0;
+
+        let unknownTotal = 0;
+
+        let count = 0;
+
+        Object.values(data).forEach(fee => {
+
+            // ----------------------------
+            // Grade Filter
+            // ----------------------------
+            if (
+                grade &&
+                fee.grade !== grade
+            ) return;
+
+            const payments =
+                fee.fees?.[feeType];
+
+            if (
+                !payments ||
+                !Array.isArray(payments) ||
+                !payments.length
+            ) return;
+
+            // ----------------------------
+            // Ignore refunds
+            // ----------------------------
+            const validPayments =
+                payments.filter(p => !p.refund);
+
+            if (!validPayments.length)
+                return;
+
+            learnerCount++;
+
+            let learnerCash = 0;
+            let learnerMpesa = 0;
+            let learnerBank = 0;
+            let learnerUnknown = 0;
+
+            let learnerTotal = 0;
+
+            let receiptNos = [];
+
+            let receivedBy = [];
+
+            let latestDate = "";
+
+            validPayments.forEach(payment => {
+
+                const amount =
+                    Math.max(
+                        Number(payment.amount || 0),
+                        0
+                    );
+
+                learnerTotal += amount;
+
+                const method =
+                    (
+                        payment.paymentMethod ||
+                        "Unknown"
+                    ).toLowerCase();
+
+                if (method === "cash") {
+
+                    learnerCash += amount;
+                    cashTotal += amount;
+
+                }
+                else if (
+                    method.includes("mpesa")
+                ) {
+
+                    learnerMpesa += amount;
+                    mpesaTotal += amount;
+
+                }
+                else if (
+                    method.includes("bank")
+                ) {
+
+                    learnerBank += amount;
+                    bankTotal += amount;
+
+                }
+                else {
+
+                    learnerUnknown += amount;
+                    unknownTotal += amount;
+
+                }
+
+                if (payment.receiptNo) {
+
+                    receiptNos.push(
+                        payment.receiptNo
+                    );
+
+                }
+
+                if (payment.recordedBy) {
+
+                    receivedBy.push(
+                        payment.recordedBy
+                    );
+
+                }
+
+                if (payment.timestamp) {
+
+                    latestDate =
+                        new Date(
+                            payment.timestamp
+                        ).toLocaleDateString();
+
+                }
+
+            });
+
+            grandTotal += learnerTotal;
+
+            count++;
+
+            rows += `
 
 <tr>
 
-<td>${count}</td>
+<td style="text-align:center;">
+${count}
+</td>
 
-<td>${fee.studentName}</td>
+<td>
+${fee.studentName}
+</td>
 
-<td>${fee.grade}</td>
+<td style="text-align:center;">
+${fee.grade}
+</td>
 
 <td style="text-align:right;">
-${amount.toLocaleString()}
+KES ${learnerCash.toLocaleString()}
+</td>
+
+<td style="text-align:right;">
+KES ${learnerMpesa.toLocaleString()}
+</td>
+
+<td style="text-align:right;">
+KES ${learnerBank.toLocaleString()}
+</td>
+
+<td style="text-align:right;">
+KES ${learnerUnknown.toLocaleString()}
+</td>
+
+<td style="text-align:right;font-weight:bold;">
+KES ${learnerTotal.toLocaleString()}
+</td>
+
+<td style="text-align:center;">
+${receiptNos.length
+    ? receiptNos.join(", ")
+    : "-"
+}
+</td>
+
+<td style="text-align:center;">
+${latestDate || "-"}
+</td>
+
+<td style="text-align:center;">
+${receivedBy.length
+    ? [...new Set(receivedBy)].join(", ")
+    : "-"
+}
 </td>
 
 </tr>
 
 `;
 
-});
+        });
 
-const win=
-window.open("","_blank");
+        if (!rows) {
+
+            return Swal.fire(
+                "No Records",
+                "No matching payments found.",
+                "info"
+            );
+
+        }
+
+        const generated =
+            new Date().toLocaleString();
+
+        const schoolName =
+            localStorage.getItem("schoolName") ||
+            "School";
+
+        const schoolMotto =
+            localStorage.getItem("schoolMotto") ||
+            "";
+
+        const win =
+            window.open("", "_blank");
 
 win.document.write(`
 
@@ -16132,47 +16319,137 @@ win.document.write(`
 
 <head>
 
-<title>${feeType} Report</title>
+<title>${feeType} Collection Report</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
 
-font-family:Arial;
+font-family:Arial,Helvetica,sans-serif;
+padding:30px;
+color:#222;
+font-size:13px;
 
-padding:25px;
+}
+
+h1,h2,h3,h4,p{
+
+margin:4px 0;
+
+}
+
+.header{
+
+text-align:center;
+margin-bottom:20px;
+border-bottom:3px solid #2563eb;
+padding-bottom:15px;
+
+}
+
+.summary{
+
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+margin:20px 0;
+
+}
+
+.card{
+
+width:19%;
+background:#f8fafc;
+border:1px solid #dbeafe;
+border-radius:8px;
+padding:12px;
+text-align:center;
+margin-bottom:10px;
+
+}
+
+.card h4{
+
+margin:0;
+color:#2563eb;
+font-size:14px;
+
+}
+
+.card span{
+
+font-size:18px;
+font-weight:bold;
 
 }
 
 table{
 
 width:100%;
-
 border-collapse:collapse;
-
 margin-top:20px;
-
-}
-
-th,td{
-
-border:1px solid #ccc;
-
-padding:8px;
 
 }
 
 th{
 
+background:#2563eb;
+color:white;
+padding:10px;
+border:1px solid #ccc;
+font-size:12px;
+
+}
+
+td{
+
+border:1px solid #ccc;
+padding:8px;
+font-size:12px;
+
+}
+
+tbody tr:nth-child(even){
+
+background:#f9fafb;
+
+}
+
+tfoot td{
+
+font-weight:bold;
 background:#f3f4f6;
 
 }
 
-tfoot{
+.footer{
 
-font-weight:bold;
+margin-top:35px;
+text-align:center;
+font-size:12px;
+color:#666;
+border-top:1px solid #ddd;
+padding-top:10px;
 
-background:#f9fafb;
+}
+
+@media print{
+
+body{
+
+padding:10px;
+
+}
+
+.card{
+
+break-inside:avoid;
+
+}
 
 }
 
@@ -16182,36 +16459,87 @@ background:#f9fafb;
 
 <body>
 
-<h2 style="text-align:center;">
+<div class="header">
 
-${localStorage.getItem("schoolName")||"School"}
+<h2>${schoolName}</h2>
 
-</h2>
+${schoolMotto ? `<div>${schoolMotto}</div>` : ""}
 
-<h3 style="text-align:center;">
+<h3>${feeType.toUpperCase()} COLLECTION REPORT</h3>
 
-${feeType} Collection Report
+</div>
 
-</h3>
+<table style="margin-bottom:15px;">
 
-<p>
+<tr>
 
-Academic Year:
-<b>${year}</b>
+<td><b>Academic Year</b></td>
 
-</p>
+<td>${year}</td>
 
-<p>
+<td><b>Grade</b></td>
 
-Grade:
+<td>${grade || "All Grades"}</td>
 
-<b>
+</tr>
 
-${grade||"All Grades"}
+<tr>
 
-</b>
+<td><b>Generated</b></td>
 
-</p>
+<td>${generated}</td>
+
+<td><b>Total Learners</b></td>
+
+<td>${learnerCount}</td>
+
+</tr>
+
+</table>
+
+<div class="summary">
+
+<div class="card">
+
+<h4>Cash</h4>
+
+<span>KES ${cashTotal.toLocaleString()}</span>
+
+</div>
+
+<div class="card">
+
+<h4>M-Pesa</h4>
+
+<span>KES ${mpesaTotal.toLocaleString()}</span>
+
+</div>
+
+<div class="card">
+
+<h4>Bank</h4>
+
+<span>KES ${bankTotal.toLocaleString()}</span>
+
+</div>
+
+<div class="card">
+
+<h4>Other</h4>
+
+<span>KES ${unknownTotal.toLocaleString()}</span>
+
+</div>
+
+<div class="card">
+
+<h4>Grand Total</h4>
+
+<span>KES ${grandTotal.toLocaleString()}</span>
+
+</div>
+
+</div>
 
 <table>
 
@@ -16225,7 +16553,21 @@ ${grade||"All Grades"}
 
 <th>Grade</th>
 
-<th>Amount Paid</th>
+<th>Cash</th>
+
+<th>M-Pesa</th>
+
+<th>Bank</th>
+
+<th>Other</th>
+
+<th>Total</th>
+
+<th>Receipt No(s)</th>
+
+<th>Date Paid</th>
+
+<th>Received By</th>
 
 </tr>
 
@@ -16241,25 +16583,33 @@ ${rows}
 
 <tr>
 
-<td colspan="3">
+<td colspan="7">
 
-TOTAL
+TOTAL COLLECTION
 
 </td>
 
 <td>
 
-KES
-
-${grandTotal.toLocaleString()}
+KES ${grandTotal.toLocaleString()}
 
 </td>
+
+<td colspan="3"></td>
 
 </tr>
 
 </tfoot>
 
 </table>
+
+<div class="footer">
+
+Generated by <b>RASM TECH School ERP</b><br>
+
+Printed on ${generated}
+
+</div>
 
 </body>
 
@@ -16269,10 +16619,31 @@ ${grandTotal.toLocaleString()}
 
 win.document.close();
 
-win.print();
+setTimeout(() => {
 
-};
-window.closeEditFeeModal = () => {
+    win.focus();
+
+    win.print();
+
+}, 500);
+
+} catch (err) {
+
+    console.error(err);
+
+    Swal.fire(
+
+        "Error",
+
+        err.message || "Failed to generate report.",
+
+        "error"
+
+    );
+
+}
+
+};window.closeEditFeeModal = () => {
   document.getElementById("editFeeModal").style.display = "none";
   currentEditFeeId = null;
   currentEditData = null;
