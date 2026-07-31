@@ -5244,15 +5244,51 @@ border-radius:10px;
 
 <h2>⚙️ Set School Fee Amount</h2>
 
+<!-- Academic Year -->
 <label>Academic Year</label>
 
 <select id="schoolFeeYear"
-style="width:100%;padding:10px;margin:10px 0;">
+style="
+width:100%;
+padding:10px;
+margin:10px 0;
+">
 
 <option value="">Select Year</option>
 
 </select>
 
+<!-- Grade Range -->
+<label>Grade Range</label>
+
+<select id="schoolFeeLevel"
+style="
+width:100%;
+padding:10px;
+margin:10px 0;
+">
+
+<option value="">Select Grade Range</option>
+
+<option value="grade1-3">
+Grades 1 - 3
+</option>
+
+<option value="grade4-6">
+Grades 4 - 6
+</option>
+
+<option value="grade7-9">
+Grades 7 - 9
+</option>
+
+<option value="grade10-12">
+Grades 10 - 12
+</option>
+
+</select>
+
+<!-- Fee Amount -->
 <label>Total School Fee (KES)</label>
 
 <input
@@ -5287,9 +5323,12 @@ color:white;
 padding:10px 20px;
 border:none;
 border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+border-radius:6px;
 ">
 
-💾 Save
+💾 Save School Fee
 
 </button>
 
@@ -5298,8 +5337,6 @@ border-radius:6px;
 </div>
 
 </div>
-
-
 
 
 <!-- ================= TOP ACTIONS + FILTERS ================= -->
@@ -5344,6 +5381,15 @@ margin-bottom:15px;
 🗑 Delete All Fee Records
 
 </button>
+
+<button
+onclick="openFeeTypeReport()"
+class="btn btn-primary">
+
+📋 Fee Collection Report
+
+</button>
+
   </div>
 
   <!-- Right Side Filters -->
@@ -5975,7 +6021,7 @@ margin-bottom:18px;
 </div>
 
 <div id="meritListSection" class="section" style="display:none; padding:20px;">
-  <h2>📊 Merit List</h2>
+  
   <div id="reportOutput" style="overflow-x:auto; width:100%;"></div>
 </div>
 
@@ -8285,7 +8331,68 @@ font-weight:bold;
     </div>
 
 </div>
+<div id="feeTypeReportModal"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);
+z-index:99999;
+">
 
+<div style="
+background:white;
+width:95%;
+max-width:500px;
+margin:60px auto;
+padding:20px;
+border-radius:10px;
+">
+
+<h2>📋 Fee Collection Report</h2>
+
+<label>Academic Year</label>
+
+<select id="reportFeeYear"
+style="width:100%;padding:10px;margin-bottom:10px;">
+</select>
+
+<label>Fee Type</label>
+
+<select id="reportFeeType"
+style="width:100%;padding:10px;margin-bottom:10px;">
+<option value="">Loading...</option>
+</select>
+
+<label>Grade</label>
+
+<select id="reportFeeGrade"
+style="width:100%;padding:10px;margin-bottom:20px;">
+<option value="">All Grades</option>
+</select>
+
+<div style="display:flex;gap:10px;justify-content:flex-end;">
+
+<button onclick="closeFeeTypeReport()">
+Cancel
+</button>
+
+<button
+style="background:#16a34a;color:white;"
+onclick="generateFeeTypeReport()">
+
+Generate
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 <!-- =========================================
      USERS LIST SECTION (UPDATED STYLE)
@@ -13770,157 +13877,230 @@ function initAllModules() {
 
   console.log("✅ All modules synced with students");
 }
+// =====================================================
+// 💰 ADD LEARNER FEE (GRADE RANGE SUPPORT)
+// =====================================================
+
 window.addFee = async () => {
 
-  const year =
-    document.getElementById("feeYear").value;
+  try {
 
-  const grade =
-    document.getElementById("feeGrade").value;
+    const year =
+      document.getElementById("feeYear").value;
 
-  const studentId =
-    document.getElementById("feeStudent").value;
+    const grade =
+      document.getElementById("feeGrade").value;
 
-  const type =
-    document.getElementById("feeType").value;
+    const studentId =
+      document.getElementById("feeStudent").value;
 
-  const amount =
-    Number(document.getElementById("feeAmount").value);
+    const type =
+      document.getElementById("feeType").value;
 
-  const paymentMethod =
-    document.getElementById("paymentMethod").value;
+    const amount =
+      Number(
+        document.getElementById("feeAmount").value
+      );
 
-  // ================= VALIDATION =================
-  if (
-    !year ||
-    !grade ||
-    !studentId ||
-    !type ||
-    !amount ||
-    !paymentMethod
-  ) {
+    const paymentMethod =
+      document.getElementById("paymentMethod").value;
 
-    return Swal.fire(
-      "Missing Fields",
-      "Fill all fields",
-      "warning"
-    );
-  }
+    // ================= VALIDATION =================
+    if (
+      !year ||
+      !grade ||
+      !studentId ||
+      !type ||
+      amount <= 0 ||
+      !paymentMethod
+    ) {
 
-  // ================= FIND STUDENT =================
-  const student =
-    allStudents.find(s => s.id === studentId);
+      return Swal.fire(
+        "Missing Fields",
+        "Please fill all required fields.",
+        "warning"
+      );
 
-  if (!student) {
-
-    return Swal.fire(
-      "Error",
-      "Student not found",
-      "error"
-    );
-  }
-
-  // ================= PATH =================
-  const feeRefPath = `fees/${year}/${studentId}`;
-
-  const snap =
-    await get(
-      ref(db, `schools/${schoolId}/${feeRefPath}`)
-    );
-
-  const existing = snap.val() || {};
-
-  const updatedFees = existing.fees || {};
-
-  // ================= INIT CATEGORY =================
-  if (!updatedFees[type]) {
-    updatedFees[type] = [];
-  }
-
-  // ================= STORE TRANSACTION =================
-  updatedFees[type].push({
-
-    amount,
-
-    paymentMethod, // 🔥 NEW
-
-    timestamp: Date.now(),
-
-    recordedBy:
-      localStorage.getItem("username") || "Admin"
-
-  });
-
- // ================= RECALCULATE TOTAL =================
-let totalPaid = 0;
-
-Object.values(updatedFees).forEach(list => {
-  if (Array.isArray(list)) {
-    list.forEach(item => {
-      totalPaid += Number(item.amount || 0);
-    });
-  }
-});
-
-// ================= GET SCHOOL FEE =================
-const feeSnap = await get(
-  schoolRef(`settings/schoolFee/${year}`)
-);
-
-const expectedTotal = feeSnap.exists()
-  ? Number(feeSnap.val().amount || 0)
-  : 0;
-
-// ================= CALCULATE BALANCE =================
-const balance = expectedTotal - totalPaid;
-
-// ================= SAVE =================
-await set(
-  schoolRef(feeRefPath),
-  {
-
-      studentId,
-
-      studentName: student.name,
-
-      parentPhone:
-        student.parentPhone ||
-        student.phone ||
-        student.parentContact ||
-        "",
-
-      grade,
-
-      year,
-
-      fees: updatedFees,
-
-      totalPaid,
-
-      expectedTotal,
-
-      balance,
-
-      updatedAt: Date.now()
     }
-  );
 
-  // ================= SUCCESS =================
-  Swal.fire(
-    "Saved",
-    "Fee recorded successfully",
-    "success"
-  );
+    // ================= FIND STUDENT =================
+    const student =
+      allStudents.find(s => s.id === studentId);
 
-  // ================= RESET =================
-  clearFeeForm();
+    if (!student) {
 
-  loadFees();
+      return Swal.fire(
+        "Error",
+        "Student not found.",
+        "error"
+      );
 
-  loadFinanceSummary();
+    }
+
+    // ================= GRADE RANGE =================
+    const gradeRange = getGradeRange(grade);
+
+    if (!gradeRange) {
+
+      return Swal.fire(
+        "Configuration Error",
+        `Unable to determine fee structure for "${grade}".`,
+        "error"
+      );
+
+    }
+
+    // ================= EXPECTED SCHOOL FEE =================
+    const feeSettingSnap = await get(
+
+      schoolRef(
+        `settings/schoolFee/${year}/${gradeRange}`
+      )
+
+    );
+
+    const expectedTotal =
+      feeSettingSnap.exists()
+        ? Number(
+            feeSettingSnap.val().amount || 0
+          )
+        : 0;
+
+    // ================= EXISTING RECORD =================
+    const feeRefPath =
+      `fees/${year}/${studentId}`;
+
+    const feeSnap =
+      await get(schoolRef(feeRefPath));
+
+    const existing =
+      feeSnap.exists()
+        ? feeSnap.val()
+        : {};
+
+    const updatedFees =
+      existing.fees || {};
+
+    // ================= CREATE CATEGORY =================
+    if (!updatedFees[type]) {
+
+      updatedFees[type] = [];
+
+    }
+
+    // ================= SAVE PAYMENT =================
+    updatedFees[type].push({
+
+      amount,
+
+      paymentMethod,
+
+      timestamp: Date.now(),
+
+      recordedBy:
+        localStorage.getItem("username") ||
+        "Admin"
+
+    });
+
+    // ================= RECALCULATE TOTAL =================
+    let totalPaid = 0;
+
+    Object.values(updatedFees).forEach(list => {
+
+      if (!Array.isArray(list)) return;
+
+      list.forEach(item => {
+
+        totalPaid +=
+          Number(item.amount || 0);
+
+      });
+
+    });
+
+    // ================= BALANCE =================
+    const balance =
+      Math.max(
+        expectedTotal - totalPaid,
+        0
+      );
+
+    // ================= SAVE =================
+    await set(
+
+      schoolRef(feeRefPath),
+
+      {
+
+        studentId,
+
+        studentName: student.name,
+
+        parentPhone:
+          student.parentPhone ||
+          student.phone ||
+          student.parentContact ||
+          "",
+
+        grade,
+
+        gradeRange,
+
+        year,
+
+        fees: updatedFees,
+
+        expectedTotal,
+
+        totalPaid,
+
+        balance,
+
+        updatedAt: Date.now()
+
+      }
+
+    );
+
+    // ================= SUCCESS =================
+    Swal.fire({
+
+      icon: "success",
+
+      title: "Payment Recorded",
+
+      text: `Balance: KES ${balance.toLocaleString()}`,
+
+      timer: 1800,
+
+      showConfirmButton: false
+
+    });
+
+    clearFeeForm();
+
+    loadFees();
+
+    loadFinanceSummary();
+
+  } catch (err) {
+
+    console.error(err);
+
+    Swal.fire(
+
+      "Error",
+
+      err.message || "Failed to record payment.",
+
+      "error"
+
+    );
+
+  }
+
 };
-
-
 window.loadFinanceSummary = async () => {
 
   try {
@@ -15087,8 +15267,18 @@ window.openEditFeeModal = async (year, feeId) => {
       }
     });
 
-    const expectedTotal =
-      Number(fee.expectedTotal || 10000);
+   const gradeRange = getGradeRange(fee.grade);
+
+const feeSnap = await get(
+    schoolRef(
+        `settings/schoolFee/${year}/${gradeRange}`
+    )
+);
+
+const expectedTotal =
+    feeSnap.exists()
+        ? Number(feeSnap.val().amount || 0)
+        : 0;
 
     const balance =
       expectedTotal - totalPaid;
@@ -15213,74 +15403,85 @@ loadCurrentSchoolFee();
 });
 
 // ===================================================
-// SAVE SCHOOL FEE
+// SAVE SCHOOL FEE BY GRADE RANGE
 // ===================================================
 
-window.saveSchoolFee=async function(){
+window.saveSchoolFee = async function () {
 
-const year=document.getElementById("schoolFeeYear").value;
+    const year =
+        document.getElementById("schoolFeeYear").value;
 
-const amount=Number(
+    const level =
+        document.getElementById("schoolFeeLevel").value;
 
-document.getElementById("schoolFeeAmount").value
+    const amount =
+        Number(
+            document.getElementById("schoolFeeAmount").value
+        );
 
-);
+    if (!year) {
 
-if(!year){
+        return Swal.fire(
+            "Missing",
+            "Select Academic Year",
+            "warning"
+        );
 
-return Swal.fire(
+    }
 
-"Missing",
+    if (!level) {
 
-"Select Academic Year",
+        return Swal.fire(
+            "Missing",
+            "Select Grade Range",
+            "warning"
+        );
 
-"warning"
+    }
 
-);
+    if (amount <= 0) {
 
-}
+        return Swal.fire(
+            "Missing",
+            "Enter School Fee Amount",
+            "warning"
+        );
 
-if(amount<=0){
+    }
 
-return Swal.fire(
+    await set(
 
-"Missing",
+        schoolRef(
+            `settings/schoolFee/${year}/${level}`
+        ),
 
-"Enter School Fee Amount",
+        {
 
-"warning"
+            amount,
 
-);
+            year,
 
-}
+            level,
 
-await set(
+            updatedAt: Date.now()
 
-schoolRef(`settings/schoolFee/${year}`),
+        }
 
-{
+    );
 
-amount,
+    Swal.fire(
 
-updatedAt:Date.now()
+        "Success",
 
-}
+        `School fee for ${level.replace("grade","Grades ").replace("-", " - ")} saved successfully.`,
 
-);
+        "success"
 
-Swal.fire(
+    );
 
-"Success",
+    closeSchoolFeeModal();
 
-"School Fee Saved Successfully",
-
-"success"
-
-);
-
-closeSchoolFeeModal();
-
-}
+};
 window.openRefundModal = async (year, feeId) => {
 
   try {
@@ -15521,8 +15722,18 @@ window.openRefundModal = async (year, feeId) => {
       }
     });
 
-    const expectedTotal =
-      Number(fee.expectedTotal || 10000);
+ const gradeRange = getGradeRange(fee.grade);
+
+const feeSnap = await get(
+    schoolRef(
+        `settings/schoolFee/${year}/${gradeRange}`
+    )
+);
+
+const expectedTotal =
+    feeSnap.exists()
+        ? Number(feeSnap.val().amount || 0)
+        : 0;
 
     const balance =
       expectedTotal - totalPaid;
@@ -15565,49 +15776,501 @@ window.openRefundModal = async (year, feeId) => {
   );
 }
 };
+// ======================================================
+// SAVE EDITED FEE (FIXED BALANCE CALCULATION)
+// ======================================================
+
 window.saveEditedFee = async () => {
 
-  if (!currentEditFeeId || !currentEditData) return;
+  try {
 
-  const inputs = document.querySelectorAll("#editFeeContent input");
+    if (!currentEditFeeId || !currentEditData) return;
 
-  const updatedFees = currentEditData.fees || {};
+    const inputs =
+      document.querySelectorAll("#editFeeContent input");
 
-  let totalPaid = 0;
+    const updatedFees = {};
+    let totalPaid = 0;
 
-  inputs.forEach(input => {
+    // ============================================
+    // BUILD UPDATED FEE OBJECT
+    // ============================================
 
-    const type = input.dataset.type;
-    const newAmount = Number(input.value) || 0;
+    inputs.forEach(input => {
 
-    updatedFees[type] = [
-      {
-        amount: newAmount,
-        timestamp: Date.now(),
-        edited: true
+      const type = input.dataset.type;
+
+      const amount =
+        Number(input.value) || 0;
+
+      updatedFees[type] = [
+        {
+          amount,
+          timestamp: Date.now(),
+          edited: true,
+          editedBy:
+            localStorage.getItem("username") || "Admin"
+        }
+      ];
+
+      totalPaid += amount;
+
+    });
+
+    // ============================================
+    // GET EXPECTED SCHOOL FEE
+    // ============================================
+
+    const gradeRange =
+      getGradeRange(currentEditData.grade);
+
+    let expectedTotal = 0;
+
+    // New structure
+    const newSnap = await get(
+      schoolRef(
+        `settings/schoolFee/${currentEditData.year}/${gradeRange}`
+      )
+    );
+
+    if (newSnap.exists()) {
+
+      const feeData = newSnap.val();
+
+      // Single amount
+      if (typeof feeData.amount !== "undefined") {
+
+        expectedTotal =
+          Number(feeData.amount) || 0;
+
       }
-    ];
 
-    totalPaid += newAmount;
-  });
+      // Multiple categories
+      else {
 
-  const expected = currentEditData.expectedTotal || 10000;
-  const balance = expected - totalPaid;
+        Object.values(feeData).forEach(item => {
 
-  await set(schoolRef(`fees/${currentEditFeeId}`), {
-    ...currentEditData,
-    fees: updatedFees,
-    totalPaid,
-    balance,
-    updatedAt: Date.now()
-  });
+          if (
+            item &&
+            typeof item === "object"
+          ) {
 
-  closeEditFeeModal();
+            expectedTotal +=
+              Number(item.amount || 0);
 
-  loadFees();
-  loadFinanceSummary();
+          }
 
-  Swal.fire("Updated", "Fee updated successfully", "success");
+        });
+
+      }
+
+    }
+
+    // ============================================
+    // BALANCE
+    // ============================================
+
+    const balance =
+      Math.max(0, expectedTotal - totalPaid);
+
+    // ============================================
+    // SAVE
+    // ============================================
+
+    await update(
+
+      schoolRef(
+        `fees/${currentEditData.year}/${currentEditFeeId}`
+      ),
+
+      {
+
+        fees: updatedFees,
+
+        totalPaid,
+
+        expectedFee: expectedTotal,
+
+        balance,
+
+        updatedAt: Date.now(),
+
+        updatedBy:
+          localStorage.getItem("username") || "Admin"
+
+      }
+
+    );
+
+    // ============================================
+    // CLOSE & REFRESH
+    // ============================================
+
+    closeEditFeeModal();
+
+    if (typeof loadFees === "function")
+      await loadFees();
+
+    if (typeof loadFinanceSummary === "function")
+      await loadFinanceSummary();
+
+    Swal.fire({
+
+      icon: "success",
+
+      title: "Fee Updated",
+
+      html: `
+        <div style="text-align:left">
+          <b>Expected Fee:</b> KES ${expectedTotal.toLocaleString()}<br>
+          <b>Total Paid:</b> KES ${totalPaid.toLocaleString()}<br>
+          <b>Balance:</b> KES ${balance.toLocaleString()}
+        </div>
+      `
+
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    Swal.fire(
+      "Error",
+      err.message || "Failed to update fee.",
+      "error"
+    );
+
+  }
+
+};
+window.openFeeTypeReport = async function () {
+
+    document.getElementById(
+        "feeTypeReportModal"
+    ).style.display = "block";
+
+    // Copy year list
+
+    document.getElementById("reportFeeYear").innerHTML =
+        document.getElementById("filterFeeYear").innerHTML;
+
+    document.getElementById("reportFeeYear").value =
+        document.getElementById("filterFeeYear").value;
+
+    loadFeeTypeOptions();
+
+    loadReportGrades();
+
+};
+window.closeFeeTypeReport = function(){
+
+document.getElementById(
+"feeTypeReportModal"
+).style.display="none";
+
+}
+window.loadFeeTypeOptions = async function(){
+
+const year=
+document.getElementById("reportFeeYear").value;
+
+const snap=await get(
+schoolRef(`fees/${year}`)
+);
+
+const data=snap.val()||{};
+
+const types=new Set();
+
+Object.values(data).forEach(fee=>{
+
+Object.keys(fee.fees||{}).forEach(type=>{
+
+types.add(type);
+
+});
+
+});
+
+const select=
+document.getElementById("reportFeeType");
+
+select.innerHTML=
+`<option value="">Select Fee Type</option>`;
+
+[...types].sort().forEach(type=>{
+
+select.innerHTML+=`
+<option value="${type}">
+${type}
+</option>
+`;
+
+});
+
+}
+window.loadReportGrades=function(){
+
+const select=
+document.getElementById("reportFeeGrade");
+
+select.innerHTML=
+`<option value="">All Grades</option>`;
+
+const grades=[
+...new Set(
+
+allStudents
+.map(s=>s.grade)
+.filter(Boolean)
+
+)
+
+].sort();
+
+grades.forEach(g=>{
+
+select.innerHTML+=`
+<option value="${g}">
+${g}
+</option>
+`;
+
+});
+
+}
+
+window.generateFeeTypeReport = async function () {
+
+const year =
+document.getElementById("reportFeeYear").value;
+
+const feeType =
+document.getElementById("reportFeeType").value;
+
+const grade =
+document.getElementById("reportFeeGrade").value;
+
+if(!feeType){
+
+return Swal.fire(
+"Missing",
+"Select Fee Type",
+"warning"
+);
+
+}
+
+const snap =
+await get(
+schoolRef(`fees/${year}`)
+);
+
+const data =
+snap.val() || {};
+
+let rows="";
+
+let count=0;
+
+let grandTotal=0;
+
+Object.values(data).forEach(fee=>{
+
+if(
+grade &&
+fee.grade!==grade
+)return;
+
+const payments=
+fee.fees?.[feeType];
+
+if(!payments)
+return;
+
+const amount=
+Array.isArray(payments)
+
+? payments.reduce(
+(sum,p)=>
+sum+Number(p.amount||0),
+0
+)
+
+:0;
+
+count++;
+
+grandTotal+=amount;
+
+rows+=`
+
+<tr>
+
+<td>${count}</td>
+
+<td>${fee.studentName}</td>
+
+<td>${fee.grade}</td>
+
+<td style="text-align:right;">
+${amount.toLocaleString()}
+</td>
+
+</tr>
+
+`;
+
+});
+
+const win=
+window.open("","_blank");
+
+win.document.write(`
+
+<html>
+
+<head>
+
+<title>${feeType} Report</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+
+padding:25px;
+
+}
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:20px;
+
+}
+
+th,td{
+
+border:1px solid #ccc;
+
+padding:8px;
+
+}
+
+th{
+
+background:#f3f4f6;
+
+}
+
+tfoot{
+
+font-weight:bold;
+
+background:#f9fafb;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2 style="text-align:center;">
+
+${localStorage.getItem("schoolName")||"School"}
+
+</h2>
+
+<h3 style="text-align:center;">
+
+${feeType} Collection Report
+
+</h3>
+
+<p>
+
+Academic Year:
+<b>${year}</b>
+
+</p>
+
+<p>
+
+Grade:
+
+<b>
+
+${grade||"All Grades"}
+
+</b>
+
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Learner</th>
+
+<th>Grade</th>
+
+<th>Amount Paid</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${rows}
+
+</tbody>
+
+<tfoot>
+
+<tr>
+
+<td colspan="3">
+
+TOTAL
+
+</td>
+
+<td>
+
+KES
+
+${grandTotal.toLocaleString()}
+
+</td>
+
+</tr>
+
+</tfoot>
+
+</table>
+
+</body>
+
+</html>
+
+`);
+
+win.document.close();
+
+win.print();
+
 };
 window.closeEditFeeModal = () => {
   document.getElementById("editFeeModal").style.display = "none";
@@ -15890,7 +16553,30 @@ window.loadFeeYears = async function () {
   }
 };
 
+// ========================================
+// GET GRADE RANGE KEY
+// ========================================
 
+function getGradeRange(grade) {
+
+    const gradeNo = parseInt(
+        String(grade).replace(/\D/g, "")
+    );
+
+    if (gradeNo >= 1 && gradeNo <= 3)
+        return "grade1-3";
+
+    if (gradeNo >= 4 && gradeNo <= 6)
+        return "grade4-6";
+
+    if (gradeNo >= 7 && gradeNo <= 9)
+        return "grade7-9";
+
+    if (gradeNo >= 10 && gradeNo <= 12)
+        return "grade10-12";
+
+    return null;
+}
 
 window.sendNotifications = async () => {
 
