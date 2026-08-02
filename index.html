@@ -4762,11 +4762,11 @@ Peter Kimani"
     </div>
   </div>
 
-  <!-- ================= FORM (WITH BACKGROUND) ================= -->
+  <!-- ================= REGISTRATION FORM ================= -->
   <div style="
-    background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');
-    background-size: cover;
-    background-position: center;
+    background-image:url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');
+    background-size:cover;
+    background-position:center;
     padding:15px;
     border-radius:10px;
     margin-bottom:15px;
@@ -4774,209 +4774,194 @@ Peter Kimani"
     overflow:hidden;
   ">
 
-    <!-- DARK OVERLAY -->
+    <!-- Overlay -->
     <div style="
       position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.55);
+      inset:0;
+      background:rgba(0,0,0,.55);
     "></div>
 
-    <!-- CONTENT -->
-    <div style="position:relative; z-index:2;">
+    <!-- Form -->
+    <div style="position:relative;z-index:2;">
 
-      <input id="teacherName"
+      <input
+        id="teacherName"
         placeholder="Full Name"
         style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
 
-      <input id="teacherPhone"
-        placeholder="Phone"
+      <input
+        id="teacherPhone"
+        placeholder="Phone Number"
         style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
 
-      <input id="teacherEmail"
-        placeholder="Email"
+      <input
+        id="teacherEmail"
+        placeholder="Email Address"
         style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
 
-      <input id="teacherSubject"
-        placeholder="Subject (e.g Math)"
+      <!-- Staff Number -->
+      <input
+        id="teacherStaffNumber"
+        placeholder="Staff Number (e.g. TSC/45678)"
         style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
 
-      <input id="teacherClass"
+      <!-- Employment Type -->
+      <select
+        id="teacherEmployment"
+        style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
+
+        <option value="">Select Employment Type</option>
+        <option>Permanent</option>
+        <option>TSC</option>
+        <option>BOM</option>
+        <option>Contract</option>
+        <option>Part Time</option>
+        <option>Intern</option>
+        <option>Volunteer</option>
+
+      </select>
+
+      <input
+        id="teacherSubject"
+        placeholder="Subject (e.g Mathematics)"
+        style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
+
+      <input
+        id="teacherClass"
         placeholder="Assigned Class (e.g Grade 7)"
         style="width:100%;padding:10px;margin-bottom:8px;border:none;border-radius:6px;">
 
- <button id="saveTeacherBtn" onclick="addTeacher()">
-    <i class="fas fa-save"></i> Save Teacher
-</button>
+      <button id="saveTeacherBtn" onclick="addTeacher()">
+        <i class="fas fa-save"></i> Save Teacher
+      </button>
 
     </div>
+
   </div>
+
   <!-- ================= SEARCH ================= -->
-  <input 
-    id="searchTeacher" 
-    placeholder="🔍 Search teacher..." 
-    onkeyup="filterTeachers()" 
-    style="margin-bottom:10px;"
-  >
 
- <!-- ================= REPORT BUTTONS ================= -->
-<div style="
-display:flex;
-flex-wrap:wrap;
-gap:15px;
-margin:20px 0;
-">
+  <input
+    id="searchTeacher"
+    placeholder="🔍 Search teacher..."
+    onkeyup="filterTeachers()"
+    style="margin-bottom:10px;">
 
-  <!-- DAILY REPORT -->
-  <button
-    onclick="openTeacherDailyAttendance()"
-    style="
-      flex:1;
-      min-width:250px;
-      background:#dc2626;
-      color:white;
-      border:none;
-      padding:14px 20px;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:600;
-      box-shadow:0 4px 10px rgba(0,0,0,.15);
-      transition:.25s;
-    "
-    onmouseover="this.style.transform='translateY(-2px)'"
-    onmouseout="this.style.transform='translateY(0)'">
+  <!-- ================= REPORT BUTTONS ================= -->
 
-    📅 Daily Attendance Report
+  <div style="
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    margin:20px 0;
+  ">
 
-  </button>
+    <!-- Daily -->
+    <button
+      onclick="openTeacherDailyAttendance()"
+      style="
+        flex:1;
+        min-width:250px;
+        background:#dc2626;
+        color:white;
+        border:none;
+        padding:14px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:15px;
+        font-weight:600;
+        box-shadow:0 4px 10px rgba(0,0,0,.15);
+      ">
+      📅 Daily Attendance Report
+    </button>
 
-  <!-- MONTHLY REPORT -->
-  <button
-    onclick="viewTeacherMonthlyAttendance()"
-    style="
-      flex:1;
-      min-width:250px;
-      background:#111827;
-      color:white;
-      border:none;
-      padding:14px 20px;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:600;
-      box-shadow:0 4px 10px rgba(0,0,0,.15);
-      transition:.25s;
-    "
-    onmouseover="this.style.transform='translateY(-2px)'"
-    onmouseout="this.style.transform='translateY(0)'">
+    <!-- Monthly -->
+    <button
+      onclick="viewTeacherMonthlyAttendance()"
+      style="
+        flex:1;
+        min-width:250px;
+        background:#111827;
+        color:white;
+        border:none;
+        padding:14px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:15px;
+        font-weight:600;
+        box-shadow:0 4px 10px rgba(0,0,0,.15);
+      ">
+      📊 Monthly Attendance Report
+    </button>
 
-    📊 Monthly Attendance Report
+    <!-- Delete -->
+    <button
+      onclick="deleteAllTeachers()"
+      style="
+        flex:1;
+        min-width:250px;
+        background:#b91c1c;
+        color:white;
+        border:none;
+        padding:14px 20px;
+        border-radius:10px;
+        cursor:pointer;
+        font-size:15px;
+        font-weight:600;
+        box-shadow:0 4px 10px rgba(0,0,0,.15);
+      ">
+      🗑 Delete All Teachers
+    </button>
 
-  </button>
+  </div>
 
-  <!-- DELETE -->
-  <button
-    onclick="deleteAllTeachers()"
-    style="
-      flex:1;
-      min-width:250px;
-      background:#b91c1c;
-      color:white;
-      border:none;
-      padding:14px 20px;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:600;
-      box-shadow:0 4px 10px rgba(0,0,0,.15);
-      transition:.25s;
-    "
-    onmouseover="this.style.transform='translateY(-2px)'"
-    onmouseout="this.style.transform='translateY(0)'">
-
-    🗑 Delete All Teachers
-
-  </button>
-
-</div>
   <!-- ================= REPORT OUTPUT ================= -->
-  <div id="teacherAttendanceOutput"
+
+  <div
+    id="teacherAttendanceOutput"
     style="
       background:#fff;
       padding:15px;
       border-radius:12px;
       margin-bottom:20px;
       overflow-x:auto;
-      box-shadow:0 2px 10px rgba(0,0,0,0.08);
+      box-shadow:0 2px 10px rgba(0,0,0,.08);
     ">
   </div>
-<!-- Staff Number -->
-<div class="form-group">
-    <label>
-        <i class="fas fa-id-badge"></i>
-        Staff Number
-    </label>
 
-    <input
-        type="text"
-        id="teacherStaffNumber"
-        class="form-control"
-        placeholder="e.g. TSC/45678 or EMP-014">
-</div>
-
-<!-- Employment -->
-<div class="form-group">
-    <label>
-        <i class="fas fa-briefcase"></i>
-        Employment Type
-    </label>
-
-    <select
-        id="teacherEmployment"
-        class="form-control">
-
-        <option value="">Select Employment Type</option>
-
-        <option>Permanent</option>
-
-        <option>TSC</option>
-
-        <option>BOM</option>
-
-        <option>Contract</option>
-
-        <option>Part Time</option>
-
-        <option>Intern</option>
-
-        <option>Volunteer</option>
-
-    </select>
-</div>
   <!-- ================= TABLE ================= -->
+
   <table class="learners-table">
+
     <thead>
- <tr>
-    <th style="width:180px;">Staff Number</th>
-    <th style="min-width:280px;">Teacher</th>
-    <th style="width:150px;">Class</th>
-    <th style="min-width:220px;">Contact</th>
-    <th style="width:170px;">Employment</th>
-    <th style="width:140px;">Status</th>
-    <th style="width:140px;">Today</th>
-    <th style="width:90px;text-align:center;">Actions</th>
-</tr>
+
+      <tr>
+
+        <th style="width:180px;">Staff Number</th>
+
+        <th style="min-width:280px;">Teacher</th>
+
+        <th style="width:150px;">Class</th>
+
+        <th style="min-width:220px;">Contact</th>
+
+        <th style="width:170px;">Employment</th>
+
+        <th style="width:140px;">Status</th>
+
+        <th style="width:140px;">Today</th>
+
+        <th style="width:90px;text-align:center;">Actions</th>
+
+      </tr>
+
     </thead>
 
     <tbody id="teacherList"></tbody>
 
   </table>
 
-</div>
-<!-- ================= ATTENDANCE STATS ================= -->
+</div><!-- ================= ATTENDANCE STATS ================= -->
 <div id="attendanceStats" style="margin:10px 0; font-weight:bold;"></div>
 
 <!-- ================= ATTENDANCE REGISTER ================= -->
@@ -9507,6 +9492,106 @@ Loading...
     <div class="popup-message"></div>
 
 </div>
+
+<div id="receiptModal"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:99999;
+overflow:auto;
+padding:40px;
+">
+
+<div
+style="
+max-width:850px;
+margin:auto;
+background:white;
+border-radius:16px;
+padding:30px;
+">
+
+<h2 style="text-align:center;color:#16a34a;">
+🧾 Generate Official Payment Receipt
+</h2>
+
+<input
+id="receiptSchool"
+placeholder="School Name"
+style="width:100%;padding:12px;margin-top:15px;">
+
+<input
+id="receiptEmail"
+placeholder="School Email"
+style="width:100%;padding:12px;margin-top:10px;">
+
+<select
+id="receiptPackage"
+style="width:100%;padding:12px;margin-top:10px;">
+
+<option value="">Select Package</option>
+
+<option value="Starter">Starter</option>
+
+<option value="Standard">Standard</option>
+
+<option value="Premium 1 Year">Premium 1 Year</option>
+
+<option value="Premium 2 Years">Premium 2 Years</option>
+
+<option value="Premium 5 Years">Premium 5 Years</option>
+
+<option value="Premium 10 Years">Premium 10 Years</option>
+
+<option value="Lifetime">Lifetime</option>
+
+</select>
+
+<input
+id="receiptAmount"
+placeholder="Amount Paid"
+style="width:100%;padding:12px;margin-top:10px;">
+
+<input
+id="receiptMpesa"
+placeholder="M-Pesa Transaction Code"
+style="width:100%;padding:12px;margin-top:10px;">
+
+<button
+onclick="generateReceipt()"
+style="
+margin-top:20px;
+width:100%;
+padding:15px;
+background:#16a34a;
+color:white;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+">
+
+🧾 Generate Receipt
+
+</button>
+
+<button
+onclick="document.getElementById('receiptModal').style.display='none'"
+style="
+margin-top:10px;
+width:100%;
+padding:12px;
+">
+
+Close
+
+</button>
+
+</div>
+
+</div>
 <!-- =====================================================
      SYSTEM FOOTER
 ===================================================== -->
@@ -10121,202 +10206,570 @@ const schoolData = {
   }
 };
 
+/* ============================================================
+   🔐 RASM TECH 360 - SUBSCRIPTION ACCESS GUARD
+   Professional Production Version
+============================================================ */
+
+window.checkSubscriptionAccess = async function () {
+
+    try {
+
+        // =====================================================
+        // GET ACTIVE SCHOOL ID
+        // =====================================================
+
+        const schoolId =
+            window.schoolId ||
+            sessionStorage.getItem("schoolId") ||
+            localStorage.getItem("schoolId");
+
+        if (!schoolId) {
+
+            await Swal.fire({
+
+                icon: "error",
+                title: "Session Expired",
+                text: "Please login again.",
+
+                confirmButtonColor: "#2563eb"
+
+            });
+
+            return false;
+
+        }
+
+        // =====================================================
+        // LOAD SCHOOL INFORMATION
+        // =====================================================
+
+        const snapshot = await get(
+
+            ref(db, `schools/${schoolId}`)
+
+        );
+
+        if (!snapshot.exists()) {
+
+            await Swal.fire({
+
+                icon: "error",
+
+                title: "School Not Found",
+
+                text: "The selected school account does not exist.",
+
+                confirmButtonColor: "#dc2626"
+
+            });
+
+            return false;
+
+        }
+
+        const school = snapshot.val();
+
+        window.subscriptionData = school;
+
+        const now = Date.now();
+
+        // =====================================================
+        // MANUAL ACCOUNT LOCK
+        // =====================================================
+
+        if (school.locked === true) {
+
+            lockEntireSystem(
+
+                "Account Locked",
+
+                "Your school account has been disabled. Please contact RASM TECH Support."
+
+            );
+
+            return false;
+
+        }
+
+        // =====================================================
+        // ACTIVE PAID SUBSCRIPTION
+        // =====================================================
+
+        const subscriptionEnds =
+            Number(school.subscriptionEndsAt || 0);
+
+        const hasActiveSubscription =
+
+            school.subscriptionStatus === "active" &&
+
+            subscriptionEnds > now;
+
+        if (hasActiveSubscription) {
+
+            return true;
+
+        }
+
+        // =====================================================
+        // ACTIVE FREE TRIAL
+        // =====================================================
+
+        const trialEnds =
+            Number(school.trialEndsAt || 0);
+
+        const hasActiveTrial =
+
+            school.subscriptionStatus === "trial" &&
+
+            trialEnds > now;
+
+        if (hasActiveTrial) {
+
+            return true;
+
+        }
+
+        // =====================================================
+        // MARK ACCOUNT AS EXPIRED (ONLY IF NECESSARY)
+        // =====================================================
+
+        if (school.subscriptionStatus !== "expired") {
+
+            try {
+
+                await update(
+
+                    ref(db, `schools/${schoolId}`),
+
+                    {
+
+                        subscriptionStatus: "expired",
+
+                        expiredAt: now
+
+                    }
+
+                );
+
+            }
+
+            catch (updateError) {
+
+                console.warn(
+
+                    "Unable to update subscription status:",
+
+                    updateError
+
+                );
+
+            }
+
+        }
+
+        // =====================================================
+        // LOCK THE SYSTEM
+        // =====================================================
+
+        lockEntireSystem(
+
+            "Subscription Expired",
+
+            "Your subscription has expired. Renew your subscription to continue using RASM TECH 360."
+
+        );
+
+        return false;
+
+    }
+
+    catch (error) {
+
+        console.error(
+
+            "Subscription Verification Error:",
+
+            error
+
+        );
+
+        await Swal.fire({
+
+            icon: "error",
+
+            title: "Verification Failed",
+
+            text:
+
+                error.message ||
+
+                "Unable to verify your subscription. Please check your internet connection and try again.",
+
+            confirmButtonColor: "#dc2626"
+
+        });
+
+        return false;
+
+    }
+
+};
+
 /* ======================================================
-   SUBSCRIPTION SYSTEM (CLEAN + PRODUCTION READY)
+   RASM ACTIVATION WINDOW
 ====================================================== */
 
-async function checkSubscriptionAccess() {
-
-  try {
-
-    // =====================================
-    // GET ACTIVE SCHOOL ID (SAFE)
-    // =====================================
-    const activeSchoolId =
-      window.schoolId ||
-      sessionStorage.getItem("schoolId") ||
-      localStorage.getItem("schoolId");
-
-    if (!activeSchoolId) {
-      await Swal.fire({
-        icon: "error",
-        title: "Session Expired",
-        text: "Please login again."
-      });
-
-      return false;
-    }
-
-    // =====================================
-    // LOAD SCHOOL
-    // =====================================
-    const snap = await get(
-      ref(db, `schools/${activeSchoolId}`)
-    );
-
-    if (!snap.exists()) {
-      await Swal.fire({
-        icon: "error",
-        title: "School Not Found"
-      });
-
-      return false;
-    }
-
-    const school = snap.val();
-    subscriptionData = school;
-
-    const now = Date.now();
-
-    // =====================================
-    // MANUAL LOCK
-    // =====================================
-    if (school.locked === true) {
-
-      lockEntireSystem(
-        "System Locked",
-        "Your school account has been disabled."
-      );
-
-      return false;
-    }
-
-    // =====================================
-    // ACTIVE SUBSCRIPTION CHECK
-    // =====================================
-    const isActive =
-      school.subscriptionStatus === "active" &&
-      Number(school.subscriptionEndsAt || 0) > now;
-
-    if (isActive) return true;
-
-    // =====================================
-    // ACTIVE TRIAL CHECK
-    // =====================================
-    const isTrial =
-      school.subscriptionStatus === "trial" &&
-      Number(school.trialEndsAt || 0) > now;
-
-    if (isTrial) return true;
-
-    // =====================================
-    // EXPIRED → UPDATE STATUS ONCE
-    // =====================================
-    try {
-      await update(
-        ref(db, `schools/${activeSchoolId}`),
-        { subscriptionStatus: "expired" }
-      );
-    } catch (e) {
-      console.warn("Failed to update expired status:", e);
-    }
-
-    // =====================================
-    // LOCK SYSTEM
-    // =====================================
-    lockEntireSystem(
-      "Subscription Expired",
-      "Please subscribe to continue using the system."
-    );
-
-    return false;
-
-  } catch (err) {
-
-    console.error("Subscription Error:", err);
-
-    await Swal.fire({
-      icon: "error",
-      title: "Subscription Error",
-      text: err.message || "Unable to verify subscription."
-    });
-
-    return false;
-  }
-}
 window.openRasmActivation = function () {
 
-  // 🔥 GET CURRENT SWEETALERT POPUP
-  const popup = Swal.getPopup();
+    const popup = Swal.getPopup();
+    if (!popup) return;
 
-  if (!popup) return;
+    const select = popup.querySelector("#packageSelect");
+    const infoBox = popup.querySelector("#packageInfo");
 
-  const select = popup.querySelector("#packageSelect");
-  const infoBox = popup.querySelector("#packageInfo");
+    if (!select || !infoBox) return;
 
-  if (!select || !infoBox) return;
+    // ===============================
+    // PACKAGE DETAILS
+    // ===============================
 
-  // ✅ UPDATE INFO ONLY (NO Swal.close!)
+    const packages = {
 
-infoBox.innerHTML = `
-  <b>📌 RASM Activation Mode</b><br><br>
+        starter: {
+            icon: "🟢",
+            name: "Starter Package",
+            price: "KES 3,000",
+            duration: "30 Days"
+        },
 
-  ✔ Select a package below<br>
-  ✔ Pay via M-Pesa number below<br>
-  ✔ After payment, send details for activation<br><br>
+        standard: {
+            icon: "🔷",
+            name: "Standard Package",
+            price: "KES 10,000",
+            duration: "90 Days"
+        },
 
-  <b>📞 PAYBILL / TILL / NUMBER</b><br>
-  0792755676<br><br>
+        premium_1year: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 15,000",
+            duration: "1 Year"
+        },
 
-  <b>📲 WhatsApp Activation</b><br>
-  Send message to activate your account:<br><br>
+        premium_2years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 30,000",
+            duration: "2 Years"
+        },
 
-  👉 <a href="https://wa.me/254792755676" target="_blank"
-     style="color:#16a34a;font-weight:bold;">
-     Click to Chat RASM Support
-  </a><br><br>
+        premium_5years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 75,000",
+            duration: "5 Years"
+        },
 
-  <b>📩 Send these details:</b><br>
-  • School Email<br>
-  • School Username / Name<br>
-  • M-Pesa Message Screenshot<br>
-  • Selected Package
+        premium_10years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 150,000",
+            duration: "10 Years"
+        },
+
+        premium_lifetime: {
+            icon: "💎",
+            name: "Lifetime Package",
+            price: "KES 300,000",
+            duration: "Permanent Access"
+        }
+
+    };
+
+    // ===============================
+    // DEFAULT MESSAGE
+    // ===============================
+
+    function showDefault() {
+
+        infoBox.innerHTML = `
+
+<div style="text-align:left;line-height:1.8;">
+
+<h3 style="
+margin-top:0;
+color:#16a34a;
+">
+🚀 RASM ACCOUNT ACTIVATION
+</h3>
+
+Choose a subscription package.
+
+<hr style="margin:15px 0;">
+
+<b>Activation Process</b><br>
+
+✅ Select your preferred package.<br>
+✅ Make payment using the M-Pesa number below.<br>
+✅ Send your payment confirmation to RASM.<br>
+✅ Your school will be activated after verification.
+
+<br><br>
+
+<div style="
+background:#ecfdf5;
+border:1px solid #bbf7d0;
+padding:14px;
+border-radius:10px;
+">
+
+<b>📱 M-Pesa Number</b><br>
+
+<span style="
+font-size:18px;
+font-weight:bold;
+color:#16a34a;
+">
+0792 755 676
+</span>
+
+</div>
+
+<br>
+
+<a
+href="https://wa.me/254792755676"
+target="_blank"
+style="
+display:block;
+text-align:center;
+background:#16a34a;
+color:white;
+padding:12px;
+border-radius:10px;
+font-weight:bold;
+text-decoration:none;
+">
+
+💬 Chat With RASM Support
+
+</a>
+
+<br>
+
+<b>Send:</b>
+
+<ul style="margin-top:8px;">
+<li>School Name</li>
+<li>School Email</li>
+<li>Selected Package</li>
+<li>M-Pesa Confirmation Message / Screenshot</li>
+</ul>
+
+<small style="color:#6b7280;">
+Your account will be activated after payment verification.
+</small>
+
+</div>
+
 `;
-  // ✅ ENSURE EVENT IS ONLY ATTACHED ONCE
-  if (!select.__attached) {
 
-    select.addEventListener("change", () => {
+    }
 
-      const val = select.value;
+    // ===============================
+    // PACKAGE DETAILS
+    // ===============================
 
-      const box = popup.querySelector("#packageInfo");
-      if (!box) return;
-if (val === "weekly") {
-  box.innerHTML = "🔵 7 Days Access — Weekly plan";
+function updatePackage() {
+
+    const packages = {
+
+        starter: {
+            icon: "🟢",
+            title: "Starter Package",
+            price: "KES 3,000",
+            duration: "30 Days",
+            benefits: [
+                "Unlimited Student Registration",
+                "Teacher Management",
+                "Attendance Management",
+                "CBC Report Generation",
+                "Fee Management",
+                "Free Technical Support"
+            ]
+        },
+
+        standard: {
+            icon: "🔷",
+            title: "Standard Package",
+            price: "KES 10,000",
+            duration: "90 Days",
+            benefits: [
+                "Everything in Starter",
+                "Inventory Management",
+                "Transport Management",
+                "Library Management",
+                "Examination System",
+                "Priority Technical Support"
+            ]
+        },
+
+        premium_1year: {
+            icon: "🟣",
+            title: "Premium - 1 Year",
+            price: "KES 15,000",
+            duration: "365 Days",
+            benefits: [
+                "Everything in Standard",
+                "Unlimited ERP Modules",
+                "SMS Notifications",
+                "School Analytics Dashboard",
+                "Unlimited Updates",
+                "Priority Support"
+            ]
+        },
+
+        premium_2years: {
+            icon: "🟣",
+            title: "Premium - 2 Years",
+            price: "KES 30,000",
+            duration: "2 Years",
+            benefits: [
+                "Everything in Premium",
+                "Two Years Updates",
+                "Unlimited Reports",
+                "Dedicated Support",
+                "Free New Features"
+            ]
+        },
+
+        premium_5years: {
+            icon: "🟣",
+            title: "Premium - 5 Years",
+            price: "KES 75,000",
+            duration: "5 Years",
+            benefits: [
+                "Everything Included",
+                "VIP Support",
+                "Free Feature Upgrades",
+                "Unlimited Data Storage",
+                "Five Years Coverage"
+            ]
+        },
+
+        premium_10years: {
+            icon: "🟣",
+            title: "Premium - 10 Years",
+            price: "KES 150,000",
+            duration: "10 Years",
+            benefits: [
+                "Everything Included",
+                "Dedicated Account Manager",
+                "Unlimited Updates",
+                "VIP Technical Support",
+                "10 Years Peace of Mind"
+            ]
+        },
+
+        premium_lifetime: {
+            icon: "💎",
+            title: "Lifetime License",
+            price: "KES 300,000",
+            duration: "Permanent",
+            benefits: [
+                "Lifetime Access",
+                "Lifetime Updates",
+                "All Future ERP Modules",
+                "Highest Priority Support",
+                "No Renewal Fees Ever"
+            ]
+        }
+
+    };
+
+    const pkg = packages[select.value];
+
+    if (!pkg) {
+        showDefault();
+        return;
+    }
+
+    infoBox.innerHTML = `
+
+<div style="line-height:1.8;">
+
+<h2 style="margin-top:0;color:#2563eb;">
+${pkg.icon} ${pkg.title}
+</h2>
+
+<div style="
+background:#f8fafc;
+padding:12px;
+border-radius:10px;
+margin-bottom:15px;
+">
+
+<b>💰 Price:</b> ${pkg.price}<br>
+<b>⏳ Access:</b> ${pkg.duration}
+
+</div>
+
+<div style="
+background:#ecfdf5;
+padding:14px;
+border-radius:10px;
+border:1px solid #bbf7d0;
+">
+
+<h3 style="margin-top:0;color:#15803d;">
+🎁 What You Enjoy
+</h3>
+
+${pkg.benefits.map(item => `✅ ${item}`).join("<br>")}
+
+</div>
+
+<div style="
+margin-top:15px;
+background:#eff6ff;
+padding:14px;
+border-radius:10px;
+border:1px solid #bfdbfe;
+">
+
+<b>How to Activate</b><br><br>
+
+1️⃣ Pay <b>${pkg.price}</b><br>
+2️⃣ Click <b>Get Activated by RASM</b><br>
+3️⃣ Send your M-Pesa confirmation via WhatsApp<br>
+4️⃣ Your school will be activated within a short time.
+
+</div>
+
+</div>
+
+`;
+
 }
+    // ===============================
+    // INITIAL DISPLAY
+    // ===============================
 
-if (val === "starter") {
-  box.innerHTML = "🟢 30 Days Access — Starter plan";
-}
+    showDefault();
 
-if (val === "standard") {
-  box.innerHTML = "🔷 90 Days Access — Standard plan";
-}
+    // ===============================
+    // ATTACH ONLY ONCE
+    // ===============================
 
-if (val === "premium_1year") {
-  box.innerHTML = "🟣 1 Year Access — Premium plan";
-}
+    if (!select.__rasmListener) {
 
-if (val === "premium_2years") {
-  box.innerHTML = "🟣 2 Years Access — Premium plan";
-}
+        select.addEventListener("change", updatePackage);
 
-if (val === "premium_5years") {
-  box.innerHTML = "🟣 5 Years Access — Premium plan";
-}
+        select.__rasmListener = true;
 
-if (val === "premium_10years") {
-  box.innerHTML = "🟣 10 Years Access — Premium plan";
-}
+    }
 
-if (val === "premium_lifetime") {
-  box.innerHTML = "💎 Permanent Lifetime Access";
-}
-
-    });
-
-    select.__attached = true;
-  }
 };
 /* ======================================================
    GLOBAL ACCESS CONTROL
@@ -10325,377 +10778,454 @@ if (val === "premium_lifetime") {
 let ACCESS_GRANTED = true;
 
 /* ======================================================
-   LOCK SYSTEM
+   LOCK ENTIRE SYSTEM
 ====================================================== */
 
 function lockEntireSystem(title, message) {
 
-  // 🔒 REVOKE ACCESS
-  ACCESS_GRANTED = false;
+    // Revoke access
+    ACCESS_GRANTED = false;
 
-  // 🔒 HIDE APP
-  const app = document.getElementById("app");
+    // Hide App
+    const app = document.getElementById("app");
 
-  if (app) {
-    app.style.display = "none";
-  }
-
-  Swal.fire({
-
-    title,
-
-    width: 650,
-
-    html: `
-
-      <div style="text-align:center;">
-
-        <h3 style="
-          margin-bottom:15px;
-          color:#374151;
-        ">
-          ${message}
-        </h3>
-
-        <div style="
-          background:#f3f4f6;
-          padding:18px;
-          border-radius:14px;
-          margin-top:15px;
-        ">
-
-          <h2 style="
-            margin:0;
-            color:#16a34a;
-            font-size:26px;
-          ">
-            💳 PAY VIA M-PESA
-          </h2>
-<button
-  onclick="openRasmActivation()"
-  style="
-    width:100%;
-    margin-top:12px;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#111827;
-    color:white;
-    font-size:14px;
-    font-weight:700;
-    cursor:pointer;
-  "
->
-  🚀 Get Activated by RASM
-</button>
-          <p style="
-            color:#6b7280;
-            margin-top:8px;
-            font-size:13px;
-          ">
-            Select a package below to continue using RASM 360
-          </p>
-
-          <!-- ================= PACKAGE BOX ================= -->
-
-          <div style="
-            margin-top:18px;
-            background:white;
-            padding:18px;
-            border-radius:14px;
-            text-align:left;
-            box-shadow:0 3px 10px rgba(0,0,0,0.08);
-          ">
-
-            <h3 style="
-              margin-top:0;
-              text-align:center;
-              color:#111827;
-              margin-bottom:15px;
-            ">
-              📦 Choose Subscription Package
-            </h3>
-
-            <select
-              id="packageSelect"
-              style="
-                width:100%;
-                padding:14px;
-                border-radius:10px;
-                border:1px solid #d1d5db;
-                margin-top:10px;
-                font-size:15px;
-                outline:none;
-              "
-            >
-
-
-  <option value="">
-    -- Select Package --
-  </option>
-
-  <!-- Short-Term -->
-  <option value="weekly">
-    🔵 Weekly — KES 2,000 (7 Days)
-  </option>
-
-  <!-- Monthly -->
-  <option value="starter">
-    🟢 Starter — KES 3,000 (30 Days)
-  </option>
-
-  <!-- Quarterly -->
-  <option value="standard">
-    🔷 Standard — KES 10,000 (90 Days)
-  </option>
-
-  <!-- Annual & Long-Term -->
-  <option value="premium_1year">
-    🟣 Premium — KES 15,000 (1 Year)
-  </option>
-
-  <option value="premium_2years">
-    🟣 Premium — KES 30,000 (2 Years)
-  </option>
-
-  <option value="premium_5years">
-    🟣 Premium — KES 75,000 (5 Years)
-  </option>
-
-  <option value="premium_10years">
-    🟣 Premium — KES 150,000 (10 Years)
-  </option>
-
-  <option value="premium_lifetime">
-    🟣 Lifetime — KES 300,000 (Permanent)
-  </option>
-</select>
-
-            <!-- ================= PACKAGE INFO ================= -->
-
-            <div id="packageInfo" style="
-              margin-top:15px;
-              background:#eff6ff;
-              border:1px solid #bfdbfe;
-              padding:14px;
-              border-radius:10px;
-              color:#1e3a8a;
-              font-size:13px;
-              line-height:1.8;
-            ">
-
-              🚀 Select a package to view benefits
-
-            </div>
-
-            <!-- ================= FEATURES ================= -->
-
-            <div style="
-              margin-top:18px;
-              background:#ecfdf5;
-              border:1px solid #bbf7d0;
-              padding:14px;
-              border-radius:10px;
-            ">
-
-              <h4 style="
-                margin-top:0;
-                color:#15803d;
-              ">
-                ✔ Platform Benefits
-              </h4>
-
-              <div style="
-                font-size:13px;
-                color:#16a34a;
-                font-weight:700;
-                line-height:1.8;
-              ">
-
-         
-                ✔ Secure M-Pesa Payments<br>
-                ✔ Auto Subscription Activation<br>
-                ✔ Full School ERP System Access<br>
-                ✔ CBC Report Generation<br>
-                ✔ Finance & Fees Tracking
-
-              </div>
-
-            </div>
-
-            <!-- ================= PAYMENT INFO ================= -->
-
-            <div style="
-              margin-top:18px;
-              padding:14px;
-              background:#f9fafb;
-              border-radius:10px;
-              border:1px solid #e5e7eb;
-            ">
-
-              <p>
-                <b>Paybill:</b>
-                522522
-              </p>
-
-              <p>
-                <b>Account:</b>
-                ${schoolId}
-              </p>
-
-            </div>
-
-            <!-- ================= PHONE INPUT ================= -->
-
-            <input
-              id="phoneInput"
-              placeholder="2547XXXXXXXX"
-              style="
-                width:100%;
-                padding:14px;
-                border-radius:10px;
-                border:1px solid #d1d5db;
-                margin-top:18px;
-                box-sizing:border-box;
-                font-size:15px;
-                outline:none;
-              "
-            >
-
-            <!-- ================= BUTTON ================= -->
-
-            <button
-              onclick="activateSubscription()"
-              style="
-                width:100%;
-                margin-top:18px;
-                padding:15px;
-                border:none;
-                border-radius:10px;
-                background:linear-gradient(135deg,#16a34a,#15803d);
-                color:white;
-                font-size:16px;
-                font-weight:bold;
-                cursor:pointer;
-                box-shadow:0 4px 12px rgba(22,163,74,0.3);
-              "
-            >
-              🚀 Pay & Activate
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-    `,
-
-    allowOutsideClick: false,
-    allowEscapeKey: false,
-    showConfirmButton: false,
-
- didOpen: () => {
-
-  const select = document.getElementById("packageSelect");
-  const info = document.getElementById("packageInfo");
-
-  select.addEventListener("change", () => {
-
-    const val = select.value;
-
-    switch (val) {
-
-      case "weekly":
-        info.innerHTML = `
-          🔵 <b>Weekly Package</b><br>
-          ✔ 7 Days Full Access<br>
-          ✔ Exams & Reports<br>
-          ✔ Teachers Management<br>
-          ✔ Finance Module
-        `;
-        break;
-
-      case "starter":
-        info.innerHTML = `
-          🟢 <b>Starter Package</b><br>
-          ✔ 30 Days Full Access<br>
-          ✔ Students & Teachers<br>
-          ✔ Finance & Attendance<br>
-          ✔ CBC Reports
-        `;
-        break;
-
-      case "standard":
-        info.innerHTML = `
-          🔷 <b>Standard Package</b><br>
-          ✔ 90 Days Full Access<br>
-          ✔ Inventory Module<br>
-          ✔ Hostel Module<br>
-          ✔ Complete Examination System
-        `;
-        break;
-
-      case "premium_1year":
-        info.innerHTML = `
-          🟣 <b>Premium - 1 Year</b><br>
-          ✔ 365 Days Unlimited Access<br>
-          ✔ All ERP Modules Included<br>
-          ✔ Free Updates<br>
-          ✔ Priority Support
-        `;
-        break;
-
-      case "premium_2years":
-        info.innerHTML = `
-          🟣 <b>Premium - 2 Years</b><br>
-          ✔ 2 Years Unlimited Access<br>
-          ✔ All ERP Modules Included<br>
-          ✔ Free Updates<br>
-          ✔ Priority Support
-        `;
-        break;
-
-      case "premium_5years":
-        info.innerHTML = `
-          🟣 <b>Premium - 5 Years</b><br>
-          ✔ 5 Years Unlimited Access<br>
-          ✔ All ERP Modules Included<br>
-          ✔ Free Updates<br>
-          ✔ Dedicated Support
-        `;
-        break;
-
-      case "premium_10years":
-        info.innerHTML = `
-          🟣 <b>Premium - 10 Years</b><br>
-          ✔ 10 Years Unlimited Access<br>
-          ✔ All ERP Modules Included<br>
-          ✔ Lifetime Updates During Subscription<br>
-          ✔ VIP Support
-        `;
-        break;
-
-      case "premium_lifetime":
-        info.innerHTML = `
-          💎 <b>Lifetime License</b><br>
-          ✔ Permanent Access<br>
-          ✔ Unlimited Updates<br>
-          ✔ All Future Features Included<br>
-          ✔ Highest Priority Support
-        `;
-        break;
-
-      default:
-        info.innerHTML = `
-          🚀 Select a package to view benefits.
-        `;
+    if (app) {
+        app.style.display = "none";
     }
 
-  });
+    Swal.fire({
+
+        title,
+
+        width: 680,
+
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+
+        html: `
+
+<div style="text-align:center;">
+
+<h3 style="
+color:#374151;
+margin-bottom:15px;
+">
+${message}
+</h3>
+
+<div style="
+background:#f8fafc;
+padding:20px;
+border-radius:16px;
+margin-top:15px;
+">
+
+<h2 style="
+margin:0;
+color:#16a34a;
+font-size:28px;
+">
+🚀 Activate Your RASM 360 Account
+</h2>
+
+<p style="
+margin-top:10px;
+color:#6b7280;
+font-size:14px;
+line-height:1.7;
+">
+
+Your subscription has expired.
+
+Choose your preferred subscription package then click
+<b>Get Activated by RASM</b>.
+
+Your account will be activated after payment verification.
+
+</p>
+
+<button
+onclick="openRasmActivation()"
+style="
+width:100%;
+margin-top:18px;
+padding:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#111827,#1f2937);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+">
+
+🚀 Get Activated by RASM
+
+</button>
+<button
+onclick="document.getElementById('receiptModal').style.display='block'"
+style="
+margin-top:10px;
+width:100%;
+padding:14px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+">
+
+🧾 Generate Payment Receipt
+
+</button>
+<div style="
+margin-top:25px;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 18px rgba(0,0,0,.08);
+text-align:left;
+">
+
+<h3 style="
+margin-top:0;
+text-align:center;
+color:#111827;
+">
+📦 Choose Subscription Package
+</h3>
+
+<select
+id="packageSelect"
+style="
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid #d1d5db;
+margin-top:15px;
+font-size:15px;
+outline:none;
+">
+
+<option value="">
+-- Select Package --
+</option>
+
+<option value="starter">
+🟢 Starter — KES 3,000 (30 Days)
+</option>
+
+<option value="standard">
+🔷 Standard — KES 10,000 (90 Days)
+</option>
+
+<option value="premium_1year">
+🟣 Premium — KES 15,000 (1 Year)
+</option>
+
+<option value="premium_2years">
+🟣 Premium — KES 30,000 (2 Years)
+</option>
+
+<option value="premium_5years">
+🟣 Premium — KES 75,000 (5 Years)
+</option>
+
+<option value="premium_10years">
+🟣 Premium — KES 150,000 (10 Years)
+</option>
+
+<option value="premium_lifetime">
+💎 Lifetime — KES 300,000
+</option>
+
+</select>
+
+<div
+id="packageInfo"
+style="
+margin-top:18px;
+background:#eff6ff;
+border:1px solid #bfdbfe;
+padding:16px;
+border-radius:10px;
+color:#1e3a8a;
+font-size:14px;
+line-height:1.8;
+">
+
+🚀 Select a subscription package to view activation instructions.
+
+</div>
+
+<div style="
+margin-top:20px;
+background:#ecfdf5;
+border:1px solid #bbf7d0;
+padding:16px;
+border-radius:12px;
+">
+
+<h4 style="
+margin-top:0;
+color:#15803d;
+">
+
+✔ Why Subscribe?
+
+</h4>
+
+<div style="
+line-height:1.9;
+font-size:13px;
+font-weight:600;
+color:#15803d;
+">
+
+✔ Full RASM 360 ERP Access<br>
+✔ Student Management<br>
+✔ Teacher Management<br>
+✔ CBC Report Generation<br>
+✔ Finance & Fees Management<br>
+✔ Inventory Module<br>
+✔ Examination Module<br>
+✔ Unlimited System Updates<br>
+✔ Dedicated RASM Technical Support
+
+</div>
+
+</div>
+
+<div style="
+margin-top:20px;
+background:#fff7ed;
+border:1px solid #fed7aa;
+padding:14px;
+border-radius:10px;
+color:#9a3412;
+font-size:13px;
+line-height:1.8;
+">
+
+<b>Activation Notice</b>
+
+<br><br>
+
+After selecting your package,
+
+click
+
+<b>🚀 Get Activated by RASM</b>
+
+to receive payment instructions and complete your activation through RASM Support.
+
+</div>
+
+</div>
+
+</div>
+
+`,
+
+        didOpen: () => {
+
+            if (typeof openRasmActivation === "function") {
+
+                openRasmActivation();
+
+            }
+
+        }
+
+    });
 
 }
 
-  });
+window.generateReceipt=function(){
+
+const school=document.getElementById("receiptSchool").value.trim();
+
+const email=document.getElementById("receiptEmail").value.trim();
+
+const pkg=document.getElementById("receiptPackage").value;
+
+const amount=document.getElementById("receiptAmount").value.trim();
+
+const mpesa=document.getElementById("receiptMpesa").value.trim();
+
+if(!school||!email||!pkg||!amount||!mpesa){
+
+Swal.fire(
+"Missing Information",
+"Fill in all receipt details.",
+"warning"
+);
+
+return;
+
+}
+
+const receiptNo="RASM-"+Date.now();
+
+const now=new Date();
+
+const html=`
+
+<div id="officialReceipt"
+
+style="
+
+max-width:700px;
+
+margin:auto;
+
+background:white;
+
+padding:35px;
+
+border:2px solid #16a34a;
+
+font-family:Arial;
+
+">
+
+<h1 style="text-align:center;color:#16a34a;">
+
+RASM 360 ERP
+
+</h1>
+
+<h2 style="text-align:center;">
+
+OFFICIAL PAYMENT RECEIPT
+
+</h2>
+
+<hr>
+
+<table style="width:100%;line-height:2;">
+
+<tr>
+
+<td><b>Receipt No</b></td>
+
+<td>${receiptNo}</td>
+
+</tr>
+
+<tr>
+
+<td><b>Date</b></td>
+
+<td>${now.toLocaleString()}</td>
+
+</tr>
+
+<tr>
+
+<td><b>School</b></td>
+
+<td>${school}</td>
+
+</tr>
+
+<tr>
+
+<td><b>Email</b></td>
+
+<td>${email}</td>
+
+</tr>
+
+<tr>
+
+<td><b>Package</b></td>
+
+<td>${pkg}</td>
+
+</tr>
+
+<tr>
+
+<td><b>Amount Paid</b></td>
+
+<td>KES ${amount}</td>
+
+</tr>
+
+<tr>
+
+<td><b>M-Pesa Code</b></td>
+
+<td>${mpesa}</td>
+
+</tr>
+
+<tr>
+
+<td><b>Status</b></td>
+
+<td style="color:green;">
+
+PAYMENT RECEIVED
+
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<p>
+
+Thank you for choosing RASM 360.
+
+Your payment has been received and is awaiting verification.
+
+</p>
+
+<p>
+
+Support:
+
+0792 755 676
+
+</p>
+
+</div>
+
+`;
+
+Swal.fire({
+
+width:800,
+
+html:html,
+
+showCancelButton:true,
+
+confirmButtonText:"🖨 Print Receipt",
+
+cancelButtonText:"Close"
+
+}).then(r=>{
+
+if(r.isConfirmed){
+
+const win=window.open("","","width=900,height=900");
+
+win.document.write(html);
+
+win.document.close();
+
+win.print();
+
+}
+
+});
 
 }
 
@@ -15190,7 +15720,7 @@ function loadDefaulterGrades() {
   console.log("✅ Defaulter grades loaded:", grades);
 }
 // =====================================================
-// 📩 SEND SMS TO ALL DEFAULTERS
+// 📩 SEND SMS TO ALL FEE DEFAULTERS (UPGRADED)
 // =====================================================
 
 window.sendDefaulterSMS = async () => {
@@ -15198,14 +15728,114 @@ window.sendDefaulterSMS = async () => {
     try {
 
         // ==========================================
-        // CLOSE DEFAULTERS MODAL
+        // CLOSE DEFAULTERS MODAL FIRST
         // ==========================================
-        const defModal =
-            document.getElementById("defaultersModal");
 
-        if (defModal) {
-            defModal.style.display = "none";
+        const modal = document.getElementById("defaultersModal");
+
+        if (modal) {
+
+            modal.style.display = "none";
+            modal.classList.remove("show");
+            modal.setAttribute("aria-hidden", "true");
+
         }
+
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "auto";
+
+        // Remove Bootstrap backdrops if any
+        document
+            .querySelectorAll(".modal-backdrop")
+            .forEach(el => el.remove());
+
+        // Give the browser time to repaint
+        await new Promise(resolve => setTimeout(resolve, 250));
+
+        // ==========================================
+        // CONFIRM
+        // ==========================================
+
+        const confirm = await Swal.fire({
+
+            title: "Send SMS to All Defaulters?",
+
+            html: `
+                This will send fee reminder SMS to
+                <b>all parents with outstanding balances.</b>
+                <br><br>
+                Continue?
+            `,
+
+            icon: "question",
+
+            showCancelButton: true,
+
+            confirmButtonText: "📩 Send SMS",
+
+            cancelButtonText: "Cancel",
+
+            confirmButtonColor: "#16a34a",
+
+            backdrop: true,
+
+            didOpen: () => {
+
+                const container =
+                    document.querySelector(".swal2-container");
+
+                if (container) {
+
+                    container.style.zIndex = "999999";
+
+                }
+
+            }
+
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        // ==========================================
+        // LOADING
+        // ==========================================
+
+        Swal.fire({
+
+            title: "Sending SMS...",
+
+            html: `
+                <div style="padding:15px;text-align:center;">
+                    <div style="font-size:40px;">📩</div>
+                    <br>
+                    Please wait while reminders are being sent...
+                </div>
+            `,
+
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+
+            didOpen: () => {
+
+                Swal.showLoading();
+
+                const container =
+                    document.querySelector(".swal2-container");
+
+                if (container) {
+
+                    container.style.zIndex = "999999";
+
+                }
+
+            }
+
+        });
+
+        // ==========================================
+        // LOAD FEES
+        // ==========================================
 
         const selectedYear =
             document.getElementById("filterFeeYear")?.value ||
@@ -15217,8 +15847,11 @@ window.sendDefaulterSMS = async () => {
 
         const data = snap.val() || {};
 
-        let sent = 0;
-        let skipped = 0;
+        // ==========================================
+        // GROUP BY PARENT PHONE
+        // ==========================================
+
+        const parentMap = {};
 
         Object.values(data).forEach(fee => {
 
@@ -15228,54 +15861,162 @@ window.sendDefaulterSMS = async () => {
             if (balance <= 0) return;
 
             const phone =
-                fee.parentPhone || "";
+                (fee.parentPhone || "").trim();
 
-            if (!phone) {
+            if (!phone) return;
 
-                skipped++;
-                return;
+            if (!parentMap[phone]) {
+
+                parentMap[phone] = {
+
+                    totalBalance: 0,
+
+                    children: []
+
+                };
 
             }
 
-            const message =
-                `Dear Parent, ${fee.studentName} has an outstanding school fee balance of KES ${balance.toLocaleString()}. Kindly clear the balance at your earliest convenience. Thank you.`;
+            parentMap[phone].totalBalance += balance;
 
-            sendSMS(phone, message);
-
-            sent++;
+            parentMap[phone].children.push(
+                fee.studentName || "Learner"
+            );
 
         });
+
+        // ==========================================
+        // SEND SMS
+        // ==========================================
+
+        let sent = 0;
+        let failed = 0;
+        let skipped = 0;
+
+        for (const phone in parentMap) {
+
+            try {
+
+                const info = parentMap[phone];
+
+                if (!phone) {
+
+                    skipped++;
+                    continue;
+
+                }
+
+                const message =
+
+`Dear Parent,
+
+Our records indicate that the following learner(s) have an outstanding school fee balance.
+
+Learner(s):
+${info.children.join(", ")}
+
+Outstanding Balance:
+KES ${info.totalBalance.toLocaleString()}
+
+Kindly clear the balance at your earliest convenience.
+
+Thank you.
+
+${window.schoolName || "School Administration"}`;
+
+                await sendSMS(phone, message);
+
+                sent++;
+
+            }
+
+            catch (err) {
+
+                console.error(err);
+
+                failed++;
+
+            }
+
+        }
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
 
         Swal.fire({
 
             icon: "success",
 
-            title: "SMS Sending Complete",
+            title: "SMS Sending Completed",
 
             html: `
-                <div style="text-align:left;">
-                    📩 <b>SMS Sent:</b> ${sent}<br><br>
-                    ⚠️ <b>Skipped (No Phone):</b> ${skipped}
-                </div>
+
+<div style="
+text-align:left;
+font-size:15px;
+line-height:2;
+">
+
+📩 <b>Parents Notified:</b> ${sent}<br>
+
+❌ <b>Failed:</b> ${failed}<br>
+
+⚠️ <b>Skipped:</b> ${skipped}<br>
+
+👨‍👩‍👧‍👦 <b>Total Parents:</b> ${Object.keys(parentMap).length}
+
+</div>
+
             `,
 
-            confirmButtonColor: "#2563eb"
+            confirmButtonColor: "#2563eb",
+
+            didOpen: () => {
+
+                const container =
+                    document.querySelector(".swal2-container");
+
+                if (container) {
+
+                    container.style.zIndex = "999999";
+
+                }
+
+            }
 
         });
 
-    } catch (err) {
+    }
+
+    catch (err) {
 
         console.error(err);
 
-        Swal.fire(
+        Swal.fire({
 
-            "Error",
+            icon: "error",
 
-            err.message || "Failed to send SMS.",
+            title: "SMS Sending Failed",
 
-            "error"
+            text: err.message || "Failed to send SMS.",
 
-        );
+            confirmButtonColor: "#dc2626",
+
+            didOpen: () => {
+
+                const container =
+                    document.querySelector(".swal2-container");
+
+                if (container) {
+
+                    container.style.zIndex = "999999";
+
+                }
+
+            }
+
+        });
 
     }
 
