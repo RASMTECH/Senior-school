@@ -338,20 +338,21 @@ li{
 }
 
 /* =========================================================
-   PREMIUM SUBMENU
+   PREMIUM SUBMENUS
 ========================================================= */
 
 .submenu{
 
     display:flex;
-
     flex-direction:column;
 
     max-height:0;
 
+    overflow:hidden;
+
     opacity:0;
 
-    overflow:hidden;
+    visibility:hidden;
 
     padding-left:18px;
 
@@ -359,15 +360,23 @@ li{
 
     border-left:2px solid rgba(255,255,255,.08);
 
-    transition:max-height .35s ease,opacity .25s ease;
+    transition:
+        max-height .35s ease,
+        opacity .25s ease,
+        visibility .25s ease,
+        padding .25s ease;
 
 }
 
+/* OPEN */
+
 .submenu.open{
 
-    max-height:3000px;
+    max-height:2000px;
 
     opacity:1;
+
+    visibility:visible;
 
     padding-top:8px;
 
@@ -375,13 +384,29 @@ li{
 
 }
 
+/* SUBMENU BUTTONS */
+
 .submenu button{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
 
     background:#162033;
 
+    color:#fff;
+
     min-height:44px;
 
-    margin-bottom:10px;
+    margin-bottom:8px;
+
+    padding:11px 14px;
+
+    border:none;
 
     border-radius:10px;
 
@@ -389,9 +414,15 @@ li{
 
     font-size:13px;
 
-    transition:.2s;
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
 
 }
+
+/* LAST BUTTON */
 
 .submenu button:last-child{
 
@@ -399,17 +430,21 @@ li{
 
 }
 
+/* HOVER */
+
 .submenu button:hover{
 
     background:#2563eb;
 
     border-left-color:#38bdf8;
 
-    transform:translateX(6px);
+    transform:translateX(5px);
 
     box-shadow:0 6px 18px rgba(37,99,235,.28);
 
 }
+
+/* ACTIVE */
 
 .submenu button.active{
 
@@ -423,6 +458,8 @@ li{
 
 }
 
+/* HIDE SCROLLBAR */
+
 .submenu{
 
     scrollbar-width:none;
@@ -434,7 +471,6 @@ li{
     display:none;
 
 }
-
 /* =========================================================
    SIDEBAR FOOTER
 ========================================================= */
@@ -485,23 +521,7 @@ li{
 
 }
 
-/* =========================================================
-   ACTIVE
-========================================================= */
 
-.active{
-
-    background:#991b1b !important;
-
-    color:#fff !important;
-
-    font-weight:600;
-
-    box-shadow:
-        inset 4px 0 0 #ef4444,
-        0 6px 15px rgba(0,0,0,.18);
-
-}
 
 /* =========================================================
    SUBSCRIPTION BOX
@@ -3551,10 +3571,42 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
   <button id="menuHostel" onclick="show('hostel')">🏨 Hostel</button>
   <button id="menuInventory" onclick="show('inventory')">📦 Inventory</button>
 
-  <button id="menuCreateUsers" onclick="show('adminUsersPanel')">👥 Create Users</button>
-  <button id="menuManageUsers" onclick="show('usersSection')">👤 Manage Users</button>
+<!-- ============================= -->
+<!-- USER MANAGEMENT -->
+<!-- ============================= -->
+<div class="menu-section" id="usersMenu">
 
-  <button id="passwordBtn" onclick="openPasswordModal()">🔐 Change Password</button>
+    <button
+        id="menuUsers"
+        class="menu-btn"
+        onclick="openUsersMenu()">
+
+        👥 User Management
+
+    </button>
+
+    <div id="usersSubmenu" class="submenu">
+
+        <button onclick="openSchoolProfileForm()">
+            🏫 School Profile
+        </button>
+
+        <button id="menuCreateUsers" onclick="show('adminUsersPanel')">
+            👥 Create Users
+        </button>
+
+        <button id="menuManageUsers" onclick="show('usersSection')">
+            👤 Manage Users
+        </button>
+
+        <button id="passwordBtn" onclick="openPasswordModal()">
+            🔐 Change Password
+        </button>
+
+ 
+    </div>
+</div>
+
 </div>
 <!-- ===================================================== -->
 <!-- EXAMS MANAGEMENT -->
@@ -3773,16 +3825,6 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 
 </div>
 
-<!-- SETTINGS -->
-<div class="menu-section">
-
-    <h4>SETTINGS</h4>
-
-    <button onclick="openSchoolProfileForm()" class="green-btn">
-        🏫 School Profile
-    </button>
-
-</div>
 
 </div> <!-- END sidebar-scroll -->
 
@@ -9766,7 +9808,8 @@ function show(id) {
   });
 
   const target = document.getElementById(id);
-
+const menuUsers =
+document.getElementById("menuUsers");
   if (!target) {
     console.warn("Section not found:", id);
     return;
@@ -9788,7 +9831,9 @@ function show(id) {
       }, 100);
     });
   }
-
+if(menuUsers){
+    menuUsers.style.display = "block";
+}
   /* ===============================
      LAZY LOAD: FEES
   =============================== */
@@ -52052,15 +52097,28 @@ window.applyRolePermissions = function () {
 
     let allowedBtn = false;
 
-    // =====================================
-    // 1. EXAMS MENU RULE
-    // =====================================
-    if (
-      btn.closest("#examsMenu") &&
-      allowed.includes("examManagement")
-    ) {
-      allowedBtn = true;
-    }
+  // =====================================
+// 1. EXAMS MENU RULE
+// =====================================
+if (
+    btn.closest("#examsMenu") &&
+    allowed.includes("examManagement")
+) {
+    allowedBtn = true;
+}
+
+// =====================================
+// 1B. USER MANAGEMENT MENU RULE
+// =====================================
+if (
+    btn.closest("#usersMenu") &&
+    (
+        allowed.includes("adminUsersPanel") ||
+        allowed.includes("usersSection")
+    )
+) {
+    allowedBtn = true;
+}
 
     // =====================================
     // 2. SECTION-BASED PERMISSIONS
@@ -52081,14 +52139,14 @@ window.applyRolePermissions = function () {
     // 3. SPECIAL GLOBAL BUTTONS
     // =====================================
     if (
-      onclick.includes("logout") ||
-      onclick.includes("openSchoolProfileForm") ||
-      onclick.includes("openPasswordModal") ||
-      onclick.includes("handleCheckResults") // ✅ FIX FOR YOUR BUTTON
-    ) {
-      allowedBtn = true;
-    }
-
+    onclick.includes("logout") ||
+    onclick.includes("openSchoolProfileForm") ||
+    onclick.includes("openPasswordModal") ||
+    onclick.includes("handleCheckResults") ||
+    onclick.includes("printSelectedReport")
+) {
+    allowedBtn = true;
+}
     // =====================================
     // APPLY VISIBILITY
     // =====================================
@@ -59072,8 +59130,63 @@ onclick="printSelectedReport();Swal.close();">
     });
 
 };
+window.openUsersMenu = function () {
 
-function showRandomPopup(){
+    Swal.fire({
+
+        title: "👥 User Management",
+
+        width: 500,
+
+        showConfirmButton: false,
+
+        html: `
+
+<div style="
+display:grid;
+grid-template-columns:repeat(1,1fr);
+gap:12px;
+">
+
+<button
+class="swal2-confirm swal2-styled"
+onclick="openSchoolProfileForm();Swal.close();">
+
+🏫 School Profile
+
+</button>
+
+<button
+class="swal2-confirm swal2-styled"
+onclick="show('adminUsersPanel');Swal.close();">
+
+👥 Create Users
+
+</button>
+
+<button
+class="swal2-confirm swal2-styled"
+onclick="show('usersSection');Swal.close();">
+
+👤 Manage Users
+
+</button>
+
+<button
+class="swal2-confirm swal2-styled"
+onclick="openPasswordModal();Swal.close();">
+
+🔐 Change Password
+
+</button>
+
+</div>
+
+`
+
+    });
+
+};function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
 
