@@ -27738,120 +27738,196 @@ subjects.forEach(subject => {
     });
   }
 }
-
 window.generateBlankMeritList = async function (
-  selectedGrade,
-  selectedExamPeriod
+    selectedGrade,
+    selectedExamPeriod
 ) {
 
-  try {
+try {
 
-    // ===============================
-    // 🔥 FORCE READ FROM UI
-    // ===============================
+// ======================================
+// SAFE VALUE
+// ======================================
+const getSafeValue = (value)=>{
 
-// ===============================
-// 🔥 FORCE READ FROM UI (SAFE)
-// ===============================
-const getSafeValue = (value) => {
+    if(
+        value &&
+        typeof value==="object" &&
+        "value" in value
+    ){
 
-  if (
-    value &&
-    typeof value === "object" &&
-    "value" in value
-  ) {
-    return (value.value || "")
-      .toString()
-      .trim();
-  }
+        return (value.value||"")
+        .toString()
+        .trim();
 
-  return (value || "")
-    .toString()
-    .trim();
-};
-
-const gradeFromUI =
-  getSafeValue(selectedGrade) ||
-  getSafeValue(
-    document.getElementById("filterGrade")
-  ) ||
-  getSafeValue(
-    document.getElementById("gradeFilter")
-  ) ||
-  getSafeValue(
-    window.reportContext?.grade
-  ) ||
-  "";
-
-const periodFromUI =
-  getSafeValue(selectedExamPeriod) ||
-  getSafeValue(
-    document.getElementById("examPeriodSelect")
-  ) ||
-  getSafeValue(
-    window.reportContext?.examPeriod
-  ) ||
-  "";
-
-const safeSchoolName =
-  getSafeValue(schoolName);
-
-const safeSchoolMotto =
-  getSafeValue(schoolMotto);
-
-console.log(
-  "Blank Merit Grade:",
-  gradeFromUI
-);
-
-console.log(
-  "Blank Merit Period:",
-  periodFromUI
-);
-
-
-
-
-
-    // ===============================
-    // 🔥 START LOADER
-    // ===============================
-    showLoader();
-
-    updateProgress(
-      10,
-      "Preparing blank merit list..."
-    );
-
-    await new Promise(r => setTimeout(r, 300));
-
-    const container =
-      document.getElementById("blankMeritContent");
-
-    // ===============================
-    // 🔥 CONTAINER CHECK
-    // ===============================
-    if (!container) {
-
-      hideLoader();
-
-      Swal.fire(
-        "Error",
-        "Blank Merit container not found",
-        "error"
-      );
-
-      return;
     }
 
-    updateProgress(
-      25,
-      "Loading grade context..."
+    return (value||"")
+    .toString()
+    .trim();
+
+};
+
+// ======================================
+// ASK FOR GRADE IF NOT PROVIDED
+// Dynamic grades from registered learners
+// ======================================
+if (!selectedGrade) {
+
+    // Load registered learners
+    const studentsSnap = await get(
+        schoolRef("students")
     );
 
-    await new Promise(r => setTimeout(r, 300));
+    // Collect available grades
+    const gradeSet = new Set();
 
-    const year = new Date().getFullYear();
+    studentsSnap.forEach(child => {
+
+        const learner = child.val() || {};
+
+        const grade =
+            (learner.grade || "")
+            .toString()
+            .trim();
+
+        if (grade) {
+
+            gradeSet.add(grade);
+
+        }
+
+    });
+
+    // Build SweetAlert options
+    const inputOptions = {};
+
+    Array.from(gradeSet)
+        .sort((a, b) => {
+
+            const gradeA =
+                parseInt(
+                    a.replace(/\D/g, "")
+                ) || 0;
+
+            const gradeB =
+                parseInt(
+                    b.replace(/\D/g, "")
+                ) || 0;
+
+            return gradeA - gradeB;
+
+        })
+        .forEach(grade => {
+
+            inputOptions[grade] = grade;
+
+        });
+
+    // No grades found
+    if (Object.keys(inputOptions).length === 0) {
+
+        Swal.fire(
+            "No Learners",
+            "No registered learners were found.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+    // Prompt user
+    const gradeResult = await Swal.fire({
+
+        title: "Generate Blank Merit List",
+
+        text: "Select the grade",
+
+        input: "select",
+
+        inputOptions: inputOptions,
+
+        inputPlaceholder: "Choose Grade",
+
+        confirmButtonText: "Generate",
+
+        confirmButtonColor: "#2563eb",
+
+        showCancelButton: true,
+
+        cancelButtonText: "Cancel",
+
+        inputValidator: (value) => {
+
+            if (!value) {
+
+                return "Please select a grade.";
+
+            }
+
+        }
+
+    });
+
+    if (!gradeResult.isConfirmed) {
+
+        return;
+
+    }
+
+    selectedGrade = gradeResult.value;
+
+}
+// ======================================
+// GET VALUES
+// ======================================
+const gradeFromUI =
+getSafeValue(selectedGrade);
+
+const periodFromUI =
+getSafeValue(selectedExamPeriod) ||
+getSafeValue(document.getElementById("examPeriodSelect")) ||
+"";
+
+const safeSchoolName =
+getSafeValue(window.schoolName);
+
+const safeSchoolMotto =
+getSafeValue(window.schoolMotto);
+
+// ======================================
+// START LOADER
+// ======================================
+showLoader();
+
+updateProgress(
+10,
+"Preparing Blank Merit List..."
+);
+
+await new Promise(r=>setTimeout(r,300));
+
+const container =
+document.getElementById(
+"blankMeritContent"
+);
+
+if(!container){
+
+    hideLoader();
+
+    return Swal.fire(
+        "Error",
+        "Blank Merit container not found.",
+        "error"
+    );
+
+}
+
+const year =
+new Date().getFullYear();
+
 
     // ===============================
     // 🔥 FILTER LEARNERS
@@ -27951,9 +28027,199 @@ if (learnerGrade === gradeFromUI) {
     // 🔹 SCHOOL DETAILS
     // ===============================
    
-    const logoUrl =
-      "logo.png";
+  // ======================================
+// SCHOOL LOGO
+// ======================================
+const logoUrl = "logo.png";
 
+// ======================================
+// DETERMINE SUBJECTS
+// ======================================
+updateProgress(
+70,
+"Loading subjects..."
+);
+
+await new Promise(r=>setTimeout(r,300));
+
+let reportSubjects = [];
+
+const gradeNumber =
+parseInt(
+    gradeFromUI.replace(/\D/g,"")
+);
+
+// ======================================
+// GRADE 1-3
+// ======================================
+if(gradeNumber>=1 && gradeNumber<=3){
+
+    reportSubjects=[
+
+        "English",
+
+        "Kiswahili",
+
+        "Mathematics",
+
+        "Environmental",
+
+        "Creative Activities"
+
+    ];
+
+}
+
+// ======================================
+// GRADE 4-6
+// ======================================
+else if(gradeNumber>=4 && gradeNumber<=6){
+
+    reportSubjects=[
+
+        "English",
+
+        "Kiswahili",
+
+        "Mathematics",
+
+        "Science & Technology",
+
+        "Agriculture",
+
+        "Social Studies",
+
+        "CRE",
+
+        "Creative Arts"
+
+    ];
+
+}
+
+// ======================================
+// GRADE 7-9
+// ======================================
+else if(gradeNumber>=7 && gradeNumber<=9){
+
+    reportSubjects=[
+
+        "English",
+
+        "Kiswahili",
+
+        "Mathematics",
+
+        "Integrated Science",
+
+        "Pre-Technical Studies",
+
+        "Social Studies",
+
+        "Agriculture",
+
+        "CRE",
+
+        "Creative Arts"
+
+    ];
+
+}
+
+// ======================================
+// GRADE 10-12
+// LOAD SCHOOL SUBJECTS
+// ======================================
+else{
+
+    try{
+
+        updateProgress(
+            75,
+            "Loading school subjects..."
+        );
+
+        const subjectSnap =
+        await get(
+            schoolRef("subjects")
+        );
+
+        if(subjectSnap.exists()){
+
+            subjectSnap.forEach(subject=>{
+
+                const s =
+                subject.val() || {};
+
+                const subjectName =
+
+                    s.name ||
+
+                    s.subject ||
+
+                    s.subjectName ||
+
+                    s.title ||
+
+                    s.code ||
+
+                    "";
+
+                if(subjectName){
+
+                    reportSubjects.push(
+                        subjectName
+                    );
+
+                }
+
+            });
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Subject loading failed:",
+            error
+        );
+
+    }
+
+}
+
+// ======================================
+// REMOVE DUPLICATES
+// ======================================
+reportSubjects =
+[...new Set(reportSubjects)];
+
+// ======================================
+// FALLBACK
+// ======================================
+if(reportSubjects.length===0){
+
+    reportSubjects=[
+
+        "Subject 1",
+
+        "Subject 2",
+
+        "Subject 3"
+
+    ];
+
+}
+
+console.log(
+    "Subjects:",
+    reportSubjects
+);
+
+updateProgress(
+80,
+"Building report..."
+);
 
 // ===============================
 // 🔹 STYLES
@@ -28092,183 +28358,215 @@ tfoot td{
 const header = `
 <div class="header">
 
-  <img
-    src="${logoUrl}"
-    onerror="this.style.display='none'"
-  />
+    <img
+        src="${logoUrl}"
+        onerror="this.style.display='none'"
+    />
 
-  <div class="title">
+    <div class="title">
 
- 
-<h2>${safeSchoolName}</h2>
+        <h2>${safeSchoolName}</h2>
 
-<div>${safeSchoolMotto}</div>
+        <div>${safeSchoolMotto}</div>
 
-    <div>
-      Blank Merit List |
-      Grade ${gradeFromUI || "All Grades"} |
-      ${periodFromUI || "All Periods"}
+        <div>
+            Blank Merit List |
+            Grade ${gradeFromUI} |
+            ${periodFromUI || "Blank Sheet"}
+        </div>
+
+        <div>
+            Year : ${year}
+        </div>
+
     </div>
-
-    <div>
-      Year: ${year}
-    </div>
-
-  </div>
 
 </div>
 `;
 
-// ===============================
-// 🔹 TABLE HEADERS
-// ===============================
-const subjectCols = `
+// =====================================================
+// BUILD TABLE HEADERS
+// =====================================================
+
+let subjectCols = `
+
 <th class="no-col">NO</th>
 
-<th class="name-col">
-NAME
-</th>
+<th class="name-col">NAME</th>
 
-<th class="adm-col">
-ADM NO
-</th>
+<th class="adm-col">ADM NO</th>
 
-<th class="subject-col">ENG</th>
-<th class="subject-col">MATH</th>
-<th class="subject-col">Pre-tech</th>
-<th class="subject-col">KISW</th>
-<th class="subject-col">SCI</th>
-<th class="subject-col">SST</th>
-<th class="subject-col">AGR</th>
-<th class="subject-col">CRE</th>
-<th class="subject-col">C/A</th>
-
-<th class="total-col">TOT</th>
-<th class="total-col">PTS</th>
-<th class="pos-col">POS</th>
 `;
 
-// ===============================
-// 🔹 TABLE ROWS
-// ===============================
-const rows = learners.map((s, i) => `
+reportSubjects.forEach(subject => {
+
+    subjectCols += `
+
+        <th class="subject-col">
+
+            ${subject}
+
+        </th>
+
+    `;
+
+});
+
+subjectCols += `
+
+<th class="total-col">TOTAL</th>
+
+<th class="total-col">PTS</th>
+
+<th class="pos-col">POS</th>
+
+`;
+
+
+// =====================================================
+// BLANK SUBJECT CELLS
+// =====================================================
+
+const blankSubjectCells =
+    reportSubjects
+        .map(() => "<td></td>")
+        .join("");
+
+// =====================================================
+// TABLE ROWS
+// =====================================================
+
+const rows = learners.map((learner, index) => `
 
 <tr>
 
-  <td>${i + 1}</td>
+<td>${index + 1}</td>
 
-  <td class="name">
-    ${s.name || ""}
-  </td>
+<td class="name">
 
-  <td class="adm-cell">
-    ${
-      s.admissionNo ||
-      s.admissionNumber ||
-      s.adm ||
-      ""
-    }
-  </td>
+${learner.name || ""}
 
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
+</td>
 
-  <td></td>
-  <td></td>
-  <td></td>
+<td class="adm-cell">
+
+${
+
+learner.admissionNo ||
+
+learner.admissionNumber ||
+
+learner.adm ||
+
+""
+
+}
+
+</td>
+
+${blankSubjectCells}
+
+<td></td>
+
+<td></td>
+
+<td></td>
 
 </tr>
 
 `).join("");
 
+
+// =====================================================
+// FOOTER CELLS
+// =====================================================
+
+const footerCells =
+    reportSubjects
+        .map(() => "<td></td>")
+        .join("");
+
 updateProgress(
-  90,
-  "Rendering report..."
+90,
+"Rendering report..."
 );
 
-await new Promise(r => setTimeout(r, 300));
+await new Promise(r=>setTimeout(r,300));
 
-// ===============================
-// 🔥 RENDER REPORT
-// ===============================
-container.innerHTML = `
+// =====================================================
+// RENDER REPORT
+// =====================================================
+container.innerHTML=`
 
-  ${styles}
+${styles}
 
-  <div class="merit-wrap">
+<div class="merit-wrap">
 
-    ${header}
+${header}
 
-    <table>
+<table>
 
-      <thead>
-        <tr>
-          ${subjectCols}
-        </tr>
-      </thead>
+<thead>
 
-      <tbody>
-        ${rows}
-      </tbody>
+<tr>
 
-      <tfoot>
+${subjectCols}
 
-        <tr class="total-row">
+</tr>
 
-          <td colspan="3">
-            TOTALS
-          </td>
+</thead>
 
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+<tbody>
 
-          <td></td>
-          <td></td>
-          <td></td>
+${rows}
 
-        </tr>
+</tbody>
 
-        <tr class="average-row">
+<tfoot>
 
-          <td colspan="3">
-            AVERAGES
-          </td>
+<tr class="total-row">
 
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+<td colspan="3">
 
-          <td></td>
-          <td></td>
-          <td></td>
+TOTALS
 
-        </tr>
+</td>
 
-      </tfoot>
+${footerCells}
 
-    </table>
+<td></td>
 
-  </div>
+<td></td>
+
+<td></td>
+
+</tr>
+
+<tr class="average-row">
+
+<td colspan="3">
+
+AVERAGES
+
+</td>
+
+${footerCells}
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+</tr>
+
+</tfoot>
+
+</table>
+
+</div>
+
 `;
-
 // ===============================
 // 📸 CAPTURE REPORT
 // ===============================
