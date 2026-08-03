@@ -3556,20 +3556,19 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 
   <button id="passwordBtn" onclick="openPasswordModal()">🔐 Change Password</button>
 </div>
-<!-- EXAMS -->
-<!-- MAIN MENU -->
-<!-- EXAMS -->
+<!-- ===================================================== -->
+<!-- EXAMS MANAGEMENT -->
+<!-- ===================================================== -->
 <div class="menu-section" id="examsMenu">
 
+    <button
+        id="menuExams"
+        class="menu-btn"
+        onclick="openExamsMenu()">
 
-  <button
-    id="menuExams"
-    class="menu-btn"
-    onclick="toggleMenu('examsSubmenu')">
+        📊 Exams Management
 
-    📊 Exams Management ▾
-
-  </button>
+    </button>
 
   <div id="examsSubmenu" class="submenu">
 
@@ -28128,66 +28127,94 @@ else if(gradeNumber>=7 && gradeNumber<=9){
 
 // ======================================
 // GRADE 10-12
-// LOAD SCHOOL SUBJECTS
+// LET USER TYPE SUBJECTS
 // ======================================
-else{
+else {
 
-    try{
+    updateProgress(
+        75,
+        "Waiting for subjects..."
+    );
 
-        updateProgress(
-            75,
-            "Loading school subjects..."
-        );
+    hideLoader();
 
-        const subjectSnap =
-        await get(
-            schoolRef("subjects")
-        );
+    const subjectPrompt = await Swal.fire({
 
-        if(subjectSnap.exists()){
+        title: "Grade 10-12 Subjects",
 
-            subjectSnap.forEach(subject=>{
+        html: `
+            <div style="text-align:left;">
+                Enter only the subjects you want on this blank merit list.
+                <br><br>
+                You can:
+                <ul style="text-align:left;margin-top:8px;">
+                    <li>Type one subject per line</li>
+                    <li>OR separate subjects using commas (,)</li>
+                </ul>
+            </div>
+        `,
 
-                const s =
-                subject.val() || {};
+        input: "textarea",
 
-                const subjectName =
+        inputPlaceholder:
+`English
+Mathematics
+Biology
+Chemistry
 
-                    s.name ||
+OR
 
-                    s.subject ||
+English, Mathematics, Biology, Chemistry`,
 
-                    s.subjectName ||
+        inputAttributes:{
+            rows:10
+        },
 
-                    s.title ||
+        showCancelButton:true,
 
-                    s.code ||
+        confirmButtonText:"Generate",
 
-                    "";
+        confirmButtonColor:"#2563eb",
 
-                if(subjectName){
+        cancelButtonText:"Cancel",
 
-                    reportSubjects.push(
-                        subjectName
-                    );
+        inputValidator:(value)=>{
 
-                }
+            if(!value || !value.trim()){
 
-            });
+                return "Please enter at least one subject.";
+
+            }
 
         }
 
-    }catch(error){
+    });
 
-        console.error(
-            "Subject loading failed:",
-            error
-        );
+    if(!subjectPrompt.isConfirmed){
+
+        return;
 
     }
 
-}
+    showLoader();
 
+    updateProgress(
+        80,
+        "Preparing report..."
+    );
+
+    reportSubjects = subjectPrompt.value
+
+        .split(/[\n,]+/)
+
+        .map(subject => subject.trim())
+
+        .filter(subject => subject.length > 0);
+
+    // Remove duplicate subjects
+    reportSubjects = [...new Set(reportSubjects)];
+
+}
 // ======================================
 // REMOVE DUPLICATES
 // ======================================
@@ -58946,6 +58973,106 @@ ${report.innerHTML}
     }, 500);
 
 };
+
+window.openExamsMenu = function () {
+
+    Swal.fire({
+
+        title: "📊 Exams Management",
+
+        width: 650,
+
+        showConfirmButton: false,
+
+        html: `
+
+<div style="display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;">
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('recordMarksSection');Swal.close();">
+📝 Enter Marks
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('examResults');Swal.close();">
+📄 Results
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('subjectChampions');Swal.close();">
+🏆 Subject Champions
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('meritListSection');Swal.close();">
+📊 Generate Merit List
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('subjectPerformance');Swal.close();">
+📈 Subject Performance
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('genderPerformance');Swal.close();">
+⚧ Gender Performance
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('levelSummary');Swal.close();">
+📚 Subject Level Summary
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('groupByPathways');Swal.close();">
+🧩 Learners Pathways
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('combineMarksByGrade');Swal.close();">
+🧮 Combine Marks
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('generateAssessmentReports');Swal.close();">
+📄 Assessment Reports
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('subjectRankingReport');Swal.close();">
+📊 Track Learner Progress
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="generateBlankMeritList();show('generateBlankMerit');Swal.close();">
+📄 Blank Merit Lists
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="generateOverallTopFiveByGrade();Swal.close();">
+🏆 Overall Top 5
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="show('marksStatus');Swal.close();">
+👁️ Marks Status
+</button>
+
+<button class="swal2-confirm swal2-styled"
+onclick="printSelectedReport();Swal.close();">
+🖨️ Print Selected
+</button>
+
+</div>
+
+`
+
+    });
+
+};
+
 function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
