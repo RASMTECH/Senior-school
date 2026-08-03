@@ -45343,101 +45343,115 @@ html += `
 
     <td style="${tdStyle};position:relative;">
 
-        <!-- MAIN ACTION BUTTON -->
+      <!-- MAIN ACTION BUTTON -->
 
-        <button
-            onclick="toggleLibraryActions('${key}', event)"
-            style="
-                background:#111827;
-                color:white;
-                border:none;
-                padding:8px 12px;
-                border-radius:8px;
-                cursor:pointer;
-                font-size:12px;
-                font-weight:600;
-            "
-        >
+<button
+    onclick="toggleLibraryActions('${key}', event)"
+    style="
+        background:#111827;
+        color:white;
+        border:none;
+        padding:8px 12px;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:12px;
+        font-weight:600;
+    "
+>
 
-            ⚙️ Actions
+    ⚙️ Actions
 
-        </button>
+</button>
 
-        <!-- DROPDOWN -->
+<!-- DROPDOWN -->
 
-        <div
-            id="library-actions-${key}"
-            style="
-                display:none;
-                position:fixed;
-                background:white;
-                border:1px solid #e5e7eb;
-                border-radius:10px;
-                min-width:200px;
-                box-shadow:0 10px 25px rgba(0,0,0,.15);
-                z-index:99999;
-                overflow:hidden;
-            "
-        >
+<div
+    id="library-actions-${key}"
+    style="
+        display:none;
+        position:fixed;
+        background:white;
+        border:1px solid #e5e7eb;
+        border-radius:10px;
+        min-width:200px;
+        box-shadow:0 10px 25px rgba(0,0,0,.15);
+        z-index:99999;
+        overflow:hidden;
+    "
+>
 
-            <button
-                onclick="borrowBook('${key}')"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:none;
-                    background:white;
-                    text-align:left;
-                    cursor:pointer;
-                "
-            >
-                📚 Borrow Book
-            </button>
+    <button
+        onclick="borrowBook('${key}')"
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            background:white;
+            text-align:left;
+            cursor:pointer;
+        "
+    >
+        📚 Borrow Book
+    </button>
 
-            <button
-                onclick="viewBookCopies('${key}')"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:none;
-                    background:white;
-                    text-align:left;
-                    cursor:pointer;
-                "
-            >
-                📖 View All Copies
-            </button>
+    <button
+        onclick="viewBookCopies('${key}')"
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            background:white;
+            text-align:left;
+            cursor:pointer;
+        "
+    >
+        📖 View All Copies
+    </button>
 
-            <button
-                onclick="viewBorrowings('${key}')"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:none;
-                    background:white;
-                    text-align:left;
-                    cursor:pointer;
-                "
-            >
-                👥 Borrowing History
-            </button>
+    <button
+        onclick="viewBorrowings('${key}')"
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            background:white;
+            text-align:left;
+            cursor:pointer;
+        "
+    >
+        👥 Borrowing History
+    </button>
 
-            <button
-                onclick="deleteBook('${key}')"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:none;
-                    background:#fee2e2;
-                    color:#b91c1c;
-                    text-align:left;
-                    cursor:pointer;
-                "
-            >
-                🗑️ Delete Book
-            </button>
+    <button
+        onclick="topUpBookStock('${key}')"
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            background:white;
+            text-align:left;
+            cursor:pointer;
+        "
+    >
+        ➕ Top Up Stock
+    </button>
 
-        </div>
+    <button
+        onclick="deleteBook('${key}')"
+        style="
+            width:100%;
+            padding:12px;
+            border:none;
+            background:#fee2e2;
+            color:#b91c1c;
+            text-align:left;
+            cursor:pointer;
+        "
+    >
+        🗑️ Delete Book
+    </button>
+
+</div>
 
     </td>
 
@@ -45452,6 +45466,202 @@ html += `
 
     libraryList.innerHTML = html;
   });
+};
+
+/* =========================================================
+   TOP UP BOOK STOCK
+========================================================= */
+
+window.topUpBookStock = async function(bookId){
+
+try{
+
+const schoolId = window.schoolId;
+
+const bookRef = ref(db, `library/${schoolId}/${bookId}`);
+
+const snap = await get(bookRef);
+
+if(!snap.exists()){
+
+    return Swal.fire(
+        "Error",
+        "Book not found.",
+        "error"
+    );
+
+}
+
+const book = snap.val();
+
+const copies = book.copies || {};
+
+
+// ======================================
+// FIND PREFIX & LAST COPY NUMBER
+// ======================================
+
+let highest = 0;
+
+let prefix = "";
+
+// Get prefix from first copy
+const firstKey = Object.keys(copies)[0];
+
+if(firstKey){
+
+    prefix = firstKey.split("-")[0];
+
+}
+
+Object.keys(copies).forEach(copyKey=>{
+
+    const parts = copyKey.split("-");
+
+    if(parts.length < 2) return;
+
+    const number = parseInt(parts[1]);
+
+    if(!isNaN(number) && number > highest){
+
+        highest = number;
+
+    }
+
+});
+
+
+// ======================================
+// ASK HOW MANY COPIES
+// ======================================
+
+const {value:qty} = await Swal.fire({
+
+    title:"Top Up Stock",
+
+    text:`Current stock: ${book.quantity}`,
+
+    input:"number",
+
+    inputAttributes:{
+        min:1,
+        step:1
+    },
+
+    inputPlaceholder:"Enter quantity",
+
+    showCancelButton:true,
+
+    confirmButtonText:"Add Stock"
+
+});
+
+if(!qty) return;
+
+const quantity = parseInt(qty);
+
+if(isNaN(quantity) || quantity <= 0){
+
+    return Swal.fire(
+        "Invalid Quantity",
+        "Enter a valid quantity.",
+        "warning"
+    );
+
+}
+
+
+// ======================================
+// CREATE NEW COPIES
+// ======================================
+
+const newCopies = [];
+
+for(let i=1;i<=quantity;i++){
+
+    const nextNumber = highest + i;
+
+    const bookNumber =
+        `${prefix}-${String(nextNumber).padStart(4,"0")}`;
+
+    copies[bookNumber]={
+
+        bookNumber,
+
+        copyNumber:nextNumber,
+
+        status:"Available",
+
+        borrower:null,
+
+        borrowerAdm:null,
+
+        borrowerType:null,
+
+        borrowDate:null,
+
+        dueDate:null,
+
+        returnedDate:null,
+
+        addedDate:new Date().toLocaleDateString()
+
+    };
+
+    newCopies.push(bookNumber);
+
+}
+
+
+// ======================================
+// SAVE
+// ======================================
+
+await update(bookRef,{
+
+    copies,
+
+    quantity:Number(book.quantity || 0)+quantity,
+
+    available:Number(book.available || 0)+quantity
+
+});
+
+Swal.fire(
+
+    "Success",
+
+    `
+    <b>${quantity}</b> new copies added successfully.<br><br>
+
+    <b>New Book Numbers</b><br>
+
+    ${newCopies.join("<br>")}
+    `,
+
+    "success"
+
+);
+
+loadLibrary();
+
+}
+catch(err){
+
+console.error(err);
+
+Swal.fire(
+
+    "Error",
+
+    err.message,
+
+    "error"
+
+);
+
+}
+
 };
 /* =========================================================
    VIEW ALL BOOK COPIES
@@ -45935,31 +46145,42 @@ window.borrowBook = async function (bookId) {
 
             confirmButtonText: "Borrow Book",
 
-            preConfirm: () => {
+           preConfirm: () => {
 
-                const option = borrowerSelect.options[borrowerSelect.selectedIndex];
+    const borrowerType = document.getElementById("borrowerType");
+    const borrowerSelect = document.getElementById("borrowerSelect");
+    const dueDate = document.getElementById("dueDate");
+    const gradeSelect = document.getElementById("gradeSelectBorrow");
 
-                if (!option) {
+    const option =
+        borrowerSelect.options[borrowerSelect.selectedIndex];
 
-                    Swal.showValidationMessage("Please select borrower.");
+    if (!option) {
 
-                    return false;
+        Swal.showValidationMessage("Please select borrower.");
 
-                }
+        return false;
 
-                return {
+    }
 
-                    borrowerType: borrowerType.value,
+    return {
 
-                    borrowerName: option.dataset.name,
+        borrowerType: borrowerType.value,
 
-                    borrowerAdm: option.dataset.number,
+        borrowerName: option.dataset.name,
 
-                    dueDate: dueDate.value
+        borrowerAdm: option.dataset.number,
 
-                };
+        dueDate: dueDate.value,
 
-            }
+        selectedGrade:
+            borrowerType.value === "Student"
+                ? gradeSelect.value
+                : ""
+
+    };
+
+}
 
         });
 
@@ -46044,33 +46265,33 @@ window.borrowBook = async function (bookId) {
         // SAVE BORROW HISTORY
         // ======================================
 
-       await push(
+await push(
     ref(db, `libraryBorrowings/${schoolId}`),
     {
+        bookId: bookId,
 
-        bookId,
-        bookTitle,
-        bookNumber,
+        bookTitle: book.title,
 
-        borrowerName,
-        borrowerAdm,
-        borrowerType,
+        // Copy number that was borrowed
+        bookNumber: selectedCopy,
 
-        grade:
-            selectedGrade || "",
+        borrowerName: formValues.borrowerName,
 
-        year:
-            new Date().getFullYear(),
+        borrowerAdm: formValues.borrowerAdm,
 
-        borrowDate:
-            new Date().toLocaleDateString(),
+        borrowerType: formValues.borrowerType,
 
-        dueDate,
+      grade: formValues.selectedGrade,
 
-        returned:false,
+        year: new Date().getFullYear(),
 
-        createdAt:Date.now()
+        borrowDate: new Date().toLocaleDateString(),
 
+        dueDate: formValues.dueDate,
+
+        returned: false,
+
+        createdAt: Date.now()
     }
 );
 
@@ -46104,7 +46325,180 @@ window.borrowBook = async function (bookId) {
 
     }
 
-};/* =========================================================
+};
+
+/* =========================================================
+   RETURN SPECIFIC BOOK COPY
+========================================================= */
+
+window.returnBookCopy = async function (bookId, bookNumber) {
+
+    try {
+
+        const schoolId = window.schoolId;
+
+        openSweetLoader("Returning Book...");
+
+        // =====================================
+        // FIND BORROW RECORD
+        // =====================================
+
+        const borrowRef = ref(db, `libraryBorrowings/${schoolId}`);
+
+        const borrowSnap = await get(borrowRef);
+
+        let borrowId = null;
+
+        if (borrowSnap.exists()) {
+
+            borrowSnap.forEach(child => {
+
+                const d = child.val();
+
+                if (
+                    d.bookId === bookId &&
+                    d.bookNumber === bookNumber &&
+                    !d.returned
+                ) {
+
+                    borrowId = child.key;
+
+                }
+
+            });
+
+        }
+
+        if (!borrowId) {
+
+            closeSweetLoader();
+
+            return Swal.fire(
+                "Not Found",
+                "Borrow record not found.",
+                "warning"
+            );
+
+        }
+
+        // =====================================
+        // MARK BORROW RECORD RETURNED
+        // =====================================
+
+        await update(
+            ref(db, `libraryBorrowings/${schoolId}/${borrowId}`),
+            {
+
+                returned: true,
+
+                actualReturnDate:
+                    new Date().toLocaleDateString()
+
+            }
+        );
+
+        // =====================================
+        // LOAD BOOK
+        // =====================================
+
+        const bookRef =
+            ref(db, `library/${schoolId}/${bookId}`);
+
+        const bookSnap = await get(bookRef);
+
+        if (!bookSnap.exists()) {
+
+            closeSweetLoader();
+
+            return Swal.fire(
+                "Error",
+                "Book not found.",
+                "error"
+            );
+
+        }
+
+        const book = bookSnap.val();
+
+        const copies = book.copies || {};
+
+        // =====================================
+        // RESTORE THE COPY
+        // =====================================
+
+        if (!copies[bookNumber]) {
+
+            closeSweetLoader();
+
+            return Swal.fire(
+                "Error",
+                "Copy not found.",
+                "error"
+            );
+
+        }
+
+        copies[bookNumber].status = "Available";
+        copies[bookNumber].borrower = null;
+        copies[bookNumber].borrowerAdm = null;
+        copies[bookNumber].borrowerType = null;
+        copies[bookNumber].borrowDate = null;
+        copies[bookNumber].dueDate = null;
+        copies[bookNumber].returnedDate =
+            new Date().toLocaleDateString();
+
+        // =====================================
+        // SAVE BOOK
+        // =====================================
+
+        await update(bookRef, {
+
+            available: Number(book.available) + 1,
+
+            copies
+
+        });
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Returned",
+            `${book.title}<br><br><b>${bookNumber}</b> returned successfully.`,
+            "success"
+        );
+
+        // Refresh copies window
+
+        viewBookCopies(bookId);
+
+        // Refresh Returns Center if open
+
+        if (typeof applyReturnsFilters === "function") {
+
+            applyReturnsFilters();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        closeSweetLoader();
+
+        Swal.fire(
+            "Error",
+            error.message,
+            "error"
+        );
+
+    }
+
+};
+
+
+/* =========================================================
    LOAD BORROWERS
 ========================================================= */
 async function getStudentsForBorrow() {
