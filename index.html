@@ -2983,55 +2983,6 @@ background:#f3f4f6;
     }
 
 }
-
-.rasmSubscriptionPopup{
-    box-shadow:none !important;
-    padding:0 !important;
-}
-
-
-.rasmSubscriptionWrapper{
-    display:flex;
-    gap:25px;
-    justify-content:center;
-    align-items:stretch;
-    width:100%;
-}
-
-
-.rasmCard{
-
-    flex:1;
-    min-width:300px;
-
-    padding:25px;
-
-    border-radius:22px;
-
-    background:white;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.15);
-
-    transition:.3s;
-
-}
-
-
-.rasmCard:hover{
-
-    transform:translateY(-8px);
-
-}
-
-
-.rasmDarkCard{
-
-    background:#111827;
-    color:white;
-
-}
-
 /* ===========================================
    CERTIFICATE PRINT STYLES
 =========================================== */
@@ -5878,11 +5829,7 @@ class="btn btn-primary">
     height: auto;">
 
  
-    <h3 style="background-color: rgba(255, 255, 255, 0.7); padding: 6px 12px; border-radius: 6px; display: inline-block; color: #2c3e50; text-align: center; margin-bottom: 15px;">
-      <span style="color: #e74c3c; font-size: 1rem;">
-        No More Manual Exam Crunching! Rasm 360 Does It All – Just Click and See It Done!
-      </span>
-    </h3>
+
 
     <form id="marksForm" style="font-size: 0.9rem;">
 
@@ -10895,115 +10842,65 @@ window.openRasmActivation = function () {
     const infoBox = popup.querySelector("#packageInfo");
 
     if (!select || !infoBox) return;
-// ===============================
-// PACKAGE DETAILS
-// ===============================
 
-const packages = {
+    // ===============================
+    // PACKAGE DETAILS
+    // ===============================
 
-    starter: {
-        icon: "🟢",
-        title: "Starter Package",
-        price: "KES 3,000",
-        duration: "30 Days",
-        benefits: [
-            "Unlimited Student Registration",
-            "Teacher Management",
-            "Attendance Management",
-            "CBC Report Generation",
-            "Fee Management",
-            "Free Technical Support"
-        ]
-    },
+    const packages = {
 
-    standard: {
-        icon: "🔷",
-        title: "Standard Package",
-        price: "KES 10,000",
-        duration: "90 Days",
-        benefits: [
-            "Everything in Starter",
-            "Inventory Management",
-            "Transport Management",
-            "Library Management",
-            "Examination System",
-            "Priority Technical Support"
-        ]
-    },
+        starter: {
+            icon: "🟢",
+            name: "Starter Package",
+            price: "KES 3,000",
+            duration: "30 Days"
+        },
 
-    premium_1year: {
-        icon: "🟣",
-        title: "Premium - 1 Year",
-        price: "KES 15,000",
-        duration: "365 Days",
-        benefits: [
-            "Everything in Standard",
-            "Unlimited ERP Modules",
-            "SMS Notifications",
-            "School Analytics Dashboard",
-            "Unlimited Updates",
-            "Priority Support"
-        ]
-    },
+        standard: {
+            icon: "🔷",
+            name: "Standard Package",
+            price: "KES 10,000",
+            duration: "90 Days"
+        },
 
-    premium_2years: {
-        icon: "🟣",
-        title: "Premium - 2 Years",
-        price: "KES 30,000",
-        duration: "2 Years",
-        benefits: [
-            "Everything in Premium",
-            "Two Years Updates",
-            "Unlimited Reports",
-            "Dedicated Support",
-            "Free New Features"
-        ]
-    },
+        premium_1year: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 15,000",
+            duration: "1 Year"
+        },
 
-    premium_5years: {
-        icon: "🟣",
-        title: "Premium - 5 Years",
-        price: "KES 75,000",
-        duration: "5 Years",
-        benefits: [
-            "Everything Included",
-            "VIP Support",
-            "Free Feature Upgrades",
-            "Unlimited Data Storage",
-            "Five Years Coverage"
-        ]
-    },
+        premium_2years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 30,000",
+            duration: "2 Years"
+        },
 
-    premium_10years: {
-        icon: "🟣",
-        title: "Premium - 10 Years",
-        price: "KES 150,000",
-        duration: "10 Years",
-        benefits: [
-            "Everything Included",
-            "Dedicated Account Manager",
-            "Unlimited Updates",
-            "VIP Technical Support",
-            "10 Years Peace of Mind"
-        ]
-    },
+        premium_5years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 75,000",
+            duration: "5 Years"
+        },
 
-    premium_lifetime: {
-        icon: "💎",
-        title: "Lifetime License",
-        price: "KES 300,000",
-        duration: "Permanent",
-        benefits: [
-            "Lifetime Access",
-            "Lifetime Updates",
-            "All Future ERP Modules",
-            "Highest Priority Support",
-            "No Renewal Fees Ever"
-        ]
-    }
+        premium_10years: {
+            icon: "🟣",
+            name: "Premium Package",
+            price: "KES 150,000",
+            duration: "10 Years"
+        },
 
-};
-       // ===============================
+        premium_lifetime: {
+            icon: "💎",
+            name: "Lifetime Package",
+            price: "KES 300,000",
+            duration: "Permanent Access"
+        }
+
+    };
+
+    // ===============================
     // DEFAULT MESSAGE
     // ===============================
 
@@ -11096,7 +10993,113 @@ Your account will be activated after payment verification.
     // ===============================
     // PACKAGE DETAILS
     // ===============================
+
 function updatePackage() {
+
+    const packages = {
+
+        starter: {
+            icon: "🟢",
+            title: "Starter Package",
+            price: "KES 3,000",
+            duration: "30 Days",
+            benefits: [
+                "Unlimited Student Registration",
+                "Teacher Management",
+                "Attendance Management",
+                "CBC Report Generation",
+                "Fee Management",
+                "Free Technical Support"
+            ]
+        },
+
+        standard: {
+            icon: "🔷",
+            title: "Standard Package",
+            price: "KES 10,000",
+            duration: "90 Days",
+            benefits: [
+                "Everything in Starter",
+                "Inventory Management",
+                "Transport Management",
+                "Library Management",
+                "Examination System",
+                "Priority Technical Support"
+            ]
+        },
+
+        premium_1year: {
+            icon: "🟣",
+            title: "Premium - 1 Year",
+            price: "KES 15,000",
+            duration: "365 Days",
+            benefits: [
+                "Everything in Standard",
+                "Unlimited ERP Modules",
+                "SMS Notifications",
+                "School Analytics Dashboard",
+                "Unlimited Updates",
+                "Priority Support"
+            ]
+        },
+
+        premium_2years: {
+            icon: "🟣",
+            title: "Premium - 2 Years",
+            price: "KES 30,000",
+            duration: "2 Years",
+            benefits: [
+                "Everything in Premium",
+                "Two Years Updates",
+                "Unlimited Reports",
+                "Dedicated Support",
+                "Free New Features"
+            ]
+        },
+
+        premium_5years: {
+            icon: "🟣",
+            title: "Premium - 5 Years",
+            price: "KES 75,000",
+            duration: "5 Years",
+            benefits: [
+                "Everything Included",
+                "VIP Support",
+                "Free Feature Upgrades",
+                "Unlimited Data Storage",
+                "Five Years Coverage"
+            ]
+        },
+
+        premium_10years: {
+            icon: "🟣",
+            title: "Premium - 10 Years",
+            price: "KES 150,000",
+            duration: "10 Years",
+            benefits: [
+                "Everything Included",
+                "Dedicated Account Manager",
+                "Unlimited Updates",
+                "VIP Technical Support",
+                "10 Years Peace of Mind"
+            ]
+        },
+
+        premium_lifetime: {
+            icon: "💎",
+            title: "Lifetime License",
+            price: "KES 300,000",
+            duration: "Permanent",
+            benefits: [
+                "Lifetime Access",
+                "Lifetime Updates",
+                "All Future ERP Modules",
+                "Highest Priority Support",
+                "No Renewal Fees Ever"
+            ]
+        }
+
+    };
 
     const pkg = packages[select.value];
 
@@ -11133,7 +11136,7 @@ border:1px solid #bbf7d0;
 ">
 
 <h3 style="margin-top:0;color:#15803d;">
-🎁 Included Features
+🎁 What You Enjoy
 </h3>
 
 ${pkg.benefits.map(item => `✅ ${item}`).join("<br>")}
@@ -11148,12 +11151,12 @@ border-radius:10px;
 border:1px solid #bfdbfe;
 ">
 
-<b>🚀 How to Activate</b><br><br>
+<b>How to Activate</b><br><br>
 
 1️⃣ Pay <b>${pkg.price}</b><br>
 2️⃣ Click <b>Get Activated by RASM</b><br>
 3️⃣ Send your M-Pesa confirmation via WhatsApp<br>
-4️⃣ Your school will be activated after payment verification.
+4️⃣ Your school will be activated within a short time.
 
 </div>
 
@@ -11161,7 +11164,8 @@ border:1px solid #bfdbfe;
 
 `;
 
-}    // ===============================
+}
+    // ===============================
     // INITIAL DISPLAY
     // ===============================
 
@@ -11206,417 +11210,236 @@ function lockEntireSystem(title, message) {
 
         title,
 
-    width:"95%",
+        width: 680,
 
         allowOutsideClick: false,
         allowEscapeKey: false,
         showConfirmButton: false,
-customClass:{
-    popup:"rasmSubscriptionPopup"
-},
-background:"transparent",
-  html: `
+
+        html: `
+
+<div style="text-align:center;">
+
+<h3 style="
+color:#374151;
+margin-bottom:15px;
+">
+${message}
+</h3>
 
 <div style="
-display:flex;
-gap:20px;
-align-items:stretch;
-justify-content:center;
-flex-wrap:wrap;
-width:100%;
+background:#f8fafc;
+padding:20px;
+border-radius:16px;
+margin-top:15px;
 ">
-
-
-<!-- ============================= -->
-<!-- SUBSCRIPTION CARDS WRAPPER -->
-<!-- ============================= -->
-
-<div style="
-display:flex;
-gap:20px;
-align-items:stretch;
-justify-content:center;
-flex-wrap:wrap;
-width:100%;
-">
-
-
-<!-- ============================= -->
-<!-- CARD 1 : ACTIVATION -->
-<!-- ============================= -->
-
-<div style="
-flex:1;
-min-width:280px;
-background:#111827;
-color:white;
-padding:25px;
-border-radius:18px;
-box-shadow:0 15px 35px rgba(0,0,0,.2);
-">
-
-
-<div style="
-font-size:50px;
-text-align:center;
-">
-🚀
-</div>
-
 
 <h2 style="
-margin-top:15px;
-text-align:center;
-color:#FFD700;
+margin:0;
+color:#16a34a;
+font-size:28px;
 ">
-RASM ACCOUNT ACTIVATION
+🚀 Activate Your RASM 360 Account
 </h2>
 
-
 <p style="
-text-align:center;
+margin-top:10px;
+color:#6b7280;
+font-size:14px;
 line-height:1.7;
 ">
 
-Choose a subscription package.
+Your subscription has expired.
+
+Choose your preferred subscription package then click
+<b>Get Activated by RASM</b>.
+
+Your account will be activated after payment verification.
 
 </p>
-
-
-<hr style="
-border:none;
-height:1px;
-background:rgba(255,255,255,.2);
-margin:20px 0;
-">
-
-
-<h3 style="
-color:#FFD700;
-">
-
-Activation Process
-
-</h3>
-
-
-<div style="
-line-height:2;
-font-size:14px;
-">
-
-✅ Select your preferred package.<br>
-
-✅ Make payment using the M-Pesa number below.<br>
-
-✅ Send your payment confirmation to RASM.<br>
-
-✅ Your school will be activated after verification.
-
-</div>
-
-
-
-<div style="
-margin-top:20px;
-background:rgba(255,255,255,.1);
-padding:15px;
-border-radius:12px;
-text-align:center;
-">
-
-📱 M-Pesa Number
-
-<br>
-
-<b style="
-font-size:20px;
-color:#FFD700;
-">
-0792 755 676
-</b>
-
-</div>
-
-
 
 <button
 onclick="openRasmActivation()"
 style="
 width:100%;
-margin-top:20px;
+margin-top:18px;
 padding:15px;
-background:#FFD700;
-color:#111827;
 border:none;
 border-radius:12px;
+background:linear-gradient(135deg,#111827,#1f2937);
+color:white;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
 ">
 
-🚀 Activate Now
+🚀 Get Activated by RASM
 
 </button>
-
-
 <button
 onclick="document.getElementById('receiptModal').style.display='block'"
 style="
-margin-top:12px;
+margin-top:10px;
 width:100%;
-padding:15px;
+padding:14px;
 background:#2563eb;
 color:white;
 border:none;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
 ">
 
-🧾 Payment Receipt
+🧾 Generate Payment Receipt
 
 </button>
-
-
-</div>
-
-
-
-
-
-<!-- ============================= -->
-<!-- CARD 2 : PACKAGE SELECTION -->
-<!-- ============================= -->
-
-
 <div style="
-flex:1;
-min-width:320px;
+margin-top:25px;
 background:white;
-padding:25px;
-border-radius:18px;
-box-shadow:0 15px 35px rgba(0,0,0,.08);
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 18px rgba(0,0,0,.08);
+text-align:left;
 ">
 
-
-<h2 style="
+<h3 style="
 margin-top:0;
-color:#111827;
 text-align:center;
+color:#111827;
 ">
-📦 Choose Package
-</h2>
-
-
+📦 Choose Subscription Package
+</h3>
 
 <select
 id="packageSelect"
 style="
 width:100%;
 padding:14px;
-border-radius:12px;
+border-radius:10px;
 border:1px solid #d1d5db;
-font-size:15px;
 margin-top:15px;
+font-size:15px;
+outline:none;
 ">
-
 
 <option value="">
 -- Select Package --
 </option>
 
-
 <option value="starter">
-🟢 Starter — KES 3,000
+🟢 Starter — KES 3,000 (30 Days)
 </option>
-
 
 <option value="standard">
-🔷 Standard — KES 10,000
+🔷 Standard — KES 10,000 (90 Days)
 </option>
-
 
 <option value="premium_1year">
-🟣 Premium — KES 15,000
+🟣 Premium — KES 15,000 (1 Year)
 </option>
-
 
 <option value="premium_2years">
-🟣 Premium 2 Years — KES 30,000
+🟣 Premium — KES 30,000 (2 Years)
 </option>
-
 
 <option value="premium_5years">
-🟣 Premium 5 Years — KES 75,000
+🟣 Premium — KES 75,000 (5 Years)
 </option>
-
 
 <option value="premium_10years">
-🟣 Premium 10 Years — KES 150,000
+🟣 Premium — KES 150,000 (10 Years)
 </option>
-
 
 <option value="premium_lifetime">
 💎 Lifetime — KES 300,000
 </option>
 
-
 </select>
-
-
-
-
-<!-- DYNAMIC PACKAGE DETAILS -->
 
 <div
 id="packageInfo"
 style="
-margin-top:20px;
-background:#f8fafc;
-padding:18px;
-border-radius:14px;
-line-height:1.8;
-color:#374151;
-">
-
-
-<div style="
-text-align:center;
-color:#6b7280;
-">
-
-<div style="
-font-size:45px;
-">
-📦
-</div>
-
-
-<h3>
-Select a Package
-</h3>
-
-
-<p>
-Package benefits will appear here.
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<!-- ============================= -->
-<!-- CARD 3 : SUPPORT -->
-<!-- ============================= -->
-
-
-<div style="
-flex:1;
-min-width:280px;
-background:white;
-padding:25px;
-border-radius:18px;
-box-shadow:0 15px 35px rgba(0,0,0,.08);
-">
-
-
-<h2 style="
-margin-top:0;
-color:#16a34a;
-text-align:center;
-">
-
-💬 RASM Support
-
-</h2>
-
-
-
-<div style="
-background:#ecfdf5;
-padding:18px;
-border-radius:12px;
-line-height:1.8;
-">
-
-
-<b>
-Need Help?
-</b>
-
-<br><br>
-
-
-Contact RASM Support after payment verification.
-
-<br><br>
-
-
-📱 WhatsApp Support
-
-<br>
-
-<a
-href="https://wa.me/254792755676"
-target="_blank"
-style="
-display:block;
-margin-top:10px;
-text-align:center;
-background:#16a34a;
-color:white;
-padding:12px;
+margin-top:18px;
+background:#eff6ff;
+border:1px solid #bfdbfe;
+padding:16px;
 border-radius:10px;
-text-decoration:none;
-font-weight:bold;
+color:#1e3a8a;
+font-size:14px;
+line-height:1.8;
 ">
 
-💬 Chat With RASM
-
-</a>
-
+🚀 Select a subscription package to view activation instructions.
 
 </div>
 
+<div style="
+margin-top:20px;
+background:#ecfdf5;
+border:1px solid #bbf7d0;
+padding:16px;
+border-radius:12px;
+">
 
+<h4 style="
+margin-top:0;
+color:#15803d;
+">
+
+✔ Why Subscribe?
+
+</h4>
+
+<div style="
+line-height:1.9;
+font-size:13px;
+font-weight:600;
+color:#15803d;
+">
+
+✔ Full RASM 360 ERP Access<br>
+✔ Student Management<br>
+✔ Teacher Management<br>
+✔ CBC Report Generation<br>
+✔ Finance & Fees Management<br>
+✔ Inventory Module<br>
+✔ Examination Module<br>
+✔ Unlimited System Updates<br>
+✔ Dedicated RASM Technical Support
+
+</div>
+
+</div>
 
 <div style="
 margin-top:20px;
 background:#fff7ed;
-padding:15px;
-border-radius:12px;
+border:1px solid #fed7aa;
+padding:14px;
+border-radius:10px;
 color:#9a3412;
-line-height:1.7;
+font-size:13px;
+line-height:1.8;
 ">
 
-
-<b>
-Activation Notice
-</b>
+<b>Activation Notice</b>
 
 <br><br>
 
-Your account will be activated after payment verification.
+After selecting your package,
+
+click
+
+<b>🚀 Get Activated by RASM</b>
+
+to receive payment instructions and complete your activation through RASM Support.
 
 </div>
 
-
+</div>
 
 </div>
 
-
-
-</div>
 `,
 
         didOpen: () => {
