@@ -5167,25 +5167,7 @@ Peter Kimani"
     margin:20px 0;
   ">
 
-    <!-- Daily -->
-    <button
-      onclick="openTeacherDailyAttendance()"
-      style="
-        flex:1;
-        min-width:250px;
-        background:#dc2626;
-        color:white;
-        border:none;
-        padding:14px 20px;
-        border-radius:10px;
-        cursor:pointer;
-        font-size:15px;
-        font-weight:600;
-        box-shadow:0 4px 10px rgba(0,0,0,.15);
-      ">
-      📅 Daily Attendance Report
-    </button>
-
+   
     <!-- Monthly -->
     <button
       onclick="viewTeacherMonthlyAttendance()"
@@ -7333,9 +7315,17 @@ border-collapse:collapse;
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
   ">
 
-    <h3 style="margin-bottom:15px;">
-      ➕ Register / Edit Staff
-    </h3>
+  <h3 style="
+    margin-bottom:15px;
+    background:#dc2626;
+    color:#fff;
+    padding:12px 16px;
+    border-radius:10px;
+    display:inline-block;
+    font-weight:700;
+">
+    ➕ Register / Edit Staff
+</h3>
 
     <!-- ================= GRID ================= -->
     <div style="
@@ -7491,12 +7481,41 @@ border-collapse:collapse;
         💾 Save Support Staff
       </button>
 
-<button onclick="viewSupportMonthlyAttendance()">
+<button
+  onclick="viewSupportMonthlyAttendance()"
+  style="
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    margin-right:10px;
+    box-shadow:0 4px 10px rgba(37,99,235,.25);
+    transition:.3s;
+  "
+  onmouseover="this.style.background='#1d4ed8'"
+  onmouseout="this.style.background='#2563eb'">
   📅 Monthly Attendance Report
 </button>
 
-<button onclick="viewSupportAttendance()">
-  📅 View Today Attendance
+<button
+  onclick="viewSupportAttendance()"
+  style="
+    background:#16a34a;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(22,163,74,.25);
+    transition:.3s;
+  "
+  onmouseover="this.style.background='#15803d'"
+  onmouseout="this.style.background='#16a34a'">
+  👥 View Today Attendance
 </button>
 <div id="supportAttendanceOutput"></div>
     </div>
@@ -7632,27 +7651,32 @@ gap:12px;
   <!-- =========================================================
        📅 ATTENDANCE QUICK ACTIONS
   ========================================================= -->
-  <div style="
+ <div style="
     background:white;
     padding:15px;
     border-radius:12px;
     margin-bottom:20px;
     box-shadow:0 2px 10px rgba(0,0,0,0.08);
-  ">
+    border-left:6px solid #dc2626;
+">
 
-    <h3 style="margin-bottom:10px;">
-      📅 Attendance & Leave
+    <h3 style="
+        margin-bottom:10px;
+        color:#dc2626;
+        font-weight:700;
+    ">
+        📅 Attendance & Leave
     </h3>
 
     <p style="
-      color:#666;
-      margin:0;
+        color:#666;
+        margin:0;
     ">
-      Use the attendance buttons in the table
-      below to mark staff present or absent.
+        Use the attendance buttons in the table
+        below to mark staff present or absent.
     </p>
 
-  </div>
+</div>
 <button
 onclick="deleteAllSupportStaff()"
 style="
@@ -8101,7 +8125,7 @@ margin-bottom:15px;
 <!-- ================= INVENTORY MODULE ================= -->
 <div id="inventory" style="display:none;padding:20px;">
 
-  ```html
+  
 <h2 style="
     display:inline-block;
     margin-bottom:20px;
@@ -8116,7 +8140,6 @@ margin-bottom:15px;
 ">
     📦 INVENTORY MANAGEMENT SYSTEM
 </h2>
-```
 
 
   <!-- ================= STATS ================= -->
@@ -44647,46 +44670,84 @@ No transaction history found.
         width:1000,
 
         html:`
-
 <div style="
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-gap:12px;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
 margin-bottom:20px;
 ">
 
-<div class="dashboard-card">
-📤
-<h2>${issued}</h2>
-<div>Issued</div>
+<!-- Issued -->
+<div style="
+background:linear-gradient(135deg,#2563eb,#1d4ed8);
+color:#fff;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 8px 20px rgba(37,99,235,.25);
+">
+<div style="font-size:40px;">📤</div>
+<h2 style="margin:10px 0 5px;font-size:30px;">${issued}</h2>
+<div style="font-size:15px;font-weight:600;">Issued</div>
 </div>
 
-<div class="dashboard-card">
-📥
-<h2>${returned}</h2>
-<div>Returned</div>
+<!-- Returned -->
+<div style="
+background:linear-gradient(135deg,#16a34a,#15803d);
+color:#fff;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 8px 20px rgba(22,163,74,.25);
+">
+<div style="font-size:40px;">📥</div>
+<h2 style="margin:10px 0 5px;font-size:30px;">${returned}</h2>
+<div style="font-size:15px;font-weight:600;">Returned</div>
 </div>
 
-<div class="dashboard-card">
-🔧
-<h2>${repairs}</h2>
-<div>Repairs</div>
+<!-- Repairs -->
+<div style="
+background:linear-gradient(135deg,#f59e0b,#d97706);
+color:#fff;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 8px 20px rgba(245,158,11,.25);
+">
+<div style="font-size:40px;">🔧</div>
+<h2 style="margin:10px 0 5px;font-size:30px;">${repairs}</h2>
+<div style="font-size:15px;font-weight:600;">Repairs</div>
 </div>
 
-<div class="dashboard-card">
-❌
-<h2>${damaged}</h2>
-<div>Damaged</div>
+<!-- Damaged -->
+<div style="
+background:linear-gradient(135deg,#dc2626,#b91c1c);
+color:#fff;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 8px 20px rgba(220,38,38,.25);
+">
+<div style="font-size:40px;">❌</div>
+<h2 style="margin:10px 0 5px;font-size:30px;">${damaged}</h2>
+<div style="font-size:15px;font-weight:600;">Damaged</div>
 </div>
 
-<div class="dashboard-card">
-🗑
-<h2>${disposed}</h2>
-<div>Disposed</div>
+<!-- Disposed -->
+<div style="
+background:linear-gradient(135deg,#6b7280,#374151);
+color:#fff;
+padding:20px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 8px 20px rgba(107,114,128,.25);
+">
+<div style="font-size:40px;">🗑</div>
+<h2 style="margin:10px 0 5px;font-size:30px;">${disposed}</h2>
+<div style="font-size:15px;font-weight:600;">Disposed</div>
 </div>
 
 </div>
-
 <input
 id="inventoryHistorySearch"
 placeholder="🔍 Search history..."
