@@ -5382,7 +5382,20 @@ Peter Kimani"
 
 <div id="fees" style="display:none;padding:20px;">
 
-  <h3>💰 Fees Management</h3>
+ <h3 style="
+    display:inline-block;
+    margin:0 0 20px 0;
+    padding:10px 18px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:10px;
+    font-size:24px;
+    font-weight:800;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+">
+    💰 FEES MANAGEMENT
+</h3>
 
   <!-- ================= FORM ================= -->
   <div style="
@@ -5483,14 +5496,20 @@ margin:20px 0;
 ">
 
 <h2 style="
-margin-top:0;
-color:#1e3a8a;
-border-bottom:2px solid #e5e7eb;
-padding-bottom:10px;
+    display:inline-block;
+    margin-top:0;
+    margin-bottom:20px;
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
 ">
-📊 Finance Dashboard
+    📊 FINANCE DASHBOARD
 </h2>
-
 <!-- ================= OVERALL SUMMARY ================= -->
 
 <div style="
@@ -5559,10 +5578,19 @@ KES 0
 <!-- ================= COLLECTION BY LEVEL ================= -->
 
 <h3 style="
-margin-top:30px;
-color:#1e40af;
+    display:inline-block;
+    margin-top:30px;
+    margin-bottom:15px;
+    padding:10px 18px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:10px;
+    font-size:22px;
+    font-weight:800;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
 ">
-🏫 Collection By School Level
+    🏫 COLLECTION BY SCHOOL LEVEL
 </h3>
 
 <div style="
@@ -5665,12 +5693,20 @@ Collected Fees
 <!-- ================= PAYMENT METHODS ================= -->
 
 <h3 style="
-margin-top:30px;
-color:#1e40af;
+    display:inline-block;
+    margin-top:30px;
+    margin-bottom:15px;
+    padding:10px 18px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:10px;
+    font-size:22px;
+    font-weight:800;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
 ">
-💳 Collection By Payment Method
+    💳 COLLECTION BY PAYMENT METHOD
 </h3>
-
 <div style="
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -5904,12 +5940,34 @@ margin-bottom:15px;
 
 <button
 onclick="openFeeTypeReport()"
-class="btn btn-primary">
+style="
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 24px;
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:#fff;
+    border:none;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(37,99,235,.35);
+    transition:all .3s ease;
+"
+onmouseover="
+    this.style.transform='translateY(-2px)';
+    this.style.boxShadow='0 12px 28px rgba(37,99,235,.45)';
+"
+onmouseout="
+    this.style.transform='translateY(0)';
+    this.style.boxShadow='0 8px 20px rgba(37,99,235,.35)';
+">
 
-📋 Fee Collection Report
+    📋
+    <span>Fee Collection Report</span>
 
 </button>
-
   </div>
 
   <!-- Right Side Filters -->
@@ -7231,20 +7289,30 @@ border-collapse:collapse;
 ========================================================= -->
 <div id="supportStaff" style="display:none;">
 
-  <!-- ================= HEADER ================= -->
-  <div style="
+<!-- ================= HEADER ================= -->
+<div style="
     display:flex;
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
     margin-bottom:20px;
     gap:10px;
-  ">
+">
 
-    <h2>
-      🧹 Support Staff HR Management
+    <h2 style="
+        display:inline-block;
+        margin:0;
+        padding:12px 22px;
+        background:#facc15;
+        color:#111827;
+        border:2px solid #eab308;
+        border-radius:12px;
+        font-size:28px;
+        font-weight:800;
+        box-shadow:0 6px 16px rgba(0,0,0,.15);
+    ">
+        🧹 SUPPORT STAFF HR MANAGEMENT SYSTEM
     </h2>
-
     <button
       onclick="sendSupportStaffSMS()"
       class="primary"
@@ -7538,10 +7606,19 @@ margin-bottom:20px;
 
 <div style="margin-bottom:20px;">
 
-<h3 style="margin-bottom:10px;">
-🏢 Department Distribution
+<h3 style="
+    display:inline-block;
+    margin-bottom:10px;
+    padding:10px 18px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:10px;
+    font-weight:800;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+">
+    🏢 Department Distribution
 </h3>
-
 <div
 id="supportDepartmentStats"
 style="
@@ -7655,14 +7732,20 @@ margin-bottom:15px;
 <!-- ================= TRANSPORT MODULE ================= -->
 <div id="transport" style="display:none;padding:20px;">
 
-  <h2 style="
+<h2 style="
+    display:inline-block;
     margin-bottom:20px;
-    color:#0f172a;
-    font-size:24px;
-    font-weight:700;
-  ">
-    🚌 Transport Management
-  </h2>
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+">
+    🚌 TRANSPORT MANAGEMENT SYSTEM
+</h2>
 
   <!-- ================= ADD TRANSPORT ================= -->
   <div style="
@@ -7924,7 +8007,20 @@ margin-bottom:15px;
     margin-bottom:20px;
   ">
 
-    <h3>➕ Allocate Hostel Room</h3>
+   <h3 style="
+    display:inline-block;
+    margin:0 0 20px 0;
+    padding:10px 18px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:10px;
+    font-size:24px;
+    font-weight:800;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+">
+    ➕ ALLOCATE HOSTEL ROOM
+</h3>
 
     <input id="roomNumber" placeholder="Room Number">
 
@@ -8005,14 +8101,23 @@ margin-bottom:15px;
 <!-- ================= INVENTORY MODULE ================= -->
 <div id="inventory" style="display:none;padding:20px;">
 
-  <h2 style="
-    margin-bottom:15px;
-    color:#0f172a;
-    font-size:24px;
-    font-weight:700;
-  ">
-    📦 Inventory Management
-  </h2>
+  ```html
+<h2 style="
+    display:inline-block;
+    margin-bottom:20px;
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+">
+    📦 INVENTORY MANAGEMENT SYSTEM
+</h2>
+```
+
 
   <!-- ================= STATS ================= -->
   <div id="inventoryStats" style="
@@ -8212,15 +8317,20 @@ margin-bottom:15px;
 <!-- ================= ICT MODULE ================= -->
 <div id="ict" style="display:none;padding:20px;">
 
-  <h2 style="
+<h2 style="
+    display:inline-block;
     margin-bottom:20px;
-    color:#0f172a;
-    font-size:24px;
-    font-weight:700;
-  ">
-    💻 ICT Management
-  </h2>
-
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+">
+    💻 ICT MANAGEMENT SYSTEM
+</h2>
   <!-- FORM -->
   <div style="
     background:white;
@@ -8334,13 +8444,20 @@ font-weight:bold;
     <!-- ===============================
          TITLE
     ================================ -->
-    <h2 style="
-        margin-bottom:20px;
-        color:#0f172a;
-        font-size:24px;
-        font-weight:700;">
-        📚 Library Management
-    </h2>
+   <h2 style="
+    display:inline-block;
+    margin-bottom:20px;
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+">
+    📚 LIBRARY MANAGEMENT SYSTEM
+</h2>
 
     <!-- ===============================
          LIBRARY NAVIGATION
@@ -8658,9 +8775,20 @@ margin-bottom:15px;
     class="libraryTab"
     style="display:none;">
 
-    <h2 style="margin-bottom:20px;">
-        📦 Library Returns Center
-    </h2>
+ <h2 style="
+    display:inline-block;
+    margin-bottom:20px;
+    padding:12px 22px;
+    background:#facc15;
+    color:#111827;
+    border:2px solid #eab308;
+    border-radius:12px;
+    font-size:28px;
+    font-weight:800;
+    box-shadow:0 6px 16px rgba(0,0,0,.15);
+">
+    📦 LIBRARY RETURNS CENTER
+</h2>
 
     <!-- DASHBOARD -->
 
@@ -9044,221 +9172,269 @@ font-weight:bold;
 </button>
 
 </div>
-    <!-- ========================================= -->
-    <!-- INSTRUCTIONS -->
-    <!-- ========================================= -->
+  <!-- ========================================= -->
+<!-- INSTRUCTIONS -->
+<!-- ========================================= -->
 
-    <div style="
-        background:#f0fdf4;
-        border-left:5px solid #16a34a;
-        padding:18px;
-        border-radius:12px;
-        margin-bottom:20px;
-        line-height:1.8;
+<div style="
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(rgba(15,23,42,.80),rgba(15,23,42,.80)),
+        url('https://i.imgur.com/3jvkGsj.jpeg') center center/cover no-repeat;
+    border-left:5px solid #22c55e;
+    padding:22px;
+    border-radius:16px;
+    margin-bottom:20px;
+    line-height:1.8;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+">
+
+    <h3 style="
+        margin-top:0;
+        color:#ffffff;
+        text-shadow:0 2px 6px rgba(0,0,0,.5);
     ">
+        📖 How to Check Fee Balance
+    </h3>
 
-        <h3 style="
-            margin-top:0;
-            color:#166534;
-        ">
-            📖 How to Check Fee Balance
-        </h3>
-
-        <!-- Parent Instructions -->
-        <div id="parentFeeInstructions">
-
-            <div style="
-                background:#ecfdf5;
-                padding:15px;
-                border-radius:10px;
-                border:1px solid #bbf7d0;
-            ">
-
-                <b>👨‍👩‍👧 Parent Instructions</b>
-
-                <ol style="
-                    margin-top:10px;
-                    padding-left:20px;
-                    color:#374151;
-                ">
-
-                    <li>Select the <b>Academic Year</b>.</li>
-
-                    <li>Enter the <b>registered parent phone number</b>.</li>
-
-                    <li>Click <b>🔍 Check Fee Balance</b>.</li>
-
-                    <li>Your learner's fee statement will appear automatically.</li>
-
-                </ol>
-
-            </div>
-
-        </div>
-
-        <!-- Admin Instructions -->
-        <div id="adminFeeInstructions" style="display:none;">
-
-            <div style="
-                background:#eff6ff;
-                padding:15px;
-                border-radius:10px;
-                border:1px solid #bfdbfe;
-            ">
-
-                <b>🏫 Administrator Instructions</b>
-
-                <ol style="
-                    margin-top:10px;
-                    padding-left:20px;
-                    color:#374151;
-                ">
-
-                    <li>Select the <b>Academic Year</b>.</li>
-
-                    <li>Select the <b>Grade</b>.</li>
-
-                    <li>Select the <b>Learner</b>.</li>
-
-                    <li>
-                        You may also search directly using the parent's phone number.
-                    </li>
-
-                    <li>Click <b>🔍 Check Fee Balance</b>.</li>
-
-                </ol>
-
-            </div>
-
-        </div>
+    <!-- Parent Instructions -->
+    <div id="parentFeeInstructions">
 
         <div style="
-            margin-top:15px;
-            background:#fffbeb;
-            border-left:4px solid #f59e0b;
-            padding:12px;
-            border-radius:10px;
-            color:#92400e;
-            font-size:14px;
+            background:rgba(255,255,255,.92);
+            padding:18px;
+            border-radius:12px;
+            border:1px solid rgba(255,255,255,.4);
+            backdrop-filter:blur(10px);
         ">
-            💡 <b>Tip:</b> Parents only require the registered phone number and the academic year to access their learner's fee statement.
+
+            <b style="color:#166534;">👨‍👩‍👧 Parent Instructions</b>
+
+            <ol style="
+                margin-top:10px;
+                padding-left:20px;
+                color:#374151;
+                line-height:2;
+            ">
+
+                <li>Select the <b>Academic Year</b>.</li>
+
+                <li>Enter the <b>registered parent phone number</b>.</li>
+
+                <li>Click <b>🔍 Check Fee Balance</b>.</li>
+
+                <li>Your learner's fee statement will appear automatically.</li>
+
+            </ol>
+
         </div>
 
     </div>
 
-    <!-- ========================================= -->
-    <!-- SEARCH CARD -->
-    <!-- ========================================= -->
+    <!-- Admin Instructions -->
+    <div id="adminFeeInstructions" style="display:none;">
+
+        <div style="
+            background:rgba(255,255,255,.92);
+            padding:18px;
+            border-radius:12px;
+            border:1px solid rgba(255,255,255,.4);
+            backdrop-filter:blur(10px);
+        ">
+
+            <b style="color:#1d4ed8;">🏫 Administrator Instructions</b>
+
+            <ol style="
+                margin-top:10px;
+                padding-left:20px;
+                color:#374151;
+                line-height:2;
+            ">
+
+                <li>Select the <b>Academic Year</b>.</li>
+
+                <li>Select the <b>Grade</b>.</li>
+
+                <li>Select the <b>Learner</b>.</li>
+
+                <li>
+                    You may also search directly using the parent's phone number.
+                </li>
+
+                <li>Click <b>🔍 Check Fee Balance</b>.</li>
+
+            </ol>
+
+        </div>
+
+    </div>
 
     <div style="
-        background:white;
-        padding:20px;
-        border-radius:16px;
-        box-shadow:0 4px 12px rgba(0,0,0,.08);
+        margin-top:18px;
+        background:rgba(255,251,235,.95);
+        border-left:4px solid #f59e0b;
+        padding:14px;
+        border-radius:10px;
+        color:#92400e;
+        font-size:14px;
+        backdrop-filter:blur(6px);
     ">
+        💡 <b>Tip:</b> Parents only require the registered phone number and the academic year to access their learner's fee statement.
+    </div>
 
-        <!-- Parent Phone -->
+</div>
+<!-- ========================================= -->
+<!-- SEARCH CARD -->
+<!-- ========================================= -->
 
-        <input
-            id="feeParentPhone"
-            placeholder="Enter Parent Phone Number (07XXXXXXXX)"
-            style="
-                width:100%;
-                padding:12px;
-                border:1px solid #ccc;
-                border-radius:10px;
-                margin-bottom:12px;
-            "
-        />
+<div style="
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(rgba(15,23,42,.80),rgba(15,23,42,.80)),
+        url('https://i.imgur.com/2TEVafJ.jpeg') center center/cover no-repeat;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+">
 
-        <small style="
-            color:#666;
-            display:block;
-            margin-bottom:15px;
+    <!-- Parent Phone -->
+
+    <input
+        id="feeParentPhone"
+        placeholder="Enter Parent Phone Number (07XXXXXXXX)"
+        style="
+            width:100%;
+            padding:14px;
+            border:1px solid rgba(255,255,255,.35);
+            border-radius:12px;
+            margin-bottom:12px;
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(10px);
+            font-size:15px;
+            outline:none;
+        "
+    />
+
+    <small style="
+        color:#ffffff;
+        display:block;
+        margin-bottom:18px;
+        font-weight:600;
+        text-shadow:0 2px 6px rgba(0,0,0,.4);
+    ">
+        📱 Parents should enter the registered phone number.
+    </small>
+
+    <!-- Academic Year -->
+
+    <select
+        id="feeBalanceYear"
+        style="
+            width:100%;
+            padding:14px;
+            border:1px solid rgba(255,255,255,.35);
+            border-radius:12px;
+            margin-bottom:14px;
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(10px);
+            font-size:15px;
+            outline:none;
         ">
-            📱 Parents should enter the registered phone number.
-        </small>
+    </select>
 
-        <!-- Academic Year -->
+    <!-- Grade (Admins Only) -->
+
+    <div id="feeGradeContainer">
 
         <select
-            id="feeBalanceYear"
+            id="feeBalanceGrade"
             style="
                 width:100%;
-                padding:12px;
-                border:1px solid #ccc;
-                border-radius:10px;
-                margin-bottom:12px;
+                padding:14px;
+                border:1px solid rgba(255,255,255,.35);
+                border-radius:12px;
+                margin-bottom:14px;
+                background:rgba(255,255,255,.92);
+                backdrop-filter:blur(10px);
+                font-size:15px;
+                outline:none;
             ">
+
+            <option value="">All Grades</option>
+
         </select>
 
-        <!-- Grade (Admins Only) -->
+    </div>
 
-        <div id="feeGradeContainer">
+    <!-- Learner (Admins Only) -->
 
-            <select
-                id="feeBalanceGrade"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:1px solid #ccc;
-                    border-radius:10px;
-                    margin-bottom:12px;
-                ">
+    <div id="feeStudentContainer">
 
-                <option value="">All Grades</option>
-
-            </select>
-
-        </div>
-
-        <!-- Learner (Admins Only) -->
-
-        <div id="feeStudentContainer">
-
-            <select
-                id="feeBalanceStudent"
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:1px solid #ccc;
-                    border-radius:10px;
-                    margin-bottom:15px;
-                ">
-
-                <option value="">Select Learner</option>
-
-            </select>
-
-        </div>
-
-        <!-- Search Button -->
-
-        <button
-            onclick="checkFeeBalance()"
+        <select
+            id="feeBalanceStudent"
             style="
-                background:#059669;
-                color:white;
-                border:none;
-                padding:13px;
-                border-radius:10px;
-                cursor:pointer;
                 width:100%;
-                font-weight:bold;
+                padding:14px;
+                border:1px solid rgba(255,255,255,.35);
+                border-radius:12px;
+                margin-bottom:18px;
+                background:rgba(255,255,255,.92);
+                backdrop-filter:blur(10px);
                 font-size:15px;
+                outline:none;
             ">
 
-            🔍 Check Fee Balance
+            <option value="">Select Learner</option>
 
-        </button>
-
-        <!-- Result -->
-
-        <div id="feeBalanceResult"
-             style="margin-top:20px;">
-        </div>
+        </select>
 
     </div>
+
+    <!-- Search Button -->
+
+    <button
+        onclick="checkFeeBalance()"
+        style="
+            width:100%;
+            background:linear-gradient(135deg,#059669,#047857);
+            color:#fff;
+            border:none;
+            padding:15px;
+            border-radius:12px;
+            cursor:pointer;
+            font-size:16px;
+            font-weight:700;
+            box-shadow:0 8px 20px rgba(5,150,105,.45);
+            transition:.3s;
+        "
+        onmouseover="
+            this.style.transform='translateY(-2px)';
+            this.style.boxShadow='0 12px 28px rgba(5,150,105,.55)';
+        "
+        onmouseout="
+            this.style.transform='translateY(0)';
+            this.style.boxShadow='0 8px 20px rgba(5,150,105,.45)';
+        ">
+
+        🔍 Check Fee Balance
+
+    </button>
+
+    <!-- Result -->
+
+    <div id="feeBalanceResult"
+         style="
+            margin-top:22px;
+            background:rgba(255,255,255,.12);
+            border-radius:14px;
+            padding:10px;
+            backdrop-filter:blur(8px);
+         ">
+    </div>
+
+</div>
 
 </div>
 <div id="feeTypeReportModal"
@@ -9568,90 +9744,121 @@ Generate
         </div>
 
 
-        <!-- ==================== -->
-        <!-- ADMIN CARD -->
-        <!-- ==================== -->
+ <!-- ==================== -->
+<!-- ADMIN CARD -->
+<!-- ==================== -->
 
-        <div id="adminResultsInstructions"
-             style="
-                display:none;
-                background:linear-gradient(135deg,#eff6ff,#dbeafe);
-                border:1px solid #bfdbfe;
-                border-radius:18px;
-                padding:22px;
-                box-shadow:0 10px 25px rgba(37,99,235,.15);
-             ">
+<div id="adminResultsInstructions"
+     style="
+        display:none;
+        position:relative;
+        overflow:hidden;
+        background:
+            linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
+            url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
+        border:1px solid rgba(255,255,255,.12);
+        border-radius:20px;
+        padding:25px;
+        box-shadow:0 18px 40px rgba(0,0,0,.35);
+     ">
 
-            <div style="
-                display:flex;
-                align-items:center;
-                gap:12px;
-                margin-bottom:18px;
-            ">
+    <div style="
+        display:flex;
+        align-items:center;
+        gap:15px;
+        margin-bottom:22px;
+    ">
 
-                <div style="
-                    width:55px;
-                    height:55px;
-                    border-radius:50%;
-                    background:#2563eb;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    color:#fff;
-                    font-size:26px;
-                ">
-                    🏫
-                </div>
+        <div style="
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#2563eb,#1d4ed8);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:28px;
+            box-shadow:0 10px 25px rgba(37,99,235,.45);
+            flex-shrink:0;
+        ">
+            🏫
+        </div>
 
-                <div>
+        <div>
 
-                    <h3 style="
-                        margin:0;
-                        color:#1d4ed8;
-                    ">
-                        Administrator Guide
-                    </h3>
-
-                    <small style="color:#2563eb;">
-                        Full access mode
-                    </small>
-
-                </div>
-
-            </div>
-
-            <ol style="
+            <h3 style="
                 margin:0;
-                padding-left:22px;
-                color:#1e3a8a;
-                line-height:2;
+                color:#b91c1c;
+                font-size:24px;
+                font-weight:700;
             ">
+                Administrator Guide
+            </h3>
 
-                <li>Select the Grade.</li>
-
-                <li>Select the Exam Period.</li>
-
-                <li>Select the Learner.</li>
-
-                <li>Or search using the parent's phone number.</li>
-
-                <li>Click <b>📊 View Results</b>.</li>
-
-            </ol>
+            <small style="
+                display:block;
+                margin-top:4px;
+                color:#991b1b;
+                font-size:14px;
+                font-weight:700;
+            ">
+                Full Access Mode
+            </small>
 
         </div>
 
     </div>
 
-  <!-- ====================================== -->
+    <div style="
+        background:rgba(255,255,255,.88);
+        border:1px solid rgba(255,255,255,.35);
+        border-radius:16px;
+        padding:20px;
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+    ">
+
+        <ol style="
+            margin:0;
+            padding-left:24px;
+            color:#7f1d1d;
+            line-height:2.3;
+            font-size:15px;
+            font-weight:700;
+        ">
+
+            <li>🎓 Select the <strong>Grade</strong>.</li>
+
+            <li>📅 Select the <strong>Exam Period</strong>.</li>
+
+            <li>👨‍🎓 Select the <strong>Learner</strong>.</li>
+
+            <li>📱 Or search using the <strong>Parent's Phone Number</strong>.</li>
+
+            <li>📊 Click <strong>View Results</strong> to display the learner's performance.</li>
+
+        </ol>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- ====================================== -->
 <!-- SEARCH CARD -->
 <!-- ====================================== -->
 
 <div style="
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    position:relative;
+    overflow:hidden;
+    padding:25px;
+    border-radius:18px;
+    background:
+        linear-gradient(rgba(15,23,42,.82),rgba(15,23,42,.82)),
+        url('https://i.imgur.com/3jvkGsj.jpeg') center center/cover no-repeat;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
 ">
 
     <!-- Parent Phone -->
@@ -9660,8 +9867,10 @@ Generate
 
         <label style="
             display:block;
-            margin-bottom:6px;
-            font-weight:600;
+            margin-bottom:8px;
+            font-weight:700;
+            color:#fff;
+            text-shadow:0 2px 5px rgba(0,0,0,.4);
         ">
             📱 Parent Phone Number
         </label>
@@ -9673,10 +9882,15 @@ Generate
             autocomplete="off"
             style="
                 width:100%;
-                padding:12px;
-                border:1px solid #ccc;
-                border-radius:10px;
-                margin-bottom:15px;
+                padding:14px;
+                border:1px solid rgba(255,255,255,.35);
+                border-radius:12px;
+                margin-bottom:18px;
+                background:rgba(255,255,255,.92);
+                backdrop-filter:blur(10px);
+                font-size:15px;
+                outline:none;
+                transition:.3s;
             "
         >
 
@@ -9686,8 +9900,10 @@ Generate
 
     <label style="
         display:block;
-        margin-bottom:6px;
-        font-weight:600;
+        margin-bottom:8px;
+        font-weight:700;
+        color:#fff;
+        text-shadow:0 2px 5px rgba(0,0,0,.4);
     ">
         🎓 Select Grade
     </label>
@@ -9696,10 +9912,14 @@ Generate
         id="checkResultsGrade"
         style="
             width:100%;
-            padding:12px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            margin-bottom:15px;
+            padding:14px;
+            border:1px solid rgba(255,255,255,.35);
+            border-radius:12px;
+            margin-bottom:18px;
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(10px);
+            font-size:15px;
+            outline:none;
         ">
 
         <option value="">
@@ -9712,8 +9932,10 @@ Generate
 
     <label style="
         display:block;
-        margin-bottom:6px;
-        font-weight:600;
+        margin-bottom:8px;
+        font-weight:700;
+        color:#fff;
+        text-shadow:0 2px 5px rgba(0,0,0,.4);
     ">
         📅 Select Exam Period
     </label>
@@ -9722,10 +9944,14 @@ Generate
         id="checkResultsExamPeriod"
         style="
             width:100%;
-            padding:12px;
-            border:1px solid #ccc;
-            border-radius:10px;
-            margin-bottom:15px;
+            padding:14px;
+            border:1px solid rgba(255,255,255,.35);
+            border-radius:12px;
+            margin-bottom:18px;
+            background:rgba(255,255,255,.92);
+            backdrop-filter:blur(10px);
+            font-size:15px;
+            outline:none;
         ">
 
         <option value="">
@@ -9740,8 +9966,10 @@ Generate
 
         <label style="
             display:block;
-            margin-bottom:6px;
-            font-weight:600;
+            margin-bottom:8px;
+            font-weight:700;
+            color:#fff;
+            text-shadow:0 2px 5px rgba(0,0,0,.4);
         ">
             👨‍🎓 Select Learner
         </label>
@@ -9750,10 +9978,14 @@ Generate
             id="checkResultsStudent"
             style="
                 width:100%;
-                padding:12px;
-                border:1px solid #ccc;
-                border-radius:10px;
-                margin-bottom:15px;
+                padding:14px;
+                border:1px solid rgba(255,255,255,.35);
+                border-radius:12px;
+                margin-bottom:20px;
+                background:rgba(255,255,255,.92);
+                backdrop-filter:blur(10px);
+                font-size:15px;
+                outline:none;
             ">
 
             <option value="">
@@ -9772,32 +10004,47 @@ Generate
         style="
             display:block;
             width:100%;
-            background:#2563eb;
+            background:linear-gradient(135deg,#2563eb,#1d4ed8);
             color:#fff;
             border:none;
-            padding:14px;
-            border-radius:10px;
+            padding:15px;
+            border-radius:12px;
             cursor:pointer;
             font-size:16px;
             font-weight:700;
-        ">
-
+            letter-spacing:.3px;
+            box-shadow:0 8px 20px rgba(37,99,235,.45);
+            transition:all .3s ease;
+        "
+        onmouseover="
+            this.style.transform='translateY(-2px)';
+            this.style.boxShadow='0 12px 28px rgba(37,99,235,.55)';
+        "
+        onmouseout="
+            this.style.transform='translateY(0)';
+            this.style.boxShadow='0 8px 20px rgba(37,99,235,.45)';
+        "
+    >
         📊 View Results
-
     </button>
 
     <!-- Results -->
 
     <div
         id="resultsContainer"
-        style="margin-top:20px;">
+        style="
+            margin-top:25px;
+            background:rgba(255,255,255,.12);
+            border-radius:14px;
+            padding:10px;
+            backdrop-filter:blur(6px);
+        ">
     </div>
 
 </div>
+
+
 </div>
-
-
-
 
 <!-- ===================== ASSIGNMENT HELP MARKETPLACE ===================== -->
 <div id="assignmentHelpSection" style="display:none;padding:20px;">
@@ -16146,12 +16393,34 @@ Object.entries(data).forEach(([feeId, fee]) => {
 <td>
 
 <button
-  class="action-btn history-btn"
-  title="Payment History"
-  onclick='openFeeHistory(${JSON.stringify(fee)})'>
-  📜
+    class="action-btn history-btn"
+    title="Payment History"
+    onclick='openFeeHistory(${JSON.stringify(fee)})'
+    style="
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:42px;
+        height:42px;
+        border:none;
+        border-radius:10px;
+        background:linear-gradient(135deg,#f59e0b,#d97706);
+        color:#ffffff;
+        font-size:20px;
+        cursor:pointer;
+        box-shadow:0 6px 15px rgba(245,158,11,.35);
+        transition:all .3s ease;
+    "
+    onmouseover="
+        this.style.transform='translateY(-2px)';
+        this.style.boxShadow='0 10px 20px rgba(245,158,11,.45)';
+    "
+    onmouseout="
+        this.style.transform='translateY(0)';
+        this.style.boxShadow='0 6px 15px rgba(245,158,11,.35)';
+    ">
+    📜
 </button>
-
 </td>
 
   <!-- ================= ACTIONS ================= -->
@@ -16159,50 +16428,76 @@ Object.entries(data).forEach(([feeId, fee]) => {
 
 <div class="action-bar">
 
-  <!-- Edit -->
-  <button
-    class="action-btn edit-btn"
-    title="Edit Fee"
-    onclick='openEditFeeModal("${selectedYear}", "${feeId}")'>
-    ✏️
-  </button>
+<select
+    style="
+        width:190px;
+        padding:11px 14px;
+        border:2px solid #2563eb;
+        border-radius:12px;
+        background:linear-gradient(135deg,#eff6ff,#dbeafe);
+        color:#1e3a8a;
+        font-size:14px;
+        font-weight:700;
+        cursor:pointer;
+        outline:none;
+        box-shadow:0 6px 15px rgba(37,99,235,.20);
+        transition:all .3s ease;
+    "
+    onfocus="
+        this.style.borderColor='#1d4ed8';
+        this.style.boxShadow='0 0 0 4px rgba(37,99,235,.20)';
+    "
+    onblur="
+        this.style.borderColor='#2563eb';
+        this.style.boxShadow='0 6px 15px rgba(37,99,235,.20)';
+    "
+    onchange="
+        switch(this.value){
+            case 'edit':
+                openEditFeeModal('${selectedYear}','${feeId}');
+                break;
 
-  <!-- Receipt -->
-  <button
-    class="action-btn receipt-btn"
-    title="Generate Receipt"
-    onclick='generateReceipt(${JSON.stringify(fee)})'>
-    🧾
-  </button>
+            case 'receipt':
+                generateReceipt(${JSON.stringify(fee)});
+                break;
 
-  <!-- SMS -->
-  <button
-    class="action-btn sms-btn"
-    title="Send SMS"
-    onclick="sendSingleSMS('${selectedYear}', '${fee.studentId}')">
-    📩
-  </button>
+            case 'sms':
+                sendSingleSMS('${selectedYear}','${fee.studentId}');
+                break;
 
-  <!-- Refund -->
-  <button
-    class="action-btn refund-btn"
-    title="Refund Fee"
-    onclick='openRefundModal("${selectedYear}", "${feeId}")'>
-    💸
-  </button>
+            case 'refund':
+                openRefundModal('${selectedYear}','${feeId}');
+                break;
 
-  <!-- Delete -->
-  <button
-    class="action-btn delete-btn"
-    title="Delete Fee Record"
-    onclick="deleteLearnerFee('${selectedYear}', '${feeId}', '${fee.studentName}')">
-    🗑
-  </button>
+            case 'delete':
+                deleteLearnerFee(
+                    '${selectedYear}',
+                    '${feeId}',
+                    '${fee.studentName}'
+                );
+                break;
+        }
+
+        this.selectedIndex = 0;
+    ">
+
+    <option value="">⚙️ Select Action</option>
+
+    <option value="edit">✏️ Edit Fee Record</option>
+
+    <option value="receipt">🧾 Generate Receipt</option>
+
+    <option value="sms">📩 Send SMS</option>
+
+    <option value="refund">💸 Process Refund</option>
+
+    <option value="delete">🗑️ Delete Fee Record</option>
+
+</select>
 
 </div>
 
-</td>
-      </tr>
+</td>      </tr>
     `;
   });
 
@@ -36913,58 +37208,40 @@ function renderNextSupportStaffBatch() {
 <!-- ACTIONS -->
 <td>
 
-<div class="table-actions">
+<select
+    onchange="
+        if(this.value==='salary') paySupportSalary('${staff.id}');
+        else if(this.value==='payslip') generateSupportPayslip('${staff.id}');
+        else if(this.value==='advance') giveAdvance('${staff.id}');
+        else if(this.value==='edit') editSupportStaff('${staff.id}');
+        else if(this.value==='delete') deleteSupportStaff('${staff.id}');
+        this.selectedIndex=0;
+    "
+    style="
+        width:170px;
+        padding:10px;
+        border:1px solid #d1d5db;
+        border-radius:10px;
+        background:#fff;
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+    "
+>
 
-<button
-class="action-btn salary"
-title="Pay Salary"
-onclick="paySupportSalary('${staff.id}')">
-  💸
-<span>Salary</span>
+    <option value="">⚙️ Select Action</option>
 
-</button>
+    <option value="salary">💸 Pay Salary</option>
 
-<button
-class="action-btn payslip"
-title="Generate Payslip"
-onclick="generateSupportPayslip('${staff.id}')">
+    <option value="payslip">🧾 Generate Payslip</option>
 
-🧾
-<span>Payslip</span>
+    <option value="advance">💰 Give Advance</option>
 
-</button>
+    <option value="edit">✏️ Edit Staff</option>
 
-<button
-class="action-btn advance"
-title="Give Advance"
-onclick="giveAdvance('${staff.id}')">
+    <option value="delete">🗑️ Delete Staff</option>
 
-💰
-<span>Advance</span>
-
-</button>
-
-<button
-class="action-btn edit"
-title="Edit Staff"
-onclick="editSupportStaff('${staff.id}')">
-
-✏️
-<span>Edit</span>
-
-</button>
-
-<button
-class="action-btn delete"
-title="Delete Staff"
-onclick="deleteSupportStaff('${staff.id}')">
-
-🗑
-<span>Delete</span>
-
-</button>
-
-</div>
+</select>
 
 </td>
 
