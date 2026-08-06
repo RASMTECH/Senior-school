@@ -39790,6 +39790,8 @@ window.loadTransport = function () {
       }));
 // ======================================
 // TRANSPORT DASHBOARD CALCULATIONS
+// ✅ Supports Partial Payments
+// ✅ Supports Installments
 // ======================================
 
 let expectedRevenue = 0;
@@ -39801,65 +39803,100 @@ let activeBuses = 0;
 
 transportArray.forEach(bus => {
 
-    // Count active buses
+    // ===========================
+    // ACTIVE BUSES
+    // ===========================
     if (bus.status !== "Offline") {
         activeBuses++;
     }
 
     const fees = bus.fees || {};
 
-    // Total learners assigned to transport
+    // ===========================
+    // LEARNERS ASSIGNED
+    // ===========================
     totalLearners += Object.keys(fees).length;
 
-    Object.values(fees).forEach(f => {
+    // ===========================
+    // FINANCIAL SUMMARY
+    // ===========================
+    Object.values(fees).forEach(fee => {
 
-        const amount = Number(f.fee || 0);
+        const requiredFee = Number(fee.fee || 0);
+        const paidAmount = Number(fee.paidAmount || 0);
 
-        expectedRevenue += amount;
+        // Expected Revenue
+        expectedRevenue += requiredFee;
 
-        if (f.paid) {
-            collectedRevenue += amount;
-        } else {
-            outstandingRevenue += amount;
-        }
+        // Actual Money Received
+        collectedRevenue += paidAmount;
+
+        // Outstanding Balance
+        outstandingRevenue += Math.max(
+            requiredFee - paidAmount,
+            0
+        );
 
     });
 
 });
 
+// ======================================
+// COLLECTION RATE
+// ======================================
+
 const collectionRate =
-expectedRevenue > 0
-    ? Math.round((collectedRevenue / expectedRevenue) * 100)
-    : 0;
+    expectedRevenue > 0
+        ? Math.round(
+            (collectedRevenue / expectedRevenue) * 100
+        )
+        : 0;
 
 // ======================================
 // UPDATE DASHBOARD CARDS
 // ======================================
 
-const busesCard = document.getElementById("transportBusCard");
-const learnersCard = document.getElementById("transportLearnersCard");
-const expectedCard = document.getElementById("expectedRevenueCard");
-const collectedCard = document.getElementById("collectedRevenueCard");
-const outstandingCard = document.getElementById("outstandingRevenueCard");
-const collectionCard = document.getElementById("collectionRateCard");
+const busesCard =
+    document.getElementById("transportBusCard");
+
+const learnersCard =
+    document.getElementById("transportLearnersCard");
+
+const expectedCard =
+    document.getElementById("expectedRevenueCard");
+
+const collectedCard =
+    document.getElementById("collectedRevenueCard");
+
+const outstandingCard =
+    document.getElementById("outstandingRevenueCard");
+
+const collectionCard =
+    document.getElementById("collectionRateCard");
 
 if (busesCard)
-    busesCard.textContent = activeBuses;
+    busesCard.textContent =
+        activeBuses.toLocaleString();
 
 if (learnersCard)
-    learnersCard.textContent = totalLearners;
+    learnersCard.textContent =
+        totalLearners.toLocaleString();
 
 if (expectedCard)
-    expectedCard.textContent = "KES " + expectedRevenue.toLocaleString();
+    expectedCard.textContent =
+        "KES " + expectedRevenue.toLocaleString();
 
 if (collectedCard)
-    collectedCard.textContent = "KES " + collectedRevenue.toLocaleString();
+    collectedCard.textContent =
+        "KES " + collectedRevenue.toLocaleString();
 
 if (outstandingCard)
-    outstandingCard.textContent = "KES " + outstandingRevenue.toLocaleString();
+    outstandingCard.textContent =
+        "KES " + outstandingRevenue.toLocaleString();
 
 if (collectionCard)
-    collectionCard.textContent = collectionRate + "%";
+    collectionCard.textContent =
+        collectionRate + "%";
 
 // ======================================
 // EMPTY STATE
@@ -39868,20 +39905,48 @@ if (collectionCard)
 if (transportArray.length === 0) {
 
     const emptyHTML = `
-      <div style="padding:20px;text-align:center;color:#64748b;">
-        🚫 No transport records found
-      </div>
+        <div style="
+            padding:30px;
+            text-align:center;
+            color:#64748b;
+            font-size:16px;
+        ">
+            🚌<br><br>
+            No transport records found.
+        </div>
     `;
 
     transportList.innerHTML = emptyHTML;
 
-    if (document.getElementById("transportContent")) {
-        document.getElementById("transportContent").innerHTML = emptyHTML;
+    const report =
+        document.getElementById("transportContent");
+
+    if (report) {
+        report.innerHTML = emptyHTML;
     }
+
+    // Reset dashboard cards
+
+    if (busesCard)
+        busesCard.textContent = "0";
+
+    if (learnersCard)
+        learnersCard.textContent = "0";
+
+    if (expectedCard)
+        expectedCard.textContent = "KES 0";
+
+    if (collectedCard)
+        collectedCard.textContent = "KES 0";
+
+    if (outstandingCard)
+        outstandingCard.textContent = "KES 0";
+
+    if (collectionCard)
+        collectionCard.textContent = "0%";
 
     return;
 }
-
       // =====================================================
     // BUILD REPORT
     // =====================================================
@@ -40133,126 +40198,329 @@ ${value}
 `;
 
 }
-window.markTransportFeePaid = async function (
-  busId,
-  studentName
-) {
+/* =========================================================
+   RECORD TRANSPORT PAYMENT
+========================================================= */
 
-  const schoolId = window.schoolId;
+window.markTransportFeePaid = async function (busId, studentName) {
 
-  const feeRef = ref(
-    db,
-    `transport/${schoolId}/${busId}/fees/${studentName}`
-  );
+  try {
 
-  const snap = await get(feeRef);
+    const feeRef = schoolRef(`transport/${busId}/fees/${studentName}`);
 
-  if (!snap.exists()) {
-    Swal.fire(
-      "Error",
-      "Fee record not found",
-      "error"
-    );
-    return;
-  }
+    const snap = await get(feeRef);
 
-  const data = snap.val();
+    if (!snap.exists()) {
+      Swal.fire("Error","Fee record not found.","error");
+      return;
+    }
 
-  await update(feeRef, {
-    paid: true,
-    paidAt: Date.now()
-  });
+    const fee = snap.val();
 
-  Swal.fire({
-    icon:"success",
-    title:"Payment Recorded",
-    text:`${studentName} marked as paid`
-  });
+    const totalFee = Number(fee.fee || 0);
+    const alreadyPaid = Number(fee.paidAmount || 0);
+    const balance = totalFee - alreadyPaid;
 
-};
-window.manageTransportFees = async function (
-  busId
-) {
+    if (balance <= 0) {
 
-  const schoolId = window.schoolId;
+      Swal.fire(
+        "Already Cleared",
+        `${studentName} has already cleared transport fees.`,
+        "success"
+      );
 
-  const snap = await get(
-    ref(
-      db,
-      `transport/${schoolId}/${busId}/fees`
-    )
-  );
+      return;
+    }
 
-  if (!snap.exists()) {
+    const { value: payment } = await Swal.fire({
 
-    Swal.fire(
-      "No Records",
-      "No fee records found",
-      "info"
-    );
+      title: "Record Transport Payment",
 
-    return;
-  }
+      html: `
+        <div style="text-align:left;font-size:14px;">
 
-  let html = `
-  <div style="max-height:400px;overflow:auto;">
-  `;
+          <b>${studentName}</b><br><br>
 
-  Object.entries(snap.val()).forEach(
-    ([student,data]) => {
+          Total Fee:
+          <b>KES ${totalFee.toLocaleString()}</b><br>
 
-      html += `
-      <div style="
-        border-bottom:1px solid #eee;
-        padding:10px;
-      ">
+          Paid So Far:
+          <span style="color:green;">
+            KES ${alreadyPaid.toLocaleString()}
+          </span><br>
 
-        <b>${student}</b><br>
+          Balance:
+          <span style="color:red;">
+            KES ${balance.toLocaleString()}
+          </span>
 
-        Fee:
-        KES ${data.fee}<br>
+        </div>
+      `,
 
-        Status:
-        ${
-          data.paid
-          ? '✅ Paid'
-          : '❌ Pending'
-        }
+      input: "number",
+
+      inputLabel: "Amount Received",
+
+      inputPlaceholder: "Enter amount",
+
+      showCancelButton: true,
+
+      confirmButtonText: "Record Payment",
+
+      confirmButtonColor: "#16a34a",
+
+      inputValidator: value => {
+
+        if (!value)
+          return "Enter amount received";
+
+        if (Number(value) <= 0)
+          return "Amount must be greater than zero";
+
+        if (Number(value) > balance)
+          return "Amount exceeds outstanding balance";
+
+      }
+
+    });
+
+    if (!payment) return;
+
+    const newPaid = alreadyPaid + Number(payment);
+    const newBalance = totalFee - newPaid;
+
+    const history = fee.paymentHistory || [];
+
+    history.push({
+
+      amount: Number(payment),
+
+      date: new Date().toISOString().split("T")[0],
+
+      timestamp: Date.now()
+
+    });
+
+    await update(feeRef, {
+
+      paidAmount: newPaid,
+
+      balance: newBalance,
+
+      paid: newBalance <= 0,
+
+      status:
+        newBalance <= 0
+          ? "Paid"
+          : newPaid > 0
+            ? "Partial"
+            : "Pending",
+
+      paidDate:
+        newBalance <= 0
+          ? new Date().toISOString().split("T")[0]
+          : "",
+
+      paymentHistory: history,
+
+      updatedAt: Date.now()
+
+    });
+
+    Swal.fire({
+
+      icon: "success",
+
+      title: "Payment Recorded",
+
+      html: `
+        Received:
+        <b>KES ${Number(payment).toLocaleString()}</b>
 
         <br><br>
 
-        ${
-          !data.paid
-          ? `
-          <button
-          onclick="
-          markTransportFeePaid(
-          '${busId}',
-          '${student}'
-          )
-          ">
-          Mark Paid
-          </button>
-          `
-          : ''
-        }
+        Remaining Balance:
+        <b>KES ${newBalance.toLocaleString()}</b>
+      `,
 
-      </div>
-      `;
-    }
-  );
+      timer:1800,
+      showConfirmButton:false
 
-  html += `</div>`;
+    });
 
-  Swal.fire({
-    title:"Transport Fees",
-    html,
-    width:700
-  });
+    manageTransportFees(busId);
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    Swal.fire(
+      "Error",
+      error.message,
+      "error"
+    );
+
+  }
 
 };
 
-window.toggleActionPanel = function (id) {
+
+/* =========================================================
+   MANAGE TRANSPORT FEES
+========================================================= */
+
+window.manageTransportFees = async function (busId) {
+
+  try {
+
+    const snap =
+      await get(
+        schoolRef(`transport/${busId}/fees`)
+      );
+
+    if (!snap.exists()) {
+
+      Swal.fire(
+        "No Records",
+        "No fee records found.",
+        "info"
+      );
+
+      return;
+
+    }
+
+    let html = `
+    <div style="
+      max-height:500px;
+      overflow:auto;
+      text-align:left;
+    ">
+    `;
+
+    Object.entries(snap.val()).forEach(([student,data])=>{
+
+      const fee = Number(data.fee || 0);
+      const paid = Number(data.paidAmount || 0);
+      const balance = fee - paid;
+
+      let color = "#dc2626";
+      let status = "🔴 Pending";
+
+      if(balance <= 0){
+
+        color="#16a34a";
+        status="🟢 Paid";
+
+      }
+
+      else if(paid > 0){
+
+        color="#f59e0b";
+        status="🟡 Partial";
+
+      }
+
+      html += `
+
+      <div style="
+        border:1px solid #e5e7eb;
+        border-radius:12px;
+        padding:15px;
+        margin-bottom:15px;
+        background:white;
+      ">
+
+        <div style="
+          font-size:16px;
+          font-weight:bold;
+          color:#111827;
+        ">
+          👨‍🎓 ${student}
+        </div>
+
+        <hr>
+
+        <div>
+          💰 Required Fee:
+          <b>KES ${fee.toLocaleString()}</b>
+        </div>
+
+        <div style="color:green;">
+          ✅ Paid:
+          <b>KES ${paid.toLocaleString()}</b>
+        </div>
+
+        <div style="color:red;">
+          Balance:
+          <b>KES ${balance.toLocaleString()}</b>
+        </div>
+
+        <div style="
+          margin-top:8px;
+          color:${color};
+          font-weight:bold;
+        ">
+          ${status}
+        </div>
+
+        <button
+
+          onclick="markTransportFeePaid('${busId}','${student}')"
+
+          style="
+            margin-top:12px;
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:8px 15px;
+            border-radius:8px;
+            cursor:pointer;
+          "
+
+        >
+
+          💵 Record Payment
+
+        </button>
+
+      </div>
+
+      `;
+
+    });
+
+    html += "</div>";
+
+    Swal.fire({
+
+      title:"🚌 Transport Fees",
+
+      html:html,
+
+      width:750,
+
+      confirmButtonText:"Close"
+
+    });
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    Swal.fire(
+      "Error",
+      error.message,
+      "error"
+    );
+
+  }
+
+};window.toggleActionPanel = function (id) {
 
   const panel = document.getElementById(`panel-${id}`);
 
@@ -40618,7 +40886,9 @@ window.deleteTransport = async function (id) {
 
   openSweetLoader("Deleting Transport...");
 
-  await remove(ref(db, `transport/${schoolId}/${id}`));
+  await remove(
+    ref(db, `schools/${schoolId}/transport/${id}`)
+);
 
   closeSweetLoader();
 
@@ -40652,7 +40922,9 @@ window.deleteAllTransport = async function () {
 
   try {
 
-    await remove(ref(db, `transport/${schoolId}`));
+    await remove(
+    ref(db, `schools/${schoolId}/transport`)
+);
 
     closeSweetLoader();
 
