@@ -837,9 +837,9 @@ button.primary{
     -webkit-overflow-scrolling:touch;
 }
 
-/*=========================================================
-  📊 GLOBAL TABLE STYLES
-=========================================================*/
+/* =========================================================
+   📊 GLOBAL TABLE STYLES
+========================================================= */
 
 .learners-table,
 .marks-table{
@@ -847,84 +847,239 @@ button.primary{
     background:#ffffff;
 }
 
+
+/* =========================================================
+   📐 TABLE CELLS
+========================================================= */
+
 .learners-table th,
 .learners-table td,
 .marks-table th,
 .marks-table td{
+
     text-align:center;
+
     white-space:nowrap;
+
 }
 
-/*=========================================================
-  👨‍🎓 LEARNERS TABLE
-=========================================================*/
+
+/* =========================================================
+   👨‍🎓 LEARNERS TABLE
+========================================================= */
 
 .learners-table{
-    width:100%;
+
+    /*
+       IMPORTANT:
+       Allow the table to become wider than
+       the screen/container so horizontal
+       scrolling can take place.
+    */
+
+    width:max-content;
+
+    min-width:1300px;
+
+    table-layout:auto;
 }
+
+
+/* =========================================================
+   🧱 LEARNER CELLS
+========================================================= */
 
 .learners-table th,
 .learners-table td{
+
     padding:8px;
+
     border:1px solid #000;
+
     font-size:14px;
+
 }
+
+
+/* =========================================================
+   🔴 HEADER
+========================================================= */
 
 .learners-table th{
+
     background:#f44336;
+
     color:#ffffff;
+
     font-weight:700;
+
+    white-space:nowrap;
+
 }
+
+
+/* =========================================================
+   🌓 ALTERNATING ROWS
+========================================================= */
 
 .learners-table tr:nth-child(even){
+
     background:#f9f9f9;
+
 }
+
+
+/* =========================================================
+   🖱️ ROW HOVER
+========================================================= */
 
 .learners-table tr:hover{
-    background:#eef4ff;
+
+    background:#f1f5f9;
+
 }
+
+
+/* =========================================================
+   🖼️ LEARNER PHOTO
+========================================================= */
 
 .learners-table img{
+
     width:40px;
+
     height:40px;
+
     object-fit:cover;
+
     border-radius:4px;
+
 }
 
-/* Checkbox Column */
+
+/* =========================================================
+   ☑️ CHECKBOX COLUMN
+========================================================= */
 
 .learners-table th:first-child,
 .learners-table td:first-child{
+
     width:40px;
+
     min-width:40px;
+
     max-width:40px;
+
     padding:2px;
+
 }
+
+
+/* =========================================================
+   ☑️ CHECKBOX
+========================================================= */
 
 .learners-table input[type="checkbox"]{
+
     width:14px;
+
     height:14px;
+
     display:block;
+
     margin:auto;
+
     cursor:pointer;
+
 }
 
-/*=========================================================
-  📝 MARKS TABLE
-=========================================================*/
+
+/* =========================================================
+   📱 HORIZONTAL SCROLL CONTAINER
+========================================================= */
+
+.learners-table-wrapper{
+
+    width:100%;
+
+    max-width:100%;
+
+    overflow-x:auto;
+
+    overflow-y:visible;
+
+    -webkit-overflow-scrolling:touch;
+
+    scrollbar-width:auto;
+
+}
+
+
+/* =========================================================
+   📱 SMALL SCREENS
+========================================================= */
+
+@media(max-width:768px){
+
+    .learners-table{
+
+        min-width:1300px;
+
+    }
+
+}
+/* =========================================================
+   📝 MARKS TABLE
+========================================================= */
+
+/* =========================================================
+   📦 MARKS TABLE SCROLL CONTAINER
+========================================================= */
+
+.marks-table-wrapper{
+
+    width:100%;
+    max-width:100%;
+
+    overflow-x:auto;
+    overflow-y:visible;
+
+    -webkit-overflow-scrolling:touch;
+
+    scrollbar-width:auto;
+
+    margin-top:15px;
+
+}
+
+
+/* =========================================================
+   📊 MARKS TABLE
+========================================================= */
 
 .marks-table{
 
-    width:max-content;
-    min-width:100%;
+    /*
+       Keep the table wider than the screen
+       so horizontal scrolling is always possible.
+    */
 
-    margin-top:15px;
+    width:max-content;
+
+    min-width:1300px;
+
+    border-collapse:collapse;
 
     border:2px solid #000;
 
     font-size:.9rem;
 
 }
+
+
+/* =========================================================
+   📐 TABLE CELLS
+========================================================= */
 
 .marks-table th,
 .marks-table td{
@@ -933,16 +1088,37 @@ button.primary{
 
     border:2px solid #000;
 
+    white-space:nowrap;
+
 }
+
+
+/* =========================================================
+   🏷️ TABLE HEADER
+========================================================= */
 
 .marks-table th{
 
     background:#111827;
+
     color:#ffffff;
 
     font-weight:700;
 
+    white-space:nowrap;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:20;
+
 }
+
+
+/* =========================================================
+   🌓 ALTERNATING ROWS
+========================================================= */
 
 .marks-table tr:nth-child(even){
 
@@ -950,24 +1126,39 @@ button.primary{
 
 }
 
+
+/* =========================================================
+   🖱️ ROW HOVER
+========================================================= */
+
 .marks-table tr:hover{
 
     background:#eef4ff;
 
 }
 
-/* Checkbox Column */
+
+/* =========================================================
+   ☑️ CHECKBOX COLUMN
+========================================================= */
 
 .marks-table th:first-child,
 .marks-table td:first-child{
 
     width:40px;
+
     min-width:40px;
+
     max-width:40px;
+
+    padding:4px;
 
 }
 
-/* Learner Name Column */
+
+/* =========================================================
+   👨‍🎓 LEARNER NAME COLUMN
+========================================================= */
 
 .marks-table td:nth-child(3){
 
@@ -981,14 +1172,19 @@ button.primary{
 
 }
 
-/* Marks Checkbox */
+
+/* =========================================================
+   ☑️ MARKS CHECKBOX
+========================================================= */
 
 .marks-table input[type="checkbox"]{
 
     width:16px;
+
     height:16px;
 
     display:block;
+
     margin:auto;
 
     cursor:pointer;
@@ -997,6 +1193,20 @@ button.primary{
 
 }
 
+
+/* =========================================================
+   📱 MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .marks-table{
+
+        min-width:1300px;
+
+    }
+
+}
 /*=========================================================
   📈 REPORT CARDS
 =========================================================*/
@@ -3523,7 +3733,16 @@ button.primary{
     color:#1d4ed8;
 
 }
+.learners-table th,
+.learners-table td{
+    white-space:nowrap;
+}
 
+.learners-table thead th{
+    position:sticky;
+    top:0;
+    z-index:10;
+}
 </style>
 </head>
 
@@ -4710,7 +4929,7 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 
     <!-- PUBLISH -->
     <button onclick="createCourse()"
-      style="margin-top:18px;background:#16a34a;color:white;border:none;padding:14px;border-radius:10px;width:100%;">
+      style="margin-top:18px;background:#16a34a;color:white;border:none;padding:14px;border-radius:10px;width:30%;">
       🚀 Publish Course
     </button>
 
@@ -4887,7 +5106,7 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
       border-radius:10px;
       cursor:pointer;
       font-weight:600;
-      width:100%;
+      width:30%;
     "
   >
     🚀 Publish Assignment
@@ -4960,7 +5179,7 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 <!-- ================= FORM WRAPPER WITH BACKGROUND ================= -->
 <div style="
   margin-top:10px;
-  background-image:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1');
+  background-image:url('https://i.imgur.com/HogMBvi.jpeg');
   background-size:cover;
   background-position:center;
   padding:25px;
@@ -5214,28 +5433,151 @@ Peter Kimani"
 
 </div>
 
-      <table class="learners-table">
-        <thead>
-          <tr>
-           <th style="width:1%; padding:2px; white-space:nowrap;">
-  <input type="checkbox" id="selectAllStudents" style="margin:0;">
-</th>
-            <th>No</th>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Grade</th>
-            <th>Age</th>
-            <th>Parent</th>
-            <th>Phone</th>
-            <th>Birth Cert</th>
-            <th>Admission</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="learnersList"></tbody>
-      </table>
+<!-- =========================================================
+     👨‍🎓 LEARNERS TABLE - HORIZONTAL SCROLL
+========================================================= -->
 
+<div class="learners-table-wrapper" style="
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:visible;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:auto;
+">
+
+    <table class="learners-table" style="
+        width:max-content;
+        min-width:1300px;
+        border-collapse:collapse;
+    ">
+
+        <thead>
+
+            <tr>
+
+                <th style="
+                    width:1%;
+                    padding:2px;
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    <input
+                        type="checkbox"
+                        id="selectAllStudents"
+                        style="margin:0;">
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    No
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Photo
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Name
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Gender
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Grade
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Age
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Parent
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Phone
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Birth Cert
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Admission
+                </th>
+
+                <th style="
+                    white-space:nowrap;
+                    position:sticky;
+                    top:0;
+                    z-index:20;
+                ">
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="learnersList"></tbody>
+
+    </table>
+
+</div>
    <div id="generatedOutput" style="
   margin-top:20px;
   padding:10px;
@@ -9512,14 +9854,19 @@ font-weight:bold;
 <div style="
     position:relative;
     overflow:hidden;
-    background:
-        linear-gradient(rgba(15,23,42,.80),rgba(15,23,42,.80)),
-        url('https://i.imgur.com/2TEVafJ.jpeg') center center/cover no-repeat;
+
+    background-image:
+        linear-gradient(rgba(0,0,0,.20), rgba(0,0,0,.20)),
+        url('https://i.imgur.com/HogMBvi.jpeg');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
     padding:25px;
     border-radius:18px;
     box-shadow:0 15px 35px rgba(0,0,0,.25);
 ">
-
     <!-- Parent Phone -->
 
     <input
@@ -9965,43 +10312,45 @@ Generate
         </div>
 
 
- <!-- ==================== -->
-<!-- ADMIN CARD -->
-<!-- ==================== -->
+<div style="
+    max-width:550px;
+    margin:0 auto 25px;
+    padding:25px;
+    border-radius:20px;
+    overflow:hidden;
 
-<div id="adminResultsInstructions"
-     style="
-        display:none;
-        position:relative;
-        overflow:hidden;
-        background:
-            linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.85)),
-            url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
-        border:1px solid rgba(255,255,255,.12);
-        border-radius:20px;
-        padding:25px;
-        box-shadow:0 18px 40px rgba(0,0,0,.35);
-     ">
+    background:
+        linear-gradient(rgba(15,23,42,.45),rgba(15,23,42,.45)),
+        url('https://i.imgur.com/HogMBvi.jpeg');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+">
+
+    <!-- Header -->
 
     <div style="
         display:flex;
         align-items:center;
         gap:15px;
-        margin-bottom:22px;
+        margin-bottom:20px;
     ">
 
         <div style="
-            width:60px;
-            height:60px;
+            width:55px;
+            height:55px;
             border-radius:50%;
             background:linear-gradient(135deg,#2563eb,#1d4ed8);
             display:flex;
             align-items:center;
             justify-content:center;
             color:#fff;
-            font-size:28px;
+            font-size:26px;
             box-shadow:0 10px 25px rgba(37,99,235,.45);
-            flex-shrink:0;
         ">
             🏫
         </div>
@@ -10010,77 +10359,98 @@ Generate
 
             <h3 style="
                 margin:0;
-                color:#b91c1c;
-                font-size:24px;
+                color:#fff;
+                font-size:22px;
                 font-weight:700;
+                text-shadow:0 2px 8px rgba(0,0,0,.7);
             ">
                 Administrator Guide
             </h3>
 
             <small style="
                 display:block;
-                margin-top:4px;
-                color:#991b1b;
-                font-size:14px;
+                margin-top:5px;
+                color:#fde68a;
+                font-size:13px;
                 font-weight:700;
+                text-shadow:0 2px 8px rgba(0,0,0,.7);
             ">
-                Full Access Mode
+                ⭐ Full Access Mode
             </small>
 
         </div>
 
     </div>
 
-    <div style="
-        background:rgba(255,255,255,.88);
-        border:1px solid rgba(255,255,255,.35);
-        border-radius:16px;
-        padding:20px;
-        backdrop-filter:blur(12px);
-        -webkit-backdrop-filter:blur(12px);
+    <!-- Instructions -->
+
+    <ol style="
+        margin:0;
+        padding-left:25px;
+        color:#fff;
+        line-height:2.2;
+        font-size:15px;
+        font-weight:600;
+        text-shadow:0 2px 6px rgba(0,0,0,.85);
     ">
 
-        <ol style="
-            margin:0;
-            padding-left:24px;
-            color:#7f1d1d;
-            line-height:2.3;
-            font-size:15px;
-            font-weight:700;
-        ">
+        <li>
+            🎓 Select the
+            <strong style="color:#facc15;">Grade</strong>.
+        </li>
 
-            <li>🎓 Select the <strong>Grade</strong>.</li>
+        <li>
+            📅 Choose the
+            <strong style="color:#facc15;">Exam Period</strong>.
+        </li>
 
-            <li>📅 Select the <strong>Exam Period</strong>.</li>
+        <li>
+            👨‍🎓 Select the
+            <strong style="color:#facc15;">Learner</strong>.
+        </li>
 
-            <li>👨‍🎓 Select the <strong>Learner</strong>.</li>
+        <li>
+            📱 Or search using the
+            <strong style="color:#facc15;">Parent's Phone Number</strong>.
+        </li>
 
-            <li>📱 Or search using the <strong>Parent's Phone Number</strong>.</li>
+        <li>
+            📊 Click
+            <strong style="color:#4ade80;">View Results</strong>
+            to display the learner's complete performance report.
+        </li>
 
-            <li>📊 Click <strong>View Results</strong> to display the learner's performance.</li>
-
-        </ol>
-
-    </div>
+    </ol>
 
 </div>
 
-</div>
 
-<!-- ====================================== -->
+
+<!-- ===================================================== -->
 <!-- SEARCH CARD -->
-<!-- ====================================== -->
+<!-- ===================================================== -->
 
-<div style="
-    position:relative;
-    overflow:hidden;
-    padding:25px;
-    border-radius:18px;
-    background:
-        linear-gradient(rgba(15,23,42,.82),rgba(15,23,42,.82)),
-        url('https://i.imgur.com/3jvkGsj.jpeg') center center/cover no-repeat;
-    box-shadow:0 15px 35px rgba(0,0,0,.25);
-">
+<div
+    style="
+        max-width:550px;
+        margin:0 auto 30px;
+        padding:30px;
+        border-radius:22px;
+        overflow:hidden;
+        position:relative;
+
+        background-image:
+            linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+            url('https://i.imgur.com/Iuvl1g2.jpeg');
+
+        background-size:cover;
+        background-position:center;
+        background-repeat:no-repeat;
+
+        border:1px solid rgba(255,255,255,.15);
+        box-shadow:0 20px 45px rgba(0,0,0,.25);
+    "
+>
 
     <!-- Parent Phone -->
 
@@ -10108,10 +10478,8 @@ Generate
                 border-radius:12px;
                 margin-bottom:18px;
                 background:rgba(255,255,255,.92);
-                backdrop-filter:blur(10px);
                 font-size:15px;
                 outline:none;
-                transition:.3s;
             "
         >
 
@@ -10138,15 +10506,10 @@ Generate
             border-radius:12px;
             margin-bottom:18px;
             background:rgba(255,255,255,.92);
-            backdrop-filter:blur(10px);
             font-size:15px;
             outline:none;
         ">
-
-        <option value="">
-            Select Grade
-        </option>
-
+        <option value="">Select Grade</option>
     </select>
 
     <!-- Exam -->
@@ -10170,18 +10533,13 @@ Generate
             border-radius:12px;
             margin-bottom:18px;
             background:rgba(255,255,255,.92);
-            backdrop-filter:blur(10px);
             font-size:15px;
             outline:none;
         ">
-
-        <option value="">
-            Select Exam Period
-        </option>
-
+        <option value="">Select Exam Period</option>
     </select>
 
-    <!-- Learner (Admin & Teacher Only) -->
+    <!-- Learner -->
 
     <div id="checkResultsStudentContainer">
 
@@ -10204,26 +10562,20 @@ Generate
                 border-radius:12px;
                 margin-bottom:20px;
                 background:rgba(255,255,255,.92);
-                backdrop-filter:blur(10px);
                 font-size:15px;
                 outline:none;
             ">
-
-            <option value="">
-                Select Learner
-            </option>
-
+            <option value="">Select Learner</option>
         </select>
 
     </div>
 
-    <!-- View Results Button -->
+    <!-- Button -->
 
     <button
         id="checkResultsButton"
         onclick="handleCheckResults()"
         style="
-            display:block;
             width:100%;
             background:linear-gradient(135deg,#2563eb,#1d4ed8);
             color:#fff;
@@ -10233,9 +10585,8 @@ Generate
             cursor:pointer;
             font-size:16px;
             font-weight:700;
-            letter-spacing:.3px;
             box-shadow:0 8px 20px rgba(37,99,235,.45);
-            transition:all .3s ease;
+            transition:.3s;
         "
         onmouseover="
             this.style.transform='translateY(-2px)';
@@ -10249,22 +10600,35 @@ Generate
         📊 View Results
     </button>
 
-    <!-- Results -->
+</div>
+<!-- ===================================================== -->
+<!-- RESULTS SECTION (OUTSIDE SEARCH CARD) -->
+<!-- ===================================================== -->
 
-    <div
-        id="resultsContainer"
-        style="
-            margin-top:25px;
-            background:rgba(255,255,255,.12);
-            border-radius:14px;
-            padding:10px;
-            backdrop-filter:blur(6px);
-        ">
-    </div>
+<div
+    id="resultsContainer"
+    style="
+        width:100%;
+        margin:35px auto 0;
+        padding:30px;
+        min-height:250px;
+
+        background:rgba(255,255,255,.10);
+        backdrop-filter:blur(10px);
+
+        border:1px solid rgba(255,255,255,.15);
+        border-radius:22px;
+
+        box-shadow:0 20px 45px rgba(0,0,0,.20);
+
+        overflow-x:auto;
+    "
+>
+
+    <!-- Results are inserted here -->
 
 </div>
-
-
+</div>
 </div>
 
 <!-- ===================== ASSIGNMENT HELP MARKETPLACE ===================== -->
@@ -10642,25 +11006,266 @@ Close
 </div>
 
 </div>
-<!-- =====================================================
-     SYSTEM FOOTER
-===================================================== -->
-<footer class="system-footer">
 
+<!-- =========================================================
+     🚀 RASM 360 SYSTEM FOOTER
+========================================================= -->
+
+<footer class="rasm-system-footer">
+
+    <!-- LEFT -->
     <div class="footer-left">
-        © <span id="footerYear"></span> RASM 360 School ERP.
-        All Rights Reserved.
+        <span class="footer-copy">
+            © <span id="footerYear"></span>
+            <strong>RASM 360</strong> School ERP
+        </span>
+
+        <span class="footer-divider">•</span>
+
+        <span class="footer-rights">
+            All Rights Reserved
+        </span>
     </div>
 
+
+    <!-- CENTER -->
     <div class="footer-center">
-        Empowering Schools Through Smart Technology
+        <span class="footer-icon">🚀</span>
+        <span>Empowering Schools Through Smart Technology</span>
     </div>
 
+
+    <!-- RIGHT -->
     <div class="footer-right">
-        Version 5.0
+
+        <span class="version-label">
+            SYSTEM
+        </span>
+
+        <span class="version-badge">
+            v5.0
+        </span>
+
     </div>
 
 </footer>
+
+
+<style>
+
+/* =========================================================
+   🚀 RASM 360 SYSTEM FOOTER
+========================================================= */
+
+.rasm-system-footer{
+    width:100%;
+    min-height:58px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:12px 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(15,23,42,.98),
+            rgba(30,41,59,.98)
+        );
+
+    color:#e5e7eb;
+
+    border-top:1px solid rgba(255,255,255,.10);
+
+    box-shadow:
+        0 -5px 20px rgba(0,0,0,.12);
+
+    font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+    font-size:13px;
+
+    position:relative;
+
+    z-index:100;
+}
+
+
+/* =========================================================
+   LEFT
+========================================================= */
+
+.footer-left{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    white-space:nowrap;
+}
+
+.footer-copy strong{
+    color:#38bdf8;
+    font-weight:800;
+}
+
+.footer-divider{
+    color:#64748b;
+    font-size:12px;
+}
+
+.footer-rights{
+    color:#94a3b8;
+}
+
+
+/* =========================================================
+   CENTER
+========================================================= */
+
+.footer-center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    color:#cbd5e1;
+
+    font-weight:600;
+
+    letter-spacing:.2px;
+
+    text-align:center;
+}
+
+.footer-icon{
+    font-size:15px;
+}
+
+
+/* =========================================================
+   RIGHT
+========================================================= */
+
+.footer-right{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    white-space:nowrap;
+}
+
+.version-label{
+    font-size:10px;
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    color:#64748b;
+}
+
+.version-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    background:rgba(56,189,248,.12);
+
+    border:1px solid rgba(56,189,248,.30);
+
+    color:#38bdf8;
+
+    font-weight:800;
+
+    font-size:11px;
+}
+
+
+/* =========================================================
+   SUBTLE TOP HIGHLIGHT
+========================================================= */
+
+.rasm-system-footer::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #38bdf8,
+        #2563eb,
+        transparent
+    );
+
+    opacity:.8;
+}
+
+
+/* =========================================================
+   📱 RESPONSIVE
+========================================================= */
+
+@media(max-width:850px){
+
+    .rasm-system-footer{
+        flex-direction:column;
+
+        justify-content:center;
+
+        text-align:center;
+
+        gap:8px;
+
+        padding:15px;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right{
+        justify-content:center;
+    }
+
+}
+
+
+@media(max-width:480px){
+
+    .footer-left{
+        flex-wrap:wrap;
+
+        justify-content:center;
+    }
+
+    .footer-center{
+        font-size:12px;
+    }
+
+    .footer-right{
+        margin-top:2px;
+    }
+
+}
+
+</style>
+
+
+
 
 <script type="module">
 import {
@@ -52815,173 +53420,521 @@ window.enableExamMode = function(){
 
 };
 
+
 // =========================================
-// START ASSIGNMENT (FINAL VERSION)
+// START ASSIGNMENT
+// FINAL VERSION
+// - Prevents previously submitted learners
+// - Hides Start button immediately after start
+// - Submit button appears only after all questions
 // =========================================
 
 window.startAssignment = async function (id) {
 
-  const assignment =
-    assignments.find(a => a.id === id);
+  try {
 
-  if (!assignment) return;
+    // =========================================
+    // FIND ASSIGNMENT
+    // =========================================
 
-  // DEADLINE CHECK
-  const dueDate = new Date(assignment.deadline);
-  const now = new Date();
+    const assignment =
+      assignments.find(a => a.id === id);
 
-  if (now > dueDate) {
+    if (!assignment) {
+      return Swal.fire(
+        "Error",
+        "Assignment not found.",
+        "error"
+      );
+    }
 
-    Swal.fire(
-      "Closed",
-      "Assignment deadline has passed",
-      "warning"
-    );
+    // =========================================
+    // SCHOOL SESSION
+    // =========================================
 
-    return;
-  }
+    const schoolId =
+      window.schoolId ||
+      localStorage.getItem("schoolId");
 
-  // =========================================
-  // LEARNER NAME (SWEET ALERT)
-  // =========================================
+    if (!schoolId) {
+      return Swal.fire(
+        "Session Error",
+        "School ID is missing. Please login again.",
+        "error"
+      );
+    }
 
-  const savedName =
-    localStorage.getItem("lastLearnerName") || "";
+    // =========================================
+    // DEADLINE CHECK
+    // =========================================
 
-  const { value: learner } =
-    await Swal.fire({
+    const dueDate =
+      new Date(assignment.deadline);
 
-      title: "👨🎓 Start Assignment",
+    const now =
+      new Date();
 
-      html: `
-        <div style="
-          text-align:left;
-          font-size:14px;
-          color:#475569;
-          margin-bottom:10px;
-        ">
-          Enter learner name to begin this assignment
-        </div>
+    if (now > dueDate) {
 
-        <input
-          id="startLearnerName"
-          class="swal2-input"
-          placeholder="Learner name"
-          value="${savedName}"
-        >
-      `,
+      return Swal.fire(
+        "Closed",
+        "Assignment deadline has passed.",
+        "warning"
+      );
+    }
 
-      confirmButtonText: "Start Assignment",
-      cancelButtonText: "Cancel",
-      showCancelButton: true,
-      confirmButtonColor: "#2563eb",
+    // =========================================
+    // LEARNER NAME
+    // =========================================
 
-      preConfirm: () => {
+    const savedName =
+      localStorage.getItem("lastLearnerName") || "";
 
-        const value =
-          document.getElementById("startLearnerName").value.trim();
+    const { value: learner } =
+      await Swal.fire({
 
-        if (!value) {
-          Swal.showValidationMessage("Learner name is required");
-          return false;
+        title: "👨‍🎓 Start Assignment",
+
+        html: `
+          <div style="
+            text-align:left;
+            font-size:14px;
+            color:#475569;
+            margin-bottom:10px;
+          ">
+            Enter learner name to begin this assignment.
+          </div>
+
+          <input
+            id="startLearnerName"
+            class="swal2-input"
+            placeholder="Learner name"
+            value="${savedName}"
+          >
+        `,
+
+        confirmButtonText:
+          "▶ Start Assignment",
+
+        cancelButtonText:
+          "Cancel",
+
+        showCancelButton:
+          true,
+
+        confirmButtonColor:
+          "#2563eb",
+
+        preConfirm: () => {
+
+          const input =
+            document.getElementById(
+              "startLearnerName"
+            );
+
+          const value =
+            input?.value?.trim() || "";
+
+          if (!value) {
+
+            Swal.showValidationMessage(
+              "Learner name is required"
+            );
+
+            return false;
+          }
+
+          return value;
         }
 
-        return value;
+      });
+
+    // =========================================
+    // CANCELLED
+    // =========================================
+
+    if (!learner) return;
+
+    const cleanLearner =
+      learner.trim();
+
+    localStorage.setItem(
+      "lastLearnerName",
+      cleanLearner
+    );
+
+    // =========================================
+    // 🔒 CHECK FIREBASE FOR PREVIOUS SUBMISSION
+    // =========================================
+    //
+    // This is important because activeSessions is
+    // only temporary memory. Firebase is the
+    // permanent source of truth.
+    //
+    // =========================================
+
+    const submissionsRef =
+      ref(
+        db,
+        `schools/${schoolId}/assignmentSubmissions`
+      );
+
+    const submissionsSnap =
+      await get(submissionsRef);
+
+    let alreadySubmitted = false;
+
+    if (submissionsSnap.exists()) {
+
+      submissionsSnap.forEach(child => {
+
+        const submission =
+          child.val() || {};
+
+        const sameAssignment =
+          submission.assignmentId === id;
+
+        const sameLearner =
+          String(
+            submission.learner || ""
+          )
+          .trim()
+          .toLowerCase()
+          ===
+          cleanLearner.toLowerCase();
+
+        if (
+          sameAssignment &&
+          sameLearner
+        ) {
+
+          alreadySubmitted = true;
+        }
+
+      });
+    }
+
+    // =========================================
+    // 🚫 BLOCK PREVIOUSLY SUBMITTED LEARNER
+    // =========================================
+
+    if (alreadySubmitted) {
+
+      // Make sure the Start button is hidden
+      const startButtons =
+        document.querySelectorAll(
+          `button[onclick="startAssignment('${assignment.id}')"]`
+        );
+
+      startButtons.forEach(btn => {
+
+        btn.style.display = "none";
+
+      });
+
+      return Swal.fire({
+
+        icon: "info",
+
+        title: "✅ Already Submitted",
+
+        html: `
+          <div style="
+            text-align:center;
+            line-height:1.7;
+          ">
+
+            <p>
+              <strong>${cleanLearner}</strong>
+              has already submitted this assignment.
+            </p>
+
+            <p style="
+              color:#64748b;
+              margin-top:10px;
+            ">
+              You cannot start this assignment again.
+            </p>
+
+          </div>
+        `,
+
+        confirmButtonText:
+          "Close",
+
+        confirmButtonColor:
+          "#2563eb"
+
+      });
+    }
+
+    // =========================================
+    // SESSION KEY
+    // =========================================
+
+    const sessionKey =
+      `${id}-${cleanLearner}`;
+
+    // =========================================
+    // PREVENT MULTIPLE ACTIVE STARTS
+    // =========================================
+
+    if (activeSessions[sessionKey]) {
+
+      return Swal.fire(
+        "Already Started",
+        "This learner already has an active assignment session.",
+        "info"
+      );
+    }
+
+    // =========================================
+    // START SESSION
+    // =========================================
+
+    activeSessions[sessionKey] = {
+
+      startTime:
+        Date.now(),
+
+      warnings:
+        0,
+
+      learner:
+        cleanLearner,
+
+      assignmentId:
+        id,
+
+      submitted:
+        false,
+
+      completed:
+        false
+
+    };
+
+    // =========================================
+    // 🔴 HIDE SUBMIT BUTTON AT START
+    // =========================================
+
+    const submitBtn =
+      document.getElementById(
+        `submitBtn-${assignment.id}`
+      );
+
+    if (submitBtn) {
+
+      submitBtn.style.display =
+        "none";
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.innerHTML =
+        "📤 Submit Answers";
+    }
+
+    // =========================================
+    // 🔵 ENABLE ANSWER AREAS
+    // =========================================
+
+    assignment.questions.forEach(
+      (q, index) => {
+
+        const textarea =
+          document.getElementById(
+            `answer-${assignment.id}-${index}`
+          );
+
+        if (!textarea) return;
+
+        // Only the first question should be active
+        // because your next-question system controls
+        // the remaining questions.
+
+        if (index === 0) {
+
+          textarea.disabled =
+            false;
+
+          textarea.style.background =
+            "#ffffff";
+
+          textarea.focus();
+
+        } else {
+
+          textarea.disabled =
+            true;
+
+        }
+
+        // =========================================
+        // COPY / PASTE CONTROL
+        // STUDENTS ONLY
+        // =========================================
+
+        const role =
+          (
+            window.currentUserRole ||
+            window.userRole ||
+            ""
+          )
+          .toLowerCase();
+
+        if (role === "student") {
+
+          textarea.addEventListener(
+            "copy",
+            e => e.preventDefault()
+          );
+
+          textarea.addEventListener(
+            "paste",
+            e => e.preventDefault()
+          );
+
+          textarea.addEventListener(
+            "cut",
+            e => e.preventDefault()
+          );
+        }
+
       }
+    );
+
+    // =========================================
+    // 🔵 HIDE START BUTTON IMMEDIATELY
+    // =========================================
+
+    const startButtons =
+      document.querySelectorAll(
+        `button[onclick="startAssignment('${assignment.id}')"]`
+      );
+
+    startButtons.forEach(btn => {
+
+      btn.style.display =
+        "none";
+
     });
 
-  if (!learner) return;
+    // =========================================
+    // RESET PROGRESS
+    // =========================================
 
-  localStorage.setItem("lastLearnerName", learner);
+    const progress =
+      document.getElementById(
+        `progress-${assignment.id}`
+      );
 
-  const sessionKey = `${id}-${learner}`;
+    if (progress) {
 
-  // PREVENT MULTIPLE STARTS
-  if (activeSessions[sessionKey]) {
+      progress.innerHTML = `
+        📘 Progress:
+        0/${assignment.questions.length}
+        Questions Answered
+      `;
+
+      progress.style.background =
+        "#eff6ff";
+
+      progress.style.color =
+        "#1e3a8a";
+    }
+
+    // =========================================
+    // SHOW START SUCCESS
+    // =========================================
+
+    await Swal.fire({
+
+      icon:
+        "success",
+
+      title:
+        "Assignment Started",
+
+      html: `
+        <div style="text-align:center;">
+
+          <p>
+            Welcome
+            <strong>${cleanLearner}</strong>
+          </p>
+
+          <p>
+            You have
+            <strong>${assignment.duration} minutes</strong>
+            to complete this assignment.
+          </p>
+
+          <p style="
+            color:#dc2626;
+            font-weight:bold;
+          ">
+            ⚠️ Answer every question before submitting.
+          </p>
+
+        </div>
+      `,
+
+      confirmButtonText:
+        "Start Answering",
+
+      confirmButtonColor:
+        "#2563eb"
+
+    });
+
+    // =========================================
+    // START TIMER
+    // =========================================
+
+    window.startAssignmentTimer(
+      assignment,
+      cleanLearner
+    );
+
+    // =========================================
+    // ENABLE SECURITY
+    // =========================================
+
+    window.enableExamSecurity(
+      sessionKey
+    );
+
+    // =========================================
+    // OPTIONAL EXAM MODE
+    // =========================================
+
+    if (
+      typeof window.enableExamMode ===
+      "function"
+    ) {
+
+      window.enableExamMode();
+    }
+
+  } catch (error) {
+
+    console.error(
+      "START_ASSIGNMENT_ERROR:",
+      error
+    );
 
     Swal.fire(
-      "Already Started",
-      "This learner already started the assignment",
-      "info"
+      "Error",
+      error.message ||
+      "Unable to start assignment.",
+      "error"
     );
 
-    return;
   }
 
-  // START SESSION
-  activeSessions[sessionKey] = {
-
-    startTime: Date.now(),
-    warnings: 0,
-    learner,
-    assignmentId: id,
-    submitted: false
-  };
-
-  // SUCCESS MESSAGE
-  Swal.fire(
-    "Assignment Started",
-    `You have ${assignment.duration} minutes to complete this assignment.`,
-    "success"
-  );
-
-  // SHOW SUBMIT BUTTON
-  const submitBtn =
-    document.getElementById(`submitBtn-${assignment.id}`);
-
-  if (submitBtn) {
-    submitBtn.style.display = "block";
-  }
-
-  // ENABLE ANSWER AREAS + COPY/PASTE CONTROL
-  assignment.questions.forEach((q, index) => {
-
-    const textarea =
-      document.getElementById(`answer-${assignment.id}-${index}`);
-
-    if (textarea) {
-
-      textarea.disabled = false;
-      textarea.style.background = "#ffffff";
-      textarea.focus();
-
-      // =========================================
-      // COPY/PASTE CONTROL (STUDENTS ONLY)
-      // =========================================
-
-      if (window.userRole === "student") {
-
-        textarea.addEventListener("copy", e => e.preventDefault());
-        textarea.addEventListener("paste", e => e.preventDefault());
-        textarea.addEventListener("cut", e => e.preventDefault());
-      }
-    }
-  });
-
-  // DISABLE START BUTTON
-  const startButtons =
-    document.querySelectorAll(
-      `button[onclick="startAssignment('${assignment.id}')"]`
-    );
-
-  startButtons.forEach(btn => {
-
-    btn.disabled = true;
-    btn.innerHTML = "⏳ Assignment Running";
-    btn.style.background = "#f59e0b";
-  });
-
-  // START TIMER
-  window.startAssignmentTimer(assignment, learner);
-
-  // ENABLE SECURITY
-  window.enableExamSecurity(sessionKey);
-
-  // OPTIONAL EXAM MODE
-  if (window.enableExamMode) {
-    window.enableExamMode();
-  }
 };
+
 
 // =========================================
 // ASSIGNMENT TIMER
@@ -53380,103 +54333,215 @@ if (!schoolId) {
     );
   }
 };
+// =========================================
+// LOAD ASSIGNMENTS + SUBMISSIONS
+// =========================================
+
 window.loadAssignments = async function () {
 
-  try {
+    try {
 
-    const schoolId = window.schoolId;
+        const schoolId =
+            window.schoolId ||
+            localStorage.getItem("schoolId");
 
-    if (!schoolId) {
-      throw new Error("School ID missing. Please login again.");
-    }
+        if (!schoolId) {
+            throw new Error(
+                "School ID missing. Please login again."
+            );
+        }
 
-    // ==========================
-    // LOAD ASSIGNMENTS
-    // ==========================
 
-    const assignmentSnap = await get(
-      ref(db, `schools/${schoolId}/assignments`)
-    );
+        // =========================================
+        // LOAD ASSIGNMENTS
+        // =========================================
 
-    assignments = [];
-
-    if (assignmentSnap.exists()) {
-
-      assignmentSnap.forEach(child => {
-
-        assignments.push({
-
-          firebaseId: child.key,
-
-          ...child.val(),
-
-          submissions: [] // always initialize
-
-        });
-
-      });
-
-    }
-
-    // ==========================
-    // LOAD SUBMISSIONS
-    // ==========================
-
-    const submissionSnap = await get(
-      ref(db, `schools/${schoolId}/assignmentSubmissions`)
-    );
-
-    if (submissionSnap.exists()) {
-
-      submissionSnap.forEach(child => {
-
-        const submission = child.val();
-
-        const assignment = assignments.find(
-          a => a.id === submission.assignmentId
+        const assignmentSnap = await get(
+            ref(
+                db,
+                `schools/${schoolId}/assignments`
+            )
         );
 
-        if (assignment) {
+        assignments = [];
 
-          assignment.submissions.push(submission);
+
+        if (assignmentSnap.exists()) {
+
+            assignmentSnap.forEach(child => {
+
+                const data =
+                    child.val() || {};
+
+                assignments.push({
+
+                    firebaseId:
+                        child.key,
+
+                    ...data,
+
+                    submissions: []
+
+                });
+
+            });
 
         }
 
-      });
+
+        // =========================================
+        // LOAD ALL SUBMISSIONS
+        // =========================================
+
+        const submissionSnap = await get(
+            ref(
+                db,
+                `schools/${schoolId}/assignmentSubmissions`
+            )
+        );
+
+
+        if (submissionSnap.exists()) {
+
+            submissionSnap.forEach(child => {
+
+                const raw =
+                    child.val() || {};
+
+                // IMPORTANT:
+                // Keep Firebase key as submission ID
+                const submission = {
+
+                    firebaseId:
+                        child.key,
+
+                    id:
+                        raw.id ||
+                        child.key,
+
+                    ...raw,
+
+                    // Make sure these fields always exist
+                    marks:
+                        Array.isArray(raw.marks)
+                            ? raw.marks
+                            : [],
+
+                    total:
+                        Number(
+                            raw.total || 0
+                        ),
+
+                    feedback:
+                        raw.feedback ||
+                        "",
+
+                    status:
+                        raw.status ||
+                        "Submitted"
+
+                };
+
+
+                // =========================================
+                // FIND ASSIGNMENT
+                // =========================================
+
+                const assignment =
+                    assignments.find(a =>
+
+                        String(a.id) ===
+                        String(
+                            submission.assignmentId
+                        )
+
+                    );
+
+
+                if (assignment) {
+
+                    assignment.submissions.push(
+                        submission
+                    );
+
+                }
+
+            });
+
+        }
+
+
+        // =========================================
+        // SORT ASSIGNMENTS
+        // =========================================
+
+        assignments.sort(
+            (a, b) =>
+
+                Number(
+                    b.createdAt || 0
+                ) -
+
+                Number(
+                    a.createdAt || 0
+                )
+        );
+
+
+        // =========================================
+        // DEBUG
+        // =========================================
+
+        console.log(
+            "📚 Assignments loaded:",
+            assignments
+        );
+
+        console.log(
+            "📝 Loaded submissions:",
+            assignments.map(a => ({
+                assignmentId: a.id,
+                title: a.title,
+                submissions: a.submissions
+            }))
+        );
+
+
+        // =========================================
+        // RENDER
+        // =========================================
+
+        window.renderAssignments();
+
+
+        // =========================================
+        // TOTAL ASSIGNMENTS
+        // =========================================
+
+        const totalAssignments =
+            document.getElementById(
+                "totalAssignments"
+            );
+
+        if (totalAssignments) {
+
+            totalAssignments.textContent =
+                assignments.length;
+
+        }
+
 
     }
+    catch (error) {
 
-    assignments.sort(
-      (a, b) =>
-        (b.createdAt || 0) -
-        (a.createdAt || 0)
-    );
-
-    window.renderAssignments();
-
-    const totalAssignments =
-      document.getElementById("totalAssignments");
-
-    if (totalAssignments) {
-
-      totalAssignments.textContent =
-        assignments.length;
+        console.error(
+            "LOAD_ASSIGNMENTS_ERROR:",
+            error
+        );
 
     }
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "LOAD_ASSIGNMENTS_ERROR:",
-      error
-    );
-
-  }
 
 };
-
 
 // =========================================
 // RENDER ASSIGNMENTS
@@ -53484,313 +54549,1623 @@ window.loadAssignments = async function () {
 
 window.renderAssignments = function () {
 
-  const container =
-    document.getElementById("assignmentContainer");
+    const container =
+        document.getElementById("assignmentContainer");
 
-  if (!container) return;
+    if (!container) return;
 
-  container.innerHTML = "";
+    container.innerHTML = "";
 
-  // =========================
-  // USER ROLE
-  // =========================
-  const currentUserRole =
- (window.currentUserRole || "")
+    // =========================================
+    // USER ROLE
+    // =========================================
 
-  const isTeacher =
-    ["teacher", "admin"].includes(currentUserRole);
+    const currentUserRole =
+        (window.currentUserRole || "").toLowerCase();
 
-  const isParent =
-    currentUserRole === "parent";
+    const isTeacher =
+        ["teacher", "admin"].includes(currentUserRole);
 
-  // EMPTY STATE
-  if (assignments.length === 0) {
+    const isParent =
+        currentUserRole === "parent";
 
-    container.innerHTML = `
-      <div style="
-        padding:20px;
-        text-align:center;
-        color:#64748b;
-      ">
-        No assignments yet.
-      </div>
-    `;
+    const isStudent =
+        currentUserRole === "student";
 
-    return;
-  }
 
-  // LOOP ASSIGNMENTS
-let html = "";
-  assignments.forEach(a => {
+    // =========================================
+    // EMPTY STATE
+    // =========================================
 
-    const dueDate = new Date(a.deadline);
-    const now = new Date();
-    const expired = now > dueDate;
+    if (!assignments || assignments.length === 0) {
 
-   
+        container.innerHTML = `
+            <div style="
+                padding:20px;
+                text-align:center;
+                color:#64748b;
+                background:#f8fafc;
+                border-radius:12px;
+            ">
+                No assignments yet.
+            </div>
+        `;
 
-    // DYNAMIC FLOW
-    const dynamicAnswersHTML = `
-      <div id="questionContainer-${a.id}">
-        ${a.questions.map((q,index)=>`
-          <div
-            id="questionBlock-${a.id}-${index}"
-            style="
-              margin-top:18px;
-              display:${index === 0 ? 'block' : 'none'};
-            "
-          >
+        return;
+    }
+
+
+    // =========================================
+    // CURRENT LEARNER INFORMATION
+    // =========================================
+
+    const savedLearnerName =
+        String(
+            localStorage.getItem("lastLearnerName") || ""
+        ).trim();
+
+    const currentLearnerName =
+        String(
+            window.currentUserName ||
+            window.currentUser?.displayName ||
+            ""
+        ).trim();
+
+
+    // =========================================
+    // LOOP ASSIGNMENTS
+    // =========================================
+
+    let html = "";
+
+    assignments.forEach(a => {
+
+        const dueDate =
+            new Date(a.deadline);
+
+        const now =
+            new Date();
+
+        const expired =
+            now > dueDate;
+
+
+        const questions =
+            Array.isArray(a.questions)
+                ? a.questions
+                : [];
+
+
+        // =========================================
+        // GET SUBMISSIONS
+        // =========================================
+
+        const submissions =
+            Array.isArray(a.submissions)
+                ? a.submissions
+                : [];
+
+
+        // =========================================
+        // FIND THIS LEARNER'S SUBMISSION
+        // =========================================
+
+        let learnerSubmission = null;
+
+
+        if (!isTeacher) {
+
+            // -------------------------------------
+            // NORMALIZE NAMES
+            // -------------------------------------
+
+            const savedName =
+                savedLearnerName
+                    .toLowerCase()
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+            const currentName =
+                currentLearnerName
+                    .toLowerCase()
+                    .replace(/\s+/g, " ")
+                    .trim();
+
+
+            // -------------------------------------
+            // TRY SAVED LEARNER NAME
+            // -------------------------------------
+
+            if (savedName) {
+
+                learnerSubmission =
+                    submissions.find(sub => {
+
+                        const submissionName =
+                            String(
+                                sub.learner ||
+                                sub.learnerName ||
+                                sub.studentName ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .replace(/\s+/g, " ")
+                            .trim();
+
+                        return (
+                            submissionName ===
+                            savedName
+                        );
+
+                    }) || null;
+            }
+
+
+            // -------------------------------------
+            // FALLBACK CURRENT USER NAME
+            // -------------------------------------
+
+            if (
+                !learnerSubmission &&
+                currentName
+            ) {
+
+                learnerSubmission =
+                    submissions.find(sub => {
+
+                        const submissionName =
+                            String(
+                                sub.learner ||
+                                sub.learnerName ||
+                                sub.studentName ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .replace(/\s+/g, " ")
+                            .trim();
+
+                        return (
+                            submissionName ===
+                            currentName
+                        );
+
+                    }) || null;
+            }
+
+
+            // -------------------------------------
+            // FALLBACK USER ID
+            // -------------------------------------
+
+            if (
+                !learnerSubmission &&
+                window.currentUser?.uid
+            ) {
+
+                const uid =
+                    String(
+                        window.currentUser.uid
+                    );
+
+                learnerSubmission =
+                    submissions.find(sub => {
+
+                        return (
+                            String(
+                                sub.studentId ||
+                                sub.userId ||
+                                sub.learnerId ||
+                                ""
+                            ) === uid
+                        );
+
+                    }) || null;
+            }
+        }
+
+
+        // =========================================
+        // MARKING STATUS
+        // =========================================
+
+        const isMarked =
+            !!learnerSubmission &&
+            (
+                String(
+                    learnerSubmission.status || ""
+                ).toLowerCase() === "marked" ||
+
+                Array.isArray(
+                    learnerSubmission.marks
+                ) ||
+
+                learnerSubmission.feedback
+            );
+
+
+        // =========================================
+        // LEARNER RESULT HTML
+        // =========================================
+
+        let learnerResultHTML = "";
+
+
+        if (
+            !isTeacher &&
+            learnerSubmission
+        ) {
+
+            const marks =
+                Array.isArray(
+                    learnerSubmission.marks
+                )
+                    ? learnerSubmission.marks
+                    : [];
+
+
+            const totalQuestions =
+                questions.length;
+
+
+            const total =
+                Number(
+                    learnerSubmission.total ?? 0
+                );
+
+
+            const percentage =
+                totalQuestions > 0
+                    ? Math.round(
+                        (
+                            total /
+                            totalQuestions
+                        ) * 100
+                    )
+                    : 0;
+
+
+            const feedback =
+                String(
+                    learnerSubmission.feedback ||
+                    "No feedback provided."
+                );
+
+
+            // =====================================
+            // MARKED RESULT
+            // =====================================
+
+            if (isMarked) {
+
+                learnerResultHTML = `
+
+                    <div style="
+                        margin-top:20px;
+                        padding:18px;
+                        background:#f0fdf4;
+                        border:1px solid #86efac;
+                        border-radius:14px;
+                    ">
+
+
+                        <!-- HEADER -->
+
+                        <div style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            gap:10px;
+                            flex-wrap:wrap;
+                            margin-bottom:15px;
+                        ">
+
+                            <div style="
+                                font-size:17px;
+                                font-weight:bold;
+                                color:#166534;
+                            ">
+                                📊 Assignment Result
+                            </div>
+
+
+                            <div style="
+                                background:#16a34a;
+                                color:#ffffff;
+                                padding:6px 12px;
+                                border-radius:20px;
+                                font-size:12px;
+                                font-weight:bold;
+                            ">
+                                ✅ Marked
+                            </div>
+
+                        </div>
+
+
+                        <!-- SCORE -->
+
+                        <div style="
+                            text-align:center;
+                            background:#ffffff;
+                            border:1px solid #bbf7d0;
+                            border-radius:12px;
+                            padding:18px;
+                            margin-bottom:14px;
+                        ">
+
+                            <div style="
+                                font-size:36px;
+                                font-weight:bold;
+                                color:#16a34a;
+                            ">
+                                ${total}/${totalQuestions}
+                            </div>
+
+
+                            <div style="
+                                margin-top:4px;
+                                color:#64748b;
+                                font-size:14px;
+                            ">
+                                ${percentage}% Score
+                            </div>
+
+                        </div>
+
+
+                        <!-- QUESTION MARKS -->
+
+                        ${
+                            marks.length > 0
+                            ? `
+
+                                <div style="
+                                    background:#ffffff;
+                                    border:1px solid #e2e8f0;
+                                    border-radius:10px;
+                                    padding:12px;
+                                ">
+
+                                    <div style="
+                                        font-weight:bold;
+                                        color:#334155;
+                                        margin-bottom:8px;
+                                    ">
+                                        📝 Question Marks
+                                    </div>
+
+
+                                    <div style="
+                                        display:grid;
+                                        grid-template-columns:
+                                            repeat(
+                                                auto-fit,
+                                                minmax(80px,1fr)
+                                            );
+                                        gap:8px;
+                                    ">
+
+                                        ${marks.map(
+                                            (mark,index) => `
+
+                                                <div style="
+                                                    padding:9px;
+                                                    background:#f8fafc;
+                                                    border:1px solid #e2e8f0;
+                                                    border-radius:8px;
+                                                    text-align:center;
+                                                ">
+
+                                                    <div style="
+                                                        color:#64748b;
+                                                        font-size:11px;
+                                                    ">
+                                                        Q${index + 1}
+                                                    </div>
+
+
+                                                    <strong style="
+                                                        color:#16a34a;
+                                                        font-size:15px;
+                                                    ">
+                                                        ${Number(mark)}
+                                                    </strong>
+
+                                                    /1
+
+                                                </div>
+
+                                            `
+                                        ).join("")}
+
+                                    </div>
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+
+                        <!-- TEACHER FEEDBACK -->
+
+                        <div style="
+                            margin-top:14px;
+                            background:#ffffff;
+                            border-left:4px solid #2563eb;
+                            padding:13px;
+                            border-radius:8px;
+                        ">
+
+                            <div style="
+                                font-weight:bold;
+                                color:#1e3a8a;
+                                margin-bottom:6px;
+                            ">
+                                💬 Teacher Feedback
+                            </div>
+
+
+                            <div style="
+                                color:#334155;
+                                line-height:1.6;
+                                font-size:14px;
+                            ">
+                                ${escapeHtml(feedback)}
+                            </div>
+
+                        </div>
+
+
+                        <!-- MARKED DATE -->
+
+                        ${
+                            learnerSubmission.markedAt
+                            ? `
+
+                                <div style="
+                                    margin-top:10px;
+                                    text-align:right;
+                                    color:#64748b;
+                                    font-size:11px;
+                                ">
+                                    🕐 Marked:
+                                    ${new Date(
+                                        learnerSubmission.markedAt
+                                    ).toLocaleString()}
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+                    </div>
+
+                `;
+
+            }
+
+
+            // =====================================
+            // SUBMITTED BUT NOT MARKED
+            // =====================================
+
+            else {
+
+                learnerResultHTML = `
+
+                    <div style="
+                        margin-top:18px;
+                        padding:14px;
+                        background:#eff6ff;
+                        border:1px solid #bfdbfe;
+                        border-radius:12px;
+                        color:#1e3a8a;
+                    ">
+
+                        <strong>
+                            📤 Assignment Submitted
+                        </strong>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:13px;
+                        ">
+                            Your assignment has been submitted.
+                            Your teacher has not marked it yet.
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        }
+
+
+        // =========================================
+        // DYNAMIC QUESTIONS
+        // =========================================
+
+        const dynamicAnswersHTML = `
+
+            ${questions.map((q,index) => {
+
+                const isLast =
+                    index === questions.length - 1;
+
+                return `
+
+                    <div
+                        id="questionBlock-${a.id}-${index}"
+                        style="
+                            margin-top:18px;
+                            display:
+                                ${index === 0
+                                    ? "block"
+                                    : "none"};
+                        "
+                    >
+
+                        <!-- QUESTION -->
+
+                        <div style="
+                            background:#f8fafc;
+                            padding:14px;
+                            border-radius:10px;
+                            margin-bottom:10px;
+                            border:1px solid #e2e8f0;
+                        ">
+
+                            <b style="
+                                color:#0f172a;
+                                font-size:15px;
+                            ">
+                                Question ${index + 1}
+                            </b>
+
+
+                            <div style="
+                                margin-top:8px;
+                                line-height:1.7;
+                                color:#334155;
+                            ">
+                                ${escapeHtml(q)}
+                            </div>
+
+                        </div>
+
+
+                        <!-- ANSWER -->
+
+                        <textarea
+                            id="answer-${a.id}-${index}"
+                            ${index !== 0 ? "disabled" : ""}
+                            rows="6"
+                            autocomplete="off"
+                            spellcheck="true"
+
+                            oncopy="return false;"
+                            onpaste="return false;"
+                            oncut="return false;"
+                            oncontextmenu="return false;"
+
+                            onkeydown="
+                                if (
+                                    event.ctrlKey ||
+                                    event.metaKey
+                                ) {
+
+                                    const key =
+                                        event.key.toLowerCase();
+
+                                    if (
+                                        key === 'c' ||
+                                        key === 'v' ||
+                                        key === 'x'
+                                    ) {
+
+                                        event.preventDefault();
+                                        return false;
+
+                                    }
+                                }
+                            "
+
+                            style="
+                                width:100%;
+                                min-height:140px;
+                                padding:12px;
+                                border-radius:10px;
+                                border:1px solid #cbd5e1;
+                                resize:vertical;
+                                box-sizing:border-box;
+                                background:
+                                    ${index === 0
+                                        ? "#ffffff"
+                                        : "#f1f5f9"};
+                                color:#0f172a;
+                                font-size:14px;
+                                line-height:1.6;
+                                outline:none;
+                            "
+                        ></textarea>
+
+
+                        <!-- NAVIGATION -->
+
+                        ${
+                            !isLast
+
+                            ? `
+
+                                <button
+                                    type="button"
+
+                                    onclick="
+                                        unlockNextQuestion(
+                                            '${a.id}',
+                                            ${index}
+                                        )
+                                    "
+
+                                    style="
+                                        margin-top:10px;
+                                        background:#2563eb;
+                                        color:white;
+                                        border:none;
+                                        padding:9px 14px;
+                                        border-radius:8px;
+                                        cursor:pointer;
+                                        font-weight:bold;
+                                        width:auto;
+                                        min-width:140px;
+                                    "
+                                >
+                                    Next Question →
+                                </button>
+
+                            `
+
+                            : `
+
+                                <button
+                                    type="button"
+
+                                    onclick="
+                                        finishAssignment(
+                                            '${a.id}',
+                                            ${index}
+                                        )
+                                    "
+
+                                    style="
+                                        margin-top:12px;
+                                        width:auto;
+                                        min-width:180px;
+                                        background:#16a34a;
+                                        color:#ffffff;
+                                        border:none;
+                                        padding:11px 16px;
+                                        border-radius:10px;
+                                        cursor:pointer;
+                                        font-weight:bold;
+                                        font-size:14px;
+                                    "
+                                >
+                                    📤 Finish & Submit
+                                </button>
+
+
+                                <div
+                                    id="finalStatus-${a.id}"
+                                    style="
+                                        margin-top:10px;
+                                        padding:10px;
+                                        background:#f0fdf4;
+                                        border:1px solid #bbf7d0;
+                                        border-radius:8px;
+                                        color:#166534;
+                                        font-size:13px;
+                                        font-weight:bold;
+                                        text-align:center;
+                                    "
+                                >
+                                    🏁 Final Question
+                                </div>
+
+                            `
+                        }
+
+                    </div>
+
+                `;
+
+            }).join("")}
+
+        `;
+
+
+        // =========================================
+        // ASSIGNMENT CARD
+        // =========================================
+
+        html += `
 
             <div style="
-              background:#f8fafc;
-              padding:14px;
-              border-radius:10px;
-              margin-bottom:10px;
+                background:#ffffff;
+                padding:20px;
+                border-radius:16px;
+                margin-bottom:20px;
+                border:1px solid #e2e8f0;
+                box-shadow:
+                    0 2px 10px
+                    rgba(0,0,0,0.05);
             ">
-              <b>Question ${index + 1}</b>
-              <div style="margin-top:8px; line-height:1.7;">
-                ${escapeHtml(q)}
-              </div>
+
+
+                <!-- HEADER -->
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    flex-wrap:wrap;
+                    gap:10px;
+                ">
+
+                    <h2 style="
+                        margin:0;
+                        color:#0f172a;
+                    ">
+                        📝
+                        ${escapeHtml(
+                            a.title ||
+                            "Assignment"
+                        )}
+                    </h2>
+
+
+                    <div style="
+                        background:
+                            ${expired
+                                ? "#dc2626"
+                                : "#16a34a"};
+                        color:white;
+                        padding:6px 12px;
+                        border-radius:20px;
+                        font-size:12px;
+                        font-weight:bold;
+                    ">
+                        ${
+                            expired
+                            ? "⛔ Closed"
+                            : "✅ Active"
+                        }
+                    </div>
+
+                </div>
+
+
+                <!-- META -->
+
+                <p style="
+                    color:#dc2626;
+                    font-weight:bold;
+                ">
+                    ⏰ Deadline:
+                    ${escapeHtml(
+                        String(
+                            a.deadline || ""
+                        )
+                    )}
+                </p>
+
+
+                <div style="
+                    color:#334155;
+                    margin-bottom:8px;
+                ">
+                    🎓
+                    <strong>Target Grade:</strong>
+                    ${escapeHtml(
+                        String(
+                            a.grade || ""
+                        )
+                    )}
+                </div>
+
+
+                <p style="
+                    color:#2563eb;
+                    font-weight:bold;
+                ">
+                    ⏱ Duration:
+                    ${a.duration || 0}
+                    Minutes
+                </p>
+
+
+                <!-- =====================================
+                     TEACHER STATS
+                ====================================== -->
+
+                ${
+                    isTeacher
+                    ? `
+
+                        <div style="
+                            margin-top:15px;
+                            font-size:14px;
+                            color:#64748b;
+                        ">
+
+                            📥 Submissions:
+                            ${submissions.length}
+
+                            <br>
+
+                            📚 Total Questions:
+                            ${questions.length}
+
+                        </div>
+
+                    `
+                    : ""
+                }
+
+
+                <!-- =====================================
+                     LEARNER AREA
+                ====================================== -->
+
+                ${
+                    !isTeacher
+                    ? `
+
+                        <input
+                            id="studentName-${a.id}"
+                            placeholder="Learner Name"
+                            value="${escapeHtml(
+                                savedLearnerName
+                            )}"
+                            autocomplete="name"
+
+                            style="
+                                width:100%;
+                                padding:12px;
+                                border-radius:10px;
+                                border:1px solid #cbd5e1;
+                                margin-bottom:10px;
+                                box-sizing:border-box;
+                            "
+                        >
+
+
+                        ${dynamicAnswersHTML}
+
+
+                        <!-- PROGRESS -->
+
+                        <div
+                            id="progress-${a.id}"
+                            style="
+                                margin-top:15px;
+                                padding:12px;
+                                background:#eff6ff;
+                                border:1px solid #bfdbfe;
+                                border-radius:10px;
+                                color:#1e3a8a;
+                                font-weight:bold;
+                                text-align:center;
+                            "
+                        >
+                            📘 Progress:
+                            0 / ${questions.length}
+                            Questions Answered
+                        </div>
+
+
+                        <!-- TIMER -->
+
+                        <div
+                            id="timer-${a.id}"
+                            style="
+                                margin-top:15px;
+                                margin-bottom:12px;
+                                font-weight:bold;
+                                color:#dc2626;
+                                font-size:15px;
+                            "
+                        ></div>
+
+
+                        <!-- START -->
+
+                        <button
+                            onclick="
+                                startAssignment(
+                                    '${a.id}'
+                                )
+                            "
+
+                            ${expired ? "disabled" : ""}
+
+                            style="
+                                margin-top:12px;
+                                background:
+                                    ${expired
+                                        ? "#94a3b8"
+                                        : "#2563eb"};
+                                color:white;
+                                border:none;
+                                padding:12px 18px;
+                                border-radius:10px;
+                                cursor:
+                                    ${expired
+                                        ? "not-allowed"
+                                        : "pointer"};
+                                width:100%;
+                                font-weight:bold;
+                            "
+                        >
+                            ${
+                                expired
+                                ? "⛔ Assignment Closed"
+                                : "▶ Start Assignment"
+                            }
+                        </button>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            onclick="
+                                submitAssignment(
+                                    '${a.id}'
+                                )
+                            "
+
+                            id="submitBtn-${a.id}"
+
+                            style="
+                                margin-top:10px;
+                                background:#16a34a;
+                                color:white;
+                                border:none;
+                                padding:12px 18px;
+                                border-radius:10px;
+                                cursor:pointer;
+                                width:100%;
+                                display:none;
+                                font-weight:bold;
+                            "
+                        >
+                            📤 Submit Answers
+                        </button>
+
+
+                        <!-- LEARNER RESULT -->
+
+                        ${learnerResultHTML}
+
+                    `
+                    : ""
+                }
+
+
+                <!-- =====================================
+                     TEACHER CONTROLS
+                ====================================== -->
+
+                ${
+                    isTeacher
+                    ? `
+
+                        <div style="
+                            margin-top:20px;
+                            display:flex;
+                            gap:10px;
+                            flex-wrap:wrap;
+                        ">
+
+                            <button
+                                onclick="
+                                    editAssignment(
+                                        '${a.id}'
+                                    )
+                                "
+                                style="
+                                    background:#2563eb;
+                                    color:white;
+                                    padding:10px 14px;
+                                    border:none;
+                                    border-radius:8px;
+                                    cursor:pointer;
+                                "
+                            >
+                                ✏ Edit
+                            </button>
+
+
+                            <button
+                                onclick="
+                                    extendDeadline(
+                                        '${a.id}'
+                                    )
+                                "
+                                style="
+                                    background:#f59e0b;
+                                    color:white;
+                                    padding:10px 14px;
+                                    border:none;
+                                    border-radius:8px;
+                                    cursor:pointer;
+                                "
+                            >
+                                ⏳ Extend
+                            </button>
+
+
+                            <button
+                                onclick="
+                                    deleteAssignment(
+                                        '${a.id}'
+                                    )
+                                "
+                                style="
+                                    background:#dc2626;
+                                    color:white;
+                                    padding:10px 14px;
+                                    border:none;
+                                    border-radius:8px;
+                                    cursor:pointer;
+                                "
+                            >
+                                🗑 Delete
+                            </button>
+
+                        </div>
+
+                    `
+                    : ""
+                }
+
+
+                <!-- =====================================
+                     TEACHER SUBMISSIONS
+                ====================================== -->
+
+                ${
+                    isTeacher
+                    ? `
+
+                        <div style="
+                            margin-top:25px;
+                            padding-top:20px;
+                            border-top:1px solid #e2e8f0;
+                        ">
+
+                            <h3>
+                                📚 Learner Submissions
+                            </h3>
+
+                            ${renderSubmissions({
+                                ...a,
+                                submissions:
+                                    submissions
+                            })}
+
+                        </div>
+
+                    `
+                    : ""
+                }
+
             </div>
 
-        <textarea
-  id="answer-${a.id}-${index}"
-  ${index !== 0 ? "disabled" : ""}
-  rows="6"
-  style="
-    width:100%;
-    min-height:140px;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #cbd5e1;
-    resize:vertical;
-    box-sizing:border-box;
-  "
-></textarea>
+        `;
 
-<button
-  type="button"
-  onclick="unlockNextQuestion('${a.id}', ${index})"
-  style="
-    margin-top:10px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    padding:10px 16px;
-    border-radius:8px;
-    cursor:pointer;
-  "
->
-  Next Question →
-</button>
+    });
 
-          </div>
-        `).join("")}
-      </div>
-    `;
 
-    html += `
+    // =========================================
+    // OUTPUT
+    // =========================================
 
-      <div style="
-        background:#ffffff;
-        padding:20px;
-        border-radius:16px;
-        margin-bottom:20px;
-        border:1px solid #e2e8f0;
-        box-shadow:0 2px 10px rgba(0,0,0,0.05);
-      ">
+    container.innerHTML =
+        html;
 
-        <!-- HEADER -->
-        <div style="
-          display:flex;
-          justify-content:space-between;
-          flex-wrap:wrap;
-          gap:10px;
-        ">
 
-          <h2 style="margin:0;color:#0f172a;">
-            📝 ${a.title}
-          </h2>
+    // =========================================
+    // COPY / PASTE SECURITY
+    // STUDENTS ONLY
+    // =========================================
 
-          <div style="
-            background:${expired ? '#dc2626' : '#16a34a'};
-            color:white;
-            padding:6px 12px;
-            border-radius:20px;
-            font-size:12px;
-            font-weight:bold;
-          ">
-            ${expired ? '⛔ Closed' : '✅ Active'}
-          </div>
+    if (isStudent) {
 
-        </div>
+        container
+            .querySelectorAll(
+                "textarea[id^='answer-']"
+            )
+            .forEach(textarea => {
 
-        <!-- META -->
-        <p style="color:#dc2626;font-weight:bold;">
-          ⏰ Deadline: ${a.deadline}
-        </p>
+                textarea.addEventListener(
+                    "copy",
+                    function(e) {
 
-        🎓 Target Grade: ${a.grade}
+                        e.preventDefault();
 
-        <p style="color:#2563eb;font-weight:bold;">
-          ⏱ Duration: ${a.duration} Minutes
-        </p>
+                        Swal.fire({
+                            icon:"warning",
+                            title:"Copy Disabled",
+                            text:
+                                "Copying answers is not allowed during the assignment.",
+                            confirmButtonColor:
+                                "#2563eb"
+                        });
 
-      
+                    }
+                );
 
-        <!-- STATS (HIDDEN FROM PARENTS) -->
-        ${isTeacher ? `
-        <div style="
-          margin-top:15px;
-          font-size:14px;
-          color:#64748b;
-        ">
-          📥 Submissions: ${(a.submissions || []).length}
-          <br>
-          📚 Total Questions: ${a.questions.length}
-        </div>
-        ` : ""}
 
-       ${!isTeacher ? `
+                textarea.addEventListener(
+                    "paste",
+                    function(e) {
 
-<!-- STUDENT AREA -->
-<div id="submissionArea-${a.id}" style="
-          margin-top:18px;
-          padding-top:18px;
-          border-top:1px solid #e2e8f0;
-        ">
+                        e.preventDefault();
 
-          <input
-            id="studentName-${a.id}"
-            placeholder="Learner Name"
-            style="
-              width:100%;
-              padding:12px;
-              border-radius:10px;
-              border:1px solid #ccc;
-              margin-bottom:10px;
-            "
-          >
+                        Swal.fire({
+                            icon:"warning",
+                            title:"Paste Disabled",
+                            text:
+                                "Pasting content is not allowed during the assignment.",
+                            confirmButtonColor:
+                                "#2563eb"
+                        });
 
-          ${dynamicAnswersHTML}
+                    }
+                );
 
-          <!-- PROGRESS -->
-          <div id="progress-${a.id}" style="
-            margin-top:15px;
-            padding:12px;
-            background:#eff6ff;
-            border:1px solid #bfdbfe;
-            border-radius:10px;
-            color:#1e3a8a;
-            font-weight:bold;
-            text-align:center;
-          ">
-            📘 Progress: 0 / ${a.questions.length} Questions Answered
-          </div>
 
-          <!-- TIMER -->
-          <div id="timer-${a.id}" style="
-            margin-top:15px;
-            margin-bottom:12px;
-            font-weight:bold;
-            color:#dc2626;
-            font-size:15px;
-          "></div>
+                textarea.addEventListener(
+                    "cut",
+                    function(e) {
 
-          <!-- START -->
-          <button
-            onclick="startAssignment('${a.id}')"
-            ${expired ? "disabled" : ""}
-            style="
-              margin-top:12px;
-              background:${expired ? '#94a3b8' : '#2563eb'};
-              color:white;
-              border:none;
-              padding:12px 18px;
-              border-radius:10px;
-              cursor:pointer;
-              width:100%;
-              font-weight:bold;
-            "
-          >
-            ${expired ? '⛔ Assignment Closed' : '▶ Start Assignment'}
-          </button>
+                        e.preventDefault();
 
-          <!-- SUBMIT -->
-          <button
-            onclick="submitAssignment('${a.id}')"
-            id="submitBtn-${a.id}"
-            style="
-              margin-top:10px;
-              background:#16a34a;
-              color:white;
-              border:none;
-              padding:12px 18px;
-              border-radius:10px;
-              cursor:pointer;
-              width:100%;
-              display:none;
-              font-weight:bold;
-            "
-          >
-            📤 Submit Answers
-          </button>
+                        Swal.fire({
+                            icon:"warning",
+                            title:"Cut Disabled",
+                            text:
+                                "Cutting text is not allowed during the assignment.",
+                            confirmButtonColor:
+                                "#2563eb"
+                        });
 
-      </div>
+                    }
+                );
 
-` : ""}
 
-<!-- TEACHER ONLY ACTIONS -->
-        ${isTeacher ? `
-        <div style="
-          margin-top:20px;
-          display:flex;
-          gap:10px;
-          flex-wrap:wrap;
-        ">
+                textarea.addEventListener(
+                    "contextmenu",
+                    function(e) {
 
-          <button onclick="editAssignment('${a.id}')"
-            style="background:#2563eb;color:white;padding:10px 14px;border:none;border-radius:8px;">
-            ✏ Edit
-          </button>
+                        e.preventDefault();
 
-          <button onclick="extendDeadline('${a.id}')"
-            style="background:#f59e0b;color:white;padding:10px 14px;border:none;border-radius:8px;">
-            ⏳ Extend
-          </button>
+                    }
+                );
 
-          <button onclick="deleteAssignment('${a.id}')"
-            style="background:#dc2626;color:white;padding:10px 14px;border:none;border-radius:8px;">
-            🗑 Delete
-          </button>
 
-        </div>
-        ` : ""}
+                textarea.addEventListener(
+                    "keydown",
+                    function(e) {
 
-        <!-- SUBMISSIONS (TEACHER ONLY) -->
-        ${isTeacher ? `
-        <div style="
-          margin-top:25px;
-          padding-top:20px;
-          border-top:1px solid #e2e8f0;
-        ">
-          <h3>📚 Learner Submissions</h3>
+                        if (
+                            e.ctrlKey ||
+                            e.metaKey
+                        ) {
 
-          ${renderSubmissions({
-            ...a,
-            submissions: a.submissions || []
-          })}
-        </div>
-        ` : ""}
+                            const key =
+                                e.key.toLowerCase();
 
-      </div>
+                            if (
+                                key === "c" ||
+                                key === "v" ||
+                                key === "x"
+                            ) {
 
-    `;
-  });
+                                e.preventDefault();
 
-container.innerHTML = html;
+                                Swal.fire({
+                                    icon:"warning",
+                                    title:"Action Disabled",
+                                    text:
+                                        "Copy, paste and cut are disabled during the assignment.",
+                                    confirmButtonColor:
+                                        "#2563eb"
+                                });
+
+                                return false;
+                            }
+                        }
+
+                    }
+                );
+
+            });
+
+    }
 
 };
+
+// =========================================
+// FINISH ASSIGNMENT - FINAL QUESTION
+// =========================================
+
+window.finishAssignment = function (
+    assignmentId,
+    currentIndex
+) {
+
+    console.log(
+        "📤 Finishing assignment:",
+        assignmentId,
+        "Question:",
+        currentIndex
+    );
+
+    // =========================================
+    // GET CURRENT / FINAL ANSWER
+    // =========================================
+
+    const current =
+        document.getElementById(
+            `answer-${assignmentId}-${currentIndex}`
+        );
+
+    if (!current) {
+
+        console.error(
+            "❌ Final answer textarea not found:",
+            `answer-${assignmentId}-${currentIndex}`
+        );
+
+        Swal.fire(
+            "Error",
+            "The final answer area could not be found.",
+            "error"
+        );
+
+        return;
+    }
+
+    // =========================================
+    // GET ANSWER
+    // =========================================
+
+    const answer =
+        current.value.trim();
+
+    // =========================================
+    // EMPTY ANSWER CHECK
+    //
+    // IMPORTANT:
+    // "8", "5", "12", "A" etc. ARE VALID.
+    // Only an empty answer is rejected.
+    // =========================================
+
+    if (answer === "") {
+
+        Swal.fire(
+            "Incomplete Answer",
+            "Please enter an answer before submitting.",
+            "warning"
+        );
+
+        current.focus();
+
+        return;
+    }
+
+    // =========================================
+    // GET ALL QUESTIONS
+    // =========================================
+
+    const allAnswers =
+        document.querySelectorAll(
+            `[id^="answer-${assignmentId}-"]`
+        );
+
+    const totalQuestions =
+        allAnswers.length;
+
+    // =========================================
+    // COUNT ANSWERED QUESTIONS
+    // =========================================
+
+    let answered = 0;
+
+    allAnswers.forEach(area => {
+
+        if (
+            area.value &&
+            area.value.trim() !== ""
+        ) {
+
+            answered++;
+
+        }
+
+    });
+
+    console.log(
+        `📘 Assignment progress: ${answered}/${totalQuestions}`
+    );
+
+    // =========================================
+    // MAKE SURE EVERY QUESTION IS ANSWERED
+    // =========================================
+
+    if (answered < totalQuestions) {
+
+        Swal.fire({
+
+            icon: "warning",
+
+            title: "Incomplete Assignment",
+
+            html: `
+                <div style="text-align:center;">
+
+                    <p>
+                        You have answered
+                        <strong>
+                            ${answered}/${totalQuestions}
+                        </strong>
+                        questions.
+                    </p>
+
+                    <p>
+                        Please answer all questions
+                        before submitting.
+                    </p>
+
+                </div>
+            `,
+
+            confirmButtonText: "Continue",
+            confirmButtonColor: "#2563eb"
+
+        });
+
+        return;
+    }
+
+    // =========================================
+    // UPDATE PROGRESS
+    // =========================================
+
+    const progress =
+        document.getElementById(
+            `progress-${assignmentId}`
+        );
+
+    if (progress) {
+
+        progress.innerHTML = `
+            <div style="
+                font-size:17px;
+                font-weight:bold;
+            ">
+                ✅ All Questions Answered
+            </div>
+
+            <div style="
+                margin-top:5px;
+                font-size:14px;
+            ">
+                ${answered}/${totalQuestions}
+                Questions Answered
+            </div>
+        `;
+
+        progress.style.background =
+            "#dcfce7";
+
+        progress.style.border =
+            "1px solid #86efac";
+
+        progress.style.color =
+            "#166534";
+    }
+
+    // =========================================
+    // MARK SESSION COMPLETED
+    // =========================================
+
+    const learner =
+        localStorage.getItem(
+            "lastLearnerName"
+        ) || "";
+
+    const sessionKey =
+        `${assignmentId}-${learner}`;
+
+    if (
+        window.activeSessions &&
+        window.activeSessions[sessionKey]
+    ) {
+
+        window.activeSessions[sessionKey].completed =
+            true;
+    }
+
+    // =========================================
+    // SHOW MAIN SUBMIT BUTTON
+    // =========================================
+
+    const submitBtn =
+        document.getElementById(
+            `submitBtn-${assignmentId}`
+        );
+
+    if (submitBtn) {
+
+        submitBtn.style.display =
+            "block";
+
+        submitBtn.disabled =
+            false;
+
+        submitBtn.innerHTML =
+            "📤 Submit Whole Assignment";
+
+        submitBtn.style.background =
+            "#16a34a";
+
+        submitBtn.style.color =
+            "#ffffff";
+
+        submitBtn.style.cursor =
+            "pointer";
+
+        submitBtn.style.fontWeight =
+            "bold";
+
+        submitBtn.style.boxShadow =
+            "0 5px 15px rgba(22,163,74,0.25)";
+    }
+
+    // =========================================
+    // UPDATE FINAL STATUS
+    // =========================================
+
+    const finalStatus =
+        document.getElementById(
+            `finalStatus-${assignmentId}`
+        );
+
+    if (finalStatus) {
+
+        finalStatus.innerHTML =
+            "✅ All Questions Completed — Ready to Submit";
+
+        finalStatus.style.background =
+            "#dcfce7";
+
+        finalStatus.style.border =
+            "1px solid #86efac";
+
+        finalStatus.style.color =
+            "#166534";
+    }
+
+    // =========================================
+    // DISABLE FINAL SUBMIT BUTTON TEMPORARILY
+    // =========================================
+
+    const finalButton =
+        current.parentElement.querySelector(
+            ".final-assignment-submit"
+        );
+
+    if (finalButton) {
+
+        finalButton.innerHTML =
+            "📤 Submit Assignment";
+
+        finalButton.style.background =
+            "#16a34a";
+    }
+
+    // =========================================
+    // CONFIRM BEFORE ACTUAL SUBMISSION
+    // =========================================
+
+    Swal.fire({
+
+        icon: "success",
+
+        title: "🎉 Assignment Completed",
+
+        html: `
+            <div style="text-align:center;">
+
+                <p>
+                    You have answered
+                    <strong>
+                        ${answered}/${totalQuestions}
+                    </strong>
+                    questions.
+                </p>
+
+                <p style="
+                    color:#166534;
+                    font-weight:bold;
+                ">
+                    Your assignment is ready to be submitted.
+                </p>
+
+            </div>
+        `,
+
+        showCancelButton: true,
+
+        confirmButtonText:
+            "📤 Submit Assignment",
+
+        cancelButtonText:
+            "Review Answers",
+
+        confirmButtonColor:
+            "#16a34a",
+
+        cancelButtonColor:
+            "#64748b"
+
+    }).then(result => {
+
+        if (!result.isConfirmed) {
+
+            return;
+        }
+
+        // =====================================
+        // CALL EXISTING SUBMISSION FUNCTION
+        // =====================================
+
+        if (
+            typeof window.submitAssignment ===
+            "function"
+        ) {
+
+            console.log(
+                "📤 Calling submitAssignment:",
+                assignmentId
+            );
+
+            window.submitAssignment(
+                assignmentId
+            );
+
+        } else {
+
+            console.error(
+                "❌ submitAssignment is not defined"
+            );
+
+            Swal.fire(
+                "Submission Error",
+                "The assignment submission function could not be found.",
+                "error"
+            );
+
+        }
+
+    });
+
+};
+
 
 
 // SUBMIT ASSIGNMENT
@@ -54111,272 +56486,2357 @@ if(!learner) return;
     );
   }
 };
-// =========================================
-// RENDER SUBMISSIONS
-// =========================================
+
+// =========================================================
+// 🎓 LEARNER ASSIGNMENT RESULTS
+// Shows marks + teacher feedback to the correct learner
+// =========================================================
+
+window.getLearnerAssignmentResult = function(assignment){
+
+    if(!assignment) return null;
+
+    const learnerName =
+        localStorage.getItem("lastLearnerName") || "";
+
+    if(!learnerName.trim()) return null;
+
+    const normalizedLearner =
+        String(learnerName)
+            .trim()
+            .replace(/\s+/g, " ")
+            .toLowerCase();
+
+    const submissions =
+        Array.isArray(assignment.submissions)
+            ? assignment.submissions
+            : [];
+
+    const submission =
+        submissions.find(sub => {
+
+            const submittedLearner =
+                String(sub.learner || "")
+                    .trim()
+                    .replace(/\s+/g, " ")
+                    .toLowerCase();
+
+            return (
+                submittedLearner ===
+                normalizedLearner
+            );
+        });
+
+    return submission || null;
+};
+
+
+// =========================================================
+// 📊 RENDER LEARNER RESULT
+// =========================================================
+
+window.renderLearnerAssignmentResult =
+function(assignment){
+
+    const submission =
+        getLearnerAssignmentResult(
+            assignment
+        );
+
+    if(!submission){
+        return "";
+    }
+
+    const questions =
+        Array.isArray(assignment.questions)
+            ? assignment.questions
+            : [];
+
+    const totalQuestions =
+        questions.length;
+
+    const total =
+        Number(submission.total || 0);
+
+    const percentage =
+        totalQuestions > 0
+            ? Math.round(
+                (total / totalQuestions) * 100
+              )
+            : 0;
+
+    const isMarked =
+        submission.status === "Marked" ||
+        (
+            submission.feedback &&
+            submission.feedback !==
+            "Pending Marking"
+        );
+
+    // =========================================
+    // STILL WAITING FOR TEACHER
+    // =========================================
+
+    if(!isMarked){
+
+        return `
+            <div style="
+                margin-top:20px;
+                padding:18px;
+                background:#fff7ed;
+                border:1px solid #fed7aa;
+                border-radius:14px;
+            ">
+
+                <div style="
+                    font-size:17px;
+                    font-weight:bold;
+                    color:#c2410c;
+                ">
+                    ⏳ Assignment Submitted
+                </div>
+
+                <div style="
+                    margin-top:7px;
+                    color:#7c2d12;
+                    font-size:14px;
+                    line-height:1.6;
+                ">
+                    Your assignment has been received.
+                    Your teacher has not marked it yet.
+                </div>
+
+                <button
+                    type="button"
+                    onclick="refreshAssignmentResults()"
+                    style="
+                        margin-top:12px;
+                        background:#f59e0b;
+                        color:white;
+                        border:none;
+                        padding:9px 14px;
+                        border-radius:8px;
+                        cursor:pointer;
+                        font-weight:bold;
+                    "
+                >
+                    🔄 Check Results
+                </button>
+
+            </div>
+        `;
+    }
+
+
+    // =========================================
+    // TEACHER FEEDBACK
+    // =========================================
+
+    const feedback =
+        String(
+            submission.feedback || ""
+        ).trim();
+
+
+    return `
+        <div
+            id="learnerResult-${assignment.id}"
+            style="
+                margin-top:20px;
+                border-radius:16px;
+                overflow:hidden;
+                border:1px solid #bbf7d0;
+                background:#ffffff;
+                box-shadow:0 3px 12px rgba(15,23,42,0.08);
+            "
+        >
+
+            <!-- RESULT HEADER -->
+
+            <div style="
+                padding:16px;
+                background:#f0fdf4;
+                border-bottom:1px solid #bbf7d0;
+            ">
+
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:10px;
+                    flex-wrap:wrap;
+                ">
+
+                    <div style="
+                        font-size:18px;
+                        font-weight:bold;
+                        color:#166534;
+                    ">
+                        🎉 Assignment Marked
+                    </div>
+
+                    <div style="
+                        background:#16a34a;
+                        color:white;
+                        padding:6px 12px;
+                        border-radius:20px;
+                        font-size:12px;
+                        font-weight:bold;
+                    ">
+                        ✅ Results Available
+                    </div>
+
+                </div>
+
+                <div style="
+                    margin-top:5px;
+                    color:#166534;
+                    font-size:13px;
+                ">
+                    Your teacher has marked this assignment.
+                </div>
+
+            </div>
+
+
+            <!-- SCORE -->
+
+            <div style="
+                padding:20px;
+                text-align:center;
+            ">
+
+                <div style="
+                    font-size:13px;
+                    color:#64748b;
+                    font-weight:bold;
+                    text-transform:uppercase;
+                    letter-spacing:.5px;
+                ">
+                    Your Score
+                </div>
+
+                <div style="
+                    margin-top:5px;
+                    font-size:38px;
+                    font-weight:bold;
+                    color:#16a34a;
+                ">
+                    ${total}
+                    /
+                    ${totalQuestions}
+                </div>
+
+                <div style="
+                    margin-top:4px;
+                    font-size:16px;
+                    font-weight:bold;
+                    color:#2563eb;
+                ">
+                    ${percentage}%
+                </div>
+
+            </div>
+
+
+            <!-- TEACHER FEEDBACK -->
+
+            <div style="
+                margin:0 16px 16px 16px;
+                padding:16px;
+                background:#eff6ff;
+                border:1px solid #bfdbfe;
+                border-radius:12px;
+            ">
+
+                <div style="
+                    font-size:14px;
+                    font-weight:bold;
+                    color:#1e3a8a;
+                    margin-bottom:8px;
+                ">
+                    💬 Teacher's Feedback
+                </div>
+
+                <div style="
+                    background:#ffffff;
+                    padding:13px;
+                    border-radius:9px;
+                    color:#334155;
+                    line-height:1.7;
+                    white-space:pre-wrap;
+                    min-height:45px;
+                ">
+                    ${
+                        feedback
+                        ? escapeHtml(feedback)
+                        : `
+                            <span style="
+                                color:#64748b;
+                                font-style:italic;
+                            ">
+                                No written feedback was provided.
+                            </span>
+                        `
+                    }
+                </div>
+
+            </div>
+
+
+            <!-- MARKED DATE -->
+
+            ${
+                submission.markedAt
+                ? `
+                    <div style="
+                        padding:0 16px 14px 16px;
+                        color:#64748b;
+                        font-size:12px;
+                        text-align:center;
+                    ">
+                        🕐 Marked:
+                        ${new Date(
+                            submission.markedAt
+                        ).toLocaleString()}
+                    </div>
+                `
+                : ""
+            }
+
+
+            <!-- REFRESH -->
+
+            <div style="
+                padding:0 16px 16px 16px;
+                text-align:center;
+            ">
+
+                <button
+                    type="button"
+                    onclick="refreshAssignmentResults()"
+                    style="
+                        background:#2563eb;
+                        color:white;
+                        border:none;
+                        padding:9px 16px;
+                        border-radius:8px;
+                        cursor:pointer;
+                        font-weight:bold;
+                    "
+                >
+                    🔄 Refresh Results
+                </button>
+
+            </div>
+
+        </div>
+    `;
+};
+
+
+// =========================================================
+// 🔄 REFRESH LEARNER RESULTS
+// =========================================================
+
+window.refreshAssignmentResults =
+async function(){
+
+    try{
+
+        const schoolId =
+            window.schoolId ||
+            localStorage.getItem("schoolId");
+
+        if(!schoolId) return;
+
+
+        const submissionSnap =
+            await get(
+                ref(
+                    db,
+                    `schools/${schoolId}/assignmentSubmissions`
+                )
+            );
+
+
+        // Clear existing submissions
+
+        assignments.forEach(
+            assignment => {
+                assignment.submissions = [];
+            }
+        );
+
+
+        // Reload submissions
+
+        if(submissionSnap.exists()){
+
+            submissionSnap.forEach(child => {
+
+                const submission =
+                    child.val() || {};
+
+                const assignment =
+                    assignments.find(
+                        a =>
+                            a.id ===
+                            submission.assignmentId
+                    );
+
+                if(assignment){
+
+                    assignment.submissions.push(
+                        submission
+                    );
+
+                }
+
+            });
+
+        }
+
+
+        // Re-render
+
+        window.renderAssignments();
+
+
+    }catch(error){
+
+        console.error(
+            "REFRESH_ASSIGNMENT_RESULTS_ERROR:",
+            error
+        );
+
+    }
+
+};
+
+
+// =========================================================
+// 🔄 AUTOMATIC RESULT CHECK
+// =========================================================
+
+window.startAssignmentResultWatcher =
+function(){
+
+    // Only learners
+
+    const role =
+        String(
+            window.currentUserRole || ""
+        ).toLowerCase();
+
+    if(role !== "student") return;
+
+
+    // Prevent duplicate timers
+
+    if(window.assignmentResultTimer){
+
+        clearInterval(
+            window.assignmentResultTimer
+        );
+
+    }
+
+
+    // Check every 15 seconds
+
+    window.assignmentResultTimer =
+        setInterval(
+            function(){
+
+                if(
+                    document.visibilityState ===
+                    "visible"
+                ){
+
+                    refreshAssignmentResults();
+
+                }
+
+            },
+            15000
+        );
+
+};
+
+
+// Start watcher after assignments render
+
+setTimeout(
+    startAssignmentResultWatcher,
+    1000
+);
+
+
+// =========================================================
+// 📚 LEARNER SUBMISSIONS / TEACHER MARKING DASHBOARD
+// =========================================================
 
 window.renderSubmissions = function(a){
 
-  if(a.submissions.length === 0){
+    // =========================================
+    // TEACHER CHECK
+    // =========================================
 
-    return `
-      <div style="
-        color:#64748b;
-        padding:10px 0;
-      ">
-        No submissions yet.
-      </div>
+    const currentUserRole =
+        String(
+            window.currentUserRole || ""
+        ).toLowerCase();
+
+    const isTeacher =
+        ["teacher", "admin"].includes(
+            currentUserRole
+        );
+
+    // Safety: submissions are teacher/admin only
+    if(!isTeacher){
+
+        return "";
+
+    }
+
+
+    // =========================================
+    // SUBMISSIONS
+    // =========================================
+
+    const submissions =
+        Array.isArray(a.submissions)
+            ? a.submissions
+            : [];
+
+
+    // =========================================
+    // EMPTY STATE
+    // =========================================
+
+    if(submissions.length === 0){
+
+        return `
+            <div style="
+                padding:25px;
+                text-align:center;
+                background:#f8fafc;
+                border:1px solid #e2e8f0;
+                border-radius:14px;
+                color:#64748b;
+            ">
+
+                <div style="
+                    font-size:35px;
+                    margin-bottom:8px;
+                ">
+                    📭
+                </div>
+
+                <strong style="
+                    font-size:15px;
+                    color:#334155;
+                ">
+                    No learner submissions yet
+                </strong>
+
+                <div style="
+                    margin-top:6px;
+                    font-size:13px;
+                ">
+                    Submitted assignments will appear here.
+                </div>
+
+            </div>
+        `;
+
+    }
+
+
+    // =========================================
+    // PAGINATION STATE
+    // =========================================
+
+    window.assignmentSubmissionState =
+        window.assignmentSubmissionState || {};
+
+
+    const stateKey =
+        String(a.id);
+
+
+    if(
+        !window.assignmentSubmissionState[stateKey]
+    ){
+
+        window.assignmentSubmissionState[stateKey] = {
+
+            page:1,
+
+            search:"",
+
+            status:"all"
+
+        };
+
+    }
+
+
+    const state =
+        window.assignmentSubmissionState[stateKey];
+
+
+    const perPage = 10;
+
+
+    // =========================================
+    // STATUS COUNTS
+    // =========================================
+
+    const markedCount =
+        submissions.filter(sub => {
+
+            return (
+                String(
+                    sub.status || ""
+                ).toLowerCase() === "marked"
+
+                ||
+
+                (
+                    Array.isArray(sub.marks) &&
+                    sub.marks.length > 0
+                )
+
+                ||
+
+                (
+                    sub.feedback &&
+                    String(
+                        sub.feedback
+                    ).trim() !== ""
+                )
+            );
+
+        }).length;
+
+
+    const pendingCount =
+        submissions.length -
+        markedCount;
+
+
+    // =========================================
+    // FILTER SUBMISSIONS
+    // =========================================
+
+    let filtered =
+        submissions.filter(sub => {
+
+            // -----------------------------
+            // SEARCH
+            // -----------------------------
+
+            const learnerName =
+                String(
+                    sub.learner ||
+                    sub.learnerName ||
+                    sub.studentName ||
+                    ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            const search =
+                String(
+                    state.search || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if(
+                search &&
+                !learnerName.includes(search)
+            ){
+
+                return false;
+
+            }
+
+
+            // -----------------------------
+            // STATUS
+            // -----------------------------
+
+            const marked =
+                (
+                    String(
+                        sub.status || ""
+                    ).toLowerCase() === "marked"
+
+                    ||
+
+                    (
+                        Array.isArray(
+                            sub.marks
+                        ) &&
+                        sub.marks.length > 0
+                    )
+
+                    ||
+
+                    (
+                        sub.feedback &&
+                        String(
+                            sub.feedback
+                        ).trim() !== ""
+                    )
+                );
+
+
+            if(
+                state.status === "marked" &&
+                !marked
+            ){
+
+                return false;
+
+            }
+
+
+            if(
+                state.status === "pending" &&
+                marked
+            ){
+
+                return false;
+
+            }
+
+
+            return true;
+
+        });
+
+
+    // =========================================
+    // TOTAL PAGES
+    // =========================================
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                filtered.length /
+                perPage
+            )
+        );
+
+
+    // Keep page valid
+    if(
+        state.page > totalPages
+    ){
+
+        state.page =
+            totalPages;
+
+    }
+
+
+    if(state.page < 1){
+
+        state.page = 1;
+
+    }
+
+
+    // =========================================
+    // CURRENT PAGE
+    // =========================================
+
+    const startIndex =
+        (
+            state.page - 1
+        ) *
+        perPage;
+
+
+    const pageSubmissions =
+        filtered.slice(
+            startIndex,
+            startIndex + perPage
+        );
+
+
+    // =========================================
+    // DASHBOARD HTML
+    // =========================================
+
+    let html = `
+
+        <!-- =====================================
+             SUMMARY
+        ====================================== -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(140px,1fr)
+                );
+            gap:10px;
+            margin-bottom:16px;
+        ">
+
+            <!-- TOTAL -->
+
+            <div style="
+                padding:14px;
+                background:#eff6ff;
+                border:1px solid #bfdbfe;
+                border-radius:12px;
+            ">
+
+                <div style="
+                    font-size:11px;
+                    color:#64748b;
+                    font-weight:bold;
+                ">
+                    TOTAL
+                </div>
+
+                <div style="
+                    margin-top:4px;
+                    font-size:23px;
+                    font-weight:bold;
+                    color:#1d4ed8;
+                ">
+                    ${submissions.length}
+                </div>
+
+            </div>
+
+
+            <!-- MARKED -->
+
+            <div style="
+                padding:14px;
+                background:#f0fdf4;
+                border:1px solid #bbf7d0;
+                border-radius:12px;
+            ">
+
+                <div style="
+                    font-size:11px;
+                    color:#64748b;
+                    font-weight:bold;
+                ">
+                    MARKED
+                </div>
+
+                <div style="
+                    margin-top:4px;
+                    font-size:23px;
+                    font-weight:bold;
+                    color:#15803d;
+                ">
+                    ${markedCount}
+                </div>
+
+            </div>
+
+
+            <!-- PENDING -->
+
+            <div style="
+                padding:14px;
+                background:#fff7ed;
+                border:1px solid #fed7aa;
+                border-radius:12px;
+            ">
+
+                <div style="
+                    font-size:11px;
+                    color:#64748b;
+                    font-weight:bold;
+                ">
+                    PENDING
+                </div>
+
+                <div style="
+                    margin-top:4px;
+                    font-size:23px;
+                    font-weight:bold;
+                    color:#c2410c;
+                ">
+                    ${pendingCount}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             SEARCH + FILTER
+        ====================================== -->
+
+        <div style="
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:12px;
+            padding:12px;
+            margin-bottom:15px;
+        ">
+
+            <div style="
+                display:flex;
+                gap:8px;
+                flex-wrap:wrap;
+                align-items:center;
+            ">
+
+                <!-- SEARCH -->
+
+                <input
+                    id="submissionSearch-${a.id}"
+                    type="text"
+                    placeholder="🔎 Search learner name..."
+                    value="${escapeHtml(
+                        state.search || ""
+                    )}"
+                    onkeydown="
+                        if(event.key === 'Enter'){
+
+                            window.assignmentSubmissionState[
+                                '${a.id}'
+                            ].search =
+                                this.value.trim();
+
+                            window.assignmentSubmissionState[
+                                '${a.id}'
+                            ].page = 1;
+
+                            window.renderAssignments();
+
+                        }
+                    "
+                    style="
+                        flex:1;
+                        min-width:220px;
+                        padding:10px 12px;
+                        border:1px solid #cbd5e1;
+                        border-radius:9px;
+                        outline:none;
+                        box-sizing:border-box;
+                        background:#ffffff;
+                    "
+                >
+
+
+                <!-- SEARCH BUTTON -->
+
+                <button
+                    type="button"
+                    onclick="
+                        window.assignmentSubmissionState[
+                            '${a.id}'
+                        ].search =
+                            document.getElementById(
+                                'submissionSearch-${a.id}'
+                            ).value.trim();
+
+                        window.assignmentSubmissionState[
+                            '${a.id}'
+                        ].page = 1;
+
+                        window.renderAssignments();
+                    "
+                    style="
+                        background:#2563eb;
+                        color:#ffffff;
+                        border:none;
+                        padding:10px 14px;
+                        border-radius:9px;
+                        cursor:pointer;
+                        font-weight:bold;
+                    "
+                >
+                    🔎 Search
+                </button>
+
+
+                <!-- STATUS -->
+
+                <select
+                    onchange="
+                        window.assignmentSubmissionState[
+                            '${a.id}'
+                        ].status = this.value;
+
+                        window.assignmentSubmissionState[
+                            '${a.id}'
+                        ].page = 1;
+
+                        window.renderAssignments();
+                    "
+                    style="
+                        padding:10px 12px;
+                        border:1px solid #cbd5e1;
+                        border-radius:9px;
+                        background:#ffffff;
+                        color:#334155;
+                        min-width:140px;
+                        cursor:pointer;
+                    "
+                >
+
+                    <option
+                        value="all"
+                        ${state.status === "all"
+                            ? "selected"
+                            : ""}
+                    >
+                        All Submissions
+                    </option>
+
+                    <option
+                        value="pending"
+                        ${state.status === "pending"
+                            ? "selected"
+                            : ""}
+                    >
+                        ⏳ Pending
+                    </option>
+
+                    <option
+                        value="marked"
+                        ${state.status === "marked"
+                            ? "selected"
+                            : ""}
+                    >
+                        ✅ Marked
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             RESULTS INFO
+        ====================================== -->
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-bottom:10px;
+            color:#64748b;
+            font-size:12px;
+        ">
+
+            <div>
+                Showing
+                <strong>
+                    ${
+                        filtered.length === 0
+                        ? 0
+                        : startIndex + 1
+                    }
+                </strong>
+                -
+                <strong>
+                    ${Math.min(
+                        startIndex + perPage,
+                        filtered.length
+                    )}
+                </strong>
+
+                of
+                <strong>
+                    ${filtered.length}
+                </strong>
+                learners
+            </div>
+
+            <div>
+                Page
+                <strong>
+                    ${state.page}
+                </strong>
+                of
+                <strong>
+                    ${totalPages}
+                </strong>
+            </div>
+
+        </div>
     `;
-  }
 
-  let html = "";
 
-  a.submissions.forEach(sub => {
+    // =========================================
+    // NO FILTER RESULTS
+    // =========================================
+
+    if(pageSubmissions.length === 0){
+
+        html += `
+
+            <div style="
+                padding:25px;
+                text-align:center;
+                background:#f8fafc;
+                border:1px solid #e2e8f0;
+                border-radius:12px;
+                color:#64748b;
+            ">
+
+                🔎 No learners match your search.
+
+            </div>
+
+        `;
+
+    }
+
+
+    // =========================================
+    // COMPACT LEARNER LIST
+    // =========================================
+
+    pageSubmissions.forEach((sub) => {
+
+        const answers =
+            Array.isArray(sub.answers)
+                ? sub.answers
+                : [];
+
+
+        const marks =
+            Array.isArray(sub.marks)
+                ? sub.marks.map(
+                    value =>
+                        Number(value) || 0
+                )
+                : [];
+
+
+        const total =
+            Number(
+                sub.total ||
+                marks.reduce(
+                    (sum,value) =>
+                        sum + value,
+                    0
+                )
+            );
+
+
+        const questionCount =
+            Array.isArray(a.questions)
+                ? a.questions.length
+                : 0;
+
+
+        const marked =
+            (
+                String(
+                    sub.status || ""
+                ).toLowerCase() === "marked"
+
+                ||
+
+                marks.length > 0
+
+                ||
+
+                (
+                    sub.feedback &&
+                    String(
+                        sub.feedback
+                    ).trim() !== ""
+                )
+            );
+
+
+        const learnerName =
+            sub.learner ||
+            sub.learnerName ||
+            sub.studentName ||
+            "Unknown Learner";
+
+
+        const safeId =
+            String(
+                sub.id ||
+                sub.firebaseId ||
+                ""
+            );
+
+
+        html += `
+
+            <!-- =================================
+                 COMPACT LEARNER CARD
+            ================================== -->
+
+            <div
+                id="submissionCard-${safeId}"
+                style="
+                    background:#ffffff;
+                    border:1px solid #e2e8f0;
+                    border-radius:12px;
+                    margin-bottom:10px;
+                    overflow:hidden;
+                    box-shadow:
+                        0 2px 7px
+                        rgba(15,23,42,0.05);
+                "
+            >
+
+                <div style="
+                    padding:13px 15px;
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:12px;
+                    flex-wrap:wrap;
+                ">
+
+                    <!-- LEARNER -->
+
+                    <div style="
+                        min-width:180px;
+                        flex:1;
+                    ">
+
+                        <div style="
+                            font-size:15px;
+                            font-weight:bold;
+                            color:#0f172a;
+                        ">
+
+                            👨‍🎓
+                            ${escapeHtml(
+                                learnerName
+                            )}
+
+                        </div>
+
+                        <div style="
+                            margin-top:4px;
+                            color:#64748b;
+                            font-size:11px;
+                        ">
+
+                            📅
+                            ${escapeHtml(
+                                String(
+                                    sub.submittedAt ||
+                                    "Date unavailable"
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SCORE -->
+
+                    <div style="
+                        text-align:center;
+                        min-width:80px;
+                    ">
+
+                        <div style="
+                            font-size:16px;
+                            font-weight:bold;
+                            color:
+                                ${marked
+                                    ? "#15803d"
+                                    : "#64748b"};
+                        ">
+
+                            ${
+                                marked
+                                ? `${total}/${questionCount}`
+                                : "—"
+                            }
+
+                        </div>
+
+                        <div style="
+                            font-size:10px;
+                            color:#94a3b8;
+                        ">
+                            SCORE
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        style="
+                            padding:6px 10px;
+                            border-radius:20px;
+                            font-size:11px;
+                            font-weight:bold;
+                            background:
+                                ${marked
+                                    ? "#dcfce7"
+                                    : "#fff7ed"};
+                            color:
+                                ${marked
+                                    ? "#166534"
+                                    : "#c2410c"};
+                        "
+                    >
+
+                        ${
+                            marked
+                            ? "✅ Marked"
+                            : "⏳ Pending"
+                        }
+
+                    </div>
+
+
+                    <!-- ACTION -->
+
+                    <button
+                        type="button"
+                        onclick="
+                            window.openSubmissionForMarking(
+                                '${a.id}',
+                                '${safeId}'
+                            )
+                        "
+                        style="
+                            background:
+                                ${marked
+                                    ? "#2563eb"
+                                    : "#16a34a"};
+                            color:#ffffff;
+                            border:none;
+                            padding:9px 13px;
+                            border-radius:8px;
+                            cursor:pointer;
+                            font-weight:bold;
+                            font-size:12px;
+                            white-space:nowrap;
+                        "
+                    >
+
+                        ${
+                            marked
+                            ? "👁 View / Edit"
+                            : "📝 Mark Submission"
+                        }
+
+                    </button>
+
+                </div>
+
+
+                <!-- =================================
+                     HIDDEN DETAILS
+                ================================== -->
+
+                <div
+                    id="submissionDetails-${safeId}"
+                    style="
+                        display:none;
+                        border-top:1px solid #e2e8f0;
+                        background:#f8fafc;
+                        padding:15px;
+                    "
+                >
+
+                    <!-- QUESTIONS -->
+
+                    ${a.questions.map(
+                        (question,index) => {
+
+                            const answer =
+                                answers[index] || "";
+
+                            const mark =
+                                marks[index] ??
+                                "";
+
+                            return `
+
+                                <div style="
+                                    background:#ffffff;
+                                    border:1px solid #e2e8f0;
+                                    border-radius:10px;
+                                    padding:13px;
+                                    margin-bottom:10px;
+                                ">
+
+                                    <div style="
+                                        font-weight:bold;
+                                        color:#0f172a;
+                                        margin-bottom:7px;
+                                    ">
+                                        ❓ Question
+                                        ${index + 1}
+                                    </div>
+
+
+                                    <div style="
+                                        background:#f8fafc;
+                                        padding:10px;
+                                        border-radius:7px;
+                                        border-left:
+                                            4px solid #2563eb;
+                                        color:#334155;
+                                        line-height:1.6;
+                                        font-size:13px;
+                                    ">
+                                        ${escapeHtml(
+                                            question ||
+                                            "Question unavailable"
+                                        )}
+                                    </div>
+
+
+                                    <div style="
+                                        margin-top:9px;
+                                        font-size:11px;
+                                        font-weight:bold;
+                                        color:#15803d;
+                                    ">
+                                        ✍ Learner Answer
+                                    </div>
+
+
+                                    <div style="
+                                        margin-top:4px;
+                                        background:#ffffff;
+                                        border:1px solid #e2e8f0;
+                                        padding:10px;
+                                        border-radius:7px;
+                                        white-space:pre-wrap;
+                                        line-height:1.6;
+                                        font-size:13px;
+                                        color:#0f172a;
+                                    ">
+                                        ${
+                                            answer
+                                            ? escapeHtml(
+                                                answer
+                                            )
+                                            : `
+                                                <span style="
+                                                    color:#dc2626;
+                                                    font-style:italic;
+                                                ">
+                                                    No answer provided
+                                                </span>
+                                            `
+                                        }
+                                    </div>
+
+
+                                    <!-- MARK -->
+
+                                    <div style="
+                                        margin-top:9px;
+                                        display:flex;
+                                        align-items:center;
+                                        gap:8px;
+                                    ">
+
+                                        <label style="
+                                            font-size:12px;
+                                            font-weight:bold;
+                                            color:#334155;
+                                        ">
+                                            📝 Mark:
+                                        </label>
+
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            max="1"
+                                            step="1"
+                                            value="${mark}"
+                                            id="questionMark-${safeId}-${index}"
+                                            oninput="
+                                                updateSubmissionScore(
+                                                    '${safeId}',
+                                                    ${questionCount}
+                                                )
+                                            "
+                                            style="
+                                                width:60px;
+                                                padding:7px;
+                                                border:
+                                                    1px solid #cbd5e1;
+                                                border-radius:7px;
+                                                text-align:center;
+                                                font-weight:bold;
+                                            "
+                                        >
+
+                                        <span style="
+                                            font-size:11px;
+                                            color:#64748b;
+                                        ">
+                                            / 1
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            `;
+
+                        }
+                    ).join("")}
+
+
+                    <!-- FEEDBACK -->
+
+                    <div style="
+                        margin-top:12px;
+                    ">
+
+                        <label style="
+                            display:block;
+                            font-size:12px;
+                            font-weight:bold;
+                            color:#334155;
+                            margin-bottom:5px;
+                        ">
+                            💬 Teacher Feedback
+                        </label>
+
+                        <textarea
+                            id="feedback-${safeId}"
+                            rows="3"
+                            placeholder="Enter feedback for this learner..."
+                            style="
+                                width:100%;
+                                padding:10px;
+                                border:1px solid #cbd5e1;
+                                border-radius:9px;
+                                resize:vertical;
+                                box-sizing:border-box;
+                                font-family:inherit;
+                            "
+                        >${escapeHtml(
+                            sub.feedback &&
+                            sub.feedback !==
+                                "Pending Marking"
+                            ? sub.feedback
+                            : ""
+                        )}</textarea>
+
+                    </div>
+
+
+                    <!-- ACTIONS -->
+
+                    <div style="
+                        margin-top:12px;
+                        display:flex;
+                        gap:8px;
+                        flex-wrap:wrap;
+                        align-items:center;
+                    ">
+
+                        <!-- FULL MARKS -->
+
+                        <button
+                            type="button"
+                            onclick="
+                                setFullMarks(
+                                    '${safeId}',
+                                    ${questionCount}
+                                )
+                            "
+                            style="
+                                background:#2563eb;
+                                color:#ffffff;
+                                border:none;
+                                padding:8px 11px;
+                                border-radius:7px;
+                                cursor:pointer;
+                                font-weight:bold;
+                                font-size:11px;
+                            "
+                        >
+                            ⭐ Full Marks
+                        </button>
+
+
+                        <!-- CLEAR -->
+
+                        <button
+                            type="button"
+                            onclick="
+                                clearSubmissionMarks(
+                                    '${safeId}',
+                                    ${questionCount}
+                                )
+                            "
+                            style="
+                                background:#f1f5f9;
+                                color:#475569;
+                                border:
+                                    1px solid #cbd5e1;
+                                padding:8px 11px;
+                                border-radius:7px;
+                                cursor:pointer;
+                                font-weight:bold;
+                                font-size:11px;
+                            "
+                        >
+                            ↺ Clear Marks
+                        </button>
+
+
+                        <!-- SAVE -->
+
+                        <button
+                            type="button"
+                            onclick="
+                                markSubmission(
+                                    '${a.id}',
+                                    '${safeId}'
+                                )
+                            "
+                            style="
+                                background:#16a34a;
+                                color:#ffffff;
+                                border:none;
+                                padding:9px 15px;
+                                border-radius:7px;
+                                cursor:pointer;
+                                font-weight:bold;
+                                font-size:12px;
+                                margin-left:auto;
+                            "
+                        >
+                            💾 Save Marks
+                        </button>
+
+
+                        <!-- CLOSE -->
+
+                        <button
+                            type="button"
+                            onclick="
+                                document.getElementById(
+                                    'submissionDetails-${safeId}'
+                                ).style.display='none';
+                            "
+                            style="
+                                background:#64748b;
+                                color:#ffffff;
+                                border:none;
+                                padding:9px 13px;
+                                border-radius:7px;
+                                cursor:pointer;
+                                font-weight:bold;
+                                font-size:11px;
+                            "
+                        >
+                            ✕ Close
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    // =========================================
+    // PAGINATION
+    // =========================================
 
     html += `
 
-      <div style="
-        background:#f8fafc;
-        padding:16px;
-        border-radius:12px;
-        margin-bottom:15px;
-        border:1px solid #e2e8f0;
-      ">
-
-        <h4>
-          👨🎓 ${sub.learner}
-        </h4>
-
-        <p>
-          📅 ${sub.submittedAt}
-        </p>
-
         <div style="
-  margin-top:10px;
-">
-
-${sub.answers.map((ans,index)=>`
-
-  <div style="
-    margin-bottom:18px;
-    padding:14px;
-    background:#f8fafc;
-    border-radius:12px;
-    border:1px solid #e2e8f0;
-  ">
-
-    <!-- QUESTION -->
-    <div style="
-      font-weight:bold;
-      color:#0f172a;
-      margin-bottom:8px;
-    ">
-      ❓ Question ${index + 1}
-    </div>
-
-    <div style="
-      background:#ffffff;
-      padding:12px;
-      border-radius:8px;
-      line-height:1.7;
-      margin-bottom:12px;
-      border-left:4px solid #2563eb;
-    ">
-      ${a.questions[index] || "Question Missing"}
-    </div>
-
-    <!-- ANSWER -->
-    <div style="
-      font-weight:bold;
-      color:#16a34a;
-      margin-bottom:8px;
-    ">
-      ✍ Learner Answer
-    </div>
-
-    <div style="
-      background:#ffffff;
-      padding:12px;
-      border-radius:8px;
-      line-height:1.7;
-      border-left:4px solid #16a34a;
-      white-space:pre-wrap;
-    ">
-      ${ans || "No Answer"}
-    </div>
-
-  </div>
-
-`).join("")}
-
-</div>
-
-        <!-- MARKS -->
-        <div style="
-          margin-top:12px;
-          color:#16a34a;
-          font-weight:bold;
-        ">
-          Marks:
-          ${sub.marks ? sub.marks : "Not Marked"}
-        </div>
-
-        <!-- FEEDBACK -->
-        <div style="
-          margin-top:8px;
-          color:#334155;
-        ">
-          Feedback:
-          ${sub.feedback}
-        </div>
-
-        <!-- TEACHER MARKING -->
-        <div style="
-          margin-top:15px;
-          display:flex;
-          gap:10px;
-          flex-wrap:wrap;
+            margin-top:15px;
+            padding:12px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:8px;
+            flex-wrap:wrap;
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:10px;
         ">
 
-          <input
-            id="marks-${sub.id}"
+            <button
+                type="button"
+                ${state.page <= 1
+                    ? "disabled"
+                    : ""}
+                onclick="
+                    window.assignmentSubmissionState[
+                        '${a.id}'
+                    ].page--;
 
-            type="number"
+                    window.renderAssignments();
+                "
+                style="
+                    background:
+                        ${state.page <= 1
+                            ? "#cbd5e1"
+                            : "#2563eb"};
+                    color:#ffffff;
+                    border:none;
+                    padding:8px 13px;
+                    border-radius:7px;
+                    cursor:
+                        ${state.page <= 1
+                            ? "not-allowed"
+                            : "pointer"};
+                    font-weight:bold;
+                "
+            >
+                ← Previous
+            </button>
 
-            placeholder="Marks"
 
-            style="
-              padding:10px;
-              border-radius:8px;
-              border:1px solid #ccc;
-            "
-          >
+            <div style="
+                padding:8px 12px;
+                background:#ffffff;
+                border:1px solid #e2e8f0;
+                border-radius:7px;
+                color:#334155;
+                font-size:12px;
+                font-weight:bold;
+            ">
+                Page ${state.page}
+                / ${totalPages}
+            </div>
 
-          <input
-            id="feedback-${sub.id}"
 
-            placeholder="Teacher Feedback"
+            <button
+                type="button"
+                ${state.page >= totalPages
+                    ? "disabled"
+                    : ""}
+                onclick="
+                    window.assignmentSubmissionState[
+                        '${a.id}'
+                    ].page++;
 
-            style="
-              flex:1;
-              padding:10px;
-              border-radius:8px;
-              border:1px solid #ccc;
-            "
-          >
-
-          <button
-        onclick="
-  markSubmission(
-    '${a.id}',
-    '${sub.id}'
-  )
-"
-            style="
-              background:#16a34a;
-              color:white;
-              border:none;
-              padding:10px 14px;
-              border-radius:8px;
-              cursor:pointer;
-            "
-          >
-            ✅ Mark
-          </button>
+                    window.renderAssignments();
+                "
+                style="
+                    background:
+                        ${state.page >= totalPages
+                            ? "#cbd5e1"
+                            : "#2563eb"};
+                    color:#ffffff;
+                    border:none;
+                    padding:8px 13px;
+                    border-radius:7px;
+                    cursor:
+                        ${state.page >= totalPages
+                            ? "not-allowed"
+                            : "pointer"};
+                    font-weight:bold;
+                "
+            >
+                Next →
+            </button>
 
         </div>
-
-      </div>
 
     `;
-  });
 
-  return html;
+
+    // =========================================
+    // RETURN
+    // =========================================
+
+    return html;
+
 };
 
-// =========================================
-// MARK SUBMISSION
-// =========================================
 
-window.markSubmission =
-async function(
-  assignmentId,
-  submissionId
+// =========================================================
+// 📝 OPEN / CLOSE SUBMISSION FOR MARKING
+// =========================================================
+
+window.openSubmissionForMarking =
+function(
+    assignmentId,
+    submissionId
 ){
 
-  try{
-
-   const schoolId = window.schoolId;
-
-if (!schoolId) {
-  console.warn("schoolId not ready");
-  return;
-}
-
-    const marks =
-      document.getElementById(
-        `marks-${submissionId}`
-      )?.value;
-
-    const feedback =
-      document.getElementById(
-        `feedback-${submissionId}`
-      )?.value;
-
-    await update(
-
-      ref(
-        db,
-        `schools/${schoolId}/assignmentSubmissions/${submissionId}`
-      ),
-
-      {
-        marks,
-        feedback
-      }
-    );
-
-    const assignment =
-      assignments.find(
-        a => a.id === assignmentId
-      );
-
-    if(assignment){
-
-      const submission =
-        assignment.submissions.find(
-          s => s.id === submissionId
+    const details =
+        document.getElementById(
+            `submissionDetails-${submissionId}`
         );
 
-      if(submission){
+    if(!details) return;
 
-        submission.marks =
-          marks;
 
-        submission.feedback =
-          feedback;
-      }
+    if(
+        details.style.display === "none" ||
+        details.style.display === ""
+    ){
+
+        details.style.display =
+            "block";
+
+
+        setTimeout(() => {
+
+            details.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+        },100);
+
+    }else{
+
+        details.style.display =
+            "none";
+
     }
 
-    window.renderAssignments();
-
-    Swal.fire(
-      "Marked",
-      "Results returned successfully",
-      "success"
-    );
-
-  }catch(err){
-
-    console.error(err);
-
-    Swal.fire(
-      "Error",
-      "Failed to mark submission",
-      "error"
-    );
-  }
 };
+// =========================================================
+// 📊 UPDATE LIVE SCORE
+// =========================================================
+
+window.updateSubmissionScore = function(
+    submissionId,
+    questionCount
+){
+
+    let total = 0;
+
+    for(let i = 0; i < questionCount; i++){
+
+        const input =
+            document.getElementById(
+                `questionMark-${submissionId}-${i}`
+            );
+
+        if(input){
+
+            let value =
+                Number(input.value);
+
+            if(isNaN(value)) value = 0;
+
+            if(value < 0) value = 0;
+
+            if(value > 1) value = 1;
+
+            input.value = value;
+
+            total += value;
+        }
+    }
+
+
+    const score =
+        document.getElementById(
+            `score-${submissionId}`
+        );
+
+    if(score){
+
+        score.innerHTML =
+            `${total} / ${questionCount}`;
+    }
+};
+
+
+// =========================================================
+// ⭐ GIVE FULL MARKS
+// =========================================================
+
+window.setFullMarks = function(
+    submissionId,
+    questionCount
+){
+
+    for(let i = 0; i < questionCount; i++){
+
+        const input =
+            document.getElementById(
+                `questionMark-${submissionId}-${i}`
+            );
+
+        if(input){
+            input.value = 1;
+        }
+    }
+
+    updateSubmissionScore(
+        submissionId,
+        questionCount
+    );
+};
+
+
+// =========================================================
+// ↺ CLEAR MARKS
+// =========================================================
+
+window.clearSubmissionMarks = function(
+    submissionId,
+    questionCount
+){
+
+    for(let i = 0; i < questionCount; i++){
+
+        const input =
+            document.getElementById(
+                `questionMark-${submissionId}-${i}`
+            );
+
+        if(input){
+            input.value = "";
+        }
+    }
+
+    updateSubmissionScore(
+        submissionId,
+        questionCount
+    );
+};
+
+
+
+// =========================================
+// 💯 MARK ASSIGNMENT SUBMISSION
+// =========================================
+
+window.markSubmission = async function(
+    assignmentId,
+    submissionId
+){
+
+    try {
+
+        // =========================================
+        // SCHOOL SESSION
+        // =========================================
+
+        const schoolId =
+            window.schoolId ||
+            localStorage.getItem("schoolId");
+
+        if(!schoolId){
+
+            Swal.fire(
+                "Access Denied",
+                "School session not found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // =========================================
+        // FIND ASSIGNMENT
+        // =========================================
+
+        const assignment =
+            assignments.find(
+                a => a.id === assignmentId
+            );
+
+        if(!assignment){
+
+            Swal.fire(
+                "Error",
+                "Assignment not found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // =========================================
+        // FIND SUBMISSION
+        // =========================================
+
+        const submission =
+            (assignment.submissions || []).find(
+                s => s.id === submissionId
+            );
+
+        if(!submission){
+
+            Swal.fire(
+                "Error",
+                "Submission not found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // =========================================
+        // QUESTION COUNT
+        // =========================================
+
+        const questionCount =
+            (assignment.questions || []).length;
+
+        if(questionCount === 0){
+
+            Swal.fire(
+                "Error",
+                "This assignment has no questions.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // =========================================
+        // COLLECT QUESTION MARKS
+        // =========================================
+
+        const marks = [];
+
+        let total = 0;
+
+        for(
+            let i = 0;
+            i < questionCount;
+            i++
+        ){
+
+            const input =
+                document.getElementById(
+                    `questionMark-${submissionId}-${i}`
+                );
+
+            let value =
+                Number(
+                    input?.value || 0
+                );
+
+            // Invalid number
+            if(!Number.isFinite(value)){
+                value = 0;
+            }
+
+            // Each question is currently
+            // marked out of 1
+            if(value < 0){
+                value = 0;
+            }
+
+            if(value > 1){
+                value = 1;
+            }
+
+            marks.push(value);
+
+            total += value;
+        }
+
+
+        // =========================================
+        // ROUND TOTAL
+        // =========================================
+
+        total =
+            Math.round(
+                total * 100
+            ) / 100;
+
+
+        // =========================================
+        // FEEDBACK
+        // =========================================
+
+        const feedbackInput =
+            document.getElementById(
+                `feedback-${submissionId}`
+            );
+
+        const feedback =
+            feedbackInput?.value.trim() ||
+            "No feedback provided";
+
+
+        // =========================================
+        // CALCULATE PERCENTAGE
+        // =========================================
+
+        const percentage =
+            Math.round(
+                (total / questionCount) *
+                100
+            );
+
+
+        // =========================================
+        // MARKING DATE
+        // =========================================
+
+        const markedAt =
+            Date.now();
+
+
+        // =========================================
+        // COMPLETE MARKING DATA
+        // =========================================
+
+        const updatedData = {
+
+            assignmentId:
+                assignmentId,
+
+            submissionId:
+                submissionId,
+
+            learner:
+                submission.learner ||
+                submission.learnerName ||
+                "Learner",
+
+            marks:
+                marks,
+
+            total:
+                total,
+
+            maxMarks:
+                questionCount,
+
+            percentage:
+                percentage,
+
+            feedback:
+                feedback,
+
+            status:
+                "Marked",
+
+            marked:
+                true,
+
+            markedAt:
+                markedAt
+
+        };
+
+
+        // =========================================
+        // SAVE TO FIREBASE
+        // =========================================
+
+        const submissionRef =
+            ref(
+                db,
+                `schools/${schoolId}/assignmentSubmissions/${submissionId}`
+            );
+
+
+        await update(
+            submissionRef,
+            updatedData
+        );
+
+
+        // =========================================
+        // UPDATE LOCAL SUBMISSION
+        // =========================================
+
+        submission.assignmentId =
+            assignmentId;
+
+        submission.marks =
+            marks;
+
+        submission.total =
+            total;
+
+        submission.maxMarks =
+            questionCount;
+
+        submission.percentage =
+            percentage;
+
+        submission.feedback =
+            feedback;
+
+        submission.status =
+            "Marked";
+
+        submission.marked =
+            true;
+
+        submission.markedAt =
+            markedAt;
+
+
+        // =========================================
+        // ALSO UPDATE ASSIGNMENT LOCAL DATA
+        // =========================================
+
+        const assignmentSubmissionIndex =
+            (assignment.submissions || [])
+                .findIndex(
+                    s => s.id === submissionId
+                );
+
+        if(
+            assignmentSubmissionIndex !== -1
+        ){
+
+            assignment.submissions[
+                assignmentSubmissionIndex
+            ] = {
+
+                ...assignment.submissions[
+                    assignmentSubmissionIndex
+                ],
+
+                ...updatedData
+
+            };
+
+        }
+
+
+        // =========================================
+        // SUCCESS MESSAGE
+        // =========================================
+
+        await Swal.fire({
+
+            icon:
+                "success",
+
+            title:
+                "✅ Marks Saved",
+
+            html: `
+
+                <div style="
+                    text-align:center;
+                ">
+
+                    <div style="
+                        font-size:32px;
+                        font-weight:bold;
+                        color:#16a34a;
+                    ">
+                        ${total}/${questionCount}
+                    </div>
+
+                    <div style="
+                        margin-top:4px;
+                        font-size:15px;
+                        font-weight:bold;
+                        color:#334155;
+                    ">
+                        ${percentage}%
+                    </div>
+
+                    <div style="
+                        margin-top:8px;
+                        color:#64748b;
+                    ">
+                        ${escapeHtml(
+                            submission.learner ||
+                            submission.learnerName ||
+                            "Learner"
+                        )}
+                    </div>
+
+                    <div style="
+                        margin-top:12px;
+                        padding:10px;
+                        background:#f0fdf4;
+                        border:1px solid #bbf7d0;
+                        border-radius:8px;
+                        color:#166534;
+                        font-size:13px;
+                    ">
+                        ✅ Marks and teacher feedback
+                        have been saved successfully.
+                    </div>
+
+                </div>
+
+            `,
+
+            confirmButtonText:
+                "Done",
+
+            confirmButtonColor:
+                "#16a34a"
+
+        });
+
+
+        // =========================================
+        // REFRESH ASSIGNMENTS
+        // =========================================
+
+        if(
+            typeof window.renderAssignments ===
+            "function"
+        ){
+
+            window.renderAssignments();
+
+        }
+
+
+    } catch(err){
+
+        console.error(
+            "❌ MARK_SUBMISSION_ERROR:",
+            err
+        );
+
+        Swal.fire(
+            "Error",
+            err.message ||
+            "Failed to save marks.",
+            "error"
+        );
+
+    }
+
+};
+
 // =========================================
 // EXTEND DEADLINE
 // =========================================
@@ -54717,26 +59177,182 @@ if (!schoolId) {
   });
 
 };
-// =========================================
-// UNLOCK NEXT QUESTION
-// =========================================
 
-window.unlockNextQuestion = function(
+// =========================================================
+// 🔐 ASSIGNMENT SUBMISSION PROTECTION HELPERS
+// =========================================================
+
+// Normalize learner names so comparisons are reliable
+window.normalizeLearnerName = function(name) {
+
+  return String(name || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+};
+
+
+// =========================================================
+// LOCAL SUBMISSION KEY
+// =========================================================
+
+window.getAssignmentSubmissionKey = function(
   assignmentId,
-  currentIndex
-){
+  learner
+) {
 
-  const current =
-    document.getElementById(
-      `answer-${assignmentId}-${currentIndex}`
+  return `assignmentSubmitted_${assignmentId}_${normalizeLearnerName(learner)}`;
+
+};
+
+
+// =========================================================
+// CHECK LOCAL SUBMISSION
+// =========================================================
+
+window.hasLocalAssignmentSubmission = function(
+  assignmentId,
+  learner
+) {
+
+  const key =
+    getAssignmentSubmissionKey(
+      assignmentId,
+      learner
     );
 
-  if(!current) return;
+  return localStorage.getItem(key) === "true";
+};
 
-  const answer =
-    current.value.trim();
 
-  if(answer.length < 5){
+// =========================================================
+// SAVE LOCAL SUBMISSION
+// =========================================================
+
+window.markAssignmentAsSubmittedLocally = function(
+  assignmentId,
+  learner
+) {
+
+  const key =
+    getAssignmentSubmissionKey(
+      assignmentId,
+      learner
+    );
+
+  localStorage.setItem(key, "true");
+};
+
+
+// =========================================================
+// 🔐 CHECK FIREBASE SUBMISSION
+// THIS IS THE REAL PERMANENT PROTECTION
+// =========================================================
+
+window.hasSubmittedAssignment = async function(
+  assignmentId,
+  learner
+) {
+
+  try {
+
+    const schoolId =
+      window.schoolId ||
+      localStorage.getItem("schoolId");
+
+    if (!schoolId) {
+      return false;
+    }
+
+    const snap = await get(
+      ref(
+        db,
+        `schools/${schoolId}/assignmentSubmissions`
+      )
+    );
+
+    if (!snap.exists()) {
+      return false;
+    }
+
+    const normalizedLearner =
+      normalizeLearnerName(learner);
+
+    let submitted = false;
+
+    snap.forEach(child => {
+
+      const submission =
+        child.val() || {};
+
+      if (
+        submission.assignmentId === assignmentId &&
+        normalizeLearnerName(
+          submission.learner
+        ) === normalizedLearner
+      ) {
+
+        submitted = true;
+      }
+
+    });
+
+    return submitted;
+
+  } catch (error) {
+
+    console.error(
+      "CHECK_ASSIGNMENT_SUBMISSION_ERROR:",
+      error
+    );
+
+    return false;
+  }
+};
+
+
+// =========================================
+// UNLOCK NEXT QUESTION
+// FINAL VERSION
+// - Validates current answer
+// - Updates progress
+// - Opens next question
+// - Shows Submit button immediately
+//   when ALL questions are answered
+// =========================================
+
+
+
+// =========================================
+// UNLOCK NEXT QUESTION / COMPLETE ASSIGNMENT
+// =========================================
+
+window.unlockNextQuestion = function (
+  assignmentId,
+  currentIndex
+) {
+
+  // =========================================
+  // GET CURRENT ANSWER
+  // =========================================
+
+  const current = document.getElementById(
+    `answer-${assignmentId}-${currentIndex}`
+  );
+
+  if (!current) return;
+
+  const answer = current.value.trim();
+
+  // =========================================
+  // VALIDATE ANSWER
+  // IMPORTANT:
+  // Short answers such as "8", "5", "12"
+  // MUST be accepted.
+  // =========================================
+
+  if (answer.length === 0) {
 
     Swal.fire(
       "Incomplete Answer",
@@ -54744,40 +59360,314 @@ window.unlockNextQuestion = function(
       "warning"
     );
 
+    current.focus();
     return;
   }
 
-  // UPDATE PROGRESS
-  const allAnswers =
-    document.querySelectorAll(
-      `[id^="answer-${assignmentId}-"]`
-    );
+  // =========================================
+  // GET ALL ANSWERS
+  // =========================================
+
+  const allAnswers = document.querySelectorAll(
+    `[id^="answer-${assignmentId}-"]`
+  );
+
+  const totalQuestions = allAnswers.length;
+
+  // =========================================
+  // COUNT ANSWERED QUESTIONS
+  // =========================================
 
   let answered = 0;
 
   allAnswers.forEach(area => {
 
-    if(area.value.trim() !== ""){
+    if (
+      area.value &&
+      area.value.trim().length > 0
+    ) {
       answered++;
     }
 
   });
 
-  const progress =
-    document.getElementById(
-      `progress-${assignmentId}`
-    );
+  // =========================================
+  // UPDATE PROGRESS
+  // =========================================
 
-  if(progress){
+  const progress = document.getElementById(
+    `progress-${assignmentId}`
+  );
+
+  if (progress) {
 
     progress.innerHTML = `
       📘 Progress:
-      ${answered}/${allAnswers.length}
+      ${answered}/${totalQuestions}
       Questions Answered
     `;
+
+    // Reset normal progress styling
+    progress.style.background = "#eff6ff";
+    progress.style.border = "1px solid #bfdbfe";
+    progress.style.color = "#1e3a8a";
   }
 
+  // =========================================
+  // CHECK WHETHER ALL QUESTIONS ARE ANSWERED
+  // =========================================
+
+  if (answered === totalQuestions) {
+
+    // =======================================
+    // MARK SESSION AS COMPLETED
+    // =======================================
+
+    const assignment = assignments.find(
+      a => a.id === assignmentId
+    );
+
+    if (assignment) {
+
+      const learner =
+        localStorage.getItem("lastLearnerName") || "";
+
+      const sessionKey =
+        `${assignmentId}-${learner}`;
+
+      if (activeSessions[sessionKey]) {
+
+        activeSessions[sessionKey].completed = true;
+      }
+    }
+
+    // =======================================
+    // SHOW COMPLETED PROGRESS
+    // =======================================
+
+    if (progress) {
+
+      progress.innerHTML = `
+        <div style="
+          font-size:17px;
+          font-weight:bold;
+        ">
+          ✅ All Questions Answered
+        </div>
+
+        <div style="
+          margin-top:6px;
+          font-size:14px;
+        ">
+          ${answered}/${totalQuestions}
+          Questions Answered
+        </div>
+      `;
+
+      progress.style.background = "#dcfce7";
+      progress.style.border = "1px solid #86efac";
+      progress.style.color = "#166534";
+    }
+
+    // =======================================
+    // SHOW MAIN SUBMIT BUTTON
+    // =======================================
+
+    const submitBtn = document.getElementById(
+      `submitBtn-${assignmentId}`
+    );
+
+    if (submitBtn) {
+
+      submitBtn.style.display = "block";
+      submitBtn.disabled = false;
+
+      submitBtn.innerHTML =
+        "📤 Submit Assignment";
+
+      submitBtn.style.background = "#16a34a";
+      submitBtn.style.color = "#ffffff";
+      submitBtn.style.fontWeight = "bold";
+      submitBtn.style.cursor = "pointer";
+
+      submitBtn.style.boxShadow =
+        "0 5px 15px rgba(22,163,74,0.25)";
+
+    }
+
+    // =======================================
+    // CREATE A VISIBLE SUBMIT BUTTON
+    // DIRECTLY UNDER THE FINAL QUESTION
+    // =======================================
+
+    const currentBlock = document.getElementById(
+      `questionBlock-${assignmentId}-${currentIndex}`
+    );
+
+    if (currentBlock) {
+
+      // Remove old completion button if it exists
+      const oldSubmit =
+        currentBlock.querySelector(
+          ".final-assignment-submit"
+        );
+
+      if (oldSubmit) {
+        oldSubmit.remove();
+      }
+
+      // Create dedicated final submit button
+      const finalSubmit =
+        document.createElement("button");
+
+      finalSubmit.type = "button";
+
+      finalSubmit.className =
+        "final-assignment-submit";
+
+      finalSubmit.innerHTML =
+        "📤 Submit Whole Assignment";
+
+      finalSubmit.style.cssText = `
+        display:block;
+        width:100%;
+        margin-top:18px;
+        padding:14px 18px;
+        border:none;
+        border-radius:10px;
+        background:#16a34a;
+        color:#ffffff;
+        font-size:15px;
+        font-weight:bold;
+        cursor:pointer;
+        box-shadow:0 5px 15px rgba(22,163,74,0.25);
+      `;
+
+      finalSubmit.onclick = function () {
+
+        if (typeof window.submitAssignment === "function") {
+
+          window.submitAssignment(assignmentId);
+
+        } else {
+
+          Swal.fire(
+            "Submit Error",
+            "The assignment submission function is not available.",
+            "error"
+          );
+
+        }
+
+      };
+
+      currentBlock.appendChild(finalSubmit);
+
+      // =====================================
+      // SCROLL TO SUBMIT BUTTON
+      // =====================================
+
+      setTimeout(() => {
+
+        finalSubmit.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+      }, 150);
+    }
+
+    // =======================================
+    // DISABLE FINAL QUESTION NEXT BUTTON
+    // =======================================
+
+    if (currentBlock) {
+
+      const nextButton =
+        currentBlock.querySelector(
+          'button:not(.final-assignment-submit)'
+        );
+
+      if (nextButton) {
+
+        nextButton.disabled = true;
+
+        nextButton.innerHTML =
+          "✅ All Questions Answered";
+
+        nextButton.style.background =
+          "#94a3b8";
+
+        nextButton.style.cursor =
+          "not-allowed";
+      }
+    }
+
+    // =======================================
+    // SUCCESS MESSAGE
+    // =======================================
+
+    Swal.fire({
+
+      icon: "success",
+
+      title: "🎉 All Questions Answered",
+
+      html: `
+        <div style="text-align:center;">
+
+          <p>
+            You have answered
+            <strong>
+              ${answered}/${totalQuestions}
+            </strong>
+            questions.
+          </p>
+
+          <p style="
+            color:#166534;
+            font-weight:bold;
+          ">
+            Your assignment is ready to submit.
+          </p>
+
+        </div>
+      `,
+
+      confirmButtonText:
+        "📤 Go To Submit",
+
+      confirmButtonColor:
+        "#16a34a"
+
+    }).then(() => {
+
+      const btn = document.getElementById(
+        `submitBtn-${assignmentId}`
+      );
+
+      if (btn) {
+
+        btn.style.display = "block";
+
+        btn.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+        btn.focus();
+
+      }
+
+    });
+
+    return;
+  }
+
+  // =========================================
   // OPEN NEXT QUESTION
+  // =========================================
+
   const nextIndex =
     currentIndex + 1;
 
@@ -54791,66 +59681,61 @@ window.unlockNextQuestion = function(
       `answer-${assignmentId}-${nextIndex}`
     );
 
-  if(nextBlock && nextAnswer){
+  if (nextBlock && nextAnswer) {
 
+    // SHOW NEXT QUESTION
     nextBlock.style.display = "block";
 
+    // ENABLE NEXT ANSWER
     nextAnswer.disabled = false;
 
-    nextAnswer.focus();
+    nextAnswer.style.background =
+      "#ffffff";
 
+    // FOCUS NEXT ANSWER
+    setTimeout(() => {
+      nextAnswer.focus();
+    }, 100);
+
+    // SCROLL TO NEXT QUESTION
     nextBlock.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
+      behavior: "smooth",
+      block: "center"
     });
-
-  } else {
-
-    // LAST QUESTION
-    if(progress){
-
-      progress.innerHTML = `
-        ✅ All Questions Completed
-        (${answered}/${allAnswers.length})
-      `;
-
-      progress.style.background =
-        "#dcfce7";
-
-      progress.style.color =
-        "#166534";
-    }
 
   }
 
 };
+
+
 // =========================================
 // TOGGLE ACTION BUTTONS
 // =========================================
 
-window.toggleActionButtons = function(){
+window.toggleActionButtons = function () {
 
-  const panel =
-    document.getElementById(
-      "actionButtonsPanel"
-    );
+  const panel = document.getElementById(
+    "actionButtonsPanel"
+  );
 
-  if(!panel) return;
+  if (!panel) return;
 
-  if(
+  if (
     panel.style.display === "none" ||
     panel.style.display === ""
-  ){
+  ) {
 
     panel.style.display = "flex";
 
-  }else{
+  } else {
 
     panel.style.display = "none";
 
   }
 
 };
+
+
 window.populateHostelGrades = function() {
 
     const gradeSelect =
@@ -63191,6 +68076,8 @@ onclick="show('inventory');Swal.close();">
     });
 
 };
+
+
 function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
