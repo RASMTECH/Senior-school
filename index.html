@@ -1676,7 +1676,72 @@ button.primary{
     background:#f3f4f6;
 
 }
+/* =========================================
+   SUBJECT PICKER — RASM STYLE
+========================================= */
 
+.subject-picker-title{
+
+    color:#dc2626 !important;
+
+    font-size:26px !important;
+
+    font-weight:800 !important;
+
+    letter-spacing:.2px;
+
+    text-shadow:
+        0 1px 0 #fff,
+        0 2px 4px rgba(220,38,38,.15);
+}
+
+
+/* Highlight / instruction box */
+
+.swal2-html-container{
+
+    color:#7c2d12;
+}
+
+
+/* Generate Report button */
+
+.subject-picker-confirm{
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    ) !important;
+
+    color:#fff !important;
+
+    border:none !important;
+
+    border-radius:9px !important;
+
+    font-weight:800 !important;
+
+    box-shadow:
+        0 4px 10px
+        rgba(245,158,11,.25) !important;
+}
+
+
+/* Cancel */
+
+.subject-picker-cancel{
+
+    background:#dc2626 !important;
+
+    color:#fff !important;
+
+    border:none !important;
+
+    border-radius:9px !important;
+
+    font-weight:700 !important;
+}
 /*=========================================================
   MOBILE
 =========================================================*/
@@ -3363,7 +3428,66 @@ button.primary{
 
 }
 
+/* =========================================
+   GENERATE BLANK MERIT LIST
+========================================= */
 
+.merit-list-title{
+
+    color:#dc2626 !important;
+
+    font-size:25px !important;
+
+    font-weight:800 !important;
+
+    text-shadow:
+        0 1px 0 #fff,
+        0 2px 4px rgba(220,38,38,.15);
+}
+
+
+/* 🟡 Generate button */
+
+.merit-list-generate{
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    ) !important;
+
+    color:#fff !important;
+
+    border:none !important;
+
+    border-radius:9px !important;
+
+    font-weight:800 !important;
+
+    box-shadow:
+        0 4px 10px
+        rgba(245,158,11,.25) !important;
+}
+
+
+/* 🔴 Cancel button */
+
+.merit-list-cancel{
+
+    background:linear-gradient(
+        135deg,
+        #dc2626,
+        #b91c1c
+    ) !important;
+
+    color:#fff !important;
+
+    border:none !important;
+
+    border-radius:9px !important;
+
+    font-weight:700 !important;
+}
 
 /* ===========================================
    CERTIFICATE PRINT STYLES
@@ -3788,6 +3912,325 @@ button.primary{
     top:0;
     z-index:10;
 }
+
+/* =========================================
+   REPORTS & ANALYSIS BUTTONS
+========================================= */
+
+.reports-btn{
+    background:linear-gradient(135deg,#2563eb,#1d4ed8) !important;
+    color:#fff !important;
+    border:1px solid #1d4ed8 !important;
+    box-shadow:0 4px 12px rgba(37,99,235,.25);
+}
+
+.reports-btn:hover{
+    background:linear-gradient(135deg,#1d4ed8,#1e40af) !important;
+}
+
+
+/* 🎓 TOP 5 CERTIFICATES */
+.btn-gold{
+    background:linear-gradient(135deg,#f59e0b,#d97706) !important;
+    color:#fff !important;
+    border:1px solid #d97706 !important;
+    box-shadow:0 3px 9px rgba(245,158,11,.22);
+}
+
+.btn-gold:hover{
+    background:linear-gradient(135deg,#d97706,#b45309) !important;
+}
+
+
+/* 🏆 PERFORMANCE */
+.btn-performance{
+    background:linear-gradient(135deg,#7c3aed,#6d28d9) !important;
+    color:#fff !important;
+    border:1px solid #6d28d9 !important;
+    box-shadow:0 3px 9px rgba(124,58,237,.22);
+}
+
+.btn-performance:hover{
+    background:linear-gradient(135deg,#6d28d9,#5b21b6) !important;
+}
+
+
+/* 🥇 TOP GRADE */
+.btn-grade{
+    background:linear-gradient(135deg,#eab308,#ca8a04) !important;
+    color:#fff !important;
+    border:1px solid #ca8a04 !important;
+    box-shadow:0 3px 9px rgba(234,179,8,.22);
+}
+
+.btn-grade:hover{
+    background:linear-gradient(135deg,#ca8a04,#a16207) !important;
+}
+
+
+/* 👨‍🎓 TOP STUDENTS */
+.btn-students{
+    background:linear-gradient(135deg,#16a34a,#15803d) !important;
+    color:#fff !important;
+    border:1px solid #15803d !important;
+    box-shadow:0 3px 9px rgba(22,163,74,.22);
+}
+
+.btn-students:hover{
+    background:linear-gradient(135deg,#15803d,#166534) !important;
+}
+
+
+/* 📊 TERM PERFORMANCE */
+.btn-term{
+    background:linear-gradient(135deg,#0891b2,#0e7490) !important;
+    color:#fff !important;
+    border:1px solid #0e7490 !important;
+    box-shadow:0 3px 9px rgba(8,145,178,.22);
+}
+
+.btn-term:hover{
+    background:linear-gradient(135deg,#0e7490,#155e75) !important;
+}
+
+
+/* =========================================
+   COMMON BUTTON POLISH
+========================================= */
+
+.action-master-btn,
+.action-btn{
+
+    min-height:44px;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+.action-master-btn:hover,
+.action-btn:hover{
+
+    transform:translateY(-2px);
+
+    filter:brightness(1.04);
+
+    box-shadow:0 6px 16px rgba(15,23,42,.15);
+}
+
+.action-master-btn:active,
+.action-btn:active{
+
+    transform:scale(.98);
+}
+/* =========================================
+   🇰🇪 KENYAN FLAG — RESULTS ACTIONS
+========================================= */
+
+/* Main Results Actions button */
+.action-group .action-master-btn{
+
+    background:linear-gradient(
+        135deg,
+        #111827 0%,
+        #000000 45%,
+        #b91c1c 100%
+    ) !important;
+
+    color:#fff !important;
+
+    border:2px solid #dc2626 !important;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.25);
+
+    font-weight:800;
+}
+
+
+/* 🇰🇪 Send Selected — BLACK */
+.action-group .btn-blue{
+
+    background:linear-gradient(
+        135deg,
+        #111827,
+        #000000
+    ) !important;
+
+    color:#fff !important;
+
+    border:2px solid #000 !important;
+
+    box-shadow:
+        0 3px 9px rgba(0,0,0,.25);
+}
+
+.action-group .btn-blue:hover{
+
+    background:linear-gradient(
+        135deg,
+        #000000,
+        #1f2937
+    ) !important;
+
+    transform:translateY(-2px);
+}
+
+
+/* 🇰🇪 Send Loaded Grade — GREEN */
+.action-group .btn-green{
+
+    background:linear-gradient(
+        135deg,
+        #15803d,
+        #166534
+    ) !important;
+
+    color:#fff !important;
+
+    border:2px solid #166534 !important;
+
+    box-shadow:
+        0 3px 9px rgba(22,101,52,.25);
+}
+
+.action-group .btn-green:hover{
+
+    background:linear-gradient(
+        135deg,
+        #166534,
+        #14532d
+    ) !important;
+
+    transform:translateY(-2px);
+}
+
+
+/* 🇰🇪 Delete Selected — RED */
+.action-group .delete-btn{
+
+    background:linear-gradient(
+        135deg,
+        #dc2626,
+        #991b1b
+    ) !important;
+
+    color:#fff !important;
+
+    border:2px solid #991b1b !important;
+
+    box-shadow:
+        0 3px 9px rgba(220,38,38,.25);
+
+    font-weight:700;
+}
+
+.action-group .delete-btn:hover{
+
+    background:linear-gradient(
+        135deg,
+        #b91c1c,
+        #7f1d1d
+    ) !important;
+
+    transform:translateY(-2px);
+}
+
+
+/* 🇰🇪 Delete Subject — RED + BLACK */
+.action-group button[onclick="deleteClassSubjectMarks()"]{
+
+    height:42px !important;
+
+    background:linear-gradient(
+        135deg,
+        #000000 0%,
+        #111827 35%,
+        #dc2626 100%
+    ) !important;
+
+    color:#fff !important;
+
+    border:2px solid #dc2626 !important;
+
+    padding:0 18px !important;
+
+    border-radius:9px !important;
+
+    cursor:pointer;
+
+    font-weight:800;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    white-space:nowrap;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.25);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+.action-group button[onclick="deleteClassSubjectMarks()"]:hover{
+
+    background:linear-gradient(
+        135deg,
+        #dc2626,
+        #991b1b,
+        #000000
+    ) !important;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 7px 16px rgba(0,0,0,.25);
+}
+
+
+/* =========================================
+   COMMON KENYAN ACTION BUTTON POLISH
+========================================= */
+
+.action-group .action-btn,
+.action-group .action-master-btn{
+
+    min-height:42px;
+
+    border-radius:9px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        filter .2s ease;
+}
+
+.action-group .action-btn:active,
+.action-group .action-master-btn:active{
+
+    transform:scale(.97);
+}
+
 </style>
 </head>
 
@@ -7161,31 +7604,7 @@ margin-bottom:18px;
             <i class="fas fa-database"></i>
             Load Exam Results
 
-        </button>
-
-        <!-- DELETE SUBJECT -->
-        <button
-            onclick="deleteClassSubjectMarks()"
-            style="
-            height:42px;
-            background:#dc2626;
-            color:#fff;
-            border:none;
-            padding:0 18px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-            display:flex;
-            align-items:center;
-            gap:8px;
-            white-space:nowrap;
-            ">
-
-            <i class="fas fa-trash"></i>
-            Delete Subject
-
-        </button>
-
+       
     </div>
 
     <!-- RIGHT SIDE -->
@@ -7258,6 +7677,30 @@ margin-bottom:18px;
                 <i class="fa fa-trash"></i>
                 Delete Selected
             </button>
+ </button>
+
+        <!-- DELETE SUBJECT -->
+        <button
+            onclick="deleteClassSubjectMarks()"
+            style="
+            height:42px;
+            background:#dc2626;
+            color:#fff;
+            border:none;
+            padding:0 18px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:bold;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            white-space:nowrap;
+            ">
+
+            <i class="fas fa-trash"></i>
+            Delete Subject
+
+        </button>
 
         </div>
 
@@ -7344,7 +7787,7 @@ margin-bottom:18px;
 
 
 <div id="genderPerformance" class="section" style="display:none; padding:20px;">
-  <h2>⚧ </h2>
+ 
   <div id="genderPerformanceContent"></div>
 </div>
 
@@ -7356,7 +7799,7 @@ margin-bottom:18px;
 
 
 <div id="combineMarksByGrade" class="section" style="display:none; padding:20px;">
-  <h2>👨👨</h2>
+ 
   <div id="combineMarksByGradeContent"></div>
 </div>
 
@@ -27006,104 +27449,375 @@ function renderHTML(targetId, html) {
 
 function runSectionLogic(sectionId) {
 
-  // 🔥 CLOSE ALL SUBMENUS WHEN SWITCHING SECTIONS
-  if (window.closeAllSubmenus) {
-    window.closeAllSubmenus();
-  }
+    // ==================================================
+    // 🔥 CLOSE ALL SUBMENUS WHEN SWITCHING SECTIONS
+    // ==================================================
 
-  switch (sectionId) {
+    if (window.closeAllSubmenus) {
+        window.closeAllSubmenus();
+    }
 
-    case "subjectChampions":
-      generateSubjectChampions();
-      break;
 
-    case "meritListSection":
-      generateMeritList();
-      break;
+    // ==================================================
+    // 🚀 SECTION ROUTER
+    // ==================================================
 
-    case "subjectPerformance":
-      generateSubjectPerformance();
-      break;
+    switch (sectionId) {
 
-    case "genderPerformance":
-      generateGenderPerformance();
-      break;
 
-    case "levelSummary":
-      generateLevelSummary();
-      break;
+        // ==================================================
+        // 🏆 SUBJECT CHAMPIONS
+        // ==================================================
 
-    case "combineMarksByGrade":
-      combineMarks();
-      break;
+        case "subjectChampions":
 
-    case "marksStatus":
-      generateMarksStatus();
-      break;
+            generateSubjectChampions();
 
-    case "generateAssessmentReports":
-      generateAssessmentReports();
-      break;
+            break;
 
-    case "subjectRankingReport":
-      generateSubjectRankingReport();
-      break;
 
-    case "generateBlankMerit":
-      generateBlankMerit();
-      break;
+        // ==================================================
+        // 📋 MERIT LIST
+        // ==================================================
 
-    case "generateSubjectRank":
-      generateSubjectRank();
-      break;
+        case "meritListSection":
 
-    case "printAssessmentReport":
-      printAssessmentReport();
-      break;
+            generateMeritList();
 
-    case "performanceSection":
-      generatePerformanceInsight();
-      break;
+            break;
 
-    case "topGradeSection":
-      generateTopGrade();
-      break;
 
-    case "topStudentsSection":
-      generateTopStudents();
-      break;
+        // ==================================================
+        // 📊 SUBJECT PERFORMANCE
+        // ==================================================
 
-    case "termPerformanceSection":
-      generateTermPerformance();
-      break;
+        case "subjectPerformance":
 
-    case "certificatesSection":
-      generateCertificates();
-      break;
+            generateSubjectPerformance();
 
-    // ===============================
-    // 🧭 NEW: PATHWAYS SECTION
-    // ===============================
-    case "groupByPathways":
-      generateGroupByPathways();
-      break;
+            break;
 
-    default:
-      // no generator needed
-      break;
-  }
+
+        // ==================================================
+        // 👥 GENDER PERFORMANCE
+        // ==================================================
+
+        case "genderPerformance":
+
+            generateGenderPerformance();
+
+            break;
+
+
+        // ==================================================
+        // 📈 LEVEL SUMMARY
+        // ==================================================
+
+        case "levelSummary":
+
+            generateLevelSummary();
+
+            break;
+
+
+        // ==================================================
+        // 🔗 COMBINE MARKS BY GRADE
+        // ==================================================
+
+        case "combineMarksByGrade":
+
+            combineMarks();
+
+            break;
+
+
+        // ==================================================
+        // 📌 MARKS STATUS
+        // ==================================================
+
+        case "marksStatus":
+
+            generateMarksStatus();
+
+            break;
+
+
+        // ==================================================
+        // 📝 ASSESSMENT REPORTS
+        // ==================================================
+
+        case "generateAssessmentReports":
+
+            generateAssessmentReports();
+
+            break;
+
+
+        // ==================================================
+        // 🥇 SUBJECT RANKING REPORT
+        // ==================================================
+
+        case "subjectRankingReport":
+
+            generateSubjectRankingReport();
+
+            break;
+
+
+        // ==================================================
+        // 📄 BLANK MERIT LIST
+        // ==================================================
+
+        case "generateBlankMerit":
+
+            generateBlankMerit();
+
+            break;
+
+
+        // ==================================================
+        // 🏅 SUBJECT RANK
+        // ==================================================
+
+        case "generateSubjectRank":
+
+            generateSubjectRank();
+
+            break;
+
+
+        // ==================================================
+        // 🖨️ PRINT ASSESSMENT REPORT
+        // ==================================================
+
+        case "printAssessmentReport":
+
+            printAssessmentReport();
+
+            break;
+
+
+        // ==================================================
+        // 🏆 PERFORMANCE
+        // ==================================================
+
+        case "performanceSection":
+
+            generatePerformanceInsight();
+
+            break;
+
+
+        // ==================================================
+        // 🥇 TOP GRADE
+        // ==================================================
+
+        case "topGradeSection":
+
+            generateTopGrade();
+
+            break;
+
+
+        // ==================================================
+        // 👨‍🎓 TOP STUDENTS
+        // ==================================================
+
+        case "topStudentsSection":
+
+            generateTopStudents();
+
+            break;
+
+
+        // ==================================================
+        // 📊 TERM PERFORMANCE
+        // ==================================================
+
+        case "termPerformanceSection":
+
+            generateTermPerformance();
+
+            break;
+
+
+        // ==================================================
+        // 🎓 TOP 5 CERTIFICATES
+        // ==================================================
+
+        case "certificatesSection":
+
+            generateCertificates();
+
+            break;
+
+
+        // ==================================================
+        // 🧭 JUNIOR SCHOOL PATHWAYS
+        // --------------------------------------------------
+        // IMPORTANT:
+        //
+        // Pathways are ONLY for:
+        // Grade 7
+        // Grade 8
+        // Grade 9
+        //
+        // We explicitly pass the currently loaded
+        // grade and exam period.
+        // ==================================================
+
+        case "groupByPathways": {
+
+            // ----------------------------------------------
+            // GET CURRENTLY LOADED GRADE
+            // ----------------------------------------------
+
+            const pathwayGrade =
+
+                window.currentLoadedGrade ??
+
+                window.reportContext?.grade ??
+
+                document.getElementById(
+                    "gradeFilter"
+                )?.value ??
+
+                document.getElementById(
+                    "gradeSelect"
+                )?.value ??
+
+                "";
+
+
+            // ----------------------------------------------
+            // GET CURRENTLY LOADED EXAM PERIOD
+            // ----------------------------------------------
+
+            const pathwayExamPeriod =
+
+                window.currentLoadedExamPeriod ??
+
+                window.reportContext?.examPeriod ??
+
+                document.getElementById(
+                    "examPeriodSelect"
+                )?.value ??
+
+                document.getElementById(
+                    "examPeriod"
+                )?.value ??
+
+                "";
+
+
+            // ----------------------------------------------
+            // DEBUG INFORMATION
+            // ----------------------------------------------
+
+            console.log(
+                "🧭 PATHWAY REPORT REQUEST",
+                {
+
+                    sectionId,
+
+                    selectedGrade:
+                        pathwayGrade,
+
+                    selectedExamPeriod:
+                        pathwayExamPeriod,
+
+                    currentLoadedGrade:
+                        window.currentLoadedGrade,
+
+                    currentLoadedExamPeriod:
+                        window.currentLoadedExamPeriod,
+
+                    filteredLearners:
+                        Array.isArray(
+                            window.currentFilteredLearners
+                        )
+                            ? window.currentFilteredLearners.length
+                            : 0,
+
+                    allLoadedLearners:
+                        Array.isArray(
+                            window.allLoadedLearners
+                        )
+                            ? window.allLoadedLearners.length
+                            : 0
+
+                }
+            );
+
+
+            // ----------------------------------------------
+            // GENERATE PATHWAY REPORT
+            // ----------------------------------------------
+
+            generateGroupByPathways(
+
+                pathwayGrade,
+
+                pathwayExamPeriod
+
+            );
+
+
+            break;
+        }
+
+
+        // ==================================================
+        // DEFAULT
+        // ==================================================
+
+        default:
+
+            // No generator needed
+
+            break;
+
+    }
+
 }
-const TEACHER_STORAGE_KEY = "school_teacher_setup";
 
-// ==========================
-// LOAD FROM STORAGE
-// ==========================
+
+// ======================================================
+// 👨‍🏫 TEACHER SETUP STORAGE
+// ======================================================
+
+const TEACHER_STORAGE_KEY =
+    "school_teacher_setup";
+
+
+// ======================================================
+// LOAD TEACHER SETUP FROM STORAGE
+// ======================================================
+
 function loadTeacherSetup() {
-    return JSON.parse(
-        localStorage.getItem(TEACHER_STORAGE_KEY)
-    ) || {};
-}
 
+    try {
+
+        return JSON.parse(
+
+            localStorage.getItem(
+                TEACHER_STORAGE_KEY
+            )
+
+        ) || {};
+
+    } catch (error) {
+
+        console.error(
+            "Error loading teacher setup:",
+            error
+        );
+
+        return {};
+
+    }
+
+}
 // ==========================
 // SAVE TO STORAGE (GRADE-WISE)
 // ==========================
@@ -27763,12 +28477,102 @@ document.body.appendChild(loader);
 
       }
 
-      const ranked =
-        [...learners].sort(
-          (a, b) => b.total - a.total
+     // ======================================================
+// CURRENT EXAM RANKING
+// ======================================================
+
+const ranked = [...learners].sort(
+    (a, b) =>
+        Number(b.total || 0) -
+        Number(a.total || 0)
+);
+
+const totalLearners = ranked.length;
+
+
+// ======================================================
+// PREVIOUS EXAM TOTAL + RANKING
+// ======================================================
+// Each learner is ranked using previousMarks.
+// This fixes the previous exam position showing "-".
+
+function calculatePreviousTotal(learner) {
+
+    const marks =
+        learner?.previousMarks || {};
+
+    return Object.keys(marks).reduce(
+        (total, subject) => {
+
+            const value =
+                Number(marks[subject]);
+
+            return total +
+                (Number.isFinite(value) ? value : 0);
+
+        },
+        0
+    );
+}
+
+
+const previousRanked =
+    [...learners]
+        .map(learner => ({
+
+            learner,
+
+            previousTotal:
+                calculatePreviousTotal(learner)
+
+        }))
+        .filter(item =>
+            item.previousTotal > 0
+        )
+        .sort(
+            (a, b) =>
+                b.previousTotal -
+                a.previousTotal
         );
 
-    const totalLearners = ranked.length;
+
+// ======================================================
+// PREVIOUS POSITION FUNCTION
+// ======================================================
+
+function getPreviousPosition(learner) {
+
+    const previousTotal =
+        calculatePreviousTotal(learner);
+
+    // No previous marks
+    if (!previousTotal) {
+        return {
+            position: "-",
+            total: previousRanked.length
+        };
+    }
+
+
+    // Competition ranking:
+    // 1, 2, 2, 4
+    const position =
+        previousRanked.findIndex(
+            item =>
+                item.learner === learner
+        ) + 1;
+
+
+    return {
+
+        position,
+
+        total:
+            previousRanked.length
+
+    };
+
+}
 
 // ==========================================
 // REPORT SETTINGS
@@ -27809,12 +28613,115 @@ const defaultPreviousExam =
     score = Math.round(Number(score));
 
     const comments = {
-1:"Requires immediate academic support to build essential learning skills and confidence.",
 
-2:"Shows very limited understanding; consistent guidance and practice are urgently required.",
+1:"Requires immediate support to build essential learning skills.",
+2:"Shows very limited understanding; needs consistent guidance.",
+3:"Needs significant support and regular practice to improve.",
+4:"Requires close guidance to develop basic learning skills.",
+5:"Needs more practice and support to improve performance.",
+6:"Shows emerging understanding but needs frequent assistance.",
+7:"Requires continued support to strengthen basic concepts.",
+8:"Needs greater effort and regular practice to make progress.",
+9:"Shows limited progress; more support and practice are needed.",
+10:"Needs focused support and greater commitment to learning.",
 
+11:"Shows basic understanding but needs continued guidance.",
+12:"Makes slow progress; regular practice will improve performance.",
+13:"Needs more effort to strengthen understanding of key concepts.",
+14:"Shows developing skills and needs consistent encouragement.",
+15:"Requires additional practice to improve accuracy and confidence.",
+16:"Shows some understanding but needs further support.",
+17:"Making gradual progress; continued effort is encouraged.",
+18:"Needs to participate more actively and practise regularly.",
+19:"Shows potential but requires greater consistency in learning.",
+20:"Basic skills are developing; more practice is recommended.",
 
-99:"Exceptional achievement recognized; maintain excellence while inspiring others through dedicated leadership always.",
+21:"Shows developing understanding with room for improvement.",
+22:"Makes fair progress; continued effort will strengthen performance.",
+23:"Understands some concepts but needs more practice.",
+24:"Shows improvement; should maintain consistent effort.",
+25:"Developing well but needs stronger focus during learning.",
+26:"Shows growing confidence; continued practice is encouraged.",
+27:"Makes satisfactory progress with further improvement possible.",
+28:"Understands basic concepts; needs greater consistency.",
+29:"Shows promise and should continue working diligently.",
+30:"Fair progress achieved; greater effort will bring improvement.",
+
+31:"Shows satisfactory understanding and steady progress.",
+32:"Makes good progress; continued practice is encouraged.",
+33:"Demonstrates growing understanding of key concepts.",
+34:"Shows satisfactory performance with room for improvement.",
+35:"Works well but should improve consistency and accuracy.",
+36:"Demonstrates good potential and positive learning habits.",
+37:"Shows steady progress and should maintain the effort.",
+38:"Understands most concepts; further practice is beneficial.",
+39:"Shows good development and increasing confidence.",
+40:"Satisfactory achievement; continued effort is encouraged.",
+
+41:"Shows good understanding and consistent progress.",
+42:"Demonstrates strong effort and improving performance.",
+43:"Works consistently and shows good academic development.",
+44:"Shows good understanding with minor areas needing improvement.",
+45:"Demonstrates positive learning habits and steady progress.",
+46:"Good achievement; continued focus will produce further growth.",
+47:"Shows confidence and applies learning effectively.",
+48:"Demonstrates good knowledge and consistent effort.",
+49:"Shows strong progress and should maintain the momentum.",
+50:"Good overall performance; continue working consistently.",
+
+51:"Demonstrates good understanding and reliable performance.",
+52:"Shows strong academic progress and positive learning habits.",
+53:"Works diligently and demonstrates sound understanding.",
+54:"Shows good application of knowledge across learning areas.",
+55:"Demonstrates steady achievement and continued improvement.",
+56:"Shows strong effort and a growing depth of understanding.",
+57:"Performs well and demonstrates good academic potential.",
+58:"Shows confidence, commitment and consistent progress.",
+59:"Demonstrates strong understanding with room for further growth.",
+60:"Good achievement; maintain focus and consistent effort.",
+
+61:"Demonstrates strong understanding and good academic skills.",
+62:"Shows very good progress and consistent commitment.",
+63:"Applies knowledge effectively and works with confidence.",
+64:"Demonstrates very good understanding across learning areas.",
+65:"Shows strong achievement and positive learning habits.",
+66:"Works diligently and demonstrates very good academic ability.",
+67:"Shows excellent progress and increasing confidence.",
+68:"Demonstrates strong knowledge and consistent application.",
+69:"Very good achievement; continue maintaining high standards.",
+70:"Shows very good performance and commendable effort.",
+
+71:"Demonstrates excellent understanding and strong academic skills.",
+72:"Shows excellent progress and consistent commitment to learning.",
+73:"Applies knowledge confidently and effectively.",
+74:"Demonstrates excellent understanding across most learning areas.",
+75:"Shows outstanding effort and very good academic achievement.",
+76:"Works independently and demonstrates excellent learning skills.",
+77:"Shows excellent progress and strong academic confidence.",
+78:"Demonstrates excellent knowledge and consistent application.",
+79:"Outstanding achievement; continue maintaining the high standard.",
+80:"Excellent performance supported by strong effort and commitment.",
+
+81:"Demonstrates exceptional understanding and academic ability.",
+82:"Shows outstanding achievement and excellent learning habits.",
+83:"Applies knowledge exceptionally well and works independently.",
+84:"Demonstrates exceptional progress and strong academic confidence.",
+85:"Shows outstanding commitment and consistently high performance.",
+86:"Demonstrates excellent mastery of concepts and skills.",
+87:"Shows exceptional academic ability and positive leadership qualities.",
+88:"Outstanding performance; continue challenging yourself academically.",
+89:"Demonstrates exceptional knowledge, confidence and dedication.",
+90:"Excellent achievement; continue striving for even greater success.",
+
+91:"Exceptional academic performance demonstrated with strong consistency.",
+92:"Shows outstanding mastery and excellent commitment to learning.",
+93:"Demonstrates exceptional ability and consistently high achievement.",
+94:"Outstanding learner; continues to demonstrate excellent academic skills.",
+95:"Exceptional achievement; maintains excellent focus and dedication.",
+96:"Demonstrates remarkable mastery, confidence and academic discipline.",
+97:"Outstanding performance; serves as a positive example to others.",
+98:"Exceptional achievement; continue maintaining excellence and humility.",
+99:"Exceptional achievement; maintain excellence and inspire others.",
 
 100:"Perfect academic mastery demonstrated; continue pursuing excellence with passion, humility and determination."
     };
@@ -28014,7 +28921,18 @@ function renderNext() {
 
     const currentMarks = s.marks || {};
     const previousMarks = s.previousMarks || {};
+// ======================================================
+// PREVIOUS EXAM POSITION
+// ======================================================
 
+const previousRanking =
+    getPreviousPosition(s);
+
+const previousPosition =
+    previousRanking.position;
+
+const previousClassSize =
+    previousRanking.total;
     const currentExam =
         s.examPeriod ||
         reportMeta.examName ||
@@ -28374,11 +29292,29 @@ font-size:14px;
 ">
 
 <tr>
-<td style="padding:6px;"><b>Position</b></td>
-<td style="padding:6px;">-</td>
 
-<td style="padding:6px;"><b>Total</b></td>
-<td style="padding:6px;">${previousTotal}</td>
+<td style="padding:6px;">
+    <b>Position</b>
+</td>
+
+<td style="padding:6px;">
+    <strong style="color:#15803d;">
+        ${
+            previousPosition !== "-"
+                ? `${previousPosition} of ${previousClassSize}`
+                : "-"
+        }
+    </strong>
+</td>
+
+<td style="padding:6px;">
+    <b>Total</b>
+</td>
+
+<td style="padding:6px;">
+    ${previousTotal}
+</td>
+
 </tr>
 
 <tr>
@@ -33150,38 +34086,80 @@ if (!selectedGrade) {
 
     }
 
-    // Prompt user
-    const gradeResult = await Swal.fire({
+ // ======================================================
+// GENERATE BLANK MERIT LIST — GRADE PICKER
+// ======================================================
 
-        title: "Generate Blank Merit List",
+const gradeResult = await Swal.fire({
 
-        text: "Select the grade",
+    title: "Generate Blank Merit List",
 
-        input: "select",
+    html: `
+        <div style="
+            margin-top:4px;
+            padding:10px 14px;
 
-        inputOptions: inputOptions,
+            border-radius:10px;
 
-        inputPlaceholder: "Choose Grade",
+            background:linear-gradient(
+                135deg,
+                #fff7cc,
+                #fef3c7
+            );
 
-        confirmButtonText: "Generate",
+            border:1px solid #f59e0b;
 
-        confirmButtonColor: "#2563eb",
+            color:#b45309;
 
-        showCancelButton: true,
+            font-weight:800;
 
-        cancelButtonText: "Cancel",
+            font-size:14px;
 
-        inputValidator: (value) => {
+            box-shadow:
+                0 3px 8px
+                rgba(245,158,11,.18);
+        ">
+            🎓 Select the grade
+        </div>
+    `,
 
-            if (!value) {
+    input: "select",
 
-                return "Please select a grade.";
+    inputOptions: inputOptions,
 
-            }
+    inputPlaceholder: "Choose Grade",
+
+    confirmButtonText: "📋 Generate",
+
+    confirmButtonColor: "#f59e0b",
+
+    showCancelButton: true,
+
+    cancelButtonText: "Cancel",
+
+    cancelButtonColor: "#dc2626",
+
+    customClass: {
+
+        title: "merit-list-title",
+
+        confirmButton: "merit-list-generate",
+
+        cancelButton: "merit-list-cancel"
+
+    },
+
+    inputValidator: (value) => {
+
+        if (!value) {
+
+            return "Please select a grade.";
 
         }
 
-    });
+    }
+
+});
 
     if (!gradeResult.isConfirmed) {
 
@@ -34687,495 +35665,3167 @@ container.scrollIntoView({
 });
 
 };
-window.generatePathwayGrouping = async function (selectedGrade, selectedExamPeriod) {
+// ======================================================
+// RASM TECH 360
+// PATHWAY GROUPING REPORT
+// ======================================================
+//
+// RULE:
+// Pathway reports are ONLY for:
+// Grade 7
+// Grade 8
+// Grade 9
+//
+// FEATURES:
+// ✅ No dependency on safeEscape()
+// ✅ Uses currently filtered learners first
+// ✅ Falls back to loaded learners
+// ✅ Supports Grade 7 / 7A / Grade 7A / Grade 7 Blue
+// ✅ Supports Grade 8 / 8A / Grade 8A etc.
+// ✅ Strictly blocks Grade 1-6 and 10-12
+// ✅ Handles different marks object structures
+// ✅ Handles missing subjects safely
+// ✅ Does not leave loader running
+// ✅ Displays report in #groupByPathwaysContent
+// ======================================================
+
+
+// ======================================================
+// INTERNAL PATHWAY REPORT GENERATOR
+// ======================================================
+
+window.generatePathwayGrouping = async function (
+    selectedGrade = "",
+    selectedExamPeriod = ""
+) {
+
+    let loaderStarted = false;
 
     try {
 
-        // ===============================
-        // 🔥 LOADER (UNIFIED SYSTEM)
-        // ===============================
-        showLoader();
-        updateProgress(10, "Loading marks table...");
-        await new Promise(r => setTimeout(r, 300));
+        // ==================================================
+        // SAFE HTML ESCAPE
+        // ==================================================
+        // IMPORTANT:
+        // This fixes:
+        // ReferenceError: safeEscape is not defined
+        // ==================================================
 
-     
+        const escapeHTML = function (value) {
 
-        updateProgress(25, "Preparing pathway rules...");
-        await new Promise(r => setTimeout(r, 300));
+            const div = document.createElement("div");
 
-        const pathways = {
-    STEM: [
-        'eng',
-        'math',
-        'preTech',
-        'kiswahili',
-        'scie',
-        'agriculture'
-    ],
+            div.textContent =
+                value === null ||
+                value === undefined
+                    ? ""
+                    : String(value);
 
-    SocialSciences: [
-        'kiswahili',
-        'eng',
-        'social',
-        'cre'
-    ],
+            return div.innerHTML;
 
-    SportsScience: [
-        'kiswahili',
-        'eng',
-        'creativeArts'
-    ]
-};
-// ======================================================
-// SMART SUBJECT DETECTOR
-// ======================================================
-const getScores = (marks, keys) => {
-
-    return keys.map(subjectKey => {
-
-        // Find the real subject key stored in marks
-        const actualKey = Object.keys(marks || {}).find(dbKey => {
-
-            const db = dbKey
-                .toLowerCase()
-                .replace(/[^a-z]/g, "");
-
-            switch (subjectKey) {
-
-                case "eng":
-                    return db.includes("eng");
-
-                case "math":
-                    return db.includes("math");
-
-              case "kiswahili":
-    return db.includes("kiswahili") ||
-           db.includes("kiswa") ||
-           db === "kisw";
-
-                case "preTech":
-                    return db.includes("pre") ||
-                           db.includes("technical");
-
-                case "scie":
-                    return db.includes("science") ||
-                           db.includes("integratedscience") ||
-                           db.includes("scie");
-
-                case "social":
-                    return db.includes("social");
-
-                case "agriculture":
-                    return db.includes("agric");
-
-                case "cre":
-                    return db === "cre" ||
-                           db.includes("christian") ||
-                           db.includes("religious");
-
-                case "creativeArts":
-                    return db.includes("creative") ||
-                           db.includes("arts") ||
-                           db.includes("sports");
-
-                default:
-                    return false;
-            }
-
-        });
-
-        const value = Number(marks?.[actualKey]);
-
-        return isNaN(value) ? 0 : value;
-
-    });
-
-};
-        const learners = [];
-        const summary = { STEM: 0, 'Social Sciences': 0, 'Sports Science': 0 };
-
-        const avg = (arr) => {
-            if (!arr || !arr.length) return 0;
-            return arr.reduce((a, b) => a + b, 0) / arr.length;
         };
 
-    
-        updateProgress(45, "Processing learners...");
-        await new Promise(r => setTimeout(r, 300));
 
-// =====================================
-// USE EXACTLY THE LEARNERS CURRENTLY LOADED
-// =====================================
-const filteredLearners =
-    (window.currentFilteredLearners || []).filter(learner => {
+        // ==================================================
+        // SAFE SWEETALERT
+        // ==================================================
 
-        const gradeOk =
-            !window.currentLoadedGrade ||
-            window.currentLoadedGrade === "ALL GRADES" ||
-            (learner.grade || "")
-                .toString()
-                .trim()
-                .toUpperCase() ===
-            window.currentLoadedGrade
-                .toString()
-                .trim()
-                .toUpperCase();
+        const showAlert = async function (options) {
 
-        const periodOk =
-            !window.currentLoadedExamPeriod ||
-            window.currentLoadedExamPeriod === "ALL PERIODS" ||
-            (learner.examPeriod || "")
-                .toString()
-                .trim() ===
-            window.currentLoadedExamPeriod
-                .toString()
-                .trim();
+            if (
+                typeof Swal !== "undefined" &&
+                typeof Swal.fire === "function"
+            ) {
 
-        return gradeOk && periodOk;
+                return Swal.fire(options);
 
-    });
-filteredLearners.forEach(learner => {
+            }
 
-    const name = learner.name;
-    const cls = learner.grade;
+            alert(
+                options?.text ||
+                options?.title ||
+                "Pathway report message."
+            );
 
-    const stemScores = getScores(
-        learner.marks,
-        pathways.STEM
-    );
+        };
 
-    const socialScores = getScores(
-        learner.marks,
-        pathways.SocialSciences
-    );
 
-    const sportsScores = getScores(
-        learner.marks,
-        pathways.SportsScience
-    );
+        // ==================================================
+        // SAFE LOADER
+        // ==================================================
 
-    const stemAvg = avg(stemScores);
-    const socialAvg = avg(socialScores);
-    const sportsAvg = avg(sportsScores);
+        if (
+            typeof showLoader === "function"
+        ) {
 
-    const averages = {
-        STEM: stemAvg,
-        "Social Sciences": socialAvg,
-        "Sports Science": sportsAvg
-    };
+            showLoader();
 
-    const bestPathway =
-        Object.keys(averages).reduce((a, b) =>
-            averages[a] > averages[b] ? a : b
+            loaderStarted = true;
+
+        }
+
+
+        if (
+            typeof updateProgress === "function"
+        ) {
+
+            updateProgress(
+                5,
+                "Starting pathway report..."
+            );
+
+        }
+
+
+        await new Promise(
+            resolve =>
+                setTimeout(resolve, 100)
         );
 
-    summary[bestPathway]++;
 
-    learners.push({
-        name,
-        grade: cls,
-        stemScores,
-        socialScores,
-        sportsScores,
-        stemAvg: stemAvg.toFixed(2),
-        socialAvg: socialAvg.toFixed(2),
-        sportsAvg: sportsAvg.toFixed(2),
-        bestPathway
-    });
+        // ==================================================
+        // 1. GRADE NUMBER DETECTOR
+        // ==================================================
 
-});
+        function getGradeNumber(value) {
 
-        if (!learners.length) {
-            hideLoader();
-            Swal.fire("No data found", "", "info");
-            return;
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return null;
+
+            }
+
+
+            const text =
+                String(value)
+                    .trim()
+                    .toUpperCase();
+
+
+            /*
+                Supports:
+
+                Grade 7
+                Grade 7A
+                GRADE 8
+                8
+                8A
+                Grade 9 Blue
+            */
+
+            const match =
+                text.match(
+                    /(?:GRADE\s*)?(\d{1,2})/
+                );
+
+
+            return match
+                ? Number(match[1])
+                : null;
+
         }
 
-        updateProgress(70, "Building report...");
-        await new Promise(r => setTimeout(r, 300));
 
-        const year = new Date().getFullYear();
-// ===============================
-// 🔥 DETERMINE ACTUAL GRADE LOADED
-// ===============================
-let gradeDisplay = "All Grades";
+        // ==================================================
+        // 2. VALID VALUE
+        // ==================================================
 
-if (learners.length > 0) {
+        function validValue(value) {
 
-    const grades = [
-        ...new Set(
-            learners.map(l =>
-                (l.grade || "")
-                    .toString()
+            if (
+                value === null ||
+                value === undefined
+            ) {
+
+                return false;
+
+            }
+
+
+            const text =
+                String(value)
                     .trim()
+                    .toUpperCase();
+
+
+            return (
+                text !== "" &&
+                text !== "ALL" &&
+                text !== "ALL GRADES" &&
+                text !== "ALL PERIODS" &&
+                text !== "SELECT GRADE" &&
+                text !== "CHOOSE GRADE"
+            );
+
+        }
+
+
+        // ==================================================
+        // 3. FIND EFFECTIVE GRADE
+        // ==================================================
+
+        let effectiveGrade = "";
+
+
+        // Explicit grade
+        if (
+            validValue(selectedGrade)
+        ) {
+
+            effectiveGrade =
+                String(
+                    selectedGrade
+                ).trim();
+
+        }
+
+
+        // Current loaded grade
+        if (
+            !effectiveGrade &&
+            validValue(
+                window.currentLoadedGrade
             )
-        )
-    ];
+        ) {
 
-    if (grades.length === 1) {
-        gradeDisplay = grades[0];
-    }
-    else if (grades.length > 1) {
-        gradeDisplay = grades.join(", ");
-    }
-}
+            effectiveGrade =
+                String(
+                    window.currentLoadedGrade
+                ).trim();
 
-const periodDisplay =
-(
-    selectedExamPeriod ??
-    window.reportContext?.examPeriod ??
-    document.getElementById("examPeriodSelect")?.value ??
-    "All Periods"
-)
-.toString()
-.trim();
-        // ===============================
-        // 🔥 UI KEPT EXACTLY SAME
-        // ===============================
-    let html = `
-
-  ${window.getSchoolPrintHeader(
-    "PATHWAY REPORT"
-  )}
-
-  <div style="
-    text-align:center;
-    margin-bottom:20px;
-    font-size:14px;
-  ">
-
- <p>
-  <strong>Grade:</strong>
-  ${gradeDisplay}
-</p>
-
-<p>
-  <strong>Exam Period:</strong>
-  ${periodDisplay}
-</p>
-
-  </div>
+        }
 
 
+        // Report context
+        if (
+            !effectiveGrade &&
+            validValue(
+                window.reportContext?.grade
+            )
+        ) {
 
-        <h3 style="text-align:center;">Career Pathway Report</h3>
+            effectiveGrade =
+                String(
+                    window.reportContext.grade
+                ).trim();
 
-        <table style="width:100%; border-collapse:collapse; font-size:13px;">
-        <thead>
-            <tr style="background:#000; color:#fff;">
-                <th rowspan="2">No</th>
-                <th rowspan="2">Name</th>
-                <th rowspan="2">Grade</th>
-                <th colspan="7" style="background:#1e88e5;">STEM</th>
-                <th colspan="5" style="background:#43a047;">SOCIAL</th>
-                <th colspan="4" style="background:#fb8c00;">SPORTS</th>
-              <th rowspan="2" style="background:#6d4c41;">Best Pathway</th>
+        }
 
-<th rowspan="2" style="background:#2e7d32;">
-    Suggested Careers
-</th>
-            <tr style="background:#ddd;">
-                <th>Eng</th><th>Math</th><th>PreT</th><th>Kisw</th><th>Sci</th><th>Agric</th><th>Avg</th>
-                <th>Kisw</th><th>Eng</th><th>SST</th><th>CRE</th><th>Avg</th>
-                <th>Kisw</th><th>Eng</th><th>C/A</th><th>Avg</th>
-            </tr>
-        </thead>
-        <tbody>
+
+        // Grade filter
+        if (
+            !effectiveGrade
+        ) {
+
+            const gradeFilter =
+                document.getElementById(
+                    "gradeFilter"
+                );
+
+            if (
+                gradeFilter &&
+                validValue(
+                    gradeFilter.value
+                )
+            ) {
+
+                effectiveGrade =
+                    String(
+                        gradeFilter.value
+                    ).trim();
+
+            }
+
+        }
+
+
+        // Grade select
+        if (
+            !effectiveGrade
+        ) {
+
+            const gradeSelect =
+                document.getElementById(
+                    "gradeSelect"
+                );
+
+            if (
+                gradeSelect &&
+                validValue(
+                    gradeSelect.value
+                )
+            ) {
+
+                effectiveGrade =
+                    String(
+                        gradeSelect.value
+                    ).trim();
+
+            }
+
+        }
+
+
+        // Other possible selectors
+        if (
+            !effectiveGrade
+        ) {
+
+            const gradeIds = [
+
+                "marksGradeFilter",
+                "loadedGrade",
+                "currentGrade",
+                "grade"
+
+            ];
+
+
+            for (
+                const id of gradeIds
+            ) {
+
+                const element =
+                    document.getElementById(id);
+
+
+                if (
+                    element &&
+                    validValue(
+                        element.value
+                    )
+                ) {
+
+                    effectiveGrade =
+                        String(
+                            element.value
+                        ).trim();
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+
+        const gradeNumber =
+            getGradeNumber(
+                effectiveGrade
+            );
+
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "PATHWAY REPORT DEBUG"
+        );
+
+        console.log(
+            "Selected Grade:",
+            selectedGrade
+        );
+
+        console.log(
+            "Effective Grade:",
+            effectiveGrade
+        );
+
+        console.log(
+            "Grade Number:",
+            gradeNumber
+        );
+
+        console.log(
+            "Current Loaded Grade:",
+            window.currentLoadedGrade
+        );
+
+
+        // ==================================================
+        // 4. JUNIOR SCHOOL VALIDATION
+        // ==================================================
+
+        if (
+            ![7, 8, 9].includes(
+                gradeNumber
+            )
+        ) {
+
+            if (
+                loaderStarted &&
+                typeof hideLoader === "function"
+            ) {
+
+                hideLoader();
+
+                loaderStarted = false;
+
+            }
+
+
+            await showAlert({
+
+                icon: "warning",
+
+                title:
+                    "Junior School Pathways Only",
+
+                html: `
+
+                    <div style="
+                        padding:18px;
+                        border-radius:14px;
+                        background:
+                            linear-gradient(
+                                135deg,
+                                #fff7cc,
+                                #fef3c7
+                            );
+                        border:
+                            2px solid #f59e0b;
+                        line-height:1.7;
+                    ">
+
+                        <div style="
+                            color:#dc2626;
+                            font-size:18px;
+                            font-weight:900;
+                            margin-bottom:10px;
+                        ">
+                            🎓 Pathway Reports
+                        </div>
+
+                        <div style="
+                            color:#7c2d12;
+                            font-weight:700;
+                        ">
+                            Pathway reports are reserved
+                            for Junior School.
+                        </div>
+
+                        <div style="
+                            margin-top:12px;
+                        ">
+                            Available only for:
+                        </div>
+
+                        <div style="
+                            margin-top:12px;
+                            display:flex;
+                            justify-content:center;
+                            gap:8px;
+                            flex-wrap:wrap;
+                        ">
+
+                            <span style="
+                                background:#dc2626;
+                                color:#fff;
+                                padding:7px 12px;
+                                border-radius:8px;
+                                font-weight:900;
+                            ">
+                                Grade 7
+                            </span>
+
+                            <span style="
+                                background:#dc2626;
+                                color:#fff;
+                                padding:7px 12px;
+                                border-radius:8px;
+                                font-weight:900;
+                            ">
+                                Grade 8
+                            </span>
+
+                            <span style="
+                                background:#dc2626;
+                                color:#fff;
+                                padding:7px 12px;
+                                border-radius:8px;
+                                font-weight:900;
+                            ">
+                                Grade 9
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `,
+
+                confirmButtonText:
+                    "OK",
+
+                confirmButtonColor:
+                    "#dc2626"
+
+            });
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // 5. EXAM PERIOD
+        // ==================================================
+
+        let effectiveExamPeriod = "";
+
+
+        if (
+            validValue(
+                selectedExamPeriod
+            )
+        ) {
+
+            effectiveExamPeriod =
+                String(
+                    selectedExamPeriod
+                ).trim();
+
+        }
+
+
+        if (
+            !effectiveExamPeriod &&
+            validValue(
+                window.currentLoadedExamPeriod
+            )
+        ) {
+
+            effectiveExamPeriod =
+                String(
+                    window.currentLoadedExamPeriod
+                ).trim();
+
+        }
+
+
+        if (
+            !effectiveExamPeriod &&
+            validValue(
+                window.reportContext?.examPeriod
+            )
+        ) {
+
+            effectiveExamPeriod =
+                String(
+                    window.reportContext.examPeriod
+                ).trim();
+
+        }
+
+
+        if (
+            !effectiveExamPeriod
+        ) {
+
+            const periodIds = [
+
+                "examPeriodSelect",
+                "examPeriod",
+                "marksExamPeriod",
+                "examFilter"
+
+            ];
+
+
+            for (
+                const id of periodIds
+            ) {
+
+                const element =
+                    document.getElementById(id);
+
+
+                if (
+                    element &&
+                    validValue(
+                        element.value
+                    )
+                ) {
+
+                    effectiveExamPeriod =
+                        String(
+                            element.value
+                        ).trim();
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+
+        console.log(
+            "Effective Exam Period:",
+            effectiveExamPeriod
+        );
+
+
+        // ==================================================
+        // 6. PATHWAYS
+        // ==================================================
+
+        const pathways = {
+
+            STEM: [
+
+                "eng",
+                "math",
+                "preTech",
+                "kiswahili",
+                "scie",
+                "agriculture"
+
+            ],
+
+            SocialSciences: [
+
+                "kiswahili",
+                "eng",
+                "social",
+                "cre"
+
+            ],
+
+            SportsScience: [
+
+                "kiswahili",
+                "eng",
+                "creativeArts"
+
+            ]
+
+        };
+
+
+        // ==================================================
+        // 7. SUBJECT FINDER
+        // ==================================================
+
+        function findSubjectKey(
+            marks,
+            subjectType
+        ) {
+
+            if (
+                !marks ||
+                typeof marks !== "object"
+            ) {
+
+                return null;
+
+            }
+
+
+            const keys =
+                Object.keys(marks);
+
+
+            for (
+                const key of keys
+            ) {
+
+                const db =
+                    String(key)
+                        .toLowerCase()
+                        .replace(
+                            /[^a-z]/g,
+                            ""
+                        );
+
+
+                let matched = false;
+
+
+                switch (
+                    subjectType
+                ) {
+
+                    case "eng":
+
+                        matched =
+                            db.includes("eng");
+
+                        break;
+
+
+                    case "math":
+
+                        matched =
+                            db.includes("math");
+
+                        break;
+
+
+                    case "kiswahili":
+
+                        matched =
+                            db.includes("kiswahili") ||
+                            db.includes("kiswa") ||
+                            db === "kisw";
+
+                        break;
+
+
+                    case "preTech":
+
+                        matched =
+                            db.includes("pretech") ||
+                            db.includes("pretechnical") ||
+                            db.includes("technical") ||
+                            db.includes("pre");
+
+                        break;
+
+
+                    case "scie":
+
+                        matched =
+                            db.includes("integratedscience") ||
+                            db.includes("science") ||
+                            db.includes("scie");
+
+                        break;
+
+
+                    case "social":
+
+                        matched =
+                            db.includes("social") ||
+                            db.includes("sst");
+
+                        break;
+
+
+                    case "agriculture":
+
+                        matched =
+                            db.includes("agric");
+
+                        break;
+
+
+                    case "cre":
+
+                        matched =
+                            db === "cre" ||
+                            db.includes("christian") ||
+                            db.includes("religious");
+
+                        break;
+
+
+                    case "creativeArts":
+
+                        matched =
+                            db.includes("creative") ||
+                            db.includes("arts") ||
+                            db.includes("sports");
+
+                        break;
+
+                }
+
+
+                if (
+                    matched
+                ) {
+
+                    return key;
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+        // ==================================================
+        // 8. GET SCORES
+        // ==================================================
+
+        function getScores(
+            marks,
+            subjectList
+        ) {
+
+            return subjectList.map(
+                subject => {
+
+                    const key =
+                        findSubjectKey(
+                            marks,
+                            subject
+                        );
+
+
+                    if (
+                        !key
+                    ) {
+
+                        return 0;
+
+                    }
+
+
+                    const value =
+                        Number(
+                            marks[key]
+                        );
+
+
+                    return Number.isFinite(
+                        value
+                    )
+                        ? value
+                        : 0;
+
+                }
+            );
+
+        }
+
+
+        // ==================================================
+        // 9. AVERAGE
+        // ==================================================
+
+        function calculateAverage(
+            scores
+        ) {
+
+            if (
+                !Array.isArray(scores) ||
+                !scores.length
+            ) {
+
+                return 0;
+
+            }
+
+
+            return (
+                scores.reduce(
+                    (
+                        total,
+                        value
+                    ) =>
+                        total +
+                        Number(
+                            value || 0
+                        ),
+                    0
+                ) /
+                scores.length
+            );
+
+        }
+
+
+        // ==================================================
+        // 10. LOAD LEARNERS
+        // ==================================================
+
+        if (
+            typeof updateProgress ===
+            "function"
+        ) {
+
+            updateProgress(
+                30,
+                "Reading loaded learners..."
+            );
+
+        }
+
+
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    100
+                )
+        );
+
+
+        let sourceLearners = [];
+
+
+        // --------------------------------------------------
+        // PRIORITY 1:
+        // CURRENT FILTERED LEARNERS
+        // --------------------------------------------------
+
+        if (
+            Array.isArray(
+                window.currentFilteredLearners
+            ) &&
+            window.currentFilteredLearners.length
+        ) {
+
+            sourceLearners =
+                window.currentFilteredLearners;
+
+            console.log(
+                "Using currentFilteredLearners"
+            );
+
+        }
+
+
+        // --------------------------------------------------
+        // PRIORITY 2:
+        // ALL LOADED LEARNERS
+        // --------------------------------------------------
+
+        else if (
+            Array.isArray(
+                window.allLoadedLearners
+            ) &&
+            window.allLoadedLearners.length
+        ) {
+
+            sourceLearners =
+                window.allLoadedLearners;
+
+            console.log(
+                "Using allLoadedLearners"
+            );
+
+        }
+
+
+        // --------------------------------------------------
+        // PRIORITY 3
+        // --------------------------------------------------
+
+        else if (
+            Array.isArray(
+                window.loadedLearners
+            ) &&
+            window.loadedLearners.length
+        ) {
+
+            sourceLearners =
+                window.loadedLearners;
+
+            console.log(
+                "Using loadedLearners"
+            );
+
+        }
+
+
+        // --------------------------------------------------
+        // PRIORITY 4
+        // --------------------------------------------------
+
+        else if (
+            Array.isArray(
+                window.learners
+            ) &&
+            window.learners.length
+        ) {
+
+            sourceLearners =
+                window.learners;
+
+            console.log(
+                "Using window.learners"
+            );
+
+        }
+
+
+        console.log(
+            "PATHWAY SOURCE COUNT:",
+            sourceLearners.length
+        );
+
+
+        // ==================================================
+        // 11. NO LEARNERS
+        // ==================================================
+
+        if (
+            !sourceLearners.length
+        ) {
+
+            if (
+                loaderStarted &&
+                typeof hideLoader === "function"
+            ) {
+
+                hideLoader();
+
+                loaderStarted = false;
+
+            }
+
+
+            await showAlert({
+
+                icon:
+                    "info",
+
+                title:
+                    "No Loaded Marks Found",
+
+                html: `
+
+                    <div style="
+                        line-height:1.7;
+                        color:#475569;
+                    ">
+
+                        No learner marks are currently
+                        loaded in the system.
+
+                        <br><br>
+
+                        Please load the marks for
+
+                        <strong style="
+                            color:#dc2626;
+                        ">
+                            ${escapeHTML(
+                                effectiveGrade
+                            )}
+                        </strong>
+
+                        first, then generate the
+                        pathway report.
+
+                    </div>
+
+                `,
+
+                confirmButtonColor:
+                    "#dc2626"
+
+            });
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // 12. FILTER LEARNERS
+        // ==================================================
+
+        if (
+            typeof updateProgress ===
+            "function"
+        ) {
+
+            updateProgress(
+                50,
+                "Filtering Grade " +
+                gradeNumber +
+                " learners..."
+            );
+
+        }
+
+
+        const normalizedGrade =
+            gradeNumber;
+
+
+        const normalizedPeriod =
+            validValue(
+                effectiveExamPeriod
+            )
+                ? String(
+                    effectiveExamPeriod
+                )
+                    .trim()
+                    .toUpperCase()
+                : "";
+
+
+        const filteredLearners =
+            sourceLearners.filter(
+                learner => {
+
+                    const learnerGrade =
+                        learner?.grade ??
+                        learner?.class ??
+                        learner?.gradeName ??
+                        learner?.stream ??
+                        "";
+
+
+                    const learnerGradeNumber =
+                        getGradeNumber(
+                            learnerGrade
+                        );
+
+
+                    // ------------------------------------------------
+                    // JUNIOR SCHOOL ONLY
+                    // ------------------------------------------------
+
+                    if (
+                        ![7, 8, 9].includes(
+                            learnerGradeNumber
+                        )
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    // ------------------------------------------------
+                    // SELECTED GRADE ONLY
+                    // ------------------------------------------------
+
+                    if (
+                        learnerGradeNumber !==
+                        normalizedGrade
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    // ------------------------------------------------
+                    // EXAM PERIOD
+                    //
+                    // IMPORTANT:
+                    // If learner has NO exam period field,
+                    // don't accidentally reject the learner.
+                    // ------------------------------------------------
+
+                    if (
+                        normalizedPeriod &&
+                        normalizedPeriod !== "ALL" &&
+                        normalizedPeriod !== "ALL PERIODS"
+                    ) {
+
+                        const learnerPeriod =
+                            learner?.examPeriod ??
+                            learner?.period ??
+                            learner?.exam ??
+                            learner?.examName ??
+                            "";
+
+
+                        if (
+                            String(
+                                learnerPeriod
+                            ).trim() !== ""
+                        ) {
+
+                            const normalizedLearnerPeriod =
+                                String(
+                                    learnerPeriod
+                                )
+                                    .trim()
+                                    .toUpperCase();
+
+
+                            if (
+                                normalizedLearnerPeriod !==
+                                normalizedPeriod
+                            ) {
+
+                                return false;
+
+                            }
+
+                        }
+
+                    }
+
+
+                    return true;
+
+                }
+            );
+
+
+        console.log(
+            "PATHWAY FILTERED COUNT:",
+            filteredLearners.length
+        );
+
+
+        console.log(
+            "PATHWAY FILTERED DATA:",
+            filteredLearners
+        );
+
+
+        // ==================================================
+        // 13. NO MATCHING LEARNERS
+        // ==================================================
+
+        if (
+            !filteredLearners.length
+        ) {
+
+            if (
+                loaderStarted &&
+                typeof hideLoader === "function"
+            ) {
+
+                hideLoader();
+
+                loaderStarted = false;
+
+            }
+
+
+            await showAlert({
+
+                icon:
+                    "info",
+
+                title:
+                    "No Pathway Data Found",
+
+                html: `
+
+                    <div style="
+                        line-height:1.7;
+                        color:#475569;
+                    ">
+
+                        No loaded learners were found
+                        for:
+
+                        <br><br>
+
+                        <strong style="
+                            display:inline-block;
+                            background:#dc2626;
+                            color:#fff;
+                            padding:8px 16px;
+                            border-radius:8px;
+                            font-size:16px;
+                        ">
+
+                            ${escapeHTML(
+                                effectiveGrade
+                            )}
+
+                        </strong>
+
+                        <br><br>
+
+                        Exam Period:
+
+                        <strong>
+                            ${escapeHTML(
+                                effectiveExamPeriod ||
+                                "All Periods"
+                            )}
+                        </strong>
+
+                        <br><br>
+
+                        Make sure the selected Grade
+                        has loaded marks.
+
+                    </div>
+
+                `,
+
+                confirmButtonColor:
+                    "#dc2626"
+
+            });
+
+            return;
+
+        }
+
+
+        // ==================================================
+        // 14. PROCESS LEARNERS
+        // ==================================================
+
+        if (
+            typeof updateProgress ===
+            "function"
+        ) {
+
+            updateProgress(
+                65,
+                "Calculating pathway performance..."
+            );
+
+        }
+
+
+        const reportLearners = [];
+
+
+        const summary = {
+
+            STEM: 0,
+
+            "Social Sciences": 0,
+
+            "Sports Science": 0
+
+        };
+
+
+        filteredLearners.forEach(
+            learner => {
+
+                // ------------------------------------------
+                // FIND MARKS
+                // ------------------------------------------
+
+                const marks =
+                    learner?.marks ||
+                    learner?.scores ||
+                    learner?.subjects ||
+                    learner?.results ||
+                    {};
+
+
+                console.log(
+                    "Learner marks:",
+                    learner?.name,
+                    marks
+                );
+
+
+                // ------------------------------------------
+                // SCORES
+                // ------------------------------------------
+
+                const stemScores =
+                    getScores(
+                        marks,
+                        pathways.STEM
+                    );
+
+
+                const socialScores =
+                    getScores(
+                        marks,
+                        pathways.SocialSciences
+                    );
+
+
+                const sportsScores =
+                    getScores(
+                        marks,
+                        pathways.SportsScience
+                    );
+
+
+                // ------------------------------------------
+                // AVERAGES
+                // ------------------------------------------
+
+                const stemAvg =
+                    calculateAverage(
+                        stemScores
+                    );
+
+
+                const socialAvg =
+                    calculateAverage(
+                        socialScores
+                    );
+
+
+                const sportsAvg =
+                    calculateAverage(
+                        sportsScores
+                    );
+
+
+                // ------------------------------------------
+                // BEST PATHWAY
+                // ------------------------------------------
+
+                const pathwayAverages = {
+
+                    STEM:
+                        stemAvg,
+
+                    "Social Sciences":
+                        socialAvg,
+
+                    "Sports Science":
+                        sportsAvg
+
+                };
+
+
+                let bestPathway =
+                    "STEM";
+
+
+                Object.keys(
+                    pathwayAverages
+                ).forEach(
+                    pathway => {
+
+                        if (
+                            pathwayAverages[
+                                pathway
+                            ] >
+                            pathwayAverages[
+                                bestPathway
+                            ]
+                        ) {
+
+                            bestPathway =
+                                pathway;
+
+                        }
+
+                    }
+                );
+
+
+                summary[
+                    bestPathway
+                ]++;
+
+
+                // ------------------------------------------
+                // SAVE REPORT DATA
+                // ------------------------------------------
+
+                reportLearners.push({
+
+                    name:
+                        learner?.name ||
+                        learner?.fullName ||
+                        learner?.learnerName ||
+                        "Unnamed Learner",
+
+                    grade:
+                        learner?.grade ||
+                        learner?.class ||
+                        learner?.gradeName ||
+                        effectiveGrade,
+
+                    stemScores,
+
+                    socialScores,
+
+                    sportsScores,
+
+                    stemAvg:
+                        stemAvg.toFixed(2),
+
+                    socialAvg:
+                        socialAvg.toFixed(2),
+
+                    sportsAvg:
+                        sportsAvg.toFixed(2),
+
+                    bestPathway
+
+                });
+
+            }
+        );
+
+
+        // ==================================================
+        // 15. CAREER SUGGESTIONS
+        // ==================================================
+
+        const pathwayCareers = {
+
+            STEM: [
+
+                "Engineer",
+                "Doctor",
+                "Software Developer",
+                "Architect",
+                "Pilot"
+
+            ],
+
+            "Social Sciences": [
+
+                "Lawyer",
+                "Teacher",
+                "Journalist",
+                "Diplomat",
+                "Social Worker"
+
+            ],
+
+            "Sports Science": [
+
+                "Athlete",
+                "Coach",
+                "Sports Analyst",
+                "Fitness Trainer",
+                "Sports Manager"
+
+            ]
+
+        };
+
+
+        // ==================================================
+        // 16. BUILD REPORT
+        // ==================================================
+
+        if (
+            typeof updateProgress ===
+            "function"
+        ) {
+
+            updateProgress(
+                80,
+                "Building pathway report..."
+            );
+
+        }
+
+
+        let html = `
+
+            ${
+                typeof window.getSchoolPrintHeader ===
+                "function"
+
+                    ?
+
+                window.getSchoolPrintHeader(
+                    "PATHWAY REPORT"
+                )
+
+                    :
+
+                `
+                    <div style="
+                        text-align:center;
+                        padding:15px;
+                    ">
+                        <h2>
+                            RASM TECH 360
+                        </h2>
+                    </div>
+                `
+            }
+
+
+            <div style="
+                margin:15px 0;
+                padding:18px;
+                background:
+                    linear-gradient(
+                        135deg,
+                        #fff7cc,
+                        #fef3c7
+                    );
+                border:
+                    2px solid #f59e0b;
+                border-radius:14px;
+                text-align:center;
+                color:#7c2d12;
+            ">
+
+                <div style="
+                    font-size:23px;
+                    font-weight:900;
+                    color:#dc2626;
+                    margin-bottom:10px;
+                ">
+
+                    🎓 CAREER PATHWAY REPORT
+
+                </div>
+
+
+                <div style="
+                    font-size:14px;
+                ">
+
+                    <strong>
+                        Grade:
+                    </strong>
+
+                    <span style="
+                        color:#dc2626;
+                        font-weight:900;
+                    ">
+
+                        ${escapeHTML(
+                            effectiveGrade
+                        )}
+
+                    </span>
+
+                    &nbsp; | &nbsp;
+
+                    <strong>
+                        Exam Period:
+                    </strong>
+
+                    ${escapeHTML(
+                        effectiveExamPeriod ||
+                        "All Periods"
+                    )}
+
+                </div>
+
+
+                <div style="
+                    margin-top:8px;
+                    font-size:12px;
+                    font-weight:700;
+                ">
+
+                    Pathway analysis is reserved for
+                    Junior School — Grade 7, Grade 8
+                    and Grade 9.
+
+                </div>
+
+            </div>
+
+
+            <div style="
+                display:flex;
+                gap:12px;
+                flex-wrap:wrap;
+                margin:15px 0;
+            ">
+
+                <div style="
+                    flex:1;
+                    min-width:150px;
+                    padding:14px;
+                    background:#eff6ff;
+                    border-left:5px solid #2563eb;
+                    border-radius:8px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        color:#475569;
+                    ">
+                        Total Learners
+                    </div>
+
+                    <div style="
+                        font-size:24px;
+                        font-weight:900;
+                        color:#1d4ed8;
+                    ">
+                        ${reportLearners.length}
+                    </div>
+
+                </div>
+
+
+                <div style="
+                    flex:1;
+                    min-width:150px;
+                    padding:14px;
+                    background:#ecfdf5;
+                    border-left:5px solid #16a34a;
+                    border-radius:8px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        color:#475569;
+                    ">
+                        STEM
+                    </div>
+
+                    <div style="
+                        font-size:24px;
+                        font-weight:900;
+                        color:#15803d;
+                    ">
+                        ${summary.STEM}
+                    </div>
+
+                </div>
+
+
+                <div style="
+                    flex:1;
+                    min-width:150px;
+                    padding:14px;
+                    background:#fff7ed;
+                    border-left:5px solid #ea580c;
+                    border-radius:8px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        color:#475569;
+                    ">
+                        Social Sciences
+                    </div>
+
+                    <div style="
+                        font-size:24px;
+                        font-weight:900;
+                        color:#c2410c;
+                    ">
+                        ${summary["Social Sciences"]}
+                    </div>
+
+                </div>
+
+
+                <div style="
+                    flex:1;
+                    min-width:150px;
+                    padding:14px;
+                    background:#fef2f2;
+                    border-left:5px solid #dc2626;
+                    border-radius:8px;
+                ">
+
+                    <div style="
+                        font-size:12px;
+                        color:#475569;
+                    ">
+                        Sports Science
+                    </div>
+
+                    <div style="
+                        font-size:24px;
+                        font-weight:900;
+                        color:#dc2626;
+                    ">
+                        ${summary["Sports Science"]}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div style="
+                overflow-x:auto;
+                width:100%;
+            ">
+
+                <table class="pathway-report-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th rowspan="2">
+                                No
+                            </th>
+
+                            <th rowspan="2">
+                                Learner
+                            </th>
+
+                            <th rowspan="2">
+                                Grade
+                            </th>
+
+
+                            <th
+                                colspan="7"
+                                class="stem-header"
+                            >
+                                STEM
+                            </th>
+
+
+                            <th
+                                colspan="5"
+                                class="social-header"
+                            >
+                                SOCIAL SCIENCES
+                            </th>
+
+
+                            <th
+                                colspan="4"
+                                class="sports-header"
+                            >
+                                SPORTS SCIENCE
+                            </th>
+
+
+                            <th rowspan="2"
+                                class="best-header"
+                            >
+                                Best Pathway
+                            </th>
+
+
+                            <th rowspan="2"
+                                class="career-header"
+                            >
+                                Suggested Careers
+                            </th>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th>Eng</th>
+                            <th>Math</th>
+                            <th>PreT</th>
+                            <th>Kisw</th>
+                            <th>Sci</th>
+                            <th>Agric</th>
+                            <th>Avg</th>
+
+
+                            <th>Kisw</th>
+                            <th>Eng</th>
+                            <th>SST</th>
+                            <th>CRE</th>
+                            <th>Avg</th>
+
+
+                            <th>Kisw</th>
+                            <th>Eng</th>
+                            <th>C/A</th>
+                            <th>Avg</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
         `;
-const pathwayCareers = {
 
-    STEM: [
-        "Engineer",
-        "Doctor",
-        "Software Developer",
-        "Architect",
-        "Pilot"
-    ],
 
-    "Social Sciences": [
-        "Lawyer",
-        "Teacher",
-        "Journalist",
-        "Diplomat",
-        "Social Worker"
-    ],
+        // ==================================================
+        // 17. REPORT ROWS
+        // ==================================================
 
-    "Sports Science": [
-        "Athlete",
-        "Coach",
-        "Sports Analyst",
-        "Fitness Trainer",
-        "Sports Manager"
-    ]
+        reportLearners.forEach(
+            (
+                learner,
+                index
+            ) => {
 
-};
-        learners.forEach((l, i) => {
+                const stem =
+                    learner.stemScores || [];
 
-            const stem = l.stemScores || [];
-            const social = l.socialScores || [];
-            const sports = l.sportsScores || [];
-const careers =
-    pathwayCareers[l.bestPathway] || [];
 
-const careerText =
-    careers.slice(0, 3).join(", ");
-            html += `
-            <tr>
-                <td>${i + 1}</td>
-                <td style="text-align:left;">${l.name}</td>
-                <td>${l.grade}</td>
+                const social =
+                    learner.socialScores || [];
 
-                <td>${stem[0] ?? 0}</td>
-                <td>${stem[1] ?? 0}</td>
-                <td>${stem[2] ?? 0}</td>
-                <td>${stem[3] ?? 0}</td>
-                <td>${stem[4] ?? 0}</td>
-                <td>${stem[5] ?? 0}</td>
-                <td><b>${l.stemAvg}</b></td>
 
-                <td>${social[0] ?? 0}</td>
-                <td>${social[1] ?? 0}</td>
-                <td>${social[2] ?? 0}</td>
-                <td>${social[3] ?? 0}</td>
-                <td><b>${l.socialAvg}</b></td>
+                const sports =
+                    learner.sportsScores || [];
 
-                <td>${sports[0] ?? 0}</td>
-                <td>${sports[1] ?? 0}</td>
-                <td>${sports[2] ?? 0}</td>
-                <td><b>${l.sportsAvg}</b></td>
 
-                <td>
-    <b>${l.bestPathway}</b>
+                const careers =
+                    pathwayCareers[
+                        learner.bestPathway
+                    ] || [];
+
+
+                const careerText =
+                    careers
+                        .slice(
+                            0,
+                            3
+                        )
+                        .join(", ");
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+
+                        <td class="learner-name">
+
+                            ${escapeHTML(
+                                learner.name
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                learner.grade
+                            )}
+
+                        </td>
+
+
+                        <!-- STEM -->
+
+                        <td>
+                            ${stem[0] ?? 0}
+                        </td>
+
+                        <td>
+                            ${stem[1] ?? 0}
+                        </td>
+
+                        <td>
+                            ${stem[2] ?? 0}
+                        </td>
+
+                        <td>
+                            ${stem[3] ?? 0}
+                        </td>
+
+                        <td>
+                            ${stem[4] ?? 0}
+                        </td>
+
+                        <td>
+                            ${stem[5] ?? 0}
+                        </td>
+
+                        <td class="average-cell">
+                            ${learner.stemAvg}
+                        </td>
+
+
+                        <!-- SOCIAL -->
+
+                        <td>
+                            ${social[0] ?? 0}
+                        </td>
+
+                        <td>
+                            ${social[1] ?? 0}
+                        </td>
+
+                        <td>
+                            ${social[2] ?? 0}
+                        </td>
+
+                        <td>
+                            ${social[3] ?? 0}
+                        </td>
+
+                        <td class="average-cell">
+                            ${learner.socialAvg}
+                        </td>
+
+
+                        <!-- SPORTS -->
+
+                        <td>
+                            ${sports[0] ?? 0}
+                        </td>
+
+                        <td>
+                            ${sports[1] ?? 0}
+                        </td>
+
+                        <td>
+                            ${sports[2] ?? 0}
+                        </td>
+
+                        <td class="average-cell">
+                            ${learner.sportsAvg}
+                        </td>
+
+
+                        <!-- BEST PATHWAY -->
+
+                        <td>
+
+                            <strong class="
+                                best-pathway
+                            ">
+
+                                ${escapeHTML(
+                                    learner.bestPathway
+                                )}
+
+                            </strong>
+
+                      <td>
+
+    <button
+        type="button"
+        onclick="showCareerSuggestions(
+            '${String(learner.bestPathway || "")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'")}',
+
+            '${String(learner.name || "Learner")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'")}'
+        )"
+
+        style="
+            background:linear-gradient(
+                135deg,
+                #15803d,
+                #166534
+            );
+
+            color:#fff;
+
+            border:none;
+
+            padding:7px 12px;
+
+            border-radius:7px;
+
+            cursor:pointer;
+
+            font-size:12px;
+
+            font-weight:800;
+
+            box-shadow:
+                0 3px 8px
+                rgba(22,101,52,.20);
+
+            transition:
+                transform .15s ease,
+                box-shadow .15s ease;
+        "
+
+        onmouseover="
+            this.style.transform='translateY(-1px)';
+            this.style.boxShadow='0 5px 12px rgba(22,101,52,.30)';
+        "
+
+        onmouseout="
+            this.style.transform='translateY(0)';
+            this.style.boxShadow='0 3px 8px rgba(22,101,52,.20)';
+        "
+    >
+
+        🎓 View Careers
+
+    </button>
+
 </td>
 
-<td>
-  <button
-    onclick="showCareerSuggestions('${l.bestPathway}','${l.name}')"
-    style="
-      background:#2e7d32;
-      color:white;
-      border:none;
-      padding:5px 10px;
-      border-radius:5px;
-      cursor:pointer;
-      font-size:12px;
-    ">
-    View Careers
-  </button>
-</td>
-            </tr>
-            `;
-        });
+                    </tr>
 
-        html += `</tbody></table>`;
+                `;
+
+            }
+        );
+
+
+        // ==================================================
+        // 18. CLOSE TABLE + SUMMARY
+        // ==================================================
 
         html += `
-        <h4 style="margin-top:20px;">Pathway Summary</h4>
-        <table style="width:50%; border-collapse:collapse;">
-            <tr style="background:#000;color:#fff;">
-                <th>Pathway</th>
-                <th>Learners</th>
-            </tr>
-            <tr><td>STEM</td><td>${summary.STEM}</td></tr>
-            <tr><td>Social Sciences</td><td>${summary['Social Sciences']}</td></tr>
-            <tr><td>Sports Science</td><td>${summary['Sports Science']}</td></tr>
-        </table>
 
-        <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                text-align: center;
-                padding: 6px;
-            }
-            th { font-weight: bold; }
-        </style>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div style="
+                margin-top:25px;
+            ">
+
+                <h3 style="
+                    color:#dc2626;
+                    margin-bottom:12px;
+                ">
+
+                    📊 Pathway Summary
+
+                </h3>
+
+
+                <table style="
+                    width:100%;
+                    max-width:550px;
+                    border-collapse:collapse;
+                ">
+
+                    <thead>
+
+                        <tr style="
+                            background:#111827;
+                            color:#fff;
+                        ">
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #000;
+                            ">
+                                Pathway
+                            </th>
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #000;
+                            ">
+                                Learners
+                            </th>
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #000;
+                            ">
+                                Percentage
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                            ">
+                                STEM
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+                                ${summary.STEM}
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${
+                                    reportLearners.length
+                                        ? (
+                                            (
+                                                summary.STEM /
+                                                reportLearners.length
+                                            ) *
+                                            100
+                                        ).toFixed(1)
+                                        : "0.0"
+                                }%
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                            ">
+                                Social Sciences
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+                                ${summary["Social Sciences"]}
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${
+                                    reportLearners.length
+                                        ? (
+                                            (
+                                                summary[
+                                                    "Social Sciences"
+                                                ] /
+                                                reportLearners.length
+                                            ) *
+                                            100
+                                        ).toFixed(1)
+                                        : "0.0"
+                                }%
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                            ">
+                                Sports Science
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+                                ${summary["Sports Science"]}
+                            </td>
+
+                            <td style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${
+                                    reportLearners.length
+                                        ? (
+                                            (
+                                                summary[
+                                                    "Sports Science"
+                                                ] /
+                                                reportLearners.length
+                                            ) *
+                                            100
+                                        ).toFixed(1)
+                                        : "0.0"
+                                }%
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div style="
+                margin-top:20px;
+                padding:13px 16px;
+                background:#f8fafc;
+                border-left:5px solid #dc2626;
+                color:#475569;
+                font-size:12px;
+                line-height:1.7;
+            ">
+
+                <strong>
+                    Pathway Notice:
+                </strong>
+
+                This report is restricted to
+                Junior School learners in
+                Grade 7, Grade 8 and Grade 9.
+
+                <br>
+
+                The pathway recommendation is based
+                on the available subject marks loaded
+                in the learner records.
+
+            </div>
+
+
+            <style>
+
+                .pathway-report-table {
+
+                    width:100%;
+
+                    min-width:1250px;
+
+                    border-collapse:
+                        collapse;
+
+                    font-size:12px;
+
+                    background:#fff;
+
+                }
+
+
+                .pathway-report-table th,
+                .pathway-report-table td {
+
+                    border:
+                        1px solid #000;
+
+                    padding:
+                        6px;
+
+                    text-align:
+                        center;
+
+                    vertical-align:
+                        middle;
+
+                }
+
+
+                .pathway-report-table thead th {
+
+                    font-weight:
+                        800;
+
+                }
+
+
+                .pathway-report-table
+                .stem-header {
+
+                    background:
+                        #1d4ed8;
+
+                    color:#fff;
+
+                }
+
+
+                .pathway-report-table
+                .social-header {
+
+                    background:
+                        #15803d;
+
+                    color:#fff;
+
+                }
+
+
+                .pathway-report-table
+                .sports-header {
+
+                    background:
+                        #ea580c;
+
+                    color:#fff;
+
+                }
+
+
+                .pathway-report-table
+                .best-header {
+
+                    background:
+                        #991b1b;
+
+                    color:#fff;
+
+                }
+
+
+                .pathway-report-table
+                .career-header {
+
+                    background:
+                        #166534;
+
+                    color:#fff;
+
+                }
+
+
+                .pathway-report-table
+                tbody tr:nth-child(even) {
+
+                    background:#f8fafc;
+
+                }
+
+
+                .pathway-report-table
+                tbody tr:hover {
+
+                    background:#f1f5f9;
+
+                }
+
+
+                .learner-name {
+
+                    text-align:
+                        left !important;
+
+                    font-weight:
+                        700;
+
+                    min-width:
+                        170px;
+
+                }
+
+
+                .average-cell {
+
+                    font-weight:
+                        900;
+
+                    background:
+                        #fef3c7;
+
+                }
+
+
+                .best-pathway {
+
+                    color:
+                        #dc2626;
+
+                    font-weight:
+                        900;
+
+                }
+
+
+                .career-cell {
+
+                    text-align:
+                        left !important;
+
+                    font-size:
+                        11px;
+
+                    min-width:
+                        180px;
+
+                }
+
+
+                @media print {
+
+                    .pathway-report-table {
+
+                        font-size:
+                            9px;
+
+                    }
+
+
+                    .pathway-report-table
+                    th,
+                    .pathway-report-table
+                    td {
+
+                        padding:
+                            4px;
+
+                    }
+
+                }
+
+            </style>
+
         `;
 
-        updateProgress(90, "Finalizing report...");
-        await new Promise(r => setTimeout(r, 300));
 
-        const reportOutput = document.getElementById("groupByPathwaysContent");
+        // ==================================================
+        // 19. FIND OUTPUT CONTAINER
+        // ==================================================
 
-        if (!reportOutput) {
-            hideLoader();
-            Swal.fire("Report container missing", "", "error");
-            return;
+        const reportOutput =
+            document.getElementById(
+                "groupByPathwaysContent"
+            );
+
+
+        if (
+            !reportOutput
+        ) {
+
+            throw new Error(
+                "The element #groupByPathwaysContent does not exist."
+            );
+
         }
 
-        reportOutput.innerHTML = html;
 
-        updateProgress(100, "Complete ✅");
-        await new Promise(r => setTimeout(r, 300));
+        // ==================================================
+        // 20. DISPLAY REPORT
+        // ==================================================
 
-        hideLoader();
+        reportOutput.innerHTML =
+            html;
 
-        reportOutput.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    } catch (error) {
-        console.error(error);
-        hideLoader();
-        Swal.fire("Error", "Something went wrong", "error");
+        reportOutput.style.display =
+            "block";
+
+
+        reportOutput.style.visibility =
+            "visible";
+
+
+        reportOutput.style.opacity =
+            "1";
+
+
+        if (
+            typeof updateProgress ===
+            "function"
+        ) {
+
+            updateProgress(
+                100,
+                "Pathway report complete ✅"
+            );
+
+        }
+
+
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    300
+                )
+        );
+
+
+        // ==================================================
+        // 21. HIDE LOADER
+        // ==================================================
+
+        if (
+            loaderStarted &&
+            typeof hideLoader === "function"
+        ) {
+
+            hideLoader();
+
+            loaderStarted = false;
+
+        }
+
+
+        // ==================================================
+        // 22. SCROLL TO REPORT
+        // ==================================================
+
+        try {
+
+            reportOutput.scrollIntoView({
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "start"
+
+            });
+
+        }
+        catch (
+            scrollError
+        ) {
+
+            console.warn(
+                "Scroll warning:",
+                scrollError
+            );
+
+        }
+
+
+        console.log(
+            "================================="
+        );
+
+        console.log(
+            "✅ PATHWAY REPORT GENERATED"
+        );
+
+        console.log(
+            "Grade:",
+            effectiveGrade
+        );
+
+        console.log(
+            "Grade Number:",
+            gradeNumber
+        );
+
+        console.log(
+            "Exam Period:",
+            effectiveExamPeriod
+        );
+
+        console.log(
+            "Learners:",
+            reportLearners.length
+        );
+
+        console.log(
+            "Summary:",
+            summary
+        );
+
+        console.log(
+            "================================="
+        );
+
+
     }
+
+    catch (
+        error
+    ) {
+
+        console.error(
+            "❌ PATHWAY REPORT ERROR:",
+            error
+        );
+
+
+        // ==================================================
+        // ALWAYS STOP LOADER
+        // ==================================================
+
+        if (
+            loaderStarted &&
+            typeof hideLoader === "function"
+        ) {
+
+            hideLoader();
+
+            loaderStarted = false;
+
+        }
+
+
+        // ==================================================
+        // SAFE ERROR MESSAGE
+        // ==================================================
+
+        const errorMessage =
+            error?.message ||
+            String(error) ||
+            "Unknown error";
+
+
+        await showAlert({
+
+            icon:
+                "error",
+
+            title:
+                "Pathway Report Error",
+
+            html: `
+
+                <div style="
+                    text-align:left;
+                    line-height:1.7;
+                ">
+
+                    The pathway report could not
+                    be generated.
+
+                    <br><br>
+
+                    <strong>
+                        Error:
+                    </strong>
+
+                    <br>
+
+                    <span style="
+                        color:#dc2626;
+                        font-weight:700;
+                        word-break:break-word;
+                    ">
+
+                        ${escapeHTML(
+                            errorMessage
+                        )}
+
+                    </span>
+
+                </div>
+
+            `,
+
+            confirmButtonColor:
+                "#dc2626"
+
+        });
+
+    }
+
 };
 
-function generateGroupByPathways(selectedGrade, selectedExamPeriod) {
-    generatePathwayGrouping(selectedGrade, selectedExamPeriod);
-}
 
-window.showCareerSuggestions = function(pathway, learnerName) {
-const careers = {
 
-    STEM: [
-        "⚙️ Engineer",
-        "🩺 Doctor",
-        "💻 Software Developer",
-        "🏗️ Architect",
-        "✈️ Pilot",
-        "📊 Data Scientist",
-        "⚡ Electrician",
-        "📐 Surveyor"
-    ],
+// ======================================================
+// PUBLIC FUNCTION
+// ======================================================
+// runSectionLogic() calls this.
+// ======================================================
 
-    "Social Sciences": [
-        "⚖️ Lawyer",
-        "👨‍🏫 Teacher",
-        "📰 Journalist",
-        "🌍 Diplomat",
-        "🤝 Social Worker",
-        "🧠 Psychologist",
-        "🏛️ Public Administrator"
-    ],
+window.generateGroupByPathways =
+function (
+    selectedGrade = "",
+    selectedExamPeriod = ""
+) {
 
-    "Sports Science": [
-        "🏃 Athlete",
-        "🏅 Coach",
-        "📈 Sports Analyst",
-        "💪 Fitness Trainer",
-        "🏟️ Sports Manager",
-        "🩹 Physiotherapist"
-    ]
+    console.log(
+        "🚀 generateGroupByPathways() called"
+    );
+
+
+    // ==================================================
+    // GRADE
+    // ==================================================
+
+    let pathwayGrade =
+        selectedGrade;
+
+
+    if (
+        !pathwayGrade &&
+        window.currentLoadedGrade
+    ) {
+
+        pathwayGrade =
+            window.currentLoadedGrade;
+
+    }
+
+
+    if (
+        !pathwayGrade &&
+        window.reportContext?.grade
+    ) {
+
+        pathwayGrade =
+            window.reportContext.grade;
+
+    }
+
+
+    if (
+        !pathwayGrade
+    ) {
+
+        pathwayGrade =
+            document.getElementById(
+                "gradeFilter"
+            )?.value || "";
+
+    }
+
+
+    if (
+        !pathwayGrade
+    ) {
+
+        pathwayGrade =
+            document.getElementById(
+                "gradeSelect"
+            )?.value || "";
+
+    }
+
+
+    // ==================================================
+    // EXAM PERIOD
+    // ==================================================
+
+    let pathwayExamPeriod =
+        selectedExamPeriod;
+
+
+    if (
+        !pathwayExamPeriod &&
+        window.currentLoadedExamPeriod
+    ) {
+
+        pathwayExamPeriod =
+            window.currentLoadedExamPeriod;
+
+    }
+
+
+    if (
+        !pathwayExamPeriod &&
+        window.reportContext?.examPeriod
+    ) {
+
+        pathwayExamPeriod =
+            window.reportContext.examPeriod;
+
+    }
+
+
+    if (
+        !pathwayExamPeriod
+    ) {
+
+        pathwayExamPeriod =
+            document.getElementById(
+                "examPeriodSelect"
+            )?.value || "";
+
+    }
+
+
+    if (
+        !pathwayExamPeriod
+    ) {
+
+        pathwayExamPeriod =
+            document.getElementById(
+                "examPeriod"
+            )?.value || "";
+
+    }
+
+
+    console.log(
+        "================================="
+    );
+
+    console.log(
+        "PATHWAY REQUEST"
+    );
+
+    console.log(
+        "Grade:",
+        pathwayGrade
+    );
+
+    console.log(
+        "Exam Period:",
+        pathwayExamPeriod
+    );
+
+    console.log(
+        "Filtered Learners:",
+        window.currentFilteredLearners?.length
+    );
+
+    console.log(
+        "All Loaded Learners:",
+        window.allLoadedLearners?.length
+    );
+
+    console.log(
+        "================================="
+    );
+
+
+    // ==================================================
+    // CALL GENERATOR
+    // ==================================================
+
+    if (
+        typeof window.generatePathwayGrouping !==
+        "function"
+    ) {
+
+        console.error(
+            "generatePathwayGrouping is not available."
+        );
+
+        return;
+
+    }
+
+
+    return window.generatePathwayGrouping(
+
+        pathwayGrade,
+
+        pathwayExamPeriod
+
+    );
 
 };
 
-  Swal.fire({
-    title: `${learnerName}'s Career Suggestions`,
-    html: careers[pathway]
-        .map(c => `
+
+// ======================================================
+// 🎓 CAREER SUGGESTIONS MODAL
+// ======================================================
+// Opens career suggestions for the individual learner
+// based on their BEST PATHWAY.
+// ======================================================
+
+window.showCareerSuggestions = function (
+    pathway,
+    learnerName
+) {
+
+    const careers = {
+
+        STEM: [
+
+            "⚙️ Engineer",
+            "🩺 Doctor",
+            "💻 Software Developer",
+            "🏗️ Architect",
+            "✈️ Pilot",
+            "📊 Data Scientist",
+            "⚡ Electrician",
+            "📐 Surveyor"
+
+        ],
+
+        "Social Sciences": [
+
+            "⚖️ Lawyer",
+            "👨‍🏫 Teacher",
+            "📰 Journalist",
+            "🌍 Diplomat",
+            "🤝 Social Worker",
+            "🧠 Psychologist",
+            "🏛️ Public Administrator"
+
+        ],
+
+        "Sports Science": [
+
+            "🏃 Athlete",
+            "🏅 Coach",
+            "📈 Sports Analyst",
+            "💪 Fitness Trainer",
+            "🏟️ Sports Manager",
+            "🩹 Physiotherapist"
+
+        ]
+
+    };
+
+
+    // --------------------------------------------------
+    // GET CAREERS FOR SELECTED PATHWAY
+    // --------------------------------------------------
+
+    const selectedCareers =
+        careers[pathway] || [];
+
+
+    // --------------------------------------------------
+    // SAFETY FALLBACK
+    // --------------------------------------------------
+
+    if (!selectedCareers.length) {
+
+        Swal.fire({
+
+            icon: "warning",
+
+            title: "No Career Suggestions",
+
+            text:
+                "No career suggestions are available for this pathway.",
+
+            confirmButtonColor:
+                "#dc2626"
+
+        });
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------
+    // BUILD CAREER LIST
+    // --------------------------------------------------
+
+    const careerList =
+        selectedCareers
+            .map(
+                career => `
+
+                    <div style="
+                        display:flex;
+                        align-items:center;
+
+                        text-align:left;
+
+                        padding:11px 14px;
+
+                        margin-bottom:7px;
+
+                        background:#f8fafc;
+
+                        border:1px solid #e2e8f0;
+
+                        border-radius:9px;
+
+                        font-size:14px;
+
+                        font-weight:700;
+
+                        color:#334155;
+
+                        transition:
+                            background .15s ease;
+                    ">
+
+                        ${career}
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+
+    // --------------------------------------------------
+    // SHOW MODAL
+    // --------------------------------------------------
+
+    Swal.fire({
+
+        title: `🎓 Career Suggestions`,
+
+        html: `
+
+            <div style="
+                text-align:center;
+                margin-bottom:15px;
+            ">
+
+                <div style="
+                    font-size:18px;
+                    font-weight:900;
+                    color:#0f172a;
+                    margin-bottom:8px;
+                ">
+
+                    ${String(
+                        learnerName || "Learner"
+                    )}
+
+                </div>
+
+
+                <div style="
+                    display:inline-block;
+
+                    padding:7px 15px;
+
+                    background:
+                        linear-gradient(
+                            135deg,
+                            #dc2626,
+                            #991b1b
+                        );
+
+                    color:#fff;
+
+                    border-radius:20px;
+
+                    font-size:13px;
+
+                    font-weight:900;
+
+                    box-shadow:
+                        0 3px 8px
+                        rgba(220,38,38,.20);
+                ">
+
+                    ${String(pathway)}
+
+                </div>
+
+            </div>
+
+
             <div style="
                 text-align:left;
-                padding:6px;
-                border-bottom:1px solid #eee;
+
+                margin-bottom:10px;
+
+                font-size:13px;
+
+                color:#64748b;
+
+                font-weight:600;
             ">
-                ${c}
+
+                Suggested career opportunities:
+
             </div>
-        `)
-        .join(""),
-    width: 650,
-    icon: "info"
-});
+
+
+            <div style="
+                max-height:420px;
+
+                overflow-y:auto;
+
+                padding:3px;
+            ">
+
+                ${careerList}
+
+            </div>
+
+        `,
+
+        width: 650,
+
+        showCloseButton: true,
+
+        confirmButtonText: "Close",
+
+        confirmButtonColor: "#dc2626",
+
+        customClass: {
+
+            popup:
+                "career-suggestions-popup"
+
+        }
+
+    });
 
 };
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const btn = document.getElementById("generateMeritBtn");
@@ -39357,13 +43007,35 @@ const subjectOptions = {};
 });
 
   // ======================================================
-  // SUBJECT PICKER
-  // ======================================================
-  const { value: subjectKey } = await Swal.fire({
+ // ======================================================
+// SUBJECT PICKER
+// ======================================================
+
+const { value: subjectKey } = await Swal.fire({
 
     title: "Select Subject",
 
-    text: "Choose a subject to generate ranking report",
+    html: `
+        <div style="
+            margin-top:4px;
+            padding:10px 14px;
+            border-radius:10px;
+            background:linear-gradient(
+                135deg,
+                #fff7cc,
+                #fef3c7
+            );
+            border:1px solid #f59e0b;
+            color:#7c2d12;
+            font-weight:700;
+            font-size:14px;
+            box-shadow:0 3px 8px rgba(245,158,11,.15);
+        ">
+            📝 <span style="color:#b45309;">
+                Choose a subject to generate ranking report
+            </span>
+        </div>
+    `,
 
     input: "select",
 
@@ -39373,12 +43045,21 @@ const subjectOptions = {};
 
     showCancelButton: true,
 
-    confirmButtonText: "Generate Report",
+    confirmButtonText: "📊 Generate Report",
 
-    cancelButtonText: "Cancel"
+    cancelButtonText: "Cancel",
 
-  });
+    customClass: {
 
+        title: "subject-picker-title",
+
+        confirmButton: "subject-picker-confirm",
+
+        cancelButton: "subject-picker-cancel"
+
+    }
+
+});
   if (!subjectKey) return;
 
 const subjectName =
@@ -66204,137 +69885,417 @@ const dynamicAnswersHTML = `
             }
 
 
-            // =================================================
-            // TEACHER CONTROLS
-            // =================================================
+           // =================================================
+// TEACHER CONTROLS — DROPDOWN
+// =================================================
 
-            let teacherControlsHTML = "";
+let teacherControlsHTML = "";
+
+if (isTeacher) {
+
+    const assignmentId = String(a.id).replace(/'/g, "\\'");
+
+    teacherControlsHTML = `
+
+        <div class="teacher-controls-dropdown"
+             style="
+                position:relative;
+                display:inline-block;
+                margin-top:18px;
+                width:30%;
+             ">
+
+            <!-- =====================================
+                 MAIN TEACHER CONTROLS BUTTON
+            ====================================== -->
+
+            <button
+                type="button"
+                onclick="
+                    const menu =
+                        this.nextElementSibling;
+
+                    menu.style.display =
+                        menu.style.display === 'block'
+                        ? 'none'
+                        : 'block';
+                "
+                style="
+                    width:100%;
+                    min-height:44px;
+
+                    display:flex;
+                    align-items:center;
+                    justify-content:space-between;
+
+                    padding:11px 15px;
+
+                    border:1px solid #cbd5e1;
+                    border-radius:10px;
+
+                    background:linear-gradient(
+                        135deg,
+                        #f8fafc,
+                        #ffffff
+                    );
+
+                    color:#334155;
+
+                    font-size:14px;
+                    font-weight:700;
+
+                    cursor:pointer;
+
+                    box-shadow:
+                        0 3px 10px
+                        rgba(15,23,42,.07);
+                "
+            >
+
+                <span>
+                    ⚙️ Teacher Controls
+                </span>
+
+                <span style="
+                    font-size:16px;
+                    transition:transform .2s ease;
+                ">
+                    ▾
+                </span>
+
+            </button>
 
 
-            if(isTeacher){
+            <!-- =====================================
+                 DROPDOWN MENU
+            ====================================== -->
 
-                teacherControlsHTML = `
+            <div
+                style="
+                    display:none;
 
-                    <div style="
-                        margin-top:20px;
+                    position:absolute;
+
+                    left:0;
+                    right:0;
+
+                    top:calc(100% + 7px);
+
+                    background:#ffffff;
+
+                    border:1px solid #e2e8f0;
+
+                    border-radius:12px;
+
+                    padding:7px;
+
+                    box-shadow:
+                        0 12px 30px
+                        rgba(15,23,42,.15);
+
+                    z-index:5000;
+                "
+            >
+
+
+                <!-- =================================
+                     EDIT
+                ================================== -->
+
+                <button
+                    type="button"
+
+                    onclick="
+                        editAssignment(
+                            '${assignmentId}'
+                        );
+
+                        this.parentElement.style.display='none';
+                    "
+
+                    style="
+                        width:100%;
+
                         display:flex;
+                        align-items:center;
+
                         gap:10px;
-                        flex-wrap:wrap;
+
+                        padding:11px 12px;
+
+                        border:0;
+                        border-radius:8px;
+
+                        background:#fff;
+
+                        color:#2563eb;
+
+                        font-weight:600;
+
+                        text-align:left;
+
+                        cursor:pointer;
+                    "
+
+                    onmouseover="
+                        this.style.background='#eff6ff';
+                    "
+
+                    onmouseout="
+                        this.style.background='#fff';
+                    "
+                >
+
+                    <span style="
+                        width:30px;
+                        height:30px;
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        border-radius:7px;
+
+                        background:#dbeafe;
                     ">
+                        ✏️
+                    </span>
 
-                        <button
-                            type="button"
+                    <span>
+                        Edit Assignment
+                    </span>
 
-                            onclick="
-                                editAssignment(
-                                    '${String(
-                                        a.id
-                                    ).replace(
-                                        /'/g,
-                                        "\\'"
-                                    )}'
-                                )
-                            "
-
-                            style="
-                                background:#2563eb;
-                                color:white;
-                                padding:10px 14px;
-                                border:none;
-                                border-radius:8px;
-                                cursor:pointer;
-                            "
-                        >
-                            ✏ Edit
-                        </button>
+                </button>
 
 
-                        <button
-                            type="button"
+                <!-- =================================
+                     EXTEND DEADLINE
+                ================================== -->
 
-                            onclick="
-                                extendDeadline(
-                                    '${String(
-                                        a.id
-                                    ).replace(
-                                        /'/g,
-                                        "\\'"
-                                    )}'
-                                )
-                            "
+                <button
+                    type="button"
 
-                            style="
-                                background:#f59e0b;
-                                color:white;
-                                padding:10px 14px;
-                                border:none;
-                                border-radius:8px;
-                                cursor:pointer;
-                            "
-                        >
-                            ⏳ Extend
-                        </button>
+                    onclick="
+                        extendDeadline(
+                            '${assignmentId}'
+                        );
+
+                        this.parentElement.style.display='none';
+                    "
+
+                    style="
+                        width:100%;
+
+                        display:flex;
+                        align-items:center;
+
+                        gap:10px;
+
+                        padding:11px 12px;
+
+                        border:0;
+                        border-radius:8px;
+
+                        background:#fff;
+
+                        color:#d97706;
+
+                        font-weight:600;
+
+                        text-align:left;
+
+                        cursor:pointer;
+                    "
+
+                    onmouseover="
+                        this.style.background='#fffbeb';
+                    "
+
+                    onmouseout="
+                        this.style.background='#fff';
+                    "
+                >
+
+                    <span style="
+                        width:30px;
+                        height:30px;
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        border-radius:7px;
+
+                        background:#fef3c7;
+                    ">
+                        ⏳
+                    </span>
+
+                    <span>
+                        Extend Deadline
+                    </span>
+
+                </button>
 
 
-                        <button
-                            type="button"
+                <!-- =================================
+                     MARKING SCHEME
+                ================================== -->
 
-                            onclick="
-                                deleteAssignment(
-                                    '${String(
-                                        a.id
-                                    ).replace(
-                                        /'/g,
-                                        "\\'"
-                                    )}'
-                                )
-                            "
+                <button
+                    type="button"
 
-                            style="
-                                background:#dc2626;
-                                color:white;
-                                padding:10px 14px;
-                                border:none;
-                                border-radius:8px;
-                                cursor:pointer;
-                            "
-                        >
-                            🗑 Delete
-                        </button>
+                    onclick="
+                        postAssignmentMarkingScheme(
+                            '${assignmentId}'
+                        );
+
+                        this.parentElement.style.display='none';
+                    "
+
+                    style="
+                        width:100%;
+
+                        display:flex;
+                        align-items:center;
+
+                        gap:10px;
+
+                        padding:11px 12px;
+
+                        border:0;
+                        border-radius:8px;
+
+                        background:#fff;
+
+                        color:#7c3aed;
+
+                        font-weight:600;
+
+                        text-align:left;
+
+                        cursor:pointer;
+                    "
+
+                    onmouseover="
+                        this.style.background='#f5f3ff';
+                    "
+
+                    onmouseout="
+                        this.style.background='#fff';
+                    "
+                >
+
+                    <span style="
+                        width:30px;
+                        height:30px;
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        border-radius:7px;
+
+                        background:#ede9fe;
+                    ">
+                        📋
+                    </span>
+
+                    <span>
+                        Marking Scheme
+                    </span>
+
+                </button>
 
 
-                        <button
-                            type="button"
+                <!-- =================================
+                     DIVIDER
+                ================================== -->
 
-                            onclick="
-                                postAssignmentMarkingScheme(
-                                    '${String(
-                                        a.id
-                                    ).replace(
-                                        /'/g,
-                                        "\\'"
-                                    )}'
-                                )
-                            "
+                <div style="
+                    height:1px;
+                    margin:5px 4px;
 
-                            style="
-                                background:#7c3aed;
-                                color:white;
-                                padding:10px 14px;
-                                border:none;
-                                border-radius:8px;
-                                cursor:pointer;
-                                font-weight:bold;
-                            "
-                        >
-                            📋 Marking Scheme
-                        </button>
+                    background:#e2e8f0;
+                "></div>
 
-                    </div>
 
-                `;
+                <!-- =================================
+                     DELETE
+                ================================== -->
 
-            }
+                <button
+                    type="button"
+
+                    onclick="
+                        deleteAssignment(
+                            '${assignmentId}'
+                        );
+
+                        this.parentElement.style.display='none';
+                    "
+
+                    style="
+                        width:100%;
+
+                        display:flex;
+                        align-items:center;
+
+                        gap:10px;
+
+                        padding:11px 12px;
+
+                        border:0;
+                        border-radius:8px;
+
+                        background:#fff;
+
+                        color:#dc2626;
+
+                        font-weight:700;
+
+                        text-align:left;
+
+                        cursor:pointer;
+                    "
+
+                    onmouseover="
+                        this.style.background='#fef2f2';
+                    "
+
+                    onmouseout="
+                        this.style.background='#fff';
+                    "
+                >
+
+                    <span style="
+                        width:30px;
+                        height:30px;
+
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+
+                        border-radius:7px;
+
+                        background:#fee2e2;
+                    ">
+                        🗑️
+                    </span>
+
+                    <span>
+                        Delete Assignment
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
 
 
             // =================================================
