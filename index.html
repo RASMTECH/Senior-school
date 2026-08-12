@@ -34,7 +34,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<style>
+  <style>
+
 /*=========================================================
   GLOBAL RESET
 =========================================================*/
@@ -488,17 +489,7 @@ button.primary{
   📱 MOBILE RESPONSIVE
 =========================================================*/
 
-@media (max-width:768px){
 
-    .primary-btn,
-    .secondary-btn,
-    button.primary{
-        width:100%;
-        max-width:100%;
-        min-width:0;
-    }
-
-}
 
 /*=========================================================
   🔐 AUTHENTICATION SCREEN
@@ -1019,15 +1010,7 @@ button.primary{
    📱 SMALL SCREENS
 ========================================================= */
 
-@media(max-width:768px){
 
-    .learners-table{
-
-        min-width:1300px;
-
-    }
-
-}
 /* =========================================================
    📝 MARKS TABLE
 ========================================================= */
@@ -1198,15 +1181,7 @@ button.primary{
    📱 MOBILE
 ========================================================= */
 
-@media(max-width:768px){
 
-    .marks-table{
-
-        min-width:1300px;
-
-    }
-
-}
 /*=========================================================
   📈 REPORT CARDS
 =========================================================*/
@@ -1263,36 +1238,7 @@ button.primary{
   📱 TABLE RESPONSIVENESS
 =========================================================*/
 
-@media (max-width:768px){
 
-    .learners-table,
-    .marks-table{
-
-        font-size:13px;
-
-    }
-
-    .learners-table th,
-    .learners-table td{
-
-        padding:7px;
-
-    }
-
-    .marks-table th,
-    .marks-table td{
-
-        padding:5px;
-
-    }
-
-    .marks-table td:nth-child(3){
-
-        min-width:120px;
-
-    }
-
-}
 
 /*=========================================================
   🎯 ACTION TOOLBAR
@@ -1681,31 +1627,7 @@ button.primary{
   MOBILE
 =========================================================*/
 
-@media (max-width:768px){
 
-    .action-bar{
-
-        justify-content:flex-start;
-
-    }
-
-    .action-btn{
-
-        flex:1 1 auto;
-
-        min-width:120px;
-
-        justify-content:center;
-
-    }
-
-    .dropdown-menu{
-
-        min-width:180px;
-
-    }
-
-}
 
 /*=========================================================
   👨‍💼 SUPPORT STAFF MODULE
@@ -1968,43 +1890,7 @@ button.primary{
   MOBILE
 =========================================================*/
 
-@media (max-width:768px){
 
-    .card{
-
-        padding:18px;
-
-    }
-
-    .card h1{
-
-        font-size:28px;
-
-    }
-
-    .card h3{
-
-        font-size:14px;
-
-    }
-
-    #supportStaffTable th,
-    #supportStaffTable td{
-
-        padding:10px 8px;
-        font-size:13px;
-
-    }
-
-    #supportAttendanceOutput th,
-    #supportAttendanceOutput td{
-
-        padding:8px;
-        font-size:13px;
-
-    }
-
-}
 
 /*=========================================================
   🏫 SCHOOL TITLE
@@ -2513,22 +2399,7 @@ button.primary{
   MOBILE
 =========================================================*/
 
-@media (max-width:768px){
 
-    .dashboard-card{
-        padding:18px;
-    }
-
-    .card-content p{
-        font-size:24px;
-    }
-
-    .module-btn{
-        width:100%;
-        min-width:0;
-    }
-
-}
 
 /*=========================================================
   🖨️ PRINT
@@ -3500,19 +3371,7 @@ button.primary{
 
 }
 
-@media (max-width:768px){
 
-    .system-footer{
-
-        flex-direction:column;
-
-        text-align:center;
-
-        gap:10px;
-
-    }
-
-}
 
 /*=========================================================
   📢 RASM LIVE POPUP
@@ -3788,6 +3647,744 @@ button.primary{
     top:0;
     z-index:10;
 }
+
+/*======================================================================
+  RASM MASTER RESPONSIVE SYSTEM
+  ----------------------------------------------------------------------
+  Desktop-first base styles above remain unchanged.
+  This section is the single mobile/tablet responsive layer.
+======================================================================*/
+
+/* ---------- Fluid sizing / overflow protection ---------- */
+
+html,
+body{
+    width:100%;
+    max-width:100%;
+}
+
+body{
+    min-width:0;
+}
+
+.main,
+.section,
+.dashboard-wrapper,
+.staff-section,
+.report-grid,
+.dashboard-grid,
+.levelGenderCharts,
+.action-bar,
+.action-groups,
+.module-actions{
+    min-width:0;
+    max-width:100%;
+}
+
+img,
+video,
+canvas,
+svg{
+    max-width:100%;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+}
+
+input,
+select,
+textarea{
+    min-width:0;
+}
+
+
+/* ---------- TABLET: 769px–1024px ---------- */
+
+@media (min-width:769px) and (max-width:1024px){
+
+    .main{
+        width:calc(100% - 220px);
+        margin-left:220px;
+        padding:18px;
+    }
+
+    .sidebar{
+        width:220px;
+    }
+
+    .rasm-motto-bar{
+        left:220px;
+    }
+
+    .dashboard-wrapper{
+        padding:16px;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:16px;
+    }
+
+    .report-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .levelGenderCharts{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .module-btn{
+        min-width:160px;
+    }
+}
+
+
+/* ---------- MOBILE: up to 768px ---------- */
+
+@media (max-width:768px){
+
+    html{
+        scroll-behavior:smooth;
+        -webkit-text-size-adjust:100%;
+    }
+
+    body{
+        width:100%;
+        max-width:100%;
+        overflow-x:hidden;
+        padding-bottom:env(safe-area-inset-bottom);
+    }
+
+
+    /* ================================================================
+       MAIN APP SHELL
+    ================================================================ */
+
+    .main,
+    .main.full{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        margin-left:0 !important;
+        padding:58px 10px 20px !important;
+    }
+
+    .section{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+    }
+
+    .dashboard-wrapper{
+        width:100%;
+        padding:10px 0;
+    }
+
+
+    /* ================================================================
+       MOBILE SIDEBAR
+       Uses the existing .closed state from the application.
+    ================================================================ */
+
+    .sidebar{
+        width:min(290px,86vw);
+        max-width:86vw;
+        height:100dvh;
+        left:0;
+        right:auto;
+        top:0;
+        bottom:0;
+        z-index:100000;
+        box-shadow:10px 0 35px rgba(0,0,0,.30);
+        transition:left .28s ease,transform .28s ease;
+        padding-bottom:env(safe-area-inset-bottom);
+    }
+
+    .sidebar.closed{
+        left:calc(-1 * min(290px,86vw));
+    }
+
+    .sidebar-header{
+        padding:16px 14px;
+    }
+
+    .sidebar-header h2{
+        font-size:21px;
+    }
+
+    .sidebar-scroll{
+        padding:12px 10px 18px;
+        overscroll-behavior:contain;
+    }
+
+    .menu-section{
+        margin-bottom:20px;
+    }
+
+    .sidebar button,
+    .dropdown{
+        min-height:46px;
+        margin-bottom:8px;
+        padding:11px 13px;
+    }
+
+    .submenu{
+        padding-left:12px;
+    }
+
+    .submenu button{
+        min-height:42px;
+        padding:10px 12px;
+    }
+
+    .sidebar-footer{
+        padding:10px;
+    }
+
+
+    /* ================================================================
+       MENU TOGGLE
+    ================================================================ */
+
+    .menu-toggle{
+        top:10px;
+        left:10px;
+        width:44px;
+        height:44px;
+        border-radius:11px;
+        font-size:23px;
+        z-index:100001;
+    }
+
+    #menuToggle{
+        width:40px;
+        height:40px;
+        font-size:22px;
+    }
+
+
+    /* ================================================================
+       TOP / MOTTO BAR
+    ================================================================ */
+
+    .rasm-motto-bar{
+        left:0 !important;
+        right:0 !important;
+        top:0;
+        width:100%;
+        height:42px;
+        z-index:99990;
+    }
+
+    .rasm-badge{
+        margin:0 8px;
+        padding:5px 9px;
+        font-size:10px;
+    }
+
+    .rasm-marquee-content span{
+        padding-right:45px;
+        font-size:11px;
+    }
+
+
+    /* ================================================================
+       FLOATING COUNTER
+    ================================================================ */
+
+    #floatingSchoolsCounter{
+        top:54px !important;
+        right:10px !important;
+        max-width:calc(100vw - 20px);
+    }
+
+
+    /* ================================================================
+       FORMS
+    ================================================================ */
+
+    input,
+    select,
+    textarea{
+        width:100%;
+        max-width:none;
+        margin:5px 0;
+        min-height:44px;
+        padding:11px 12px;
+        font-size:16px; /* prevents iOS zoom */
+    }
+
+    textarea{
+        min-height:100px;
+    }
+
+    .auth-card input,
+    .auth-card select{
+        font-size:16px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    button.primary{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+        min-height:44px;
+        margin-left:0;
+        margin-right:0;
+    }
+
+
+    /* ================================================================
+       ACTION BARS / BUTTON GROUPS
+    ================================================================ */
+
+    .action-bar,
+    .action-groups,
+    .module-actions,
+    .table-actions{
+        width:100%;
+        justify-content:stretch;
+        align-items:stretch;
+        gap:8px;
+    }
+
+    .action-btn,
+    .module-btn,
+    .action-master-btn{
+        min-width:0;
+        width:100%;
+        max-width:100%;
+        min-height:44px;
+    }
+
+    .action-btn{
+        flex:1 1 calc(50% - 8px);
+        padding:9px 11px;
+    }
+
+    .module-btn{
+        min-width:0;
+        padding:0 14px;
+    }
+
+    .action-master-btn{
+        min-width:0;
+    }
+
+
+    /* ================================================================
+       DASHBOARD / CARDS
+    ================================================================ */
+
+    .dashboard-header{
+        width:100%;
+        max-width:100%;
+        margin:0 0 16px;
+        padding:11px 14px;
+        font-size:18px;
+        text-align:center;
+    }
+
+    .dashboard-grid,
+    .report-grid,
+    .levelGenderCharts{
+        width:100%;
+        grid-template-columns:1fr !important;
+        gap:12px;
+    }
+
+    .dashboard-card{
+        min-height:96px;
+        padding:15px;
+        border-radius:16px;
+    }
+
+    .card-icon{
+        width:48px;
+        height:48px;
+        border-radius:14px;
+        font-size:22px;
+    }
+
+    .card-content h3{
+        font-size:13px;
+    }
+
+    .card-content p{
+        font-size:23px;
+    }
+
+    .card{
+        padding:16px;
+        border-radius:14px;
+    }
+
+    .card h1{
+        margin-top:12px;
+        font-size:27px;
+    }
+
+    .card h3{
+        font-size:14px;
+    }
+
+    .report-card{
+        padding:14px;
+    }
+
+
+    /* ================================================================
+       TABLES — KEEP WIDE TABLES SCROLLABLE, NEVER SQUASH THEM
+    ================================================================ */
+
+    .table-wrapper,
+    .table-responsive,
+    .table-container,
+    .learners-table-wrapper,
+    .marks-table-wrapper,
+    #supportStaffTableWrapper,
+    #supportAttendanceOutput{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+        overflow-x:auto !important;
+        overflow-y:visible;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior-x:contain;
+        scrollbar-width:thin;
+    }
+
+    .learners-table,
+    .marks-table{
+        width:max-content !important;
+        min-width:1100px !important;
+        max-width:none !important;
+        table-layout:auto;
+        font-size:12px;
+    }
+
+    .learners-table th,
+    .learners-table td,
+    .marks-table th,
+    .marks-table td{
+        padding:6px 7px;
+        white-space:nowrap;
+    }
+
+    .learners-table img{
+        width:36px;
+        height:36px;
+    }
+
+    .marks-table td:nth-child(3){
+        min-width:125px;
+    }
+
+    #supportStaffTable,
+    #supportAttendanceOutput table{
+        width:max-content;
+        min-width:850px;
+    }
+
+    #supportStaffTable th,
+    #supportStaffTable td,
+    #supportAttendanceOutput th,
+    #supportAttendanceOutput td{
+        padding:8px;
+        font-size:12px;
+        white-space:nowrap;
+    }
+
+    .marks-table th{
+        position:sticky;
+        top:0;
+        z-index:20;
+    }
+
+
+    /* ================================================================
+       CHARTS
+    ================================================================ */
+
+    .chartCard{
+        width:100%;
+        height:280px;
+        padding:14px;
+        overflow:hidden;
+    }
+
+
+    /* ================================================================
+       MODALS
+    ================================================================ */
+
+    .modal-backdrop{
+        padding:12px;
+        align-items:center;
+        overflow-y:auto;
+        overscroll-behavior:contain;
+    }
+
+    .modal-box{
+        width:100%;
+        max-width:520px;
+        max-height:calc(100dvh - 24px);
+        overflow-y:auto;
+        padding:20px 16px;
+        border-radius:14px;
+    }
+
+    .modal-box input,
+    .modal-box select,
+    .modal-box textarea{
+        width:100%;
+        max-width:none;
+        margin:5px 0;
+    }
+
+
+    /* ================================================================
+       AUTH SCREEN
+    ================================================================ */
+
+    #authSection{
+        min-height:100dvh;
+        padding:16px;
+        overflow-y:auto;
+    }
+
+    .auth-card{
+        width:100%;
+        max-width:420px;
+        padding:22px 18px;
+        border-radius:15px;
+    }
+
+    .auth-card h2{
+        font-size:25px;
+    }
+
+    .subtitle{
+        font-size:13px;
+    }
+
+
+    /* ================================================================
+       ASSIGNMENTS / E-LEARNING
+    ================================================================ */
+
+    .assignment-question-text{
+        font-size:18px !important;
+        line-height:1.55;
+    }
+
+    .assignment-mcq-option{
+        font-size:16px !important;
+    }
+
+    .assignment-answer{
+        font-size:16px !important;
+    }
+
+    .course-card{
+        padding:15px;
+        border-radius:14px;
+    }
+
+    .course-title{
+        font-size:17px;
+    }
+
+
+    /* ================================================================
+       DROPDOWNS / ACTION MENUS
+       Make them usable with touch as well as mouse.
+    ================================================================ */
+
+    .dropdown-actions{
+        max-width:100%;
+    }
+
+    .dropdown-menu,
+    .dropdown-content,
+    .action-panel{
+        max-width:calc(100vw - 24px);
+    }
+
+    .dropdown-menu{
+        min-width:190px;
+    }
+
+    .dropdown-content{
+        min-width:190px;
+    }
+
+    .action-panel{
+        min-width:210px;
+        max-width:calc(100vw - 24px);
+    }
+
+    .dropdown-actions:focus-within .dropdown-menu,
+    .dropdown-actions:focus-within .dropdown-content,
+    .action-group:focus-within .action-panel{
+        display:flex;
+        flex-direction:column;
+    }
+
+
+    /* ================================================================
+       SCHOOL TITLE / FOOTER / POPUP
+    ================================================================ */
+
+    .school-title{
+        margin:8px 0;
+        padding:9px 11px;
+        font-size:17px;
+    }
+
+    .system-footer{
+        flex-direction:column;
+        text-align:center;
+        gap:8px;
+        margin-top:24px;
+        padding:14px 12px;
+    }
+
+    .rasm-popup{
+        left:10px;
+        right:10px;
+        bottom:10px;
+        width:auto;
+        max-width:none;
+        padding:15px;
+    }
+
+
+    /* ================================================================
+       TRIP TOGGLE
+    ================================================================ */
+
+    .trip-toggle{
+        width:100%;
+        display:flex;
+    }
+
+    .trip-btn{
+        flex:1;
+        min-width:0;
+        padding:10px 12px;
+    }
+
+
+    /* ================================================================
+       SPLASH
+    ================================================================ */
+
+    .splash-container{
+        width:100%;
+        max-width:100%;
+        padding:16px;
+    }
+
+
+    /* ================================================================
+       CERTIFICATES / PRINT-LIKE PREVIEWS
+    ================================================================ */
+
+    .certificate-page{
+        width:100%;
+        max-width:100%;
+        overflow:hidden;
+    }
+}
+
+
+/* ---------- EXTRA SMALL PHONES: up to 420px ---------- */
+
+@media (max-width:420px){
+
+    .main,
+    .main.full{
+        padding:56px 8px 16px !important;
+    }
+
+    .dashboard-wrapper{
+        padding:8px 0;
+    }
+
+    .dashboard-card{
+        gap:11px;
+        padding:13px;
+    }
+
+    .card-icon{
+        width:44px;
+        height:44px;
+        font-size:20px;
+    }
+
+    .card-content p{
+        font-size:21px;
+    }
+
+    .action-btn{
+        flex-basis:100%;
+    }
+
+    .dashboard-header{
+        font-size:16px;
+        padding:10px;
+    }
+
+    .modal-backdrop{
+        padding:8px;
+    }
+
+    .modal-box{
+        max-height:calc(100dvh - 16px);
+        padding:17px 13px;
+    }
+
+    .auth-card{
+        padding:20px 14px;
+    }
+
+    .rasm-badge{
+        display:none;
+    }
+
+    #floatingSchoolsCounter{
+        top:50px !important;
+        right:8px !important;
+        max-width:calc(100vw - 16px);
+    }
+}
+
+
+/* ---------- Reduced motion / accessibility ---------- */
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto !important;
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+    }
+}
+
 </style>
 </head>
 
