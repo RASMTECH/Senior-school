@@ -76,6 +76,1585 @@ li{
     display:block;
 }
 
+
+/* =========================================================
+   RASM TECH 360 — FINAL MODERN AUTHENTICATION CSS
+   Clean Version
+   CSS ONLY — NO JAVASCRIPT
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL BOX SIZING
+   ========================================================= */
+
+#authSection,
+#authSection *,
+#authSection *::before,
+#authSection *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   AUTH ROOT
+   LOGIN AREA ABOVE FOOTER
+   ========================================================= */
+
+#authSection {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    margin: 0;
+    padding: 0;
+
+    background: #ffffff;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+
+/* =========================================================
+   MAIN LOGIN AREA
+   ========================================================= */
+
+#authSection .rasm-login-page {
+    width: 100% !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+
+    flex: 1 1 auto !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+
+    position: relative !important;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LEFT BRAND PANEL
+   ========================================================= */
+
+#authSection .rasm-brand-panel {
+    position: relative;
+
+    width: 40% !important;
+    height: 100% !important;
+
+    min-height: 0 !important;
+
+    flex: 0 0 40% !important;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 45px 70px 50px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #eef7ff 0%,
+            #e8f3ff 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BRAND BACKGROUND DECORATION
+   ========================================================= */
+
+#authSection .rasm-brand-panel::before {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.35);
+
+    top: -180px;
+    left: -180px;
+
+    pointer-events: none;
+}
+
+
+#authSection .rasm-brand-panel::after {
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.25);
+
+    bottom: -170px;
+    right: -170px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+#authSection .rasm-back-btn {
+    position: relative;
+    z-index: 5;
+
+    width: fit-content;
+
+    display: inline-flex;
+
+    align-items: center;
+    gap: 9px;
+
+    padding: 13px 18px;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #172033;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 14px rgba(15, 23, 42, 0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+#authSection .rasm-back-btn:hover {
+    transform: translateY(-2px);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 20px rgba(15, 23, 42, 0.13);
+}
+
+
+#authSection .rasm-back-btn span {
+    font-size: 27px;
+    line-height: 12px;
+    font-weight: 300;
+}
+
+
+/* =========================================================
+   BRAND CONTENT
+   ========================================================= */
+
+#authSection .rasm-brand-content {
+    position: relative;
+    z-index: 2;
+
+    flex: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding-bottom: 20px;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+#authSection .rasm-logo-area {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+#authSection .rasm-logo-icon {
+    width: 125px;
+    height: 125px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 12px;
+
+    font-size: 72px;
+
+    background: transparent;
+
+    filter:
+        drop-shadow(
+            0 5px 8px rgba(0, 0, 0, 0.08)
+        );
+}
+
+
+/* =========================================================
+   RASM BRAND NAME
+   ========================================================= */
+
+#authSection .rasm-brand-name {
+    margin-top: -5px;
+
+    color: #c90000;
+
+    font-size: 64px;
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+}
+
+
+#authSection .rasm-brand-subtitle {
+    margin-top: 8px;
+
+    color: #172033;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+    letter-spacing: -0.2px;
+}
+
+
+
+
+
+/* =========================================================
+   WELCOME TEXT
+   ========================================================= */
+
+#authSection .rasm-brand-content h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 34px;
+
+    line-height: 1.25;
+
+    font-weight: 700;
+
+    letter-spacing: -0.8px;
+}
+
+
+#authSection .rasm-brand-content h1 span {
+    color: #c90000;
+}
+
+
+#authSection .rasm-brand-content > p {
+    margin: 17px 0 0;
+
+    color: #263548;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   MINISTRY
+   ========================================================= */
+
+#authSection .rasm-ministry {
+    margin-top: 48px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+
+#authSection .ministry-icon {
+    margin-bottom: 10px;
+
+    color: #c90000;
+
+    font-size: 38px;
+
+    line-height: 1;
+}
+
+
+#authSection .rasm-ministry strong {
+    color: #172033;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+#authSection .rasm-ministry small {
+    margin-top: 6px;
+
+    color: #8190a3;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   RIGHT LOGIN PANEL
+   ========================================================= */
+
+#authSection .rasm-login-panel {
+    position: relative;
+
+    width: 45% !important;
+    height: 100% !important;
+
+    min-height: 0 !important;
+
+    flex: 0 0 60% !important;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #dce5e8;
+}
+
+
+/* =========================================================
+   LOGIN BACKGROUND IMAGE
+   ========================================================= */
+
+#authSection .rasm-login-background {
+    position: absolute;
+
+    inset: 0;
+
+    background-position: center;
+
+    background-size: cover;
+
+    background-repeat: no-repeat;
+
+    transform: scale(1.01);
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   LOGIN IMAGE OVERLAY
+   ========================================================= */
+
+#authSection .rasm-login-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.05),
+            rgba(255, 255, 255, 0.08)
+        );
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   RASM TECH 360 — PREMIUM GLASSMORPHISM LOGIN CARD
+========================================================= */
+
+#authSection .rasm-login-card {
+    position: relative;
+    z-index: 3;
+
+    width: min(380px, calc(100% - 40px));
+    max-width: 380px;
+
+    padding: 32px 28px 30px;
+
+    /* PREMIUM GLASS */
+    background: rgba(255, 255, 255, 0.16);
+
+    /* GLASS BORDER */
+    border: 1px solid rgba(255, 255, 255, 0.45);
+
+    border-radius: 20px;
+
+    /* DEPTH */
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+    /* GLASS BLUR */
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+
+    /* SMOOTH APPEARANCE */
+    animation: rasmLoginCardIn 0.45s ease;
+
+    overflow: hidden;
+}
+/* =========================================================
+   GLASS HIGHLIGHT
+========================================================= */
+
+#authSection .rasm-login-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.22) 0%,
+            rgba(255,255,255,0.08) 35%,
+            rgba(255,255,255,0.02) 65%,
+            rgba(255,255,255,0.10) 100%
+        );
+
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* =========================================================
+   LOGIN CARD ANIMATION
+   ========================================================= */
+
+@keyframes rasmLoginCardIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   LOGIN HEADER
+   ========================================================= */
+
+#authSection .rasm-login-header {
+    text-align: center;
+
+    margin-bottom: 38px;
+}
+
+
+#authSection .rasm-login-header h2 {
+    margin: 0;
+
+    color: #c90000;
+
+    font-size: 34px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    letter-spacing: -0.8px;
+}
+
+
+#authSection .rasm-login-header p {
+    margin: 12px 0 0;
+
+    color: #263548;
+
+    font-size: 15px;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
+
+#authSection .rasm-form-group {
+    width: 100%;
+
+    margin-bottom: 27px;
+}
+
+
+#authSection .rasm-form-group label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #202b3c;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUT WRAPPER
+   ========================================================= */
+
+#authSection .rasm-input-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   INPUT ICON
+   ========================================================= */
+
+#authSection .rasm-input-icon {
+    position: absolute;
+
+    left: 15px;
+
+    z-index: 2;
+
+    width: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #c90000;
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+#authSection .rasm-input-wrapper input,
+#authSection .rasm-password-wrapper input {
+    width: 100%;
+
+    height: 57px;
+
+    padding: 0 16px 0 58px;
+
+    border: 1.5px solid #e33b3b;
+
+    border-radius: 5px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #202b3c;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#authSection .rasm-input-wrapper input::placeholder,
+#authSection .rasm-password-wrapper input::placeholder {
+    color: #596577;
+
+    opacity: 1;
+}
+
+
+#authSection .rasm-input-wrapper input:focus,
+#authSection .rasm-password-wrapper input:focus {
+    border-color: #c90000;
+
+    box-shadow:
+        0 0 0 3px rgba(201, 0, 0, 0.10);
+}
+
+
+/* =========================================================
+   PASSWORD WRAPPER
+   ========================================================= */
+
+#authSection .rasm-password-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+#authSection .rasm-password-wrapper .rasm-input-icon {
+    left: 15px;
+}
+
+
+#authSection .rasm-password-wrapper input {
+    padding-right: 58px;
+}
+
+
+/* =========================================================
+   PASSWORD EYE
+   ========================================================= */
+
+#authSection .rasm-eye {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 57px;
+    height: 57px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-left: 1px solid #e33b3b;
+
+    color: #c90000;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+#authSection .rasm-eye:hover {
+    background: #fff3f3;
+
+    color: #a00000;
+}
+
+
+/* =========================================================
+   REMEMBER + FORGOT PASSWORD
+   ========================================================= */
+
+#authSection .rasm-login-options {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: -5px;
+
+    margin-bottom: 28px;
+}
+
+
+#authSection .rasm-remember {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #303b4c;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+
+#authSection .rasm-remember input {
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    accent-color: #c90000;
+
+    cursor: pointer;
+}
+
+
+#authSection .rasm-login-options a {
+    color: #c90000;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition: color 0.2s ease;
+}
+
+
+#authSection .rasm-login-options a:hover {
+    color: #900000;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+#authSection .rasm-login-btn,
+#authSection .rasm-login-card .primary-btn {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    height: 57px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #d00000;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 14px rgba(208, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#authSection .rasm-login-btn:hover,
+#authSection .rasm-login-card .primary-btn:hover {
+    background: #b50000;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 9px 20px rgba(208, 0, 0, 0.25);
+}
+
+
+#authSection .rasm-login-btn:active,
+#authSection .rasm-login-card .primary-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   CREATE SCHOOL / FREE TRIAL BUTTON
+   ========================================================= */
+
+#authSection .rasm-register-btn,
+#authSection #registerBtn,
+#authSection .secondary-btn {
+    display: flex !important;
+
+    width: 100% !important;
+
+    max-width: none !important;
+
+    min-height: 60px;
+
+    margin-top: 14px;
+
+    padding: 10px 18px;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    border: 1px solid #d00000;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #c90000;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 12px rgba(208, 0, 0, 0.10);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   FREE TRIAL SMALL TEXT
+   ========================================================= */
+
+#authSection .rasm-register-btn small,
+#authSection #registerBtn small {
+    display: block !important;
+
+    margin-top: 2px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   REGISTER HOVER
+   ========================================================= */
+
+#authSection .rasm-register-btn:hover,
+#authSection #registerBtn:hover {
+    background: #fff5f5;
+
+    color: #a80000;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(208, 0, 0, 0.16);
+}
+
+
+/* =========================================================
+   REGISTER ACTIVE
+   ========================================================= */
+
+#authSection .rasm-register-btn:active,
+#authSection #registerBtn:active {
+    transform: translateY(0);
+
+    box-shadow:
+        0 3px 8px rgba(208, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   REGISTER FOCUS
+   ========================================================= */
+
+#authSection .rasm-register-btn:focus-visible,
+#authSection #registerBtn:focus-visible {
+    outline: 3px solid rgba(208, 0, 0, 0.20);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   ONBOARDING
+   ========================================================= */
+
+#authSection .rasm-onboarding {
+    margin-top: 27px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid #eeeeee;
+
+    text-align: center;
+
+    color: #c90000;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SUPPORT
+   ========================================================= */
+
+#authSection .rasm-support {
+    margin-top: 19px;
+
+    text-align: center;
+
+    color: #273448;
+
+    font-size: 14px;
+}
+
+
+#authSection .rasm-support strong {
+    color: #c90000;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ROLE + SCHOOL NAME
+   VISIBLE LOGIN FIELDS
+========================================================= */
+
+#authSection #role,
+#authSection #schoolName {
+    display: block !important;
+    width: 100% !important;
+    height: 57px !important;
+    margin: 0 0 22px 0 !important;
+    padding: 0 16px !important;
+
+    border: 1.5px solid #e33b3b !important;
+    border-radius: 5px !important;
+
+    outline: none !important;
+    background: #ffffff !important;
+    color: #202b3c !important;
+
+    font-family: inherit !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+
+    box-sizing: border-box !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* ROLE SELECT */
+#authSection #role {
+    cursor: pointer !important;
+
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+}
+
+/* SCHOOL NAME */
+#authSection #schoolName {
+    cursor: text !important;
+}
+
+/* PLACEHOLDER */
+#authSection #schoolName::placeholder {
+    color: #596577 !important;
+    opacity: 1 !important;
+}
+
+/* FOCUS */
+#authSection #role:focus,
+#authSection #schoolName:focus {
+    border-color: #c90000 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(201, 0, 0, 0.10) !important;
+}
+
+/* =========================================================
+   OLD AUTH CARD CONFLICTS
+   ========================================================= */
+
+#authSection .auth-card {
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+    border: none !important;
+}
+
+
+/* =========================================================
+   PREVENT GLOBAL BUTTON STYLES
+   ========================================================= */
+
+#authSection .primary-btn,
+#authSection .secondary-btn {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   FLOATING CHAT BUTTON
+   ========================================================= */
+
+#authSection .rasm-chat-btn {
+    position: absolute;
+
+    z-index: 5;
+
+    right: 28px;
+    bottom: 28px;
+
+    width: 70px;
+    height: 70px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #d00000;
+
+    color: #ffffff;
+
+    font-size: 29px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 24px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+#authSection .rasm-chat-btn:hover {
+    transform: scale(1.06);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   =========================================================
+   🔥 FOOTER FEATURE STRIP
+   KEEPING YOUR PERFECT FOOTER DESIGN
+   =========================================================
+   ========================================================= */
+
+#authSection .rasm-feature-strip {
+    position: relative !important;
+
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+
+    float: none !important;
+    clear: both !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: 145px !important;
+    min-height: 145px !important;
+
+    flex: 0 0 145px !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    align-items: center !important;
+
+    margin: 0 !important;
+
+    padding: 15px 5% !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    border-top: 1px solid #e5e7eb !important;
+
+    box-shadow:
+        0 -3px 15px rgba(0, 0, 0, 0.05) !important;
+
+    z-index: 50 !important;
+}
+
+
+/* =========================================================
+   FOOTER ITEMS
+   ========================================================= */
+
+#authSection .rasm-feature {
+    width: auto !important;
+
+    min-width: 0 !important;
+
+    height: auto !important;
+
+    min-height: 65px !important;
+
+    display: flex !important;
+
+    flex-direction: row !important;
+
+    align-items: center !important;
+
+    gap: 16px !important;
+
+    padding: 10px 25px !important;
+
+    box-sizing: border-box !important;
+
+    border-right: 1px solid #dddddd !important;
+}
+
+
+#authSection .rasm-feature:last-child {
+    border-right: none !important;
+}
+
+
+/* =========================================================
+   FOOTER ICON
+   ========================================================= */
+
+#authSection .rasm-feature-icon {
+    width: 52px !important;
+    height: 52px !important;
+
+    min-width: 52px !important;
+
+    flex: 0 0 52px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    border:
+        2px solid #d00000 !important;
+
+    border-radius: 50% !important;
+
+    color: #d00000 !important;
+
+    font-size: 23px !important;
+
+    font-weight: 800 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   FOOTER TEXT
+   ========================================================= */
+
+#authSection .rasm-feature strong {
+    display: block !important;
+
+    color: #c90000 !important;
+
+    font-size: 15px !important;
+
+    line-height: 1.3 !important;
+}
+
+
+#authSection .rasm-feature p {
+    margin: 6px 0 0 !important;
+
+    color: #374151 !important;
+
+    font-size: 12px !important;
+
+    line-height: 1.45 !important;
+}
+
+
+/* =========================================================
+   LAPTOP / SHORT SCREENS
+   ========================================================= */
+
+@media (max-height: 800px) and (min-width: 761px) {
+
+    #authSection .rasm-feature-strip {
+        height: 120px !important;
+
+        min-height: 120px !important;
+
+        flex-basis: 120px !important;
+
+        padding: 10px 4% !important;
+    }
+
+
+    #authSection .rasm-feature {
+        padding: 8px 18px !important;
+
+        gap: 10px !important;
+    }
+
+
+    #authSection .rasm-feature-icon {
+        width: 44px !important;
+        height: 44px !important;
+
+        min-width: 44px !important;
+
+        flex-basis: 44px !important;
+
+        font-size: 20px !important;
+    }
+
+
+    #authSection .rasm-feature strong {
+        font-size: 13px !important;
+    }
+
+
+    #authSection .rasm-feature p {
+        font-size: 11px !important;
+
+        margin-top: 4px !important;
+    }
+
+}
+
+
+/* =========================================================
+   TABLETS / SMALL LAPTOPS
+   ========================================================= */
+
+@media (max-width: 1100px) and (min-width: 761px) {
+
+    #authSection .rasm-brand-panel {
+        padding: 35px 35px 40px;
+    }
+
+
+    #authSection .rasm-brand-name {
+        font-size: 55px;
+    }
+
+
+    #authSection .rasm-brand-content h1 {
+        font-size: 30px;
+    }
+
+
+    #authSection .rasm-brand-content > p {
+        font-size: 15px;
+    }
+
+
+    #authSection .rasm-login-card {
+        width: min(
+            420px,
+            calc(100% - 35px)
+        );
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+    #authSection {
+        position: fixed !important;
+
+        inset: 0 !important;
+
+        height: 100vh !important;
+
+        min-height: 100vh !important;
+
+        overflow-y: auto !important;
+    }
+
+
+    /* MAIN LOGIN AREA */
+
+    #authSection .rasm-login-page {
+        width: 100% !important;
+
+        height: auto !important;
+
+        min-height: 100vh !important;
+
+        flex: none !important;
+
+        display: block !important;
+    }
+
+
+    /* HIDE BRANDING ON MOBILE */
+
+    #authSection .rasm-brand-panel {
+        display: none !important;
+    }
+
+
+    /* LOGIN PANEL */
+
+    #authSection .rasm-login-panel {
+        width: 100% !important;
+
+        height: 100vh !important;
+
+        min-height: 100vh !important;
+
+        padding: 30px 0;
+    }
+
+
+    /* LOGIN CARD */
+
+    #authSection .rasm-login-card {
+        width: calc(100% - 30px);
+
+        padding: 30px 22px;
+    }
+
+
+    /* MOBILE FOOTER */
+
+    #authSection .rasm-feature-strip {
+        width: 100% !important;
+
+        height: auto !important;
+
+        min-height: 105px !important;
+
+        flex: none !important;
+
+        display: flex !important;
+
+        overflow-x: auto !important;
+
+        overflow-y: hidden !important;
+
+        padding: 10px !important;
+
+        gap: 0 !important;
+    }
+
+
+    #authSection .rasm-feature {
+        min-width: 235px !important;
+
+        flex: 0 0 235px !important;
+
+        padding: 8px 15px !important;
+    }
+
+
+    /* CHAT */
+
+    #authSection .rasm-chat-btn {
+        width: 58px;
+        height: 58px;
+
+        right: 18px;
+        bottom: 18px;
+
+        font-size: 23px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    #authSection .rasm-login-panel {
+        min-height: 610px;
+    }
+
+
+    #authSection .rasm-login-card {
+        width: calc(100% - 20px);
+
+        padding: 26px 18px;
+    }
+
+
+    #authSection .rasm-login-header {
+        margin-bottom: 28px;
+    }
+
+
+    #authSection .rasm-login-header h2 {
+        font-size: 29px;
+    }
+
+
+    #authSection .rasm-login-header p {
+        font-size: 13px;
+    }
+
+
+    #authSection .rasm-form-group {
+        margin-bottom: 21px;
+    }
+
+
+    #authSection .rasm-login-options {
+        align-items: flex-start;
+    }
+
+
+    #authSection .rasm-login-options a,
+    #authSection .rasm-remember {
+        font-size: 12px;
+    }
+
+
+    #authSection .rasm-feature-strip {
+        min-height: 105px !important;
+
+        display: flex !important;
+
+        overflow-x: auto !important;
+    }
+
+
+    #authSection .rasm-feature {
+        min-width: 235px !important;
+
+        flex: 0 0 235px !important;
+
+        min-height: 60px !important;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+#authSection .rasm-login-card button:focus-visible,
+#authSection .rasm-login-card input:focus-visible,
+#authSection .rasm-login-card select:focus-visible,
+#authSection .rasm-back-btn:focus-visible,
+#authSection .rasm-chat-btn:focus-visible {
+    outline: 3px solid rgba(208, 0, 0, 0.25);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   END RASM TECH 360 AUTH CSS
+   ========================================================= */
+
 #floatingSchoolsCounter {
   position: fixed !important;
   top: 25px !important;
@@ -494,209 +2073,6 @@ button.primary{
         width:100%;
         max-width:100%;
         min-width:0;
-    }
-
-}
-
-/*=========================================================
-  🔐 AUTHENTICATION SCREEN
-=========================================================*/
-
-#authSection{
-    position:fixed;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-
-    background:#f3f4f6;
-
-    animation:loginFade .6s ease forwards;
-}
-
-/*=========================================================
-  BACKGROUND PARTICLES
-=========================================================*/
-
-#authSection::before{
-    content:"";
-
-    position:absolute;
-    inset:0;
-
-    width:200%;
-    height:200%;
-
-    background-image:
-        radial-gradient(
-            rgba(255,255,255,.9) 1px,
-            transparent 1px
-        );
-
-    background-size:40px 40px;
-
-    opacity:.10;
-
-    animation:moveBg 20s linear infinite;
-}
-
-@keyframes moveBg{
-
-    from{
-        transform:translate(0,0);
-    }
-
-    to{
-        transform:translate(-200px,-200px);
-    }
-
-}
-
-/*=========================================================
-  AUTH CARD
-=========================================================*/
-
-.auth-card{
-
-    position:relative;
-    z-index:2;
-
-    width:350px;
-    max-width:92vw;
-
-    padding:30px;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    box-shadow:0 15px 40px rgba(0,0,0,.40);
-
-    color:#ffffff;
-    text-align:center;
-
-    animation:fadeIn .8s ease;
-}
-
-.auth-card h2{
-
-    margin-bottom:6px;
-
-    font-size:30px;
-    font-weight:700;
-
-}
-
-.subtitle{
-
-    margin-bottom:20px;
-
-    font-size:14px;
-
-    color:#d1d5db;
-
-}
-
-/*=========================================================
-  AUTH FORM CONTROLS
-=========================================================*/
-
-.auth-card input,
-.auth-card select{
-
-    width:100%;
-
-    margin-bottom:12px;
-    padding:12px;
-
-    border:none;
-    border-radius:8px;
-
-    outline:none;
-
-    background:rgba(255,255,255,.15);
-
-    color:#ffffff;
-
-    transition:all .25s ease;
-
-}
-
-.auth-card input::placeholder{
-
-    color:#e5e7eb;
-
-}
-
-.auth-card input:focus,
-.auth-card select:focus{
-
-    background:rgba(255,255,255,.22);
-
-    box-shadow:
-        0 0 0 2px rgba(37,99,235,.25);
-
-}
-
-/*=========================================================
-  PASSWORD FIELD
-=========================================================*/
-
-.password-box{
-
-    position:relative;
-
-}
-
-.password-box span{
-
-    position:absolute;
-
-    top:50%;
-    right:12px;
-
-    transform:translateY(-50%);
-
-    cursor:pointer;
-
-    user-select:none;
-
-    transition:opacity .2s ease;
-
-}
-
-.password-box span:hover{
-
-    opacity:.75;
-
-}
-
-/*=========================================================
-  LOGIN ANIMATION
-=========================================================*/
-
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
     }
 
 }
@@ -3786,6 +5162,766 @@ button.primary{
     top:0;
     z-index:10;
 }
+/* =========================================================
+   RASM LOGIN CARD — COMPACT + SCROLLABLE
+   Role + School Name are VISIBLE
+========================================================= */
+
+#authSection .rasm-login-card {
+
+    width: min(440px, calc(100% - 40px)) !important;
+
+    /*
+       Reduced overall card height
+    */
+    max-height: 610px !important;
+
+    padding: 26px 30px 24px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    overflow: hidden !important;
+
+    background: rgba(255,255,255,0.98) !important;
+
+    border-radius: 14px !important;
+
+    box-shadow:
+        0 18px 45px rgba(15,23,42,0.20) !important;
+}
+
+
+/* =========================================================
+   COMPACT HEADER
+========================================================= */
+
+#authSection .rasm-login-header {
+
+    flex: 0 0 auto !important;
+
+    margin-bottom: 20px !important;
+
+    text-align: center !important;
+}
+
+
+#authSection .rasm-login-header h2 {
+
+    font-size: 30px !important;
+
+    line-height: 1.2 !important;
+
+    margin: 0 !important;
+}
+
+
+#authSection .rasm-login-header p {
+
+    margin: 7px 0 0 !important;
+
+    font-size: 13px !important;
+
+    line-height: 1.4 !important;
+}
+
+
+/* =========================================================
+   INTERNAL SCROLL AREA
+========================================================= */
+
+#authSection .rasm-login-form-scroll {
+
+    width: 100% !important;
+
+    flex: 1 1 auto !important;
+
+    min-height: 0 !important;
+
+    overflow-y: auto !important;
+
+    overflow-x: hidden !important;
+
+    padding-right: 6px !important;
+
+    scrollbar-width: thin !important;
+
+    scrollbar-color:
+        #d00000
+        #f1f1f1 !important;
+}
+
+
+/* Chrome / Edge / Safari scrollbar */
+
+#authSection .rasm-login-form-scroll::-webkit-scrollbar {
+
+    width: 6px;
+}
+
+
+#authSection .rasm-login-form-scroll::-webkit-scrollbar-track {
+
+    background: #f1f1f1;
+
+    border-radius: 10px;
+}
+
+
+#authSection .rasm-login-form-scroll::-webkit-scrollbar-thumb {
+
+    background: #d00000;
+
+    border-radius: 10px;
+}
+
+
+#authSection .rasm-login-form-scroll::-webkit-scrollbar-thumb:hover {
+
+    background: #a80000;
+}
+
+
+/* =========================================================
+   FORM GROUPS — COMPACT
+========================================================= */
+
+#authSection .rasm-login-form-scroll .rasm-form-group {
+
+    width: 100% !important;
+
+    margin-bottom: 16px !important;
+}
+
+
+#authSection .rasm-login-form-scroll .rasm-form-group label {
+
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: #202b3c !important;
+
+    font-size: 13px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   ROLE SELECT
+========================================================= */
+
+#authSection #role {
+
+    display: block !important;
+
+    width: 100% !important;
+
+    height: 48px !important;
+
+    margin: 0 !important;
+
+    padding: 0 14px !important;
+
+    border: 1.5px solid #e33b3b !important;
+
+    border-radius: 5px !important;
+
+    outline: none !important;
+
+    background: #ffffff !important;
+
+    color: #202b3c !important;
+
+    font-family: inherit !important;
+
+    font-size: 14px !important;
+
+    font-weight: 500 !important;
+
+    cursor: pointer !important;
+
+    box-sizing: border-box !important;
+
+    appearance: auto !important;
+
+    -webkit-appearance: auto !important;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+
+/* =========================================================
+   SCHOOL NAME
+========================================================= */
+
+#authSection #schoolName {
+
+    display: block !important;
+
+    width: 100% !important;
+
+    height: 48px !important;
+
+    margin: 0 !important;
+
+    padding: 0 14px !important;
+
+    border: 1.5px solid #e33b3b !important;
+
+    border-radius: 5px !important;
+
+    outline: none !important;
+
+    background: #ffffff !important;
+
+    color: #202b3c !important;
+
+    font-family: inherit !important;
+
+    font-size: 14px !important;
+
+    font-weight: 500 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+#authSection #schoolName::placeholder {
+
+    color: #596577 !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   ROLE + SCHOOL FOCUS
+========================================================= */
+
+#authSection #role:focus,
+#authSection #schoolName:focus {
+
+    border-color: #c90000 !important;
+
+    box-shadow:
+        0 0 0 3px rgba(201,0,0,0.10) !important;
+}
+
+
+/* =========================================================
+   EMAIL + PASSWORD — COMPACT
+========================================================= */
+
+#authSection .rasm-input-wrapper input,
+#authSection .rasm-password-wrapper input {
+
+    height: 48px !important;
+
+    font-size: 14px !important;
+}
+
+
+#authSection .rasm-input-wrapper input {
+
+    padding-left: 52px !important;
+}
+
+
+#authSection .rasm-password-wrapper input {
+
+    padding-left: 52px !important;
+
+    padding-right: 50px !important;
+}
+
+
+/* =========================================================
+   INPUT ICONS
+========================================================= */
+
+#authSection .rasm-input-icon {
+
+    left: 14px !important;
+
+    font-size: 16px !important;
+}
+
+
+/* =========================================================
+   PASSWORD EYE
+========================================================= */
+
+#authSection .rasm-eye {
+
+    width: 48px !important;
+
+    height: 48px !important;
+
+    font-size: 18px !important;
+}
+
+
+/* =========================================================
+   REMEMBER + FORGOT
+========================================================= */
+
+#authSection .rasm-login-options {
+
+    margin-top: -2px !important;
+
+    margin-bottom: 18px !important;
+
+    gap: 10px !important;
+}
+
+
+#authSection .rasm-remember,
+#authSection .rasm-login-options a {
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+#authSection .rasm-login-btn,
+#authSection .rasm-login-card .primary-btn {
+
+    width: 100% !important;
+
+    height: 48px !important;
+
+    min-height: 48px !important;
+
+    border-radius: 5px !important;
+
+    font-size: 14px !important;
+}
+
+
+/* =========================================================
+   CREATE SCHOOL BUTTON
+========================================================= */
+
+#authSection .rasm-register-btn,
+#authSection #registerBtn,
+#authSection .secondary-btn {
+
+    width: 100% !important;
+
+    min-height: 52px !important;
+
+    height: 52px !important;
+
+    margin-top: 10px !important;
+
+    padding: 7px 14px !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    gap: 1px !important;
+
+    border: 1px solid #d00000 !important;
+
+    border-radius: 6px !important;
+
+    background: #ffffff !important;
+
+    color: #c90000 !important;
+
+    font-size: 14px !important;
+
+    font-weight: 700 !important;
+}
+
+
+#authSection .rasm-register-main {
+
+    display: block !important;
+
+    line-height: 1.2 !important;
+}
+
+
+#authSection .rasm-register-sub {
+
+    display: block !important;
+
+    margin-top: 2px !important;
+
+    color: #6b7280 !important;
+
+    font-size: 11px !important;
+
+    font-weight: 500 !important;
+
+    line-height: 1.2 !important;
+}
+
+
+/* =========================================================
+   ONBOARDING
+========================================================= */
+
+#authSection .rasm-onboarding {
+
+    margin-top: 16px !important;
+
+    padding-top: 14px !important;
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+#authSection .rasm-support {
+
+    margin-top: 12px !important;
+
+    padding-bottom: 8px !important;
+
+    font-size: 12px !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    #authSection .rasm-login-card {
+
+        max-height: 590px !important;
+
+        padding: 24px 26px 22px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+    #authSection .rasm-login-card {
+
+        width: calc(100% - 24px) !important;
+
+        max-height: 560px !important;
+
+        padding: 22px 20px 20px !important;
+    }
+
+
+    #authSection .rasm-login-header {
+
+        margin-bottom: 17px !important;
+    }
+
+
+    #authSection .rasm-login-header h2 {
+
+        font-size: 27px !important;
+    }
+
+
+    #authSection .rasm-login-header p {
+
+        font-size: 12px !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 480px) {
+
+    #authSection .rasm-login-card {
+
+        width: calc(100% - 16px) !important;
+
+        max-height: 520px !important;
+
+        padding: 19px 17px 18px !important;
+    }
+
+
+    #authSection .rasm-login-header {
+
+        margin-bottom: 15px !important;
+    }
+
+
+    #authSection .rasm-login-header h2 {
+
+        font-size: 25px !important;
+    }
+
+
+    #authSection .rasm-login-form-scroll {
+
+        padding-right: 4px !important;
+    }
+
+
+    #authSection .rasm-login-form-scroll .rasm-form-group {
+
+        margin-bottom: 13px !important;
+    }
+}
+/* =========================================================
+   AUTH HIDE FIX
+   Overrides the flex display only when JavaScript hides it
+========================================================= */
+
+#authSection[style*="display: none"] {
+    display: none !important;
+}
+
+/* =========================================================
+   RASM 360 — SCHOOL GUIDE MODAL
+========================================================= */
+
+.rasm-guide-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 9999999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.rasm-guide-modal.active {
+    display: flex;
+}
+
+.rasm-guide-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(5, 15, 35, 0.72);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.rasm-guide-card {
+    position: relative;
+    z-index: 2;
+
+    width: min(430px, 100%);
+
+    padding: 30px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35);
+
+    text-align: center;
+
+    animation: rasmGuideShow 0.3s ease;
+}
+
+@keyframes rasmGuideShow {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.rasm-guide-close {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #475569;
+
+    font-size: 23px;
+
+    cursor: pointer;
+}
+
+.rasm-guide-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: #eff6ff;
+
+    font-size: 28px;
+}
+
+.rasm-guide-card h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 23px;
+}
+
+.rasm-guide-intro {
+    margin: 8px 0 18px;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.rasm-guide-steps {
+    text-align: left;
+}
+
+.rasm-guide-step {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 9px 0;
+}
+
+.rasm-guide-step span {
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.rasm-guide-step p {
+    margin: 0;
+
+    color: #475569;
+
+    font-size: 13px;
+}
+
+.rasm-guide-success {
+    margin: 16px 0;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background: #f0fdf4;
+
+    color: #166534;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rasm-guide-create-btn {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.28);
+
+    transition: 0.2s ease;
+}
+
+.rasm-guide-create-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(37, 99, 235, 0.38);
+}
+.rasm-guide-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.rasm-guide-modal.active {
+    display: flex !important;
+}
 </style>
 </head>
 
@@ -3848,168 +5984,462 @@ background: radial-gradient(circle at center, #ffffff 0%, #f3f4f6 60%, #e5e7eb 1
 </p>
 
 </div>
-<!-- ===================================================== -->
-<!-- AUTH SECTION -->
-<!-- ===================================================== -->
+<!-- =====================================================
+     RASM 360 AUTH SECTION
+     MODERN LOGIN DESIGN
+     ORIGINAL JAVASCRIPT FUNCTIONS PRESERVED
+===================================================== -->
+
 <div id="authSection">
 
-  <div class="auth-card" style="
-      background:url('https://i.imgur.com/D8RXDZi.jpeg') center/cover no-repeat;
-      position:relative;
-      overflow:hidden;
-  ">
+  <div class="rasm-login-page">
 
-    
+    <!-- =================================================
+         LEFT BRANDING PANEL
+    ================================================== -->
+    <div class="rasm-brand-panel">
 
-    <div style="position:relative;z-index:2;">
+      <!-- BRAND CONTENT -->
+      <div class="rasm-brand-content">
 
-      <!-- HEADER -->
-      <h2 style="margin-bottom:5px;">🏫 RASM 360</h2>
+        <!-- LOGO -->
+        <div class="rasm-logo-area">
 
-      <p class="subtitle" style="
-        color:#f1f5f9;
-        margin-bottom:25px;
-      ">
-        Smart School ERP System
-      </p>
+          <div class="rasm-logo-icon">
+            🎓
+          </div>
 
-      <!-- ROLE -->
+          <div class="rasm-brand-name">
+            RASM
+          </div>
+
+          <div class="rasm-brand-subtitle">
+            School Management System
+          </div>
+
+        </div>
+
+
+<!-- =================================================
+     FLOATING WHATSAPP SUPPORT BUTTON
+================================================= -->
+<button
+    type="button"
+    class="rasm-chat-btn"
+    title="Contact RASM TECH 360 Support"
+    onclick="window.open(
+        'https://wa.me/254792755676?text=Hello%20RASM%20TECH%20360%20Support,%20I%20need%20assistance.',
+        '_blank'
+    );">
+
+    💬
+
+</button>
+
+
+        <!-- WELCOME -->
+        <h1>
+          Welcome <span>Back!</span>
+        </h1>
+
+        <p>
+          Access your education management<br>
+          portal to streamline learning and<br>
+          administrative processes.
+        </p>
+
+
+        <!-- MINISTRY -->
+        <div class="rasm-ministry">
+
+          <div class="ministry-icon">
+            🏛
+          </div>
+
+          <strong>
+           RASM TECH 360 
+          </strong>
+
+          <small>
+            Republic of Kenya
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RIGHT LOGIN AREA
+    ================================================== -->
+    <div class="rasm-login-panel">
+
+      <!-- BACKGROUND IMAGE -->
+      <div
+        class="rasm-login-background"
+        style="
+          background-image:url('https://i.imgur.com/tllGwj6.png');
+        ">
+      </div>
+
+
+      <!-- OVERLAY -->
+      <div class="rasm-login-overlay"></div>
+
+
+     <!-- =========================================================
+     LOGIN CARD
+========================================================= -->
+<div class="rasm-login-card">
+
+  <!-- HEADER -->
+  <div class="rasm-login-header">
+
+    <h2>
+      Login
+    </h2>
+
+    <p>
+      Enter your credentials to continue
+    </p>
+
+  </div>
+
+
+  <!-- =================================================
+       LOGIN FORM CONTENT
+       Scrolls internally when content is too tall
+  ================================================== -->
+  <div class="rasm-login-form-scroll">
+
+
+    <!-- =================================================
+         ROLE
+    ================================================== -->
+    <div class="rasm-form-group">
+
+      <label for="role">
+        Account Type
+      </label>
+
       <select id="role">
-        <option value="admin">👑 Administrator</option>
-        <option value="teacher">👨‍🏫 Teacher</option>
-        <option value="parent">👨‍👩‍👧 Parent</option>
+
+        <option value="admin">
+          👑 Administrator
+        </option>
+
+        <option value="teacher">
+          👨‍🏫 Teacher
+        </option>
+
+        <option value="parent">
+          👨‍👩‍👧 Parent
+        </option>
+
       </select>
 
-      <!-- SCHOOL -->
-      <input
-          id="schoolName"
-          placeholder="🏫 School Name">
+    </div>
 
-      <!-- EMAIL -->
+
+    <!-- =================================================
+         SCHOOL NAME
+    ================================================== -->
+    <div class="rasm-form-group">
+
+      <label for="schoolName">
+        School Name
+      </label>
+
       <input
+        id="schoolName"
+        type="text"
+        autocomplete="organization"
+        placeholder="🏫 School Name">
+
+    </div>
+
+
+    <!-- =================================================
+         EMAIL
+    ================================================== -->
+    <div class="rasm-form-group">
+
+      <label for="email">
+        Email ID
+      </label>
+
+      <div class="rasm-input-wrapper">
+
+        <span class="rasm-input-icon">
+          ✉
+        </span>
+
+        <input
           id="email"
           type="email"
           autocomplete="username"
-          placeholder="📧 Email Address">
-
-      <!-- PASSWORD -->
-      <div class="password-box">
-
-          <input
-              id="password"
-              type="password"
-              autocomplete="current-password"
-              placeholder="🔒 Password">
-
-          <span
-              onclick="togglePassword()"
-              title="Show Password"
-              style="
-                cursor:pointer;
-                font-size:18px;
-                user-select:none;
-              ">
-              👁️
-          </span>
+          placeholder="your.email@gmail.com">
 
       </div>
 
-      <!-- REMEMBER + RESET -->
-      <div style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          margin:12px 0 20px;
-          font-size:14px;
-      ">
+    </div>
 
-          <label style="
-              display:flex;
-              align-items:center;
-              gap:8px;
-              color:white;
-              cursor:pointer;
-          ">
 
-              <input
-                  id="rememberMe"
-                  type="checkbox"
-                  style="
-                    width:16px;
-                    height:16px;
-                  ">
+    <!-- =================================================
+         PASSWORD
+    ================================================== -->
+    <div class="rasm-form-group">
 
-              Remember Me
+      <label for="password">
+        Password
+      </label>
 
-          </label>
+      <div class="rasm-password-wrapper">
 
-          <a
-              href="#"
-              onclick="forgotPassword();return false;"
-              style="
-                  color:#93c5fd;
-                  text-decoration:none;
-                  font-weight:600;
-              ">
+        <span class="rasm-input-icon">
+          🔒
+        </span>
 
-              Forgot Password?
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter your password">
 
-          </a>
+        <!-- EXISTING FUNCTION -->
+        <span
+          class="rasm-eye"
+          onclick="togglePassword()"
+          title="Show Password">
+
+          👁
+
+        </span>
 
       </div>
 
-      <!-- LOGIN -->
-      <button
-          onclick="login()"
-          class="primary-btn"
-          style="width:100%;max-width:100%;">
+    </div>
 
-          🔓 Sign In
 
-      </button>
+    <!-- =================================================
+         REMEMBER ME + FORGOT PASSWORD
+    ================================================== -->
+    <div class="rasm-login-options">
 
-      <!-- REGISTER -->
-      <button
-          id="registerBtn"
-          onclick="register()"
-          class="secondary-btn"
-          style="width:100%;max-width:100%;margin-top:12px;">
+      <label class="rasm-remember">
 
-          🚀 Create School
-          <br>
-          <small style="font-size:12px;">
-              Start Free Trial
-          </small>
+        <input
+          id="rememberMe"
+          type="checkbox">
 
-      </button>
+        <span>
+          Remember me
+        </span>
 
-      <hr style="
-          margin:25px 0;
-          border:none;
-          border-top:1px solid rgba(255,255,255,.25);
-      ">
+      </label>
 
-      <!-- FEATURES -->
-      <div style="
-          font-size:13px;
-          color:#dcfce7;
-          text-align:left;
-          line-height:2;
-          font-weight:600;
-      ">
 
-          ✅ Full School ERP Access<br>
-          ✅ All Modules Included<br>
-          ✅ Secure Cloud Backup<br>
-          ✅ Multi-User Access
+      <a
+        href="#"
+        onclick="forgotPassword();return false;">
 
-      </div>
+        Forgot password?
+
+      </a>
+
+    </div>
+
+
+    <!-- =================================================
+         LOGIN BUTTON
+    ================================================== -->
+    <button
+      type="button"
+      onclick="login()"
+      class="primary-btn rasm-login-btn">
+
+      🔓 Login
+
+    </button>
+
+
+    <!-- =================================================
+         CREATE SCHOOL / FREE TRIAL
+    ================================================== -->
+    <button
+      id="registerBtn"
+      type="button"
+      onclick="register()"
+      class="secondary-btn rasm-register-btn">
+
+      <span class="rasm-register-main">
+        🚀 Create School
+      </span>
+
+      <span class="rasm-register-sub">
+        Start Free Trial
+      </span>
+
+    </button>
+
+
+    <!-- =================================================
+         INSTITUTION ONBOARDING
+    ================================================== -->
+    <div class="rasm-onboarding">
+
+      Institution Onboarding
+
+    </div>
+
+
+    <!-- =================================================
+         SUPPORT
+    ================================================== -->
+    <div class="rasm-support">
+
+      Need help?
+
+      <strong>
+        Contact Support
+      </strong>
 
     </div>
 
   </div>
 
 </div>
+
+
+<!-- =================================================
+     FLOATING CHAT BUTTON
+================================================= -->
+<!-- =================================================
+     FLOATING WHATSAPP SUPPORT BUTTON
+================================================= -->
+<button
+    type="button"
+    class="rasm-chat-btn"
+    title="Contact RASM TECH 360 Support"
+    onclick="window.open(
+        'https://wa.me/254792755676?text=Hello%20RASM%20TECH%20360%20Support,%20I%20need%20assistance.',
+        '_blank'
+    );">
+
+    💬
+
+</button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       BOTTOM FEATURE STRIP
+  ====================================================== -->
+  <footer class="rasm-feature-strip">
+
+
+    <!-- SECURE ACCESS -->
+    <div class="rasm-feature">
+
+      <div class="rasm-feature-icon">
+        ✓
+      </div>
+
+      <div class="rasm-feature-text">
+
+        <strong>
+          Secure Access
+        </strong>
+
+        <p>
+          Your data is protected<br>
+          with advanced security
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- FAST & RELIABLE -->
+    <div class="rasm-feature">
+
+      <div class="rasm-feature-icon">
+        ◉
+      </div>
+
+      <div class="rasm-feature-text">
+
+        <strong>
+          Fast & Reliable
+        </strong>
+
+        <p>
+          Quick access to all<br>
+          your information
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- SMART MANAGEMENT -->
+    <div class="rasm-feature">
+
+      <div class="rasm-feature-icon">
+        ▥
+      </div>
+
+      <div class="rasm-feature-text">
+
+        <strong>
+          Smart Management
+        </strong>
+
+        <p>
+          Manage students, staff<br>
+          and school operations
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- BETTER EDUCATION -->
+    <div class="rasm-feature">
+
+      <div class="rasm-feature-icon">
+        ♢
+      </div>
+
+      <div class="rasm-feature-text">
+
+        <strong>
+          Better Education
+        </strong>
+
+        <p>
+          Empowering schools<br>
+          for a better future
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </footer>
+
+</div>
+
+
 
 <!-- ================= MAIN APP ================= -->
 <div id="app" style="display:none;">
@@ -8684,7 +11114,28 @@ border-collapse:collapse;
 <!-- =========================================================
      🧹 SUPPORT STAFF HR MANAGEMENT SYSTEM
 ========================================================= -->
-<div id="supportStaff" style="display:none;">
+<div id="supportStaff" style="
+    display:none;
+    position:relative;
+    width:100%;
+    min-height:100%;
+    padding:25px;
+    box-sizing:border-box;
+    border-radius:18px;
+    overflow:hidden;
+
+    background-image:
+        linear-gradient(
+            rgbargba(255,255,255,0.72),
+            rgbargba(255,255,255,0.72)
+        ),
+        url('https://i.imgur.com/tllGwj6.png');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+">
 
 <!-- ================= HEADER ================= -->
 <div style="
@@ -8694,6 +11145,8 @@ border-collapse:collapse;
     flex-wrap:wrap;
     margin-bottom:20px;
     gap:10px;
+    position:relative;
+    z-index:2;
 ">
 
     <h2 style="
@@ -11808,105 +14261,7 @@ Loading...
 
 </div>
 
-<div id="receiptModal"
-style="
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-z-index:99999;
-overflow:auto;
-padding:40px;
-">
 
-<div
-style="
-max-width:850px;
-margin:auto;
-background:white;
-border-radius:16px;
-padding:30px;
-">
-
-<h2 style="text-align:center;color:#16a34a;">
-🧾 Generate Official Payment Receipt
-</h2>
-
-<input
-id="receiptSchool"
-placeholder="School Name"
-style="width:100%;padding:12px;margin-top:15px;">
-
-<input
-id="receiptEmail"
-placeholder="School Email"
-style="width:100%;padding:12px;margin-top:10px;">
-
-<select
-id="receiptPackage"
-style="width:100%;padding:12px;margin-top:10px;">
-
-<option value="">Select Package</option>
-
-<option value="Starter">Starter</option>
-
-<option value="Standard">Standard</option>
-
-<option value="Premium 1 Year">Premium 1 Year</option>
-
-<option value="Premium 2 Years">Premium 2 Years</option>
-
-<option value="Premium 5 Years">Premium 5 Years</option>
-
-<option value="Premium 10 Years">Premium 10 Years</option>
-
-<option value="Lifetime">Lifetime</option>
-
-</select>
-
-<input
-id="receiptAmount"
-placeholder="Amount Paid"
-style="width:100%;padding:12px;margin-top:10px;">
-
-<input
-id="receiptMpesa"
-placeholder="M-Pesa Transaction Code"
-style="width:100%;padding:12px;margin-top:10px;">
-
-<button
-onclick="generateReceipt()"
-style="
-margin-top:20px;
-width:100%;
-padding:15px;
-background:#16a34a;
-color:white;
-border:none;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
-">
-
-🧾 Generate Receipt
-
-</button>
-
-<button
-onclick="document.getElementById('receiptModal').style.display='none'"
-style="
-margin-top:10px;
-width:100%;
-padding:12px;
-">
-
-Close
-
-</button>
-
-</div>
-
-</div>
 
 <!-- =========================================================
      🚀 RASM 360 SYSTEM FOOTER
@@ -12164,6 +14519,7 @@ Close
 }
 
 </style>
+
 
 
 
@@ -93413,7 +95769,6 @@ window.assignSelectedToNewGrade = async function () {
     }
 
 })();
-
 
 
 function showRandomPopup(){
