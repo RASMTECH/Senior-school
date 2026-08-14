@@ -9710,7 +9710,8 @@ onmouseout="
 
 <button
     type="button"
-    onclick="restoreAllLearnerFees()">
+    class="action-btn restore-all"
+    onclick="restoreAllLearnerFees('${selectedYear}')">
 
     ♻️ Restore All
 
@@ -19041,1118 +19042,1604 @@ if (
   startSubscriptionUI();
 
 }
-/* ================= LOGIN (FINAL PRODUCTION VERSION) ================= */
+/* ============================================================
+   🔐 RASM 360 — PRODUCTION LOGIN ENGINE
+   ============================================================
+   Senior-level login flow
+   ------------------------------------------------------------
+   ✓ Offline/network detection
+   ✓ Firebase Auth error handling
+   ✓ Cached authenticated-session support
+   ✓ School isolation
+   ✓ Account security validation
+   ✓ Subscription validation
+   ✓ Single user-profile read
+   ✓ Single school read
+   ✓ No unnecessary token refresh
+   ✓ No duplicate DOM work
+   ✓ No dangerous storage clearing
+   ✓ Prevents double login
+   ✓ Clean loading state
+   ============================================================ */
 
-window.login = async () => {
+window.__loggingIn = false;
 
-  // 🚫 Prevent multiple login attempts
-  if (window.__loggingIn) return;
 
-  const btns =
-    document.querySelectorAll(
-      '#authSection button'
-    );
+/* ============================================================
+   🌐 NETWORK STATUS
+   ============================================================ */
 
-  const loginBtn =
-    document.getElementById(
-      "loginBtn"
-    );
+window.isNetworkAvailable = () => {
 
-  const emailInput =
-    document.getElementById(
-      "email"
-    );
+    return navigator.onLine !== false;
 
-  const passwordInput =
-    document.getElementById(
-      "password"
-    );
+};
 
-  const userEmail =
-    emailInput?.value.trim();
 
-  const userPassword =
-    passwordInput?.value.trim();
+/* ============================================================
+   🔔 NETWORK STATUS LISTENERS
+   ============================================================ */
 
-  // =========================
-  // VALIDATION
-  // =========================
-  if (!userEmail || !userPassword) {
+window.addEventListener("offline", () => {
 
-    return Swal.fire({
-      icon: "warning",
-      title: "Missing Fields",
-      text:
-        "Please enter email and password.",
-      confirmButtonColor:
-        "#f59e0b",
-      background: "#ffffff",
-      color: "#0f172a"
+    console.warn("🌐 RASM 360: Device is offline.");
+
+});
+
+
+window.addEventListener("online", () => {
+
+    console.log("🌐 RASM 360: Network connection restored.");
+
+});
+
+
+/* ============================================================
+   🎨 LOGIN LOADER
+   ============================================================ */
+
+function showLoginLoader(message = "Signing you in securely...") {
+
+    let loader =
+        document.getElementById("modernLoginLoader");
+
+    if (!loader) {
+
+        loader = document.createElement("div");
+
+        loader.id = "modernLoginLoader";
+
+        loader.innerHTML = `
+            <div class="modern-loader-box">
+
+                <div class="modern-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div
+                    id="modernLoaderText"
+                    class="modern-loader-text">
+                    ${message}
+                </div>
+
+            </div>
+        `;
+
+        document.body.appendChild(loader);
+    }
+
+    const text =
+        document.getElementById("modernLoaderText");
+
+    if (text) {
+        text.textContent = message;
+    }
+
+    loader.style.display = "flex";
+}
+
+
+/* ============================================================
+   🎨 HIDE LOGIN LOADER
+   ============================================================ */
+
+function hideLoginLoader() {
+
+    const loader =
+        document.getElementById("modernLoginLoader");
+
+    if (loader) {
+        loader.style.display = "none";
+    }
+
+}
+
+
+/* ============================================================
+   🔘 LOGIN BUTTON STATE
+   ============================================================ */
+
+function setLoginLoading(isLoading) {
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const buttons =
+        document.querySelectorAll("#authSection button");
+
+    buttons.forEach(btn => {
+
+        btn.disabled = isLoading;
+
     });
-  }
 
-  // =========================
-  // EMAIL VALIDATION
-  // =========================
-  const emailRegex =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!loginBtn) return;
 
-  if (!emailRegex.test(userEmail)) {
+    if (isLoading) {
 
-    return Swal.fire({
-      icon: "warning",
-      title: "Invalid Email",
-      text:
-        "Please enter a valid email address.",
-      confirmButtonColor:
-        "#f59e0b",
-      background: "#ffffff",
-      color: "#0f172a"
-    });
-  }
+        loginBtn.innerHTML = `
+            <span class="login-btn-loading">
+                <span class="spinner"></span>
+                <span>Signing In...</span>
+            </span>
+        `;
 
-  try {
+    } else {
+
+        loginBtn.innerHTML = "🔐 Login";
+
+    }
+
+}
+
+
+/* ============================================================
+   📧 EMAIL VALIDATION
+   ============================================================ */
+
+function isValidEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+}
+
+
+/* ============================================================
+   ⏱️ TIMEOUT HELPER
+   ============================================================ */
+
+function withTimeout(promise, timeout = 12000, message = "Request timed out.") {
+
+    let timer;
+
+    const timeoutPromise =
+        new Promise((_, reject) => {
+
+            timer = setTimeout(() => {
+
+                reject(
+                    new Error(message)
+                );
+
+            }, timeout);
+
+        });
+
+    return Promise.race([
+        promise.finally(() => clearTimeout(timer)),
+        timeoutPromise
+    ]);
+
+}
+
+
+/* ============================================================
+   🔐 MAIN LOGIN
+   ============================================================ */
+
+window.login = async function () {
+
+    /* --------------------------------------------------------
+       PREVENT DOUBLE LOGIN
+       -------------------------------------------------------- */
+
+    if (window.__loggingIn) {
+        return;
+    }
+
+
+    /* --------------------------------------------------------
+       GET INPUTS
+       -------------------------------------------------------- */
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+
+    const userEmail =
+        emailInput?.value.trim() || "";
+
+    const userPassword =
+        passwordInput?.value || "";
+
+
+    /* --------------------------------------------------------
+       BASIC VALIDATION
+       -------------------------------------------------------- */
+
+    if (!userEmail || !userPassword) {
+
+        return Swal.fire({
+
+            icon: "warning",
+
+            title: "Missing Information",
+
+            text: "Please enter your email and password.",
+
+            confirmButtonColor: "#2563eb"
+
+        });
+
+    }
+
+
+    /* --------------------------------------------------------
+       EMAIL VALIDATION
+       -------------------------------------------------------- */
+
+    if (!isValidEmail(userEmail)) {
+
+        return Swal.fire({
+
+            icon: "warning",
+
+            title: "Invalid Email",
+
+            text: "Please enter a valid email address.",
+
+            confirmButtonColor: "#2563eb"
+
+        });
+
+    }
+
+
+    /* ========================================================
+       🌐 OFFLINE CHECK — BEFORE FIREBASE
+       ======================================================== */
+
+    if (!navigator.onLine) {
+
+        /*
+         * Important:
+         * Firebase cannot authenticate a completely new login
+         * while the device has no internet connection.
+         *
+         * However, an already authenticated Firebase session
+         * may still exist locally.
+         */
+
+        const cachedUser =
+            auth?.currentUser || null;
+
+
+        if (cachedUser) {
+
+            return Swal.fire({
+
+                icon: "info",
+
+                title: "You're Offline",
+
+                html: `
+                    <div style="text-align:center">
+
+                        <div style="
+                            font-size:42px;
+                            margin-bottom:10px;
+                        ">
+                            📡
+                        </div>
+
+                        <p>
+                            You are currently offline.
+                        </p>
+
+                        <p style="
+                            color:#64748b;
+                            font-size:14px;
+                        ">
+                            Your existing signed-in session may
+                            continue working with locally cached
+                            data.
+                        </p>
+
+                    </div>
+                `,
+
+                confirmButtonText: "Continue",
+
+                confirmButtonColor: "#2563eb"
+
+            });
+
+        }
+
+
+        return Swal.fire({
+
+            icon: "warning",
+
+            title: "No Internet Connection",
+
+            html: `
+                <div style="text-align:center">
+
+                    <div style="
+                        font-size:42px;
+                        margin-bottom:10px;
+                    ">
+                        📡
+                    </div>
+
+                    <p>
+                        RASM 360 needs an internet connection
+                        to sign you in.
+                    </p>
+
+                    <p style="
+                        color:#64748b;
+                        font-size:14px;
+                    ">
+                        Please reconnect to the internet and
+                        try again.
+                    </p>
+
+                </div>
+            `,
+
+            confirmButtonText: "Try Again",
+
+            confirmButtonColor: "#2563eb"
+
+        });
+
+    }
+
+
+    /* ========================================================
+       🚀 START LOGIN
+       ======================================================== */
 
     window.__loggingIn = true;
 
-    // =========================
-    // DISABLE BUTTONS
-    // =========================
-    btns.forEach(btn => {
+    setLoginLoading(true);
 
-      btn.disabled = true;
-
-    });
-
-    // =========================
-    // LOGIN BUTTON LOADING
-    // =========================
-    if (loginBtn) {
-
-      loginBtn.innerHTML = `
-        <div style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          gap:10px;
-        ">
-          <div class="spinner"></div>
-          <span>Signing In...</span>
-        </div>
-      `;
-    }
-
- // =========================
-// MODERN DOT LOADER
-// =========================
-let loginOverlay =
-document.getElementById("modernLoginLoader");
-
-if (!loginOverlay) {
-
-  loginOverlay = document.createElement("div");
-
-  loginOverlay.id = "modernLoginLoader";
-
-  loginOverlay.innerHTML = `
-
-    <div class="modern-loader-box">
-
-      <div class="modern-dots">
-
-        <span></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-      <div class="modern-loader-text">
-        Signing you in securely...
-      </div>
-
-    </div>
-  `;
-
-  document.body.appendChild(loginOverlay);
-}
-
-// ✅ SHOW
-loginOverlay.style.display = "flex";
-
-    // =========================
-    // SAFE LOGIN WITH TIMEOUT
-    // =========================
-    const userCred =
-      await Promise.race([
-
-        signInWithEmailAndPassword(
-          auth,
-          userEmail,
-          userPassword
-        ),
-
-        new Promise((_, reject) =>
-
-          setTimeout(() =>
-
-            reject(
-              new Error(
-                "Login timeout"
-              )
-            ),
-
-          15000)
-        )
-
-      ]);
-
-    const uid =
-      userCred.user.uid;
-
-    // =========================
-    // SAFE TOKEN REFRESH
-    // =========================
-    try {
-
-      await Promise.race([
-
-        auth.currentUser
-          .getIdToken(true),
-
-        new Promise((_, reject) =>
-
-          setTimeout(() =>
-
-            reject(
-              new Error(
-                "Token refresh timeout"
-              )
-            ),
-
-          10000)
-        )
-
-      ]);
-
-    } catch (e) {
-
-      console.warn(
-        "Token refresh skipped"
-      );
-    }
-
-    // =========================
-    // GET USER PROFILE
-    // =========================
-    const userSnap =
-      await Promise.race([
-
-        get(
-          ref(db, `users/${uid}`)
-        ),
-
-        new Promise((_, reject) =>
-
-          setTimeout(() =>
-
-            reject(
-              new Error(
-                "User profile timeout"
-              )
-            ),
-
-          10000)
-        )
-
-      ]);
-
-    if (!userSnap.exists()) {
-
-      throw new Error(
-        "User profile not found."
-      );
-    }
-
-    const userData =
-      userSnap.val();
-
-    // =========================
-window.setCurrentUser({
-  uid,
-  role: userData.role,
-  schoolId: userData.schoolId,
-  email: userData.email
-});
-
-// =========================
-// STRICT SCHOOL ID
-// =========================
-const schoolId =
-  userData.schoolId;
-
-if (!schoolId) {
-
-  try {
-    await signOut(auth);
-  } catch (e) {}
-
-  localStorage.clear();
-  sessionStorage.clear();
-
-  throw new Error(
-    "No school assigned to this account."
-  );
-}
-
-// =========================
-// CLEAR OLD SESSION
-// =========================
-localStorage.removeItem("schoolId");
-localStorage.removeItem("schoolName");
-
-sessionStorage.removeItem("schoolId");
-sessionStorage.removeItem("schoolName");
-sessionStorage.removeItem("userUid");
-sessionStorage.removeItem("schoolEmail");
-
-// =========================
-// GLOBAL ACCESS
-// =========================
-window.schoolId = schoolId;
-
-// =========================
-// SCHOOL HELPER
-// =========================
-window.schoolRef = function(path = "") {
-
-  const sid =
-    window.schoolId ||
-    sessionStorage.getItem("schoolId");
-
-  if (!sid) {
-
-    throw new Error(
-      "School context missing."
-    );
-  }
-
-  return ref(
-    db,
-    path
-      ? `schools/${sid}/${path}`
-      : `schools/${sid}`
-  );
-};
-
-// =========================
-// SAVE SESSION
-// =========================
-localStorage.setItem(
-  "schoolId",
-  schoolId
-);
-
-sessionStorage.setItem(
-  "schoolId",
-  schoolId
-);
-
-sessionStorage.setItem(
-  "userUid",
-  uid
-);
-
-sessionStorage.setItem(
-  "schoolEmail",
-  userEmail
-);
-
-
-    // =========================
-    // GET SCHOOL DATA
-    // =========================
-    const schoolSnap =
-      await Promise.race([
-
-        get(
-          ref(
-            db,
-            `schools/${schoolId}`
-          )
-        ),
-
-        new Promise((_, reject) =>
-
-          setTimeout(() =>
-
-            reject(
-              new Error(
-                "School data timeout"
-              )
-            ),
-
-          10000)
-        )
-
-      ]);
-
-    if (!schoolSnap.exists()) {
-
-      throw new Error(
-        "School account not found."
-      );
-    }
-
-    const schoolData =
-      schoolSnap.val();
-
-// =========================
-// USER MUST BELONG TO SCHOOL
-// =========================
-
-// =========================
-// GET USER PROFILE
-// =========================
-// 👇 INSERT HERE
-
-// =========================
-// HIDE LOGIN LOADER
-// =========================
-const loader = document.getElementById("modernLoginLoader");
-
-if (loader) {
-  loader.style.display = "none";
-}
-
-// =========================
-// OPEN APP
-// =========================
-const authSection = document.getElementById("authSection");
-    const app =
-      document.getElementById(
-        "app"
-      );
-
-    if (authSection) {
-
-      authSection.style.display =
-        "none";
-    }
-
-    if (app) {
-
-      app.style.display =
-        "block";
-
-      app.style.opacity = "0";
-
-      setTimeout(() => {
-
-        app.style.transition =
-          "0.4s ease";
-
-        app.style.opacity = "1";
-
-      }, 50);
-    }
-
-
-const userSnapRef = await get(ref(db, `users/${uid}`));
-
-if (!userSnapRef.exists()) {
-  throw new Error("User profile not found.");
-}
-
-
-// =========================
-// SCHOOL ASSIGNMENT CHECK
-// =========================
-if (!userData.schoolId) {
-  throw new Error("No school assigned to this user.");
-}
-
-// =========================
-// SCHOOL MATCH CHECK (ISOLATION)
-// =========================
-if (userData.schoolId !== schoolId) {
-  throw new Error("User does not belong to this school.");
-}
-
-// =========================
-// ACCOUNT SECURITY CHECKS
-// =========================
-if (schoolData.deleted) {
-  throw new Error("This school account was deleted.");
-}
-
-if (schoolData.locked) {
-  throw new Error("This school account is locked.");
-}
-
-if (schoolData.active === false) {
-  throw new Error("This school account is inactive.");
-}
-
-    // =========================
-    // SCHOOL NAME
-    // =========================
-    const schoolName =
-
-      schoolData.name ||
-
-      schoolData.schoolName ||
-
-      userData.schoolName ||
-
-      "My School";
-
-    window.schoolName =
-      schoolName;
-
-    // =========================
-    // SAVE SCHOOL INFO
-    // =========================
-    localStorage.setItem(
-      "schoolName",
-      schoolName
+    showLoginLoader(
+        "Connecting securely..."
     );
 
-    sessionStorage.setItem(
-      "schoolName",
-      schoolName
-    );
-
-    console.log(
-      "🏫 SCHOOL LOADED:",
-      schoolName
-    );
-
-    // =========================
-    // UPDATE LAST LOGIN
-    // =========================
-    try {
-
-      await update(
-        ref(db, `users/${uid}`),
-        {
-          lastLogin:
-            Date.now()
-        }
-      );
-
-    } catch (e) {
-
-      console.warn(
-        "Could not update last login"
-      );
-    }
-
-    // =========================
-    // SUBSCRIPTION CHECK
-    // =========================
-    let accessAllowed = true;
 
     try {
 
-      accessAllowed =
-        await Promise.race([
+        /* ====================================================
+           🔐 FIREBASE AUTHENTICATION
+           ==================================================== */
 
-          checkSubscriptionAccess(),
+        showLoginLoader(
+            "Verifying your account..."
+        );
 
-          new Promise((_, reject) =>
 
-            setTimeout(() =>
+        const userCredential =
+            await withTimeout(
 
-              reject(
-                new Error(
-                  "Subscription timeout"
-                )
-              ),
+                signInWithEmailAndPassword(
+                    auth,
+                    userEmail,
+                    userPassword
+                ),
 
-            10000)
-          )
+                15000,
 
-        ]);
+                "Authentication request timed out."
 
-    } catch (err) {
+            );
 
-      console.error(err);
 
-      Swal.fire({
-        icon: "warning",
-        title:
-          "Subscription Warning",
-        text:
-          "Subscription verification failed. Limited access may apply.",
-        confirmButtonColor:
-          "#f59e0b"
-      });
+        const firebaseUser =
+            userCredential.user;
 
-      accessAllowed = false;
-    }
 
-    if (!accessAllowed) {
+        if (!firebaseUser?.uid) {
 
-      btns.forEach(btn => {
-        btn.disabled = false;
-      });
-
-      const loader =
-document.getElementById("modernLoginLoader");
-
-if (loader) {
-  loader.style.display = "none";
-}
-
-      return;
-    }
-
-    // =========================
-    // CLOSE LOADING ALERT
-    // =========================
-    Swal.close();
-
-    // =========================
-    // SUCCESS ALERT
-    // =========================
-  // =========================
-// SUCCESS ALERT
-await Swal.fire({
-
-  icon: "success",
-
-  title: "🎓 Welcome to RASM 360",
-
-  html: `
-    <div style="text-align:center;">
-
-      <div style="
-        font-size:42px;
-        margin-bottom:8px;
-      ">
-        🏫💻🌟
-      </div>
-
-      <p style="
-        font-size:17px;
-        font-weight:bold;
-        color:#2563eb;
-        margin:10px 0;
-      ">
-        ${schoolName}
-      </p>
-
-      <div style="
-        margin-top:16px;
-        padding:14px;
-        border-radius:12px;
-        background:#eff6ff;
-        border:1px solid #bfdbfe;
-        color:#1d4ed8;
-        font-weight:bold;
-        font-size:15px;
-      ">
-        🚀 RASM 360 — Empowering Schools.<br>
-        Simplifying Management. Inspiring Excellence.
-      </div>
-
-      <p style="
-        margin-top:14px;
-        color:#64748b;
-        font-size:13px;
-      ">
-        Smart Technology for Smarter Schools.
-      </p>
-
-    </div>
-  `,
-
-  confirmButtonText: "🚀 Enter Dashboard",
-
-  confirmButtonColor: "#2563eb",
-
-  width: 600,
-
-  background: "#ffffff",
-
-  color: "#0f172a",
-
-  backdrop: "rgba(37,99,235,0.35)",
-
-  // -----------------------------------------
-  // ✨ SMOOTH DISAPPEAR ANIMATION
-  // -----------------------------------------
-
-  showClass: {
-    popup: "animate__animated animate__fadeInDown"
-  },
-
-  hideClass: {
-    popup: "animate__animated animate__fadeOutUp"
-  },
-
-  // -----------------------------------------
-  // ⌨️ ENTER KEY SUPPORT
-  // -----------------------------------------
-
-  allowEnterKey: true,
-
-  didOpen: () => {
-
-    const popup = Swal.getPopup();
-
-    if(!popup) return;
-
-    popup.addEventListener(
-      "keydown",
-      function(event){
-
-        if(event.key === "Enter"){
-
-          event.preventDefault();
-
-          Swal.close();
+            throw new Error(
+                "Authentication completed but no user account was returned."
+            );
 
         }
 
-      }
-    );
 
-  }
+        const uid =
+            firebaseUser.uid;
 
-});
 
-    // =========================
-    // SAFE SCHOOL UI UPDATE
-    // =========================
-    const updateSchoolUI =
-      () => {
+        /* ====================================================
+           👤 GET USER PROFILE — ONE READ ONLY
+           ==================================================== */
 
-        const el =
-          document.getElementById(
-            "schoolNameDisplay"
-          );
+        showLoginLoader(
+            "Loading your school profile..."
+        );
 
-        if (el) {
 
-          el.textContent =
-            schoolName;
+        const userSnapshot =
+            await withTimeout(
 
-          console.log(
-            "🏫 UI UPDATED:",
-            schoolName
-          );
+                get(
+                    ref(db, `users/${uid}`)
+                ),
+
+                10000,
+
+                "User profile request timed out."
+
+            );
+
+
+        if (!userSnapshot.exists()) {
+
+            throw new Error(
+                "USER_PROFILE_NOT_FOUND"
+            );
+
         }
-      };
 
-    updateSchoolUI();
 
-    requestAnimationFrame(
-      updateSchoolUI
-    );
+        const userData =
+            userSnapshot.val() || {};
 
-    setTimeout(
-      updateSchoolUI,
-      300
-    );
 
-    setTimeout(
-      updateSchoolUI,
-      1000
-    );
+        /* ====================================================
+           🏫 SCHOOL ID
+           ==================================================== */
 
-    // =========================
-    // START SYSTEMS
-    // =========================
-    if (
-      typeof
-      startSubscriptionWatcher
-      === "function"
-    ) {
+        const schoolId =
+            String(
+                userData.schoolId || ""
+            ).trim();
 
-      startSubscriptionWatcher();
-    }
 
-    if (
-      typeof
-      startSubscriptionUI
-      === "function"
-    ) {
+        if (!schoolId) {
 
-      startSubscriptionUI();
-    }
+            throw new Error(
+                "NO_SCHOOL_ASSIGNED"
+            );
 
-    if (
-      typeof loadAll
-      === "function"
-    ) {
+        }
 
-      loadAll();
-    }
 
-  } catch (error) {
-
-    console.error(
-      "LOGIN ERROR:",
-      error
-    );
-
-    // 🔥 Close loading popup
-    Swal.close();
-
-    // =========================
-    // FRIENDLY ERRORS
-    // =========================
-    let title =
-      "Login Failed";
-
-    let message =
-      "Unable to sign in.";
-
-    let icon =
-      "error";
-
-    switch (error.code) {
-
-      // 🔐 Invalid credentials
-      case "auth/invalid-login-credentials":
-      case "auth/wrong-password":
-      case "auth/user-not-found":
-
-        title =
-          "Invalid Login";
-
-        message =
-          "Incorrect email or password.";
-        break;
-
-      // 📧 Invalid email
-      case "auth/invalid-email":
-
-        title =
-          "Invalid Email";
-
-        message =
-          "Please enter a valid email address.";
-
-        icon =
-          "warning";
-        break;
-
-      // 🌐 Network
-      case "auth/network-request-failed":
-
-        title =
-          "Connection Error";
-
-        message =
-          "Check your internet connection and try again.";
-
-        icon =
-          "warning";
-        break;
-
-      // 🚫 Too many attempts
-      case "auth/too-many-requests":
-
-        title =
-          "Too Many Attempts";
-
-        message =
-          "Too many login attempts. Try again later.";
-
-        icon =
-          "warning";
-        break;
-
-      // ⛔ Disabled
-      case "auth/user-disabled":
-
-        title =
-          "Account Disabled";
-
-        message =
-          "This account has been disabled.";
-        break;
-
-      // ⏳ Timeout
-      default:
+        /* ====================================================
+           🔐 SET CURRENT USER
+           ==================================================== */
 
         if (
-          error.message?.includes(
-            "timeout"
-          )
+            typeof window.setCurrentUser === "function"
         ) {
 
-          title =
-            "Request Timeout";
+            window.setCurrentUser({
 
-          message =
-            "The server took too long to respond. Please try again.";
+                uid,
 
-          icon =
-            "warning";
+                role:
+                    userData.role || "",
 
-        } else {
+                schoolId,
 
-          title =
-            "Login Failed";
+                email:
+                    userData.email ||
+                    firebaseUser.email ||
+                    userEmail
 
-          message =
-            error.message ||
-            "Something went wrong while signing in.";
+            });
+
         }
+
+
+        /* ====================================================
+   🌍 GLOBAL SCHOOL CONTEXT
+   ==================================================== */
+
+window.schoolId = schoolId;
+
+
+/* ====================================================
+   🏫 SCHOOL-SCOPED FIREBASE REFERENCE
+   ==================================================== */
+
+window.schoolRef = function(path = "") {
+
+    const sid = window.schoolId;
+
+    if (!sid) {
+
+        throw new Error(
+            "School context missing."
+        );
+
     }
 
-    Swal.fire({
-      icon,
-      title,
-      text: message,
+    return ref(
+        db,
+        path
+            ? `schools/${sid}/${path}`
+            : `schools/${sid}`
+    );
 
-      confirmButtonColor:
-        "#ef4444",
-
-      background: "#ffffff",
-      color: "#0f172a",
-
-      customClass: {
-        popup:
-          "rounded-2xl shadow-xl"
-      }
-    });
-} finally {
-
-  // =========================
-  // FORCE HIDE LOADER
-  // =========================
-  const loader =
-    document.getElementById("modernLoginLoader");
-
-  if (loader) {
-    loader.style.display = "none";
-  }
-
-  // =========================
-  // RESET STATE
-  // =========================
-  window.__loggingIn = false;
-
-  btns.forEach(btn => {
-    btn.disabled = false;
-  });
-
-  // =========================
-  // RESTORE BUTTON
-  // =========================
-  if (loginBtn) {
-    loginBtn.innerHTML = "🔐 Login";
-  }
-}
 };
 
 
-/* ================= SPINNER STYLE ================= */
+/* ====================================================
+   🏫 GET SCHOOL INFORMATION
+   🚀 FAST + NETWORK RESILIENT
+   ==================================================== */
 
-if (
-  !document.getElementById(
-    "spinnerStyle"
-  )
-) {
+showLoginLoader(
+    "Verifying your school..."
+);
 
-  const style =
-    document.createElement(
-      "style"
+
+let schoolSnapshot = null;
+
+
+/* ====================================================
+   1️⃣ TRY FIREBASE
+   ==================================================== */
+
+try {
+
+    /*
+     * IMPORTANT:
+     * Do NOT use the old 10-second hard timeout here.
+     *
+     * Firebase may temporarily take longer because of:
+     * - slow network
+     * - mobile networks
+     * - Firebase reconnecting
+     * - browser background/foreground transitions
+     *
+     * A temporary delay should not automatically
+     * become a login failure.
+     */
+
+    schoolSnapshot =
+        await get(
+            ref(
+                db,
+                `schools/${schoolId}`
+            )
+        );
+
+
+} catch (schoolError) {
+
+    console.error(
+        "⚠️ School information read failed:",
+        schoolError
     );
 
-  style.id =
-    "spinnerStyle";
 
-  style.innerHTML = `
+    /* =================================================
+       2️⃣ TRY CACHED SCHOOL SESSION
+       
+       Only use cache if it belongs to the SAME
+       authenticated school.
+       ================================================= */
 
-    .spinner{
-      width:18px;
-      height:18px;
-      border:3px solid rgba(255,255,255,0.3);
-      border-top:3px solid #fff;
-      border-radius:50%;
-      animation:spin .7s linear infinite;
+    const cachedSchoolId =
+        localStorage.getItem(
+            "schoolId"
+        );
+
+
+    const cachedSchoolName =
+        localStorage.getItem(
+            "schoolName"
+        );
+
+
+    /*
+     * We DO NOT trust the cache as a replacement
+     * for school security validation.
+     *
+     * It is only used to keep the UI/session
+     * responsive during temporary network issues.
+     */
+
+    if (
+        cachedSchoolId &&
+        cachedSchoolId === schoolId &&
+        cachedSchoolName
+    ) {
+
+        console.warn(
+            "⚡ Using cached school session while Firebase reconnects."
+        );
+
+
+        window.schoolName =
+            cachedSchoolName;
+
+
+        /*
+         * Continue login.
+         *
+         * Firebase authentication has already
+         * established the user's identity and
+         * userData.schoolId was checked below.
+         */
+
+    } else {
+
+        /*
+         * No safe cache available.
+         *
+         * Now report the actual Firebase error
+         * instead of falsely saying "timeout".
+         */
+
+        throw new Error(
+            "Unable to verify your school. Please check your internet connection and try again."
+        );
+
     }
 
-    @keyframes spin{
-      to{
-        transform:rotate(360deg);
-      }
-    }
-
-  `;
-
-  document.head.appendChild(
-    style
-  );
 }
 
 
-/* =========================================================
-   🚀 MODERN LOGIN DOT LOADER
-========================================================= */
+/* ====================================================
+   3️⃣ PROCESS LIVE SCHOOL DATA
+   ==================================================== */
 
-if (!document.getElementById("modernDotLoaderStyle")) {
+if (schoolSnapshot) {
 
-  const style = document.createElement("style");
+    if (
+        !schoolSnapshot.exists()
+    ) {
 
-  style.id = "modernDotLoaderStyle";
+        throw new Error(
+            "SCHOOL_NOT_FOUND"
+        );
 
-  style.innerHTML = `
-
-  #modernLoginLoader{
-
-    position:fixed;
-    inset:0;
-    background:rgba(15,23,42,0.45);
-
-   
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    z-index:999999;
-  }
-
-  .modern-loader-box{
-
-    background:white;
-    padding:30px 40px;
-
-    border-radius:24px;
-
-    box-shadow:
-      0 20px 60px rgba(0,0,0,0.25);
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-
-    min-width:260px;
-
-    animation:loaderPop .25s ease;
-  }
-
-  .modern-loader-text{
-
-    font-size:15px;
-    font-weight:600;
-    color:#0f172a;
-
-    text-align:center;
-  }
-
-  .modern-dots{
-
-    display:flex;
-    gap:10px;
-  }
-
-  .modern-dots span{
-
-    width:14px;
-    height:14px;
-
-    border-radius:50%;
-
-    animation:bounce 0.6s infinite alternate;
-  }
-
-  .modern-dots span:nth-child(1){
-
-    background:#3b82f6;
-    animation-delay:0s;
-  }
-
-  .modern-dots span:nth-child(2){
-
-    background:#10b981;
-    animation-delay:0.2s;
-  }
-
-  .modern-dots span:nth-child(3){
-
-    background:#f59e0b;
-    animation-delay:0.4s;
-  }
-
-  @keyframes bounce{
-
-    from{
-      transform:translateY(0);
-      opacity:.6;
     }
 
-    to{
-      transform:translateY(-12px);
-      opacity:1;
+
+    const schoolData =
+        schoolSnapshot.val() || {};
+
+
+    /* =================================================
+       🔒 SCHOOL SECURITY
+       ================================================= */
+
+    if (
+        userData.schoolId !== schoolId
+    ) {
+
+        throw new Error(
+            "SCHOOL_MISMATCH"
+        );
+
     }
-  }
 
-  @keyframes loaderPop{
 
-    from{
-      transform:scale(.9);
-      opacity:0;
+    if (
+        schoolData.deleted === true
+    ) {
+
+        throw new Error(
+            "SCHOOL_DELETED"
+        );
+
     }
 
-    to{
-      transform:scale(1);
-      opacity:1;
+
+    if (
+        schoolData.locked === true
+    ) {
+
+        throw new Error(
+            "SCHOOL_LOCKED"
+        );
+
     }
-  }
 
-  `;
 
-  document.head.appendChild(style);
-}
+    if (
+        schoolData.active === false
+    ) {
 
-/* ================= SPINNER STYLE ================= */
+        throw new Error(
+            "SCHOOL_INACTIVE"
+        );
 
-if (
-  !document.getElementById(
-    "spinnerStyle"
-  )
-) {
+    }
 
-  const style =
-    document.createElement(
-      "style"
+
+    /* =================================================
+       🏫 SCHOOL NAME
+       ================================================= */
+
+    const schoolName =
+        schoolData.name ||
+        schoolData.schoolName ||
+        userData.schoolName ||
+        "My School";
+
+
+    window.schoolName =
+        schoolName;
+
+
+    /* =================================================
+       💾 CACHE ONLY SMALL SESSION DATA
+       ================================================= */
+
+    localStorage.setItem(
+        "schoolId",
+        schoolId
     );
 
-  style.id =
-    "spinnerStyle";
+    localStorage.setItem(
+        "schoolName",
+        schoolName
+    );
 
-  style.innerHTML = `
-
-    .spinner{
-      width:18px;
-      height:18px;
-      border:3px solid rgba(255,255,255,0.3);
-      border-top:3px solid #fff;
-      border-radius:50%;
-      animation:spin .7s linear infinite;
-    }
-
-    @keyframes spin{
-      to{
-        transform:rotate(360deg);
-      }
-    }
-
-  `;
-
-  document.head.appendChild(
-    style
-  );
 }
 
+
+/* ====================================================
+   🔒 FINAL SCHOOL ID SECURITY CHECK
+   ==================================================== */
+
+if (
+    userData.schoolId !== schoolId
+) {
+
+    throw new Error(
+        "SCHOOL_MISMATCH"
+    );
+
+}
+
+
+/* ====================================================
+   💾 SESSION DATA
+   ==================================================== */
+
+localStorage.setItem(
+    "schoolId",
+    schoolId
+);
+
+
+if (window.schoolName) {
+
+    localStorage.setItem(
+        "schoolName",
+        window.schoolName
+    );
+
+}
+
+
+sessionStorage.setItem(
+    "schoolId",
+    schoolId
+);
+
+
+sessionStorage.setItem(
+    "userUid",
+    uid
+);
+
+
+sessionStorage.setItem(
+    "schoolEmail",
+    userEmail
+);
+
+
+        /* ====================================================
+           🕒 LAST LOGIN
+           ----------------------------------------------------
+           Non-critical operation.
+           Login MUST NOT fail because this update fails.
+           ==================================================== */
+
+        update(
+            ref(db, `users/${uid}`),
+            {
+                lastLogin: Date.now()
+            }
+        ).catch(error => {
+
+            console.warn(
+                "Last-login update skipped:",
+                error
+            );
+
+        });
+
+
+        /* ====================================================
+           💳 SUBSCRIPTION
+           ==================================================== */
+
+        showLoginLoader(
+            "Checking your subscription..."
+        );
+
+
+        let accessAllowed = true;
+
+
+        if (
+            typeof checkSubscriptionAccess === "function"
+        ) {
+
+            try {
+
+                accessAllowed =
+                    await withTimeout(
+
+                        checkSubscriptionAccess(),
+
+                        10000,
+
+                        "Subscription verification timed out."
+
+                    );
+
+            } catch (subscriptionError) {
+
+                console.warn(
+                    "Subscription verification failed:",
+                    subscriptionError
+                );
+
+
+                /*
+                 * Do not crash the entire login because
+                 * subscription checking had a temporary
+                 * network problem.
+                 */
+
+                accessAllowed = false;
+
+            }
+
+        }
+
+
+        if (!accessAllowed) {
+
+            throw new Error(
+                "SUBSCRIPTION_RESTRICTED"
+            );
+
+        }
+
+
+        /* ====================================================
+           🚀 EVERYTHING VERIFIED
+           ----------------------------------------------------
+           Only now do we open the application.
+           ==================================================== */
+
+        hideLoginLoader();
+
+
+        const authSection =
+            document.getElementById(
+                "authSection"
+            );
+
+
+        const app =
+            document.getElementById(
+                "app"
+            );
+
+
+        if (authSection) {
+
+            authSection.style.display =
+                "none";
+
+        }
+
+
+        if (app) {
+
+            app.style.display =
+                "block";
+
+            app.style.opacity =
+                "0";
+
+
+            requestAnimationFrame(() => {
+
+                app.style.transition =
+                    "opacity .25s ease";
+
+                app.style.opacity =
+                    "1";
+
+            });
+
+        }
+
+
+        /* ====================================================
+           🏫 UPDATE SCHOOL NAME ONCE
+           ==================================================== */
+
+        const schoolDisplay =
+            document.getElementById(
+                "schoolNameDisplay"
+            );
+
+
+        if (schoolDisplay) {
+
+            schoolDisplay.textContent =
+                schoolName;
+
+        }
+
+
+        /* ====================================================
+           🎉 SUCCESS
+           ==================================================== */
+
+        await Swal.fire({
+
+            icon: "success",
+
+            title: "Welcome to RASM 360",
+
+            html: `
+                <div style="text-align:center">
+
+                    <div style="
+                        font-size:42px;
+                        margin-bottom:8px;
+                    ">
+                        🏫💻
+                    </div>
+
+                    <div style="
+                        font-size:17px;
+                        font-weight:700;
+                        color:#2563eb;
+                    ">
+                        ${schoolName}
+                    </div>
+
+                    <p style="
+                        color:#64748b;
+                        margin-top:10px;
+                    ">
+                        Your school management system
+                        is ready.
+                    </p>
+
+                </div>
+            `,
+
+            confirmButtonText:
+                "🚀 Enter Dashboard",
+
+            confirmButtonColor:
+                "#2563eb",
+
+            allowEnterKey:
+                true,
+
+            width:
+                500
+
+        });
+
+
+        /* ====================================================
+           🚀 START APPLICATION SYSTEMS
+           ==================================================== */
+
+        if (
+            typeof startSubscriptionWatcher ===
+            "function"
+        ) {
+
+            startSubscriptionWatcher();
+
+        }
+
+
+        if (
+            typeof startSubscriptionUI ===
+            "function"
+        ) {
+
+            startSubscriptionUI();
+
+        }
+
+
+        if (
+            typeof loadAll ===
+            "function"
+        ) {
+
+            loadAll();
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ RASM 360 LOGIN ERROR:",
+            error
+        );
+
+
+        hideLoginLoader();
+
+
+        /* ====================================================
+           🔐 FIREBASE ERROR MAPPING
+           ==================================================== */
+
+        let title =
+            "Login Failed";
+
+        let message =
+            "We could not sign you in.";
+
+        let icon =
+            "error";
+
+
+        switch (error?.code) {
+
+
+            /* ----------------------------------------------
+               INVALID LOGIN
+               ---------------------------------------------- */
+
+            case "auth/invalid-login-credentials":
+
+            case "auth/wrong-password":
+
+            case "auth/user-not-found":
+
+                title =
+                    "Invalid Login";
+
+                message =
+                    "The email or password is incorrect.";
+
+                icon =
+                    "warning";
+
+                break;
+
+
+            /* ----------------------------------------------
+               INVALID EMAIL
+               ---------------------------------------------- */
+
+            case "auth/invalid-email":
+
+                title =
+                    "Invalid Email";
+
+                message =
+                    "Please enter a valid email address.";
+
+                icon =
+                    "warning";
+
+                break;
+
+
+            /* ----------------------------------------------
+               OFFLINE / NETWORK
+               ---------------------------------------------- */
+
+            case "auth/network-request-failed":
+
+                title =
+                    "No Internet Connection";
+
+                message =
+                    "RASM 360 could not connect to the server. Please check your internet connection and try again.";
+
+                icon =
+                    "warning";
+
+                break;
+
+
+            /* ----------------------------------------------
+               TOO MANY ATTEMPTS
+               ---------------------------------------------- */
+
+            case "auth/too-many-requests":
+
+                title =
+                    "Too Many Attempts";
+
+                message =
+                    "Too many unsuccessful login attempts. Please wait a while and try again.";
+
+                icon =
+                    "warning";
+
+                break;
+
+
+            /* ----------------------------------------------
+               DISABLED ACCOUNT
+               ---------------------------------------------- */
+
+            case "auth/user-disabled":
+
+                title =
+                    "Account Disabled";
+
+                message =
+                    "This user account has been disabled.";
+
+                break;
+
+
+            /* ----------------------------------------------
+               CUSTOM APPLICATION ERRORS
+               ---------------------------------------------- */
+
+            case undefined:
+
+                switch (error?.message) {
+
+                    case "USER_PROFILE_NOT_FOUND":
+
+                        title =
+                            "Account Setup Error";
+
+                        message =
+                            "Your login was successful, but your RASM 360 user profile could not be found. Please contact your school administrator.";
+
+                        break;
+
+
+                    case "NO_SCHOOL_ASSIGNED":
+
+                        title =
+                            "School Not Assigned";
+
+                        message =
+                            "This account has not been assigned to a school.";
+
+                        break;
+
+
+                    case "SCHOOL_NOT_FOUND":
+
+                        title =
+                            "School Not Found";
+
+                        message =
+                            "The school linked to this account could not be found.";
+
+                        break;
+
+
+                    case "SCHOOL_MISMATCH":
+
+                        title =
+                            "Security Error";
+
+                        message =
+                            "This account is not authorized to access this school.";
+
+                        break;
+
+
+                    case "SCHOOL_DELETED":
+
+                        title =
+                            "School Account Deleted";
+
+                        message =
+                            "This school account is no longer available.";
+
+                        break;
+
+
+                    case "SCHOOL_LOCKED":
+
+                        title =
+                            "School Account Locked";
+
+                        message =
+                            "This school account is currently locked.";
+
+                        break;
+
+
+                    case "SCHOOL_INACTIVE":
+
+                        title =
+                            "School Account Inactive";
+
+                        message =
+                            "This school account is currently inactive.";
+
+                        break;
+
+
+                    case "SUBSCRIPTION_RESTRICTED":
+
+                        title =
+                            "Access Restricted";
+
+                        message =
+                            "Your school subscription does not currently allow access to RASM 360.";
+
+                        icon =
+                            "warning";
+
+                        break;
+
+
+                    default:
+
+                        if (
+                            error?.message?.toLowerCase()
+                                .includes("timeout")
+                        ) {
+
+                            title =
+                                "Connection Timeout";
+
+                            message =
+                                "The connection took too long. Please check your internet connection and try again.";
+
+                            icon =
+                                "warning";
+
+                        } else {
+
+                            message =
+                                "Something went wrong while signing you in. Please try again.";
+
+                        }
+
+                }
+
+                break;
+
+
+            default:
+
+                if (
+                    !navigator.onLine
+                ) {
+
+                    title =
+                        "No Internet Connection";
+
+                    message =
+                        "Your device appears to be offline. Please reconnect to the internet and try again.";
+
+                    icon =
+                        "warning";
+
+                }
+
+                else if (
+                    error?.message
+                        ?.toLowerCase()
+                        ?.includes("timeout")
+                ) {
+
+                    title =
+                        "Connection Timeout";
+
+                    message =
+                        "The server took too long to respond. Please check your internet connection and try again.";
+
+                    icon =
+                        "warning";
+
+                }
+
+                break;
+
+        }
+
+
+        Swal.fire({
+
+            icon,
+
+            title,
+
+            text: message,
+
+            confirmButtonText:
+                "OK",
+
+            confirmButtonColor:
+                "#2563eb",
+
+            background:
+                "#ffffff",
+
+            color:
+                "#0f172a",
+
+            customClass: {
+
+                popup:
+                    "rounded-2xl shadow-xl"
+
+            }
+
+        });
+
+
+    } finally {
+
+        hideLoginLoader();
+
+        setLoginLoading(false);
+
+        window.__loggingIn =
+            false;
+
+    }
+
+};
+
+
+/* ============================================================
+   🎨 LOGIN STYLES
+   ============================================================ */
+
+if (
+    !document.getElementById(
+        "rasmLoginStyles"
+    )
+) {
+
+    const style =
+        document.createElement("style");
+
+
+    style.id =
+        "rasmLoginStyles";
+
+
+    style.textContent = `
+
+        /* ============================
+           LOGIN BUTTON LOADING
+           ============================ */
+
+        .login-btn-loading {
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            gap:9px;
+
+        }
+
+
+        /* ============================
+           SPINNER
+           ============================ */
+
+        .spinner {
+
+            width:18px;
+
+            height:18px;
+
+            border:3px solid
+                rgba(255,255,255,.35);
+
+            border-top-color:#fff;
+
+            border-radius:50%;
+
+            animation:
+                rasmSpin .7s linear infinite;
+
+        }
+
+
+        @keyframes rasmSpin {
+
+            to {
+                transform:rotate(360deg);
+            }
+
+        }
+
+
+        /* ============================
+           LOGIN OVERLAY
+           ============================ */
+
+        #modernLoginLoader {
+
+            position:fixed;
+
+            inset:0;
+
+            display:none;
+
+            align-items:center;
+
+            justify-content:center;
+
+            background:
+                rgba(15,23,42,.48);
+
+          
+
+            -webkit-backdrop-filter:
+                blur(4px);
+
+            z-index:999999;
+
+        }
+
+
+        /* ============================
+           LOADER BOX
+           ============================ */
+
+        .modern-loader-box {
+
+            min-width:260px;
+
+            padding:28px 36px;
+
+            border-radius:20px;
+
+            background:#fff;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,.22);
+
+            display:flex;
+
+            flex-direction:column;
+
+            align-items:center;
+
+            gap:16px;
+
+        }
+
+
+        /* ============================
+           DOTS
+           ============================ */
+
+        .modern-dots {
+
+            display:flex;
+
+            gap:9px;
+
+        }
+
+
+        .modern-dots span {
+
+            width:12px;
+
+            height:12px;
+
+            border-radius:50%;
+
+            background:#2563eb;
+
+            animation:
+                rasmBounce .65s infinite
+                alternate;
+
+        }
+
+
+        .modern-dots span:nth-child(2) {
+
+            animation-delay:.15s;
+
+        }
+
+
+        .modern-dots span:nth-child(3) {
+
+            animation-delay:.30s;
+
+        }
+
+
+        @keyframes rasmBounce {
+
+            from {
+
+                transform:translateY(0);
+
+                opacity:.45;
+
+            }
+
+            to {
+
+                transform:translateY(-9px);
+
+                opacity:1;
+
+            }
+
+        }
+
+
+        /* ============================
+           LOADER TEXT
+           ============================ */
+
+        .modern-loader-text {
+
+            color:#0f172a;
+
+            font-size:14px;
+
+            font-weight:600;
+
+            text-align:center;
+
+        }
+
+    `;
+
+
+    document.head.appendChild(
+        style
+    );
+
+}
 
 
 
@@ -26413,6 +26900,17 @@ window.addFee = async function () {
 
 }; 
 
+window.escapeHTMLSafe = window.escapeHTMLSafe || function (value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+};
+
 /* ============================================================
    🚀 RASM 360 — ULTRA-FAST FINANCE SUMMARY
    ============================================================
@@ -27915,7 +28413,7 @@ window.loadFees = async function () {
 <button
     type="button"
     class="action-btn restore"
-    onclick="restoreLearnerFee('${year}', '${feeId}')">
+    onclick="restoreLearnerFee('${selectedYear}', '${feeId}')">
 
     ♻️ Restore
 
