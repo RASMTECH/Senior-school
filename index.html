@@ -6029,6 +6029,108 @@ button.primary{
     }
 
 }
+.restore-all-fees-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 10px 18px;
+    border: 1px solid #16a34a;
+    border-radius: 8px;
+
+    background: #16a34a;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.restore-all-fees-btn:hover {
+    background: #15803d;
+    border-color: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.restore-all-fees-btn:active {
+    transform: translateY(0);
+}
+
+.restore-icon {
+    font-size: 16px;
+}
+
+/* =========================================================
+   🎨 FEE ACTION DROPDOWN
+   ========================================================= */
+
+.fee-action-select {
+    appearance: auto;
+    -webkit-appearance: auto;
+}
+
+/* Hover */
+.fee-action-select:hover {
+    border-color: #1d4ed8 !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.22) !important;
+    transform: translateY(-1px);
+}
+
+/* Focus */
+.fee-action-select:focus {
+    border-color: #1d4ed8 !important;
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.15),
+        0 4px 12px rgba(37, 99, 235, 0.18) !important;
+}
+
+
+/* =========================================================
+   🎨 ACTION OPTIONS
+   ========================================================= */
+
+.fee-action-select option {
+    padding: 10px;
+    font-weight: 600;
+    background: #ffffff;
+    color: #111827;
+}
+
+
+/* Edit */
+.fee-action-select option[value="edit"] {
+    color: #2563eb;
+}
+
+
+/* Receipt */
+.fee-action-select option[value="receipt"] {
+    color: #0891b2;
+}
+
+
+/* SMS */
+.fee-action-select option[value="sms"] {
+    color: #7c3aed;
+}
+
+
+/* Refund */
+.fee-action-select option[value="refund"] {
+    color: #d97706;
+}
+
+
+/* Delete */
+.fee-action-select option[value="delete"] {
+    color: #dc2626;
+}
+
 </style>
 </head>
 
@@ -9059,7 +9161,7 @@ style="
   <div style="
     background:
 
-    url('https://i.imgur.com/D8RXDZi.jpeg') center center / cover no-repeat;
+    url('https://i.imgur.com/1B2LB0y.png') center center / cover no-repeat;
     padding:20px;
     border-radius:15px;
     margin-bottom:20px;
@@ -9710,12 +9812,16 @@ onmouseout="
 
 <button
     type="button"
-    class="action-btn restore-all"
-    onclick="restoreAllLearnerFees('${selectedYear}')">
+    class="restore-all-fees-btn"
+    onclick="restoreAllLearnerFees()"
+    title="Restore all learner fees">
 
-    ♻️ Restore All
+    <span class="restore-icon">♻️</span>
+    <span>Restore All Fees</span>
 
 </button>
+
+
   </div>
 
   <!-- Right Side Filters -->
@@ -15424,215 +15530,587 @@ const schoolData = {
 };
 
 /* ============================================================
-   🔐 RASM TECH 360 - SUBSCRIPTION ACCESS GUARD
-   Professional Production Version
-============================================================ */
+   🔐 RASM TECH 360 — SUBSCRIPTION ACCESS GUARD
+   🚀 PRODUCTION / HIGH-CONCURRENCY VERSION
+   ============================================================
+   ✓ School isolated
+   ✓ Single Firebase read
+   ✓ No unnecessary writes
+   ✓ Does NOT confuse network errors with expired subscription
+   ✓ Supports paid subscriptions
+   ✓ Supports free trials
+   ✓ Short-lived verified session cache
+   ✓ Safe concurrent login handling
+   ✓ Prevents false "Access Restricted" errors
+   ✓ Fails closed for genuine subscription problems
+   ============================================================ */
+
+window.__subscriptionAccessCache =
+    window.__subscriptionAccessCache || new Map();
+
 
 window.checkSubscriptionAccess = async function () {
 
-    try {
+    /* ========================================================
+       🔐 GET ACTIVE SCHOOL
+       ======================================================== */
 
-        // =====================================================
-        // GET ACTIVE SCHOOL ID
-        // =====================================================
-
-        const schoolId =
+    const schoolId =
+        String(
             window.schoolId ||
             sessionStorage.getItem("schoolId") ||
-            localStorage.getItem("schoolId");
+            localStorage.getItem("schoolId") ||
+            ""
+        ).trim();
 
-        if (!schoolId) {
 
-            await Swal.fire({
+    if (!schoolId) {
 
-                icon: "error",
-                title: "Session Expired",
-                text: "Please login again.",
-
-                confirmButtonColor: "#2563eb"
-
-            });
-
-            return false;
-
-        }
-
-        // =====================================================
-        // LOAD SCHOOL INFORMATION
-        // =====================================================
-
-        const snapshot = await get(
-
-            ref(db, `schools/${schoolId}`)
-
+        throw new Error(
+            "NO_SCHOOL_ASSIGNED"
         );
-
-        if (!snapshot.exists()) {
-
-            await Swal.fire({
-
-                icon: "error",
-
-                title: "School Not Found",
-
-                text: "The selected school account does not exist.",
-
-                confirmButtonColor: "#dc2626"
-
-            });
-
-            return false;
-
-        }
-
-        const school = snapshot.val();
-
-        window.subscriptionData = school;
-
-        const now = Date.now();
-
-        // =====================================================
-        // MANUAL ACCOUNT LOCK
-        // =====================================================
-
-        if (school.locked === true) {
-
-            lockEntireSystem(
-
-                "Account Locked",
-
-                "Your school account has been disabled. Please contact RASM TECH Support."
-
-            );
-
-            return false;
-
-        }
-
-        // =====================================================
-        // ACTIVE PAID SUBSCRIPTION
-        // =====================================================
-
-        const subscriptionEnds =
-            Number(school.subscriptionEndsAt || 0);
-
-        const hasActiveSubscription =
-
-            school.subscriptionStatus === "active" &&
-
-            subscriptionEnds > now;
-
-        if (hasActiveSubscription) {
-
-            return true;
-
-        }
-
-        // =====================================================
-        // ACTIVE FREE TRIAL
-        // =====================================================
-
-        const trialEnds =
-            Number(school.trialEndsAt || 0);
-
-        const hasActiveTrial =
-
-            school.subscriptionStatus === "trial" &&
-
-            trialEnds > now;
-
-        if (hasActiveTrial) {
-
-            return true;
-
-        }
-
-        // =====================================================
-        // MARK ACCOUNT AS EXPIRED (ONLY IF NECESSARY)
-        // =====================================================
-
-        if (school.subscriptionStatus !== "expired") {
-
-            try {
-
-                await update(
-
-                    ref(db, `schools/${schoolId}`),
-
-                    {
-
-                        subscriptionStatus: "expired",
-
-                        expiredAt: now
-
-                    }
-
-                );
-
-            }
-
-            catch (updateError) {
-
-                console.warn(
-
-                    "Unable to update subscription status:",
-
-                    updateError
-
-                );
-
-            }
-
-        }
-
-        // =====================================================
-        // LOCK THE SYSTEM
-        // =====================================================
-
-        lockEntireSystem(
-
-            "Subscription Expired",
-
-            "Your subscription has expired. Renew your subscription to continue using RASM TECH 360."
-
-        );
-
-        return false;
 
     }
 
-    catch (error) {
 
-        console.error(
+    /* ========================================================
+       ⚡ SHORT SESSION CACHE
+       
+       Prevents repeated subscription reads during the
+       same login/application session.
 
-            "Subscription Verification Error:",
+       5 minutes is enough to protect performance while
+       still periodically re-validating access.
+       ======================================================== */
 
-            error
+    const CACHE_TTL =
+        5 * 60 * 1000;
 
+
+    const cached =
+        window.__subscriptionAccessCache.get(
+            schoolId
         );
 
-        await Swal.fire({
 
-            icon: "error",
+    if (
+        cached &&
+        cached.allowed === true &&
+        (Date.now() - cached.checkedAt) < CACHE_TTL
+    ) {
 
-            title: "Verification Failed",
+        console.log(
+            "⚡ Subscription access served from session cache."
+        );
 
-            text:
+        window.subscriptionData =
+            cached.school || null;
 
-                error.message ||
+        return true;
 
-                "Unable to verify your subscription. Please check your internet connection and try again.",
+    }
 
-            confirmButtonColor: "#dc2626"
 
-        });
+    /* ========================================================
+       🌐 NETWORK CHECK
+       ======================================================== */
 
-        return false;
+    if (
+        navigator.onLine === false
+    ) {
+
+        /*
+         * If we recently verified the school, allow the
+         * existing session to continue temporarily.
+         */
+
+        if (
+            cached &&
+            cached.allowed === true
+        ) {
+
+            console.warn(
+                "🌐 Offline — using recently verified subscription."
+            );
+
+            window.subscriptionData =
+                cached.school || null;
+
+            return true;
+
+        }
+
+
+        throw new Error(
+            "SUBSCRIPTION_NETWORK_ERROR"
+        );
+
+    }
+
+
+    /* ========================================================
+       🔄 PREVENT DUPLICATE SUBSCRIPTION REQUESTS
+       
+       If several login/application processes ask for the
+       same school's subscription at the same time, they
+       share ONE Firebase request.
+       ======================================================== */
+
+    window.__subscriptionRequests =
+        window.__subscriptionRequests ||
+        new Map();
+
+
+    if (
+        window.__subscriptionRequests.has(
+            schoolId
+        )
+    ) {
+
+        return await window.__subscriptionRequests.get(
+            schoolId
+        );
+
+    }
+
+
+    /* ========================================================
+       🚀 CREATE ONE VERIFICATION REQUEST
+       ======================================================== */
+
+    const verificationPromise =
+        (async () => {
+
+            try {
+
+                /* =================================================
+                   LOAD SCHOOL
+                   ================================================= */
+
+                const schoolRef =
+                    ref(
+                        db,
+                        `schools/${schoolId}`
+                    );
+
+
+                /*
+                 * Use Firebase's native get().
+                 *
+                 * Do not aggressively fail at 10 seconds.
+                 */
+
+                const snapshot =
+                    await get(
+                        schoolRef
+                    );
+
+
+                /* =================================================
+                   SCHOOL DOES NOT EXIST
+                   ================================================= */
+
+                if (
+                    !snapshot.exists()
+                ) {
+
+                    throw new Error(
+                        "SCHOOL_NOT_FOUND"
+                    );
+
+                }
+
+
+                const school =
+                    snapshot.val() || {};
+
+
+                /* =================================================
+                   SAVE CURRENT SUBSCRIPTION DATA
+                   ================================================= */
+
+                window.subscriptionData =
+                    school;
+
+
+                /* =================================================
+                   🔒 SCHOOL SECURITY
+                   ================================================= */
+
+                if (
+                    school.deleted === true
+                ) {
+
+                    throw new Error(
+                        "SCHOOL_DELETED"
+                    );
+
+                }
+
+
+                if (
+                    school.locked === true
+                ) {
+
+                    lockEntireSystem(
+
+                        "Account Locked",
+
+                        "Your school account has been disabled. Please contact RASM TECH Support."
+
+                    );
+
+                    return false;
+
+                }
+
+
+                if (
+                    school.active === false
+                ) {
+
+                    throw new Error(
+                        "SCHOOL_INACTIVE"
+                    );
+
+                }
+
+
+                /* =================================================
+                   ⏱ CURRENT TIME
+                   ================================================= */
+
+                const now =
+                    Date.now();
+
+
+                /* =================================================
+                   💳 SUBSCRIPTION STATUS
+                   ================================================= */
+
+                const status =
+                    String(
+                        school.subscriptionStatus ||
+                        ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                /* =================================================
+                   💰 PAID SUBSCRIPTION END DATE
+                   
+                   Supports several field names so older school
+                   records don't accidentally become restricted.
+                   ================================================= */
+
+                const subscriptionEndsAt =
+                    Number(
+                        school.subscriptionEndsAt ||
+                        school.subscriptionEndAt ||
+                        school.subscriptionExpiresAt ||
+                        school.subscriptionExpiry ||
+                        0
+                    );
+
+
+                /* =================================================
+                   🆓 FREE TRIAL END DATE
+                   ================================================= */
+
+                const trialEndsAt =
+                    Number(
+                        school.trialEndsAt ||
+                        school.trialEndAt ||
+                        school.trialExpiresAt ||
+                        school.trialExpiry ||
+                        0
+                    );
+
+
+                /* =================================================
+                   💳 ACTIVE PAID SUBSCRIPTION
+                   ================================================= */
+
+                const paidSubscriptionActive =
+                    (
+                        status === "active" ||
+                        status === "paid" ||
+                        status === "subscribed"
+                    ) &&
+                    subscriptionEndsAt > now;
+
+
+                if (
+                    paidSubscriptionActive
+                ) {
+
+                    window.__subscriptionAccessCache.set(
+                        schoolId,
+                        {
+                            allowed: true,
+                            checkedAt: now,
+                            school
+                        }
+                    );
+
+
+                    console.log(
+                        "✅ Active paid subscription verified."
+                    );
+
+
+                    return true;
+
+                }
+
+
+                /* =================================================
+                   🆓 ACTIVE FREE TRIAL
+                   ================================================= */
+
+                const trialActive =
+                    (
+                        status === "trial" ||
+                        status === "free_trial" ||
+                        status === "freetrial"
+                    ) &&
+                    trialEndsAt > now;
+
+
+                if (
+                    trialActive
+                ) {
+
+                    window.__subscriptionAccessCache.set(
+                        schoolId,
+                        {
+                            allowed: true,
+                            checkedAt: now,
+                            school
+                        }
+                    );
+
+
+                    console.log(
+                        "✅ Active free trial verified."
+                    );
+
+
+                    return true;
+
+                }
+
+
+                /* =================================================
+                   🔎 LEGACY / DIRECT DATE SUPPORT
+                   
+                   This protects older school accounts where the
+                   status field may not have been written correctly
+                   but a valid future subscription date exists.
+                   ================================================= */
+
+                if (
+                    subscriptionEndsAt > now
+                ) {
+
+                    window.__subscriptionAccessCache.set(
+                        schoolId,
+                        {
+                            allowed: true,
+                            checkedAt: now,
+                            school
+                        }
+                    );
+
+
+                    console.warn(
+                        "⚠️ Subscription date is valid despite an unrecognized status:",
+                        status
+                    );
+
+
+                    return true;
+
+                }
+
+
+                /* =================================================
+                   🔎 LEGACY TRIAL SUPPORT
+                   ================================================= */
+
+                if (
+                    trialEndsAt > now
+                ) {
+
+                    window.__subscriptionAccessCache.set(
+                        schoolId,
+                        {
+                            allowed: true,
+                            checkedAt: now,
+                            school
+                        }
+                    );
+
+
+                    console.warn(
+                        "⚠️ Trial date is valid despite an unrecognized status:",
+                        status
+                    );
+
+
+                    return true;
+
+                }
+
+
+                /* =================================================
+                   ❌ GENUINELY EXPIRED / UNAUTHORIZED
+                   ================================================= */
+
+                console.warn(
+                    "🚫 Subscription access denied.",
+                    {
+                        schoolId,
+                        status,
+                        subscriptionEndsAt,
+                        trialEndsAt
+                    }
+                );
+
+
+                /*
+                 * IMPORTANT:
+                 * Do NOT write "expired" back to Firebase here.
+                 *
+                 * Multiple users logging in simultaneously could
+                 * create unnecessary writes/race conditions.
+                 */
+
+                lockEntireSystem(
+
+                    "Subscription Expired",
+
+                    "Your school subscription has expired. Please renew your subscription to continue using RASM TECH 360."
+
+                );
+
+
+                return false;
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "❌ Subscription verification error:",
+                    error
+                );
+
+
+                /* =================================================
+                   DO NOT CONVERT NETWORK ERRORS INTO
+                   "SUBSCRIPTION RESTRICTED"
+                   ================================================= */
+
+                const message =
+                    String(
+                        error?.message || ""
+                    )
+                    .toLowerCase();
+
+
+                const networkError =
+                    navigator.onLine === false ||
+                    message.includes("network") ||
+                    message.includes("offline") ||
+                    message.includes("failed to fetch") ||
+                    message.includes("connection") ||
+                    message.includes("timeout");
+
+
+                if (
+                    networkError
+                ) {
+
+                    /*
+                     * Use recently verified access if available.
+                     */
+
+                    const recent =
+                        window.__subscriptionAccessCache.get(
+                            schoolId
+                        );
+
+
+                    if (
+                        recent &&
+                        recent.allowed === true
+                    ) {
+
+                        console.warn(
+                            "⚡ Temporary subscription connection problem — using recently verified access."
+                        );
+
+
+                        window.subscriptionData =
+                            recent.school || null;
+
+
+                        return true;
+
+                    }
+
+
+                    throw new Error(
+                        "SUBSCRIPTION_NETWORK_ERROR"
+                    );
+
+                }
+
+
+                /*
+                 * Preserve our application errors.
+                 */
+
+                throw error;
+
+            }
+
+        })();
+
+
+    /* ========================================================
+       REGISTER SHARED REQUEST
+       ======================================================== */
+
+    window.__subscriptionRequests.set(
+        schoolId,
+        verificationPromise
+    );
+
+
+    try {
+
+        return await verificationPromise;
+
+    }
+
+    finally {
+
+        /*
+         * Remove completed request so future checks can
+         * happen after the cache expires.
+         */
+
+        window.__subscriptionRequests.delete(
+            schoolId
+        );
 
     }
 
 };
-
 
 /* ======================================================
    GLOBAL ACCESS CONTROL
@@ -19045,21 +19523,21 @@ if (
 /* ============================================================
    🔐 RASM 360 — PRODUCTION LOGIN ENGINE
    ============================================================
-   Senior-level login flow
+   Senior-level resilient login flow
    ------------------------------------------------------------
    ✓ Offline/network detection
    ✓ Firebase Auth error handling
-   ✓ Cached authenticated-session support
    ✓ School isolation
    ✓ Account security validation
    ✓ Subscription validation
-   ✓ Single user-profile read
-   ✓ Single school read
-   ✓ No unnecessary token refresh
-   ✓ No duplicate DOM work
-   ✓ No dangerous storage clearing
+   ✓ Subscription retry
+   ✓ School-read retry
+   ✓ Cached school UI fallback
+   ✓ No subscription timeout = false restriction
    ✓ Prevents double login
    ✓ Clean loading state
+   ✓ No dangerous storage clearing
+   ✓ Safe session storage
    ============================================================ */
 
 window.__loggingIn = false;
@@ -19069,27 +19547,27 @@ window.__loggingIn = false;
    🌐 NETWORK STATUS
    ============================================================ */
 
-window.isNetworkAvailable = () => {
+window.isNetworkAvailable = function () {
 
     return navigator.onLine !== false;
 
 };
 
 
-/* ============================================================
-   🔔 NETWORK STATUS LISTENERS
-   ============================================================ */
-
 window.addEventListener("offline", () => {
 
-    console.warn("🌐 RASM 360: Device is offline.");
+    console.warn(
+        "🌐 RASM 360: Device is offline."
+    );
 
 });
 
 
 window.addEventListener("online", () => {
 
-    console.log("🌐 RASM 360: Network connection restored.");
+    console.log(
+        "🌐 RASM 360: Network connection restored."
+    );
 
 });
 
@@ -19098,139 +19576,273 @@ window.addEventListener("online", () => {
    🎨 LOGIN LOADER
    ============================================================ */
 
-function showLoginLoader(message = "Signing you in securely...") {
+window.showLoginLoader = function (
+    message = "Signing you in securely..."
+) {
 
     let loader =
-        document.getElementById("modernLoginLoader");
+        document.getElementById(
+            "modernLoginLoader"
+        );
+
 
     if (!loader) {
 
-        loader = document.createElement("div");
+        loader =
+            document.createElement("div");
 
-        loader.id = "modernLoginLoader";
+        loader.id =
+            "modernLoginLoader";
+
 
         loader.innerHTML = `
+
             <div class="modern-loader-box">
 
                 <div class="modern-dots">
+
                     <span></span>
                     <span></span>
                     <span></span>
+
                 </div>
+
 
                 <div
                     id="modernLoaderText"
-                    class="modern-loader-text">
+                    class="modern-loader-text"
+                >
                     ${message}
                 </div>
 
             </div>
+
         `;
 
-        document.body.appendChild(loader);
+
+        document.body.appendChild(
+            loader
+        );
+
     }
+
 
     const text =
-        document.getElementById("modernLoaderText");
+        document.getElementById(
+            "modernLoaderText"
+        );
+
 
     if (text) {
-        text.textContent = message;
+
+        text.textContent =
+            message;
+
     }
 
-    loader.style.display = "flex";
-}
+
+    loader.style.display =
+        "flex";
+
+};
 
 
 /* ============================================================
    🎨 HIDE LOGIN LOADER
    ============================================================ */
 
-function hideLoginLoader() {
+window.hideLoginLoader = function () {
 
     const loader =
-        document.getElementById("modernLoginLoader");
+        document.getElementById(
+            "modernLoginLoader"
+        );
+
 
     if (loader) {
-        loader.style.display = "none";
+
+        loader.style.display =
+            "none";
+
     }
 
-}
+};
 
 
 /* ============================================================
    🔘 LOGIN BUTTON STATE
    ============================================================ */
 
-function setLoginLoading(isLoading) {
+window.setLoginLoading = function (
+    isLoading
+) {
 
     const loginBtn =
-        document.getElementById("loginBtn");
+        document.getElementById(
+            "loginBtn"
+        );
+
 
     const buttons =
-        document.querySelectorAll("#authSection button");
+        document.querySelectorAll(
+            "#authSection button"
+        );
+
 
     buttons.forEach(btn => {
 
-        btn.disabled = isLoading;
+        btn.disabled =
+            isLoading;
 
     });
 
+
     if (!loginBtn) return;
+
 
     if (isLoading) {
 
         loginBtn.innerHTML = `
+
             <span class="login-btn-loading">
+
                 <span class="spinner"></span>
-                <span>Signing In...</span>
+
+                <span>
+                    Signing In...
+                </span>
+
             </span>
+
         `;
-
-    } else {
-
-        loginBtn.innerHTML = "🔐 Login";
 
     }
 
-}
+    else {
+
+        loginBtn.innerHTML =
+            "🔐 Login";
+
+    }
+
+};
 
 
 /* ============================================================
    📧 EMAIL VALIDATION
    ============================================================ */
 
-function isValidEmail(email) {
+window.isValidEmail = function (
+    email
+) {
 
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        .test(email);
 
-}
+};
 
 
 /* ============================================================
    ⏱️ TIMEOUT HELPER
    ============================================================ */
 
-function withTimeout(promise, timeout = 12000, message = "Request timed out.") {
+window.withTimeout = function (
+    promise,
+    timeout = 12000,
+    message = "Request timed out."
+) {
 
     let timer;
+
 
     const timeoutPromise =
         new Promise((_, reject) => {
 
-            timer = setTimeout(() => {
+            timer =
+                setTimeout(() => {
 
-                reject(
-                    new Error(message)
-                );
+                    reject(
+                        new Error(message)
+                    );
 
-            }, timeout);
+                }, timeout);
 
         });
 
+
     return Promise.race([
-        promise.finally(() => clearTimeout(timer)),
+
+        Promise.resolve(promise)
+            .finally(() => {
+
+                clearTimeout(timer);
+
+            }),
+
         timeoutPromise
+
     ]);
+
+};
+
+
+/* ============================================================
+   🔁 RETRY HELPER
+   ============================================================ */
+
+async function retryRequest(
+    requestFunction,
+    attempts = 2,
+    delay = 500
+) {
+
+    let lastError;
+
+
+    for (
+        let attempt = 1;
+        attempt <= attempts;
+        attempt++
+    ) {
+
+        try {
+
+            return await requestFunction();
+
+        }
+
+        catch (error) {
+
+            lastError =
+                error;
+
+
+            console.warn(
+                `⚠️ Request attempt ${attempt} failed:`,
+                error
+            );
+
+
+            if (
+                attempt < attempts
+            ) {
+
+                await new Promise(
+                    resolve =>
+                        setTimeout(
+                            resolve,
+                            delay
+                        )
+                );
+
+            }
+
+        }
+
+    }
+
+
+    throw lastError;
 
 }
 
@@ -19241,69 +19853,73 @@ function withTimeout(promise, timeout = 12000, message = "Request timed out.") {
 
 window.login = async function () {
 
-    /* --------------------------------------------------------
-       PREVENT DOUBLE LOGIN
-       -------------------------------------------------------- */
 
-    if (window.__loggingIn) {
+    /* ========================================================
+       🚫 PREVENT DOUBLE LOGIN
+       ======================================================== */
+
+    if (
+        window.__loggingIn
+    ) {
+
+        console.warn(
+            "⚠️ Login already in progress."
+        );
+
         return;
+
     }
 
 
-    /* --------------------------------------------------------
-       GET INPUTS
-       -------------------------------------------------------- */
+    /* ========================================================
+       📋 GET INPUTS
+       ======================================================== */
 
     const emailInput =
-        document.getElementById("email");
+        document.getElementById(
+            "email"
+        );
+
 
     const passwordInput =
-        document.getElementById("password");
+        document.getElementById(
+            "password"
+        );
 
 
     const userEmail =
-        emailInput?.value.trim() || "";
+        emailInput?.value
+            ?.trim()
+            ?.toLowerCase() ||
+        "";
+
 
     const userPassword =
-        passwordInput?.value || "";
+        passwordInput?.value ||
+        "";
 
 
-    /* --------------------------------------------------------
+    /* ========================================================
        BASIC VALIDATION
-       -------------------------------------------------------- */
+       ======================================================== */
 
-    if (!userEmail || !userPassword) {
-
-        return Swal.fire({
-
-            icon: "warning",
-
-            title: "Missing Information",
-
-            text: "Please enter your email and password.",
-
-            confirmButtonColor: "#2563eb"
-
-        });
-
-    }
-
-
-    /* --------------------------------------------------------
-       EMAIL VALIDATION
-       -------------------------------------------------------- */
-
-    if (!isValidEmail(userEmail)) {
+    if (
+        !userEmail ||
+        !userPassword
+    ) {
 
         return Swal.fire({
 
             icon: "warning",
 
-            title: "Invalid Email",
+            title:
+                "Missing Information",
 
-            text: "Please enter a valid email address.",
+            text:
+                "Please enter your email and password.",
 
-            confirmButtonColor: "#2563eb"
+            confirmButtonColor:
+                "#2563eb"
 
         });
 
@@ -19311,22 +19927,42 @@ window.login = async function () {
 
 
     /* ========================================================
-       🌐 OFFLINE CHECK — BEFORE FIREBASE
+       EMAIL VALIDATION
        ======================================================== */
 
-    if (!navigator.onLine) {
+    if (
+        !isValidEmail(userEmail)
+    ) {
 
-        /*
-         * Important:
-         * Firebase cannot authenticate a completely new login
-         * while the device has no internet connection.
-         *
-         * However, an already authenticated Firebase session
-         * may still exist locally.
-         */
+        return Swal.fire({
+
+            icon: "warning",
+
+            title:
+                "Invalid Email",
+
+            text:
+                "Please enter a valid email address.",
+
+            confirmButtonColor:
+                "#2563eb"
+
+        });
+
+    }
+
+
+    /* ========================================================
+       🌐 OFFLINE CHECK
+       ======================================================== */
+
+    if (
+        !navigator.onLine
+    ) {
 
         const cachedUser =
-            auth?.currentUser || null;
+            auth?.currentUser ||
+            null;
 
 
         if (cachedUser) {
@@ -19335,10 +19971,14 @@ window.login = async function () {
 
                 icon: "info",
 
-                title: "You're Offline",
+                title:
+                    "You're Offline",
 
                 html: `
-                    <div style="text-align:center">
+
+                    <div style="
+                        text-align:center;
+                    ">
 
                         <div style="
                             font-size:42px;
@@ -19355,17 +19995,19 @@ window.login = async function () {
                             color:#64748b;
                             font-size:14px;
                         ">
-                            Your existing signed-in session may
-                            continue working with locally cached
-                            data.
+                            Please reconnect before
+                            signing in again.
                         </p>
 
                     </div>
+
                 `,
 
-                confirmButtonText: "Continue",
+                confirmButtonText:
+                    "OK",
 
-                confirmButtonColor: "#2563eb"
+                confirmButtonColor:
+                    "#2563eb"
 
             });
 
@@ -19376,37 +20018,17 @@ window.login = async function () {
 
             icon: "warning",
 
-            title: "No Internet Connection",
+            title:
+                "No Internet Connection",
 
-            html: `
-                <div style="text-align:center">
+            text:
+                "RASM 360 needs an internet connection to sign you in.",
 
-                    <div style="
-                        font-size:42px;
-                        margin-bottom:10px;
-                    ">
-                        📡
-                    </div>
+            confirmButtonText:
+                "Try Again",
 
-                    <p>
-                        RASM 360 needs an internet connection
-                        to sign you in.
-                    </p>
-
-                    <p style="
-                        color:#64748b;
-                        font-size:14px;
-                    ">
-                        Please reconnect to the internet and
-                        try again.
-                    </p>
-
-                </div>
-            `,
-
-            confirmButtonText: "Try Again",
-
-            confirmButtonColor: "#2563eb"
+            confirmButtonColor:
+                "#2563eb"
 
         });
 
@@ -19417,9 +20039,14 @@ window.login = async function () {
        🚀 START LOGIN
        ======================================================== */
 
-    window.__loggingIn = true;
+    window.__loggingIn =
+        true;
 
-    setLoginLoading(true);
+
+    setLoginLoading(
+        true
+    );
+
 
     showLoginLoader(
         "Connecting securely..."
@@ -19427,6 +20054,7 @@ window.login = async function () {
 
 
     try {
+
 
         /* ====================================================
            🔐 FIREBASE AUTHENTICATION
@@ -19454,10 +20082,12 @@ window.login = async function () {
 
 
         const firebaseUser =
-            userCredential.user;
+            userCredential?.user;
 
 
-        if (!firebaseUser?.uid) {
+        if (
+            !firebaseUser?.uid
+        ) {
 
             throw new Error(
                 "Authentication completed but no user account was returned."
@@ -19471,7 +20101,7 @@ window.login = async function () {
 
 
         /* ====================================================
-           👤 GET USER PROFILE — ONE READ ONLY
+           👤 USER PROFILE
            ==================================================== */
 
         showLoginLoader(
@@ -19480,20 +20110,33 @@ window.login = async function () {
 
 
         const userSnapshot =
-            await withTimeout(
+            await retryRequest(
 
-                get(
-                    ref(db, `users/${uid}`)
+                () => withTimeout(
+
+                    get(
+                        ref(
+                            db,
+                            `users/${uid}`
+                        )
+                    ),
+
+                    10000,
+
+                    "User profile request timed out."
+
                 ),
 
-                10000,
+                2,
 
-                "User profile request timed out."
+                600
 
             );
 
 
-        if (!userSnapshot.exists()) {
+        if (
+            !userSnapshot.exists()
+        ) {
 
             throw new Error(
                 "USER_PROFILE_NOT_FOUND"
@@ -19503,7 +20146,8 @@ window.login = async function () {
 
 
         const userData =
-            userSnapshot.val() || {};
+            userSnapshot.val() ||
+            {};
 
 
         /* ====================================================
@@ -19512,7 +20156,8 @@ window.login = async function () {
 
         const schoolId =
             String(
-                userData.schoolId || ""
+                userData.schoolId ||
+                ""
             ).trim();
 
 
@@ -19526,11 +20171,12 @@ window.login = async function () {
 
 
         /* ====================================================
-           🔐 SET CURRENT USER
+           🔐 USER CONTEXT
            ==================================================== */
 
         if (
-            typeof window.setCurrentUser === "function"
+            typeof window.setCurrentUser ===
+            "function"
         ) {
 
             window.setCurrentUser({
@@ -19538,7 +20184,8 @@ window.login = async function () {
                 uid,
 
                 role:
-                    userData.role || "",
+                    userData.role ||
+                    "",
 
                 schoolId,
 
@@ -19553,322 +20200,286 @@ window.login = async function () {
 
 
         /* ====================================================
-   🌍 GLOBAL SCHOOL CONTEXT
-   ==================================================== */
+           🌍 GLOBAL SCHOOL CONTEXT
+           ==================================================== */
 
-window.schoolId = schoolId;
-
-
-/* ====================================================
-   🏫 SCHOOL-SCOPED FIREBASE REFERENCE
-   ==================================================== */
-
-window.schoolRef = function(path = "") {
-
-    const sid = window.schoolId;
-
-    if (!sid) {
-
-        throw new Error(
-            "School context missing."
-        );
-
-    }
-
-    return ref(
-        db,
-        path
-            ? `schools/${sid}/${path}`
-            : `schools/${sid}`
-    );
-
-};
+        window.schoolId =
+            schoolId;
 
 
-/* ====================================================
-   🏫 GET SCHOOL INFORMATION
-   🚀 FAST + NETWORK RESILIENT
-   ==================================================== */
+        /* ====================================================
+           🏫 SCHOOL-SCOPED REFERENCE
+           ==================================================== */
 
-showLoginLoader(
-    "Verifying your school..."
-);
+        window.schoolRef =
+            function (
+                path = ""
+            ) {
+
+                const sid =
+                    window.schoolId;
 
 
-let schoolSnapshot = null;
+                if (!sid) {
+
+                    throw new Error(
+                        "School context missing."
+                    );
+
+                }
 
 
-/* ====================================================
-   1️⃣ TRY FIREBASE
-   ==================================================== */
+                return ref(
 
-try {
+                    db,
 
-    /*
-     * IMPORTANT:
-     * Do NOT use the old 10-second hard timeout here.
-     *
-     * Firebase may temporarily take longer because of:
-     * - slow network
-     * - mobile networks
-     * - Firebase reconnecting
-     * - browser background/foreground transitions
-     *
-     * A temporary delay should not automatically
-     * become a login failure.
-     */
+                    path
+                        ? `schools/${sid}/${path}`
+                        : `schools/${sid}`
 
-    schoolSnapshot =
-        await get(
-            ref(
-                db,
-                `schools/${schoolId}`
-            )
+                );
+
+            };
+
+
+        /* ====================================================
+           🏫 SCHOOL INFORMATION
+           ==================================================== */
+
+        showLoginLoader(
+            "Verifying your school..."
         );
 
 
-} catch (schoolError) {
-
-    console.error(
-        "⚠️ School information read failed:",
-        schoolError
-    );
+        let schoolSnapshot =
+            null;
 
 
-    /* =================================================
-       2️⃣ TRY CACHED SCHOOL SESSION
-       
-       Only use cache if it belongs to the SAME
-       authenticated school.
-       ================================================= */
-
-    const cachedSchoolId =
-        localStorage.getItem(
-            "schoolId"
-        );
+        let schoolData =
+            null;
 
 
-    const cachedSchoolName =
-        localStorage.getItem(
-            "schoolName"
-        );
+        let schoolName =
+            userData.schoolName ||
+            localStorage.getItem(
+                "schoolName"
+            ) ||
+            "My School";
 
 
-    /*
-     * We DO NOT trust the cache as a replacement
-     * for school security validation.
-     *
-     * It is only used to keep the UI/session
-     * responsive during temporary network issues.
-     */
+        /* ====================================================
+           🔄 LIVE SCHOOL READ WITH RETRY
+           ==================================================== */
 
-    if (
-        cachedSchoolId &&
-        cachedSchoolId === schoolId &&
-        cachedSchoolName
-    ) {
+        try {
 
-        console.warn(
-            "⚡ Using cached school session while Firebase reconnects."
-        );
+            schoolSnapshot =
+                await retryRequest(
+
+                    () => withTimeout(
+
+                        get(
+                            ref(
+                                db,
+                                `schools/${schoolId}`
+                            )
+                        ),
+
+                        12000,
+
+                        "School information request timed out."
+
+                    ),
+
+                    2,
+
+                    700
+
+                );
+
+
+            if (
+                !schoolSnapshot.exists()
+            ) {
+
+                throw new Error(
+                    "SCHOOL_NOT_FOUND"
+                );
+
+            }
+
+
+            schoolData =
+                schoolSnapshot.val() ||
+                {};
+
+
+        }
+
+        catch (schoolError) {
+
+            console.error(
+                "⚠️ School information request failed:",
+                schoolError
+            );
+
+
+            /*
+             * IMPORTANT:
+             *
+             * We DO NOT grant access using cache
+             * when live school verification fails.
+             *
+             * Cache is only used for displaying
+             * information, never for security.
+             */
+
+            if (
+                schoolError?.message ===
+                "SCHOOL_NOT_FOUND"
+            ) {
+
+                throw schoolError;
+
+            }
+
+
+            throw new Error(
+                "SCHOOL_CONNECTION_FAILED"
+            );
+
+        }
+
+
+        /* ====================================================
+           🔒 SCHOOL SECURITY
+           ==================================================== */
+
+        if (
+            userData.schoolId !==
+            schoolId
+        ) {
+
+            throw new Error(
+                "SCHOOL_MISMATCH"
+            );
+
+        }
+
+
+        if (
+            schoolData.deleted === true
+        ) {
+
+            throw new Error(
+                "SCHOOL_DELETED"
+            );
+
+        }
+
+
+        if (
+            schoolData.locked === true
+        ) {
+
+            throw new Error(
+                "SCHOOL_LOCKED"
+            );
+
+        }
+
+
+        if (
+            schoolData.active === false
+        ) {
+
+            throw new Error(
+                "SCHOOL_INACTIVE"
+            );
+
+        }
+
+
+        /* ====================================================
+           🏫 SCHOOL NAME
+           ==================================================== */
+
+        schoolName =
+            schoolData.name ||
+            schoolData.schoolName ||
+            userData.schoolName ||
+            "My School";
 
 
         window.schoolName =
-            cachedSchoolName;
+            schoolName;
 
 
-        /*
-         * Continue login.
-         *
-         * Firebase authentication has already
-         * established the user's identity and
-         * userData.schoolId was checked below.
-         */
+        /* ====================================================
+           💾 SESSION CACHE
+           ==================================================== */
 
-    } else {
+        try {
 
-        /*
-         * No safe cache available.
-         *
-         * Now report the actual Firebase error
-         * instead of falsely saying "timeout".
-         */
-
-        throw new Error(
-            "Unable to verify your school. Please check your internet connection and try again."
-        );
-
-    }
-
-}
+            localStorage.setItem(
+                "schoolId",
+                schoolId
+            );
 
 
-/* ====================================================
-   3️⃣ PROCESS LIVE SCHOOL DATA
-   ==================================================== */
-
-if (schoolSnapshot) {
-
-    if (
-        !schoolSnapshot.exists()
-    ) {
-
-        throw new Error(
-            "SCHOOL_NOT_FOUND"
-        );
-
-    }
+            localStorage.setItem(
+                "schoolName",
+                schoolName
+            );
 
 
-    const schoolData =
-        schoolSnapshot.val() || {};
+            sessionStorage.setItem(
+                "schoolId",
+                schoolId
+            );
 
 
-    /* =================================================
-       🔒 SCHOOL SECURITY
-       ================================================= */
-
-    if (
-        userData.schoolId !== schoolId
-    ) {
-
-        throw new Error(
-            "SCHOOL_MISMATCH"
-        );
-
-    }
+            sessionStorage.setItem(
+                "userUid",
+                uid
+            );
 
 
-    if (
-        schoolData.deleted === true
-    ) {
+            sessionStorage.setItem(
+                "schoolEmail",
+                userEmail
+            );
 
-        throw new Error(
-            "SCHOOL_DELETED"
-        );
+        }
 
-    }
+        catch (storageError) {
 
+            console.warn(
+                "⚠️ Session storage unavailable:",
+                storageError
+            );
 
-    if (
-        schoolData.locked === true
-    ) {
-
-        throw new Error(
-            "SCHOOL_LOCKED"
-        );
-
-    }
-
-
-    if (
-        schoolData.active === false
-    ) {
-
-        throw new Error(
-            "SCHOOL_INACTIVE"
-        );
-
-    }
-
-
-    /* =================================================
-       🏫 SCHOOL NAME
-       ================================================= */
-
-    const schoolName =
-        schoolData.name ||
-        schoolData.schoolName ||
-        userData.schoolName ||
-        "My School";
-
-
-    window.schoolName =
-        schoolName;
-
-
-    /* =================================================
-       💾 CACHE ONLY SMALL SESSION DATA
-       ================================================= */
-
-    localStorage.setItem(
-        "schoolId",
-        schoolId
-    );
-
-    localStorage.setItem(
-        "schoolName",
-        schoolName
-    );
-
-}
-
-
-/* ====================================================
-   🔒 FINAL SCHOOL ID SECURITY CHECK
-   ==================================================== */
-
-if (
-    userData.schoolId !== schoolId
-) {
-
-    throw new Error(
-        "SCHOOL_MISMATCH"
-    );
-
-}
-
-
-/* ====================================================
-   💾 SESSION DATA
-   ==================================================== */
-
-localStorage.setItem(
-    "schoolId",
-    schoolId
-);
-
-
-if (window.schoolName) {
-
-    localStorage.setItem(
-        "schoolName",
-        window.schoolName
-    );
-
-}
-
-
-sessionStorage.setItem(
-    "schoolId",
-    schoolId
-);
-
-
-sessionStorage.setItem(
-    "userUid",
-    uid
-);
-
-
-sessionStorage.setItem(
-    "schoolEmail",
-    userEmail
-);
+        }
 
 
         /* ====================================================
            🕒 LAST LOGIN
            ----------------------------------------------------
-           Non-critical operation.
-           Login MUST NOT fail because this update fails.
+           Non-critical
            ==================================================== */
 
         update(
-            ref(db, `users/${uid}`),
+
+            ref(
+                db,
+                `users/${uid}`
+            ),
+
             {
-                lastLogin: Date.now()
+                lastLogin:
+                    Date.now()
             }
+
         ).catch(error => {
 
             console.warn(
@@ -19880,7 +20491,7 @@ sessionStorage.setItem(
 
 
         /* ====================================================
-           💳 SUBSCRIPTION
+           💳 SUBSCRIPTION VERIFICATION
            ==================================================== */
 
         showLoginLoader(
@@ -19888,64 +20499,150 @@ sessionStorage.setItem(
         );
 
 
-        let accessAllowed = true;
+        let accessAllowed =
+            true;
 
 
         if (
-            typeof checkSubscriptionAccess === "function"
+            typeof checkSubscriptionAccess ===
+            "function"
         ) {
 
+            let subscriptionVerified =
+                false;
+
+
             try {
+
+                /*
+                 * FIRST ATTEMPT
+                 */
 
                 accessAllowed =
                     await withTimeout(
 
-                        checkSubscriptionAccess(),
+                        Promise.resolve(
+                            checkSubscriptionAccess()
+                        ),
 
-                        10000,
+                        12000,
 
                         "Subscription verification timed out."
 
                     );
 
-            } catch (subscriptionError) {
+
+                subscriptionVerified =
+                    true;
+
+            }
+
+            catch (subscriptionError) {
 
                 console.warn(
-                    "Subscription verification failed:",
+                    "⚠️ First subscription check failed:",
                     subscriptionError
                 );
 
 
                 /*
-                 * Do not crash the entire login because
-                 * subscription checking had a temporary
-                 * network problem.
+                 * SECOND ATTEMPT
+                 *
+                 * This is important for temporary
+                 * Firebase/network delays.
                  */
 
-                accessAllowed = false;
+                try {
+
+                    showLoginLoader(
+                        "Rechecking your subscription..."
+                    );
+
+
+                    await new Promise(
+                        resolve =>
+                            setTimeout(
+                                resolve,
+                                500
+                            )
+                    );
+
+
+                    accessAllowed =
+                        await withTimeout(
+
+                            Promise.resolve(
+                                checkSubscriptionAccess()
+                            ),
+
+                            12000,
+
+                            "Subscription verification timed out."
+
+                        );
+
+
+                    subscriptionVerified =
+                        true;
+
+                }
+
+                catch (secondSubscriptionError) {
+
+                    console.error(
+                        "❌ Subscription verification unavailable:",
+                        secondSubscriptionError
+                    );
+
+
+                    /*
+                     * IMPORTANT SECURITY RULE:
+                     *
+                     * We do NOT convert a timeout/network
+                     * problem into SUBSCRIPTION_RESTRICTED.
+                     *
+                     * Restricted means the subscription
+                     * was actually checked and returned false.
+                     */
+
+                    throw new Error(
+                        "SUBSCRIPTION_CHECK_FAILED"
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * ONLY AN EXPLICIT FALSE RESULT
+             * MEANS SUBSCRIPTION IS RESTRICTED.
+             */
+
+            if (
+                subscriptionVerified &&
+                accessAllowed === false
+            ) {
+
+                throw new Error(
+                    "SUBSCRIPTION_RESTRICTED"
+                );
 
             }
 
         }
 
 
-        if (!accessAllowed) {
-
-            throw new Error(
-                "SUBSCRIPTION_RESTRICTED"
-            );
-
-        }
-
-
         /* ====================================================
            🚀 EVERYTHING VERIFIED
-           ----------------------------------------------------
-           Only now do we open the application.
            ==================================================== */
 
         hideLoginLoader();
 
+
+        /* ====================================================
+           🔐 HIDE AUTH SECTION
+           ==================================================== */
 
         const authSection =
             document.getElementById(
@@ -19972,6 +20669,7 @@ sessionStorage.setItem(
             app.style.display =
                 "block";
 
+
             app.style.opacity =
                 "0";
 
@@ -19980,6 +20678,7 @@ sessionStorage.setItem(
 
                 app.style.transition =
                     "opacity .25s ease";
+
 
                 app.style.opacity =
                     "1";
@@ -19990,7 +20689,7 @@ sessionStorage.setItem(
 
 
         /* ====================================================
-           🏫 UPDATE SCHOOL NAME ONCE
+           🏫 SCHOOL NAME DISPLAY
            ==================================================== */
 
         const schoolDisplay =
@@ -20013,12 +20712,17 @@ sessionStorage.setItem(
 
         await Swal.fire({
 
-            icon: "success",
+            icon:
+                "success",
 
-            title: "Welcome to RASM 360",
+            title:
+                "Welcome to RASM 360",
 
             html: `
-                <div style="text-align:center">
+
+                <div style="
+                    text-align:center;
+                ">
 
                     <div style="
                         font-size:42px;
@@ -20032,7 +20736,9 @@ sessionStorage.setItem(
                         font-weight:700;
                         color:#2563eb;
                     ">
-                        ${schoolName}
+                        ${escapeHTMLSafe(
+                            schoolName
+                        )}
                     </div>
 
                     <p style="
@@ -20044,6 +20750,7 @@ sessionStorage.setItem(
                     </p>
 
                 </div>
+
             `,
 
             confirmButtonText:
@@ -20070,7 +20777,20 @@ sessionStorage.setItem(
             "function"
         ) {
 
-            startSubscriptionWatcher();
+            try {
+
+                startSubscriptionWatcher();
+
+            }
+
+            catch (error) {
+
+                console.warn(
+                    "Subscription watcher failed to start:",
+                    error
+                );
+
+            }
 
         }
 
@@ -20080,7 +20800,20 @@ sessionStorage.setItem(
             "function"
         ) {
 
-            startSubscriptionUI();
+            try {
+
+                startSubscriptionUI();
+
+            }
+
+            catch (error) {
+
+                console.warn(
+                    "Subscription UI failed to start:",
+                    error
+                );
+
+            }
 
         }
 
@@ -20090,12 +20823,27 @@ sessionStorage.setItem(
             "function"
         ) {
 
-            loadAll();
+            try {
+
+                loadAll();
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Application loading error:",
+                    error
+                );
+
+            }
 
         }
 
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
             "❌ RASM 360 LOGIN ERROR:",
@@ -20107,31 +20855,47 @@ sessionStorage.setItem(
 
 
         /* ====================================================
-           🔐 FIREBASE ERROR MAPPING
+           🔐 ERROR VARIABLES
            ==================================================== */
 
         let title =
             "Login Failed";
 
+
         let message =
             "We could not sign you in.";
+
 
         let icon =
             "error";
 
 
-        switch (error?.code) {
+        const errorMessage =
+            String(
+                error?.message ||
+                ""
+            );
 
 
-            /* ----------------------------------------------
-               INVALID LOGIN
-               ---------------------------------------------- */
+        const errorCode =
+            error?.code ||
+            "";
+
+
+        /* ====================================================
+           FIREBASE AUTH ERRORS
+           ==================================================== */
+
+        switch (errorCode) {
+
 
             case "auth/invalid-login-credentials":
 
             case "auth/wrong-password":
 
             case "auth/user-not-found":
+
+            case "auth/invalid-credential":
 
                 title =
                     "Invalid Login";
@@ -20144,10 +20908,6 @@ sessionStorage.setItem(
 
                 break;
 
-
-            /* ----------------------------------------------
-               INVALID EMAIL
-               ---------------------------------------------- */
 
             case "auth/invalid-email":
 
@@ -20163,27 +20923,19 @@ sessionStorage.setItem(
                 break;
 
 
-            /* ----------------------------------------------
-               OFFLINE / NETWORK
-               ---------------------------------------------- */
-
             case "auth/network-request-failed":
 
                 title =
-                    "No Internet Connection";
+                    "Connection Problem";
 
                 message =
-                    "RASM 360 could not connect to the server. Please check your internet connection and try again.";
+                    "RASM 360 could not connect to Firebase. Please check your internet connection and try again.";
 
                 icon =
                     "warning";
 
                 break;
 
-
-            /* ----------------------------------------------
-               TOO MANY ATTEMPTS
-               ---------------------------------------------- */
 
             case "auth/too-many-requests":
 
@@ -20199,10 +20951,6 @@ sessionStorage.setItem(
                 break;
 
 
-            /* ----------------------------------------------
-               DISABLED ACCOUNT
-               ---------------------------------------------- */
-
             case "auth/user-disabled":
 
                 title =
@@ -20214,13 +20962,14 @@ sessionStorage.setItem(
                 break;
 
 
-            /* ----------------------------------------------
-               CUSTOM APPLICATION ERRORS
-               ---------------------------------------------- */
+            default:
 
-            case undefined:
+                /* ==========================================
+                   CUSTOM APPLICATION ERRORS
+                   ========================================== */
 
-                switch (error?.message) {
+                switch (errorMessage) {
+
 
                     case "USER_PROFILE_NOT_FOUND":
 
@@ -20229,6 +20978,9 @@ sessionStorage.setItem(
 
                         message =
                             "Your login was successful, but your RASM 360 user profile could not be found. Please contact your school administrator.";
+
+                        icon =
+                            "warning";
 
                         break;
 
@@ -20241,6 +20993,9 @@ sessionStorage.setItem(
                         message =
                             "This account has not been assigned to a school.";
 
+                        icon =
+                            "warning";
+
                         break;
 
 
@@ -20251,6 +21006,9 @@ sessionStorage.setItem(
 
                         message =
                             "The school linked to this account could not be found.";
+
+                        icon =
+                            "warning";
 
                         break;
 
@@ -20263,6 +21021,9 @@ sessionStorage.setItem(
                         message =
                             "This account is not authorized to access this school.";
 
+                        icon =
+                            "error";
+
                         break;
 
 
@@ -20273,6 +21034,9 @@ sessionStorage.setItem(
 
                         message =
                             "This school account is no longer available.";
+
+                        icon =
+                            "warning";
 
                         break;
 
@@ -20285,6 +21049,9 @@ sessionStorage.setItem(
                         message =
                             "This school account is currently locked.";
 
+                        icon =
+                            "warning";
+
                         break;
 
 
@@ -20295,6 +21062,9 @@ sessionStorage.setItem(
 
                         message =
                             "This school account is currently inactive.";
+
+                        icon =
+                            "warning";
 
                         break;
 
@@ -20313,10 +21083,27 @@ sessionStorage.setItem(
                         break;
 
 
+                    case "SUBSCRIPTION_CHECK_FAILED":
+
+                    case "SCHOOL_CONNECTION_FAILED":
+
+                        title =
+                            "Connection Problem";
+
+                        message =
+                            "We could not verify your school or subscription because the server connection was temporarily unavailable. Your account was not blocked. Please try again.";
+
+                        icon =
+                            "warning";
+
+                        break;
+
+
                     default:
 
                         if (
-                            error?.message?.toLowerCase()
+                            errorMessage
+                                .toLowerCase()
                                 .includes("timeout")
                         ) {
 
@@ -20324,54 +21111,37 @@ sessionStorage.setItem(
                                 "Connection Timeout";
 
                             message =
-                                "The connection took too long. Please check your internet connection and try again.";
+                                "The server took too long to respond. Please check your internet connection and try again.";
 
                             icon =
                                 "warning";
 
-                        } else {
+                        }
+
+                        else if (
+                            !navigator.onLine
+                        ) {
+
+                            title =
+                                "No Internet Connection";
 
                             message =
+                                "Your device appears to be offline. Please reconnect to the internet and try again.";
+
+                            icon =
+                                "warning";
+
+                        }
+
+                        else {
+
+                            message =
+                                errorMessage ||
                                 "Something went wrong while signing you in. Please try again.";
 
                         }
 
-                }
-
-                break;
-
-
-            default:
-
-                if (
-                    !navigator.onLine
-                ) {
-
-                    title =
-                        "No Internet Connection";
-
-                    message =
-                        "Your device appears to be offline. Please reconnect to the internet and try again.";
-
-                    icon =
-                        "warning";
-
-                }
-
-                else if (
-                    error?.message
-                        ?.toLowerCase()
-                        ?.includes("timeout")
-                ) {
-
-                    title =
-                        "Connection Timeout";
-
-                    message =
-                        "The server took too long to respond. Please check your internet connection and try again.";
-
-                    icon =
-                        "warning";
+                        break;
 
                 }
 
@@ -20380,13 +21150,18 @@ sessionStorage.setItem(
         }
 
 
-        Swal.fire({
+        /* ====================================================
+           SHOW ERROR
+           ==================================================== */
+
+        await Swal.fire({
 
             icon,
 
             title,
 
-            text: message,
+            text:
+                message,
 
             confirmButtonText:
                 "OK",
@@ -20409,12 +21184,15 @@ sessionStorage.setItem(
 
         });
 
+    }
 
-    } finally {
+    finally {
 
         hideLoginLoader();
 
-        setLoginLoading(false);
+        setLoginLoading(
+            false
+        );
 
         window.__loggingIn =
             false;
@@ -20435,7 +21213,9 @@ if (
 ) {
 
     const style =
-        document.createElement("style");
+        document.createElement(
+            "style"
+        );
 
 
     style.id =
@@ -20443,10 +21223,6 @@ if (
 
 
     style.textContent = `
-
-        /* ============================
-           LOGIN BUTTON LOADING
-           ============================ */
 
         .login-btn-loading {
 
@@ -20460,10 +21236,6 @@ if (
 
         }
 
-
-        /* ============================
-           SPINNER
-           ============================ */
 
         .spinner {
 
@@ -20487,15 +21259,14 @@ if (
         @keyframes rasmSpin {
 
             to {
-                transform:rotate(360deg);
+
+                transform:
+                    rotate(360deg);
+
             }
 
         }
 
-
-        /* ============================
-           LOGIN OVERLAY
-           ============================ */
 
         #modernLoginLoader {
 
@@ -20512,19 +21283,16 @@ if (
             background:
                 rgba(15,23,42,.48);
 
-          
-
             -webkit-backdrop-filter:
+                blur(4px);
+
+            backdrop-filter:
                 blur(4px);
 
             z-index:999999;
 
         }
 
-
-        /* ============================
-           LOADER BOX
-           ============================ */
 
         .modern-loader-box {
 
@@ -20550,10 +21318,6 @@ if (
 
         }
 
-
-        /* ============================
-           DOTS
-           ============================ */
 
         .modern-dots {
 
@@ -20583,14 +21347,16 @@ if (
 
         .modern-dots span:nth-child(2) {
 
-            animation-delay:.15s;
+            animation-delay:
+                .15s;
 
         }
 
 
         .modern-dots span:nth-child(3) {
 
-            animation-delay:.30s;
+            animation-delay:
+                .30s;
 
         }
 
@@ -20599,26 +21365,26 @@ if (
 
             from {
 
-                transform:translateY(0);
+                transform:
+                    translateY(0);
 
-                opacity:.45;
+                opacity:
+                    .45;
 
             }
 
             to {
 
-                transform:translateY(-9px);
+                transform:
+                    translateY(-9px);
 
-                opacity:1;
+                opacity:
+                    1;
 
             }
 
         }
 
-
-        /* ============================
-           LOADER TEXT
-           ============================ */
 
         .modern-loader-text {
 
@@ -20641,6 +21407,10 @@ if (
 
 }
 
+
+console.log(
+    "🚀 RASM 360 Production Login Engine Activated"
+);
 
 
 /* =========================================================
@@ -27699,231 +28469,316 @@ window.triggerFeeAction = function (feeId, action) {
 
 
 /* ============================================================
-   💰 LOAD FEES
-============================================================ */
+   💰 RASM TECH 360 — HIGH-PERFORMANCE FEE TABLE
+   ============================================================
+   🚀 TRUE SCROLL-BASED LAZY LOADING
+   🚀 NEVER RENDERS ALL LEARNERS AT ONCE
+   🚀 NO LOADER ROW INSIDE <tbody>
+   🚀 Headers remain stable
+   🚀 O(1) learner lookup using Map
+   🚀 Loads 50 learners at a time
+   🚀 Loads next batch only when user scrolls
+   🚀 Preserves fee actions
+   🚀 Preserves Refund + Restore
+   🚀 Preserves payment history
+   🚀 Grade filtering
+   🚀 Year filtering
+   🚀 Safe for large schools
+   ============================================================ */
+
+
+window.__feesLoading = false;
+window.__feesRenderToken = 0;
+window.__feesScrollHandler = null;
+window.__feesRecords = [];
+window.__feesRendered = 0;
+window.__feesBatchSize = 50;
+window.__feesFinished = false;
+window.__feesFooterAdded = false;
+
+window.feeActionData =
+    window.feeActionData || {};
+
+
+/* ============================================================
+   🔐 SAFE HTML
+   ============================================================ */
+
+function feeSafeHTML(value) {
+
+    if (
+        typeof escapeHTMLSafe === "function"
+    ) {
+
+        return escapeHTMLSafe(
+            String(value ?? "")
+        );
+
+    }
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+}
+
+
+/* ============================================================
+   💰 SUM FEE
+   ============================================================ */
+
+function feeSum(list) {
+
+    if (!Array.isArray(list)) {
+
+        return Number(list) || 0;
+
+    }
+
+    let total = 0;
+
+    for (
+        let i = 0;
+        i < list.length;
+        i++
+    ) {
+
+        total +=
+            Number(
+                list[i]?.amount
+            ) || 0;
+
+    }
+
+    return total;
+
+}
+
+
+/* ============================================================
+   💰 TOTAL ALL FEES
+   ============================================================ */
+
+function feeTotalAll(feesObj) {
+
+    if (
+        !feesObj ||
+        typeof feesObj !== "object"
+    ) {
+
+        return 0;
+
+    }
+
+    let total = 0;
+
+    for (
+        const type in feesObj
+    ) {
+
+        if (
+            Object.prototype.hasOwnProperty.call(
+                feesObj,
+                type
+            )
+        ) {
+
+            total +=
+                feeSum(
+                    feesObj[type]
+                );
+
+        }
+
+    }
+
+    return total;
+
+}
+
+
+/* ============================================================
+   🧹 REMOVE OLD SCROLL LISTENER
+   ============================================================ */
+
+function removeFeeScrollListener() {
+
+    const container =
+        document.getElementById(
+            "feesTableScrollContainer"
+        );
+
+    if (
+        container &&
+        window.__feesScrollHandler
+    ) {
+
+        container.removeEventListener(
+            "scroll",
+            window.__feesScrollHandler
+        );
+
+    }
+
+    window.__feesScrollHandler =
+        null;
+
+}
+
+
+/* ============================================================
+   🚀 MAIN FEE LOADER
+   ============================================================ */
 
 window.loadFees = async function () {
 
-    if (window.__feesLoading) {
+    /* ========================================================
+       PREVENT DUPLICATE LOADS
+       ======================================================== */
+
+    if (
+        window.__feesLoading
+    ) {
+
+        console.log(
+            "⏳ Fee loading already in progress."
+        );
+
         return;
+
     }
 
-    window.__feesLoading = true;
+    window.__feesLoading =
+        true;
 
-    const startedAt =
+
+    /* ========================================================
+       NEW RENDER TOKEN
+       ======================================================== */
+
+    const renderToken =
+        ++window.__feesRenderToken;
+
+
+    const started =
         performance.now();
+
 
     try {
 
         /* ====================================================
            1. FILTERS
-        ==================================================== */
-
-        const yearElement =
-            document.getElementById(
-                "filterFeeYear"
-            );
-
-        const gradeElement =
-            document.getElementById(
-                "filterFeeGrade"
-            );
+           ==================================================== */
 
         const selectedYear =
-            yearElement?.value ||
+            document.getElementById(
+                "filterFeeYear"
+            )?.value ||
             new Date()
                 .getFullYear()
                 .toString();
 
+
         const selectedGrade =
-            gradeElement?.value ||
+            document.getElementById(
+                "filterFeeGrade"
+            )?.value ||
             "";
 
 
         /* ====================================================
            2. TABLE
-        ==================================================== */
+           ==================================================== */
 
         const table =
             document.getElementById(
                 "feesTable"
             );
 
+
         if (!table) {
+
             console.warn(
                 "⚠️ feesTable not found."
             );
+
             return;
+
         }
 
+
         const thead =
-            table.querySelector("thead");
+            table.querySelector(
+                "thead"
+            );
+
 
         const tbody =
-            table.querySelector("tbody");
+            table.querySelector(
+                "tbody"
+            );
 
-        if (!thead || !tbody) {
+
+        if (
+            !thead ||
+            !tbody
+        ) {
+
             console.warn(
                 "⚠️ Fees table structure not found."
             );
+
             return;
+
         }
 
 
         /* ====================================================
-           3. LIGHTWEIGHT LOADING
-        ==================================================== */
+           3. REMOVE OLD SCROLL SYSTEM
+           ==================================================== */
 
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="20"
-                    style="
-                        padding:45px;
-                        text-align:center;
-                        color:#64748b;
-                    "
-                >
-
-                    <div style="
-                        display:flex;
-                        justify-content:center;
-                        align-items:center;
-                        gap:10px;
-                        font-weight:600;
-                    ">
-
-                        <span style="
-                            width:18px;
-                            height:18px;
-                            border:2px solid #cbd5e1;
-                            border-top-color:#2563eb;
-                            border-radius:50%;
-                            animation:rasmFeeSpin .7s linear infinite;
-                        "></span>
-
-                        Loading fee records...
-
-                    </div>
-
-                </td>
-
-            </tr>
-
-        `;
+        removeFeeScrollListener();
 
 
         /* ====================================================
-           4. SPINNER STYLE
-        ==================================================== */
+           4. RESET STATE
+           ==================================================== */
 
-        if (
-            !document.getElementById(
-                "rasmFeeSpinStyle"
-            )
-        ) {
+        window.__feesRecords =
+            [];
 
-            const style =
-                document.createElement("style");
+        window.__feesRendered =
+            0;
 
-            style.id =
-                "rasmFeeSpinStyle";
+        window.__feesFinished =
+            false;
 
-            style.textContent = `
+        window.__feesFooterAdded =
+            false;
 
-                @keyframes rasmFeeSpin {
-
-                    from {
-                        transform:rotate(0deg);
-                    }
-
-                    to {
-                        transform:rotate(360deg);
-                    }
-
-                }
-
-                .rasm-fee-actions {
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    gap:6px;
-                    flex-wrap:wrap;
-                    min-width:260px;
-                }
-
-                .rasm-fee-action-btn {
-                    border:none;
-                    padding:7px 9px;
-                    border-radius:7px;
-                    cursor:pointer;
-                    font-size:12px;
-                    font-weight:600;
-                    display:inline-flex;
-                    align-items:center;
-                    gap:4px;
-                    transition:
-                        transform .15s ease,
-                        opacity .15s ease,
-                        box-shadow .15s ease;
-                    white-space:nowrap;
-                }
-
-                .rasm-fee-action-btn:hover {
-                    transform:translateY(-1px);
-                    opacity:.9;
-                    box-shadow:
-                        0 3px 10px rgba(0,0,0,.12);
-                }
-
-                .rasm-fee-edit {
-                    background:#dbeafe;
-                    color:#1d4ed8;
-                }
-
-                .rasm-fee-receipt {
-                    background:#dcfce7;
-                    color:#15803d;
-                }
-
-                .rasm-fee-sms {
-                    background:#fef3c7;
-                    color:#b45309;
-                }
-
-                .rasm-fee-refund {
-                    background:#f3e8ff;
-                    color:#7e22ce;
-                }
-
-                .rasm-fee-delete {
-                    background:#fee2e2;
-                    color:#b91c1c;
-                }
-
-                .rasm-fee-restore {
-                    background:#dcfce7;
-                    color:#166534;
-                }
-
-                .rasm-fee-history {
-                    background:#e0f2fe;
-                    color:#0369a1;
-                }
-
-            `;
-
-            document.head.appendChild(style);
-        }
+        window.feeActionData =
+            {};
 
 
         /* ====================================================
-           5. FIREBASE READ
+           5. CLEAN TABLE BODY
            
-           ONLY CURRENT SCHOOL + YEAR
-        ==================================================== */
+           IMPORTANT:
+           NO LOADING <tr>.
+           This keeps the table header connected directly
+           to the actual fee data.
+           ==================================================== */
+
+        tbody.innerHTML =
+            "";
+
+
+        /* ====================================================
+           6. FETCH SELECTED YEAR
+           ==================================================== */
 
         const snapshot =
             await get(
@@ -27932,6 +28787,21 @@ window.loadFees = async function () {
                 )
             );
 
+
+        /* ====================================================
+           CANCEL IF FILTER CHANGED
+           ==================================================== */
+
+        if (
+            renderToken !==
+            window.__feesRenderToken
+        ) {
+
+            return;
+
+        }
+
+
         const data =
             snapshot.exists()
                 ? snapshot.val()
@@ -27939,18 +28809,12 @@ window.loadFees = async function () {
 
 
         /* ====================================================
-           6. ACTION CACHE
-        ==================================================== */
-
-        window.feeActionData = {};
-
-
-        /* ====================================================
-           7. LEARNER MAP
-        ==================================================== */
+           7. BUILD O(1) LEARNER MAP
+           ==================================================== */
 
         const studentMap =
             new Map();
+
 
         if (
             Array.isArray(
@@ -27968,7 +28832,9 @@ window.loadFees = async function () {
                 ) {
 
                     studentMap.set(
-                        String(student.id),
+                        String(
+                            student.id
+                        ),
                         student
                     );
 
@@ -27980,11 +28846,12 @@ window.loadFees = async function () {
 
 
         /* ====================================================
-           8. FEE TYPES
-        ==================================================== */
+           8. COLLECT FEE TYPES
+           ==================================================== */
 
         const feeTypesSet =
             new Set();
+
 
         for (
             const feeId in data
@@ -27996,25 +28863,22 @@ window.loadFees = async function () {
                     feeId
                 )
             ) {
+
                 continue;
+
             }
+
 
             const fee =
                 data[feeId];
 
-            if (!fee) {
-                continue;
-            }
+
+            if (!fee) continue;
+
 
             const feesObj =
-                fee.fees;
+                fee.fees || {};
 
-            if (
-                !feesObj ||
-                typeof feesObj !== "object"
-            ) {
-                continue;
-            }
 
             for (
                 const type in feesObj
@@ -28027,13 +28891,16 @@ window.loadFees = async function () {
                     )
                 ) {
 
-                    feeTypesSet.add(type);
+                    feeTypesSet.add(
+                        type
+                    );
 
                 }
 
             }
 
         }
+
 
         const feeTypes =
             Array.from(
@@ -28043,7 +28910,10 @@ window.loadFees = async function () {
 
         /* ====================================================
            9. HEADER
-        ==================================================== */
+           
+           HEADER IS RENDERED ONCE.
+           IT WILL NEVER BE REPLACED BY A LOADER.
+           ==================================================== */
 
         thead.innerHTML = `
 
@@ -28058,9 +28928,11 @@ window.loadFees = async function () {
                 ${feeTypes
                     .map(
                         type => `
+
                             <th>
-                                ${escapeHTMLSafe(type)}
+                                ${feeSafeHTML(type)}
                             </th>
+
                         `
                     )
                     .join("")
@@ -28082,99 +28954,10 @@ window.loadFees = async function () {
 
 
         /* ====================================================
-           10. TOTALS
-        ==================================================== */
+           10. PREPARE LIGHTWEIGHT RECORD REFERENCES
+           ==================================================== */
 
-        const categoryTotals = {};
-
-        for (
-            const type
-            of feeTypes
-        ) {
-
-            categoryTotals[type] =
-                0;
-
-        }
-
-
-        /* ====================================================
-           11. HELPERS
-        ==================================================== */
-
-        const sumFee =
-            list => {
-
-                if (
-                    !Array.isArray(list)
-                ) {
-
-                    return Number(list) || 0;
-
-                }
-
-                let total = 0;
-
-                for (
-                    let i = 0;
-                    i < list.length;
-                    i++
-                ) {
-
-                    total +=
-                        Number(
-                            list[i]?.amount
-                        ) || 0;
-
-                }
-
-                return total;
-            };
-
-
-        const totalAllFees =
-            feesObj => {
-
-                if (
-                    !feesObj ||
-                    typeof feesObj !== "object"
-                ) {
-                    return 0;
-                }
-
-                let total = 0;
-
-                for (
-                    const type in feesObj
-                ) {
-
-                    if (
-                        Object.prototype.hasOwnProperty.call(
-                            feesObj,
-                            type
-                        )
-                    ) {
-
-                        total +=
-                            sumFee(
-                                feesObj[type]
-                            );
-
-                    }
-
-                }
-
-                return total;
-            };
-
-
-        /* ====================================================
-           12. BUILD ROWS
-        ==================================================== */
-
-        const rows = [];
-
-        let count = 0;
+        const records = [];
 
 
         for (
@@ -28187,20 +28970,22 @@ window.loadFees = async function () {
                     feeId
                 )
             ) {
+
                 continue;
+
             }
+
 
             const fee =
                 data[feeId];
 
-            if (!fee) {
-                continue;
-            }
+
+            if (!fee) continue;
 
 
-            /* =================================================
+            /* ================================================
                GRADE FILTER
-            ================================================= */
+               ================================================ */
 
             if (
                 selectedGrade &&
@@ -28211,401 +28996,33 @@ window.loadFees = async function () {
                     selectedGrade
                 )
             ) {
+
                 continue;
-            }
-
-
-            count++;
-
-
-            /* =================================================
-               FEE OBJECT
-            ================================================= */
-
-            const feesObj =
-                fee.fees || {};
-
-
-            /* =================================================
-               ACTION DATA
-            ================================================= */
-
-            window.feeActionData[feeId] = {
-
-                ...fee,
-
-                _feeId:
-                    feeId,
-
-                _year:
-                    selectedYear
-
-            };
-
-
-            /* =================================================
-               CATEGORY TOTALS
-            ================================================= */
-
-            for (
-                const type
-                of feeTypes
-            ) {
-
-                categoryTotals[type] +=
-                    sumFee(
-                        feesObj[type]
-                    );
 
             }
 
 
-            /* =================================================
-               LEARNER
-            ================================================= */
+            records.push({
 
-            const student =
-                studentMap.get(
-                    String(
-                        fee.studentId
-                    )
-                );
+                feeId,
 
-            const studentName =
-                student?.name ||
-                fee.studentName ||
-                "-";
+                fee
 
-            const parentPhone =
-                student?.parentPhone ||
-                fee.parentPhone ||
-                "";
-
-            const displayName =
-                parentPhone
-
-                    ? `${escapeHTMLSafe(
-                        studentName
-                    )} / ${escapeHTMLSafe(
-                        parentPhone
-                    )}`
-
-                    : escapeHTMLSafe(
-                        studentName
-                    );
-
-
-            /* =================================================
-               STATUS
-            ================================================= */
-
-            const balance =
-                Number(
-                    fee.balance
-                ) || 0;
-
-            const totalPaid =
-                Number(
-                    fee.totalPaid
-                ) || 0;
-
-            let status =
-                "OWING";
-
-            if (
-                balance <= 0
-            ) {
-
-                status =
-                    "PAID";
-
-            } else if (
-                totalPaid > 0
-            ) {
-
-                status =
-                    "PARTIAL";
-
-            }
-
-
-            const statusClass =
-                status === "PAID"
-
-                    ? "status-paid"
-
-                    : status === "PARTIAL"
-
-                        ? "status-partial"
-
-                        : "status-owing";
-
-
-            /* =================================================
-               SAFE IDS
-            ================================================= */
-
-            const safeFeeId =
-                escapeHTMLSafe(
-                    feeId
-                );
-
-
-            /* =================================================
-               HISTORY DATA
-            ================================================= */
-
-            const historyData =
-                JSON.stringify(
-                    fee
-                )
-                .replace(
-                    /'/g,
-                    "&#39;"
-                );
-
-
-            /* =================================================
-               ACTION BUTTONS
-               
-               🔥 THESE ARE NOW VISIBLE
-            ================================================= */
-
-            const actionButtons = `
-
-                <div class="rasm-fee-actions">
-
-                    <button
-                        type="button"
-                        class="rasm-fee-action-btn rasm-fee-edit"
-                        title="Edit Fee Record"
-                        onclick="triggerFeeAction('${safeFeeId}','edit')"
-                    >
-                        ✏️ Edit
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rasm-fee-action-btn rasm-fee-receipt"
-                        title="Generate Receipt"
-                        onclick="triggerFeeAction('${safeFeeId}','receipt')"
-                    >
-                        🧾 Receipt
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rasm-fee-action-btn rasm-fee-sms"
-                        title="Send SMS"
-                        onclick="triggerFeeAction('${safeFeeId}','sms')"
-                    >
-                        📩 SMS
-                    </button>
-
-                    <button
-                        type="button"
-                        class="rasm-fee-action-btn rasm-fee-refund"
-                        title="Process Refund"
-                        onclick="triggerFeeAction('${safeFeeId}','refund')"
-                    >
-                        💸 Refund
-                    </button>
-<button
-    type="button"
-    class="action-btn restore"
-    onclick="restoreLearnerFee('${selectedYear}', '${feeId}')">
-
-    ♻️ Restore
-
-</button>
-                    <button
-                        type="button"
-                        class="rasm-fee-action-btn rasm-fee-delete"
-                        title="Delete Fee Record"
-                        onclick="triggerFeeAction('${safeFeeId}','delete')"
-                    >
-                        🗑️ Delete
-                    </button>
-
-                </div>
-
-            `;
-
-
-            /* =================================================
-               HISTORY BUTTON
-            ================================================= */
-
-            const historyButton = `
-
-                <button
-                    type="button"
-                    class="rasm-fee-action-btn rasm-fee-history"
-                    title="Payment History"
-                    onclick='openFeeHistory(${historyData})'
-                >
-                    📜 History
-                </button>
-
-            `;
-
-
-            /* =================================================
-               RESTORE BUTTON
-               
-               Only display if this record is marked deleted.
-            ================================================= */
-
-            const restoreButton =
-                fee.deleted === true
-
-                    ? `
-
-                        <button
-                            type="button"
-                            class="
-                                rasm-fee-action-btn
-                                rasm-fee-restore
-                            "
-                            title="Restore Fee Record"
-                            onclick="
-                                restoreLearnerFee(
-                                    '${escapeHTMLSafe(selectedYear)}',
-                                    '${safeFeeId}'
-                                )
-                            "
-                        >
-                            ♻️ Restore
-                        </button>
-
-                    `
-
-                    : "";
-
-
-            /* =================================================
-               ROW
-            ================================================= */
-
-            rows.push(`
-
-                <tr>
-
-                    <td>
-                        ${count}
-                    </td>
-
-
-                    <td>
-
-                        <div style="
-                            font-weight:600;
-                        ">
-
-                            ${displayName}
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        ${escapeHTMLSafe(
-                            fee.grade || "-"
-                        )}
-
-                    </td>
-
-
-                    ${feeTypes
-                        .map(
-                            type => `
-
-                                <td>
-
-                                    ${sumFee(
-                                        feesObj[type]
-                                    ).toLocaleString()}
-
-                                </td>
-
-                            `
-                        )
-                        .join("")
-                    }
-
-
-                    <td style="
-                        font-weight:700;
-                    ">
-
-                        ${totalAllFees(
-                            feesObj
-                        ).toLocaleString()}
-
-                    </td>
-
-
-                    <td style="
-                        font-weight:600;
-                    ">
-
-                        ${balance.toLocaleString()}
-
-                    </td>
-
-
-                    <td
-                        class="${statusClass}"
-                    >
-
-                        ${status}
-
-                    </td>
-
-
-                    <!-- HISTORY -->
-
-                    <td>
-
-                        <div style="
-                            display:flex;
-                            gap:5px;
-                            justify-content:center;
-                            flex-wrap:wrap;
-                        ">
-
-                            ${historyButton}
-
-                            ${restoreButton}
-
-                        </div>
-
-                    </td>
-
-
-                    <!-- ACTIONS -->
-
-                    <td>
-
-                        ${actionButtons}
-
-                    </td>
-
-                </tr>
-
-            `);
+            });
 
         }
 
 
+        window.__feesRecords =
+            records;
+
+
         /* ====================================================
-           13. EMPTY STATE
-        ==================================================== */
+           11. EMPTY STATE
+           ==================================================== */
 
         if (
-            count === 0
+            records.length === 0
         ) {
 
             tbody.innerHTML = `
@@ -28642,72 +29059,685 @@ window.loadFees = async function () {
 
             `;
 
+
             return;
+
         }
 
 
         /* ====================================================
-           14. FOOTER
-        ==================================================== */
+           12. TOTALS
+           
+           Calculated once from the lightweight records.
+           Does NOT require rendering every row.
+           ==================================================== */
 
-        let footerRow = `
-
-            <tr
-                style="
-                    font-weight:bold;
-                    background:#f3f4f6;
-                "
-            >
-
-                <td colspan="3">
-                    TOTAL
-                </td>
-
-        `;
+        const categoryTotals =
+            {};
 
 
         for (
-            const type
-            of feeTypes
+            const type of feeTypes
         ) {
 
-            footerRow += `
-
-                <td>
-
-                    ${(
-                        categoryTotals[type] || 0
-                    ).toLocaleString()}
-
-                </td>
-
-            `;
+            categoryTotals[type] =
+                0;
 
         }
 
 
-        footerRow += `
+        for (
+            const record of records
+        ) {
 
-                <td colspan="5">
-                </td>
+            const feesObj =
+                record.fee?.fees || {};
 
-            </tr>
 
-        `;
+            for (
+                const type of feeTypes
+            ) {
+
+                categoryTotals[type] +=
+                    feeSum(
+                        feesObj[type]
+                    );
+
+            }
+
+        }
 
 
         /* ====================================================
-           🚀 ONE DOM UPDATE
-        ==================================================== */
+           13. CREATE ONE ROW
+           ==================================================== */
 
-        tbody.innerHTML =
-            rows.join("") +
-            footerRow;
+        const createRow =
+            (
+                record,
+                rowNumber
+            ) => {
+
+                const feeId =
+                    record.feeId;
+
+
+                const fee =
+                    record.fee;
+
+
+                const feesObj =
+                    fee.fees || {};
+
+
+                /* ============================================
+                   ACTION CACHE
+                   ============================================ */
+
+                window.feeActionData[
+                    feeId
+                ] = {
+
+                    ...fee,
+
+                    _feeId:
+                        feeId,
+
+                    _year:
+                        selectedYear
+
+                };
+
+
+                /* ============================================
+                   LEARNER LOOKUP
+                   ============================================ */
+
+                const student =
+                    studentMap.get(
+                        String(
+                            fee.studentId
+                        )
+                    );
+
+
+                const studentName =
+                    student?.name ||
+                    fee.studentName ||
+                    "-";
+
+
+                const parentPhone =
+                    student?.parentPhone ||
+                    fee.parentPhone ||
+                    "";
+
+
+                const displayName =
+                    parentPhone
+
+                        ? `${feeSafeHTML(
+                            studentName
+                        )} / ${feeSafeHTML(
+                            parentPhone
+                        )}`
+
+                        : feeSafeHTML(
+                            studentName
+                        );
+
+
+                /* ============================================
+                   STATUS
+                   ============================================ */
+
+                const balance =
+                    Number(
+                        fee.balance
+                    ) || 0;
+
+
+                const totalPaid =
+                    Number(
+                        fee.totalPaid
+                    ) || 0;
+
+
+                let status =
+                    "OWING";
+
+
+                if (
+                    balance <= 0
+                ) {
+
+                    status =
+                        "PAID";
+
+                }
+
+                else if (
+                    totalPaid > 0
+                ) {
+
+                    status =
+                        "PARTIAL";
+
+                }
+
+
+                const statusClass =
+                    status === "PAID"
+
+                        ? "status-paid"
+
+                        : status === "PARTIAL"
+
+                            ? "status-partial"
+
+                            : "status-owing";
+
+
+                const safeFeeId =
+                    feeSafeHTML(
+                        feeId
+                    );
+
+
+                /* ============================================
+                   ROW
+                   ============================================ */
+
+                return `
+
+                    <tr
+                        data-fee-id="${safeFeeId}"
+                    >
+
+                        <td>
+                            ${rowNumber}
+                        </td>
+
+
+                        <td>
+
+                            <div style="
+                                font-weight:600;
+                            ">
+
+                                ${displayName}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${feeSafeHTML(
+                                fee.grade || "-"
+                            )}
+
+                        </td>
+
+
+                        ${feeTypes
+                            .map(
+                                type => `
+
+                                    <td>
+
+                                        ${feeSum(
+                                            feesObj[type]
+                                        ).toLocaleString()}
+
+                                    </td>
+
+                                `
+                            )
+                            .join("")
+                        }
+
+
+                        <td style="
+                            font-weight:700;
+                        ">
+
+                            ${feeTotalAll(
+                                feesObj
+                            ).toLocaleString()}
+
+                        </td>
+
+
+                        <td style="
+                            font-weight:600;
+                        ">
+
+                            ${balance.toLocaleString()}
+
+                        </td>
+
+
+                        <td
+                            class="${statusClass}"
+                        >
+
+                            ${status}
+
+                        </td>
+
+
+                        <!-- =================================
+                             HISTORY
+                        ================================== -->
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="action-btn history-btn"
+                                title="Payment History"
+                                data-history-id="${safeFeeId}"
+                                onclick="openFeeHistoryById(this)"
+                            >
+
+                                📜
+
+                            </button>
+
+                        </td>
+
+
+                   <!-- =================================
+     ACTIONS
+================================== -->
+
+<td>
+
+    <div style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+        flex-wrap:wrap;
+    ">
+
+        <select
+            class="fee-action-select"
+            data-fee-id="${safeFeeId}"
+            onchange="handleFeeAction(this)"
+            style="
+                padding:9px 12px;
+                border:2px solid #2563eb;
+                border-radius:9px;
+                background:linear-gradient(135deg,#eff6ff,#ffffff);
+                color:#111827;
+                font-size:13px;
+                font-weight:600;
+                cursor:pointer;
+                min-width:185px;
+                max-width:210px;
+                outline:none;
+                box-shadow:0 2px 7px rgba(37,99,235,.15);
+                transition:all .2s ease;
+            "
+        >
+
+            <option value="">
+                ⚙️ Select Action
+            </option>
+
+            <option value="edit">
+                ✏️ Edit Fee Record
+            </option>
+
+            <option value="receipt">
+                🧾 Generate Receipt
+            </option>
+
+            <option value="sms">
+                📩 Send SMS
+            </option>
+
+            <option value="refund">
+                💸 Process Refund
+            </option>
+
+            <option value="delete">
+                🗑️ Delete Fee Record
+            </option>
+
+        </select>
+
+    </div>
+
+</td>
+
+                    </tr>
+
+                `;
+
+            };
 
 
         /* ====================================================
-           15. CACHE
-        ==================================================== */
+           14. RENDER NEXT BATCH
+           ==================================================== */
+
+        const renderNextFeeBatch =
+            async function () {
+
+                if (
+                    window.__feesFinished
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    renderToken !==
+                    window.__feesRenderToken
+                ) {
+
+                    return;
+
+                }
+
+
+                const start =
+                    window.__feesRendered;
+
+
+                const end =
+                    Math.min(
+
+                        start +
+                        window.__feesBatchSize,
+
+                        records.length
+
+                    );
+
+
+                if (
+                    start >= end
+                ) {
+
+                    window.__feesFinished =
+                        true;
+
+                    return;
+
+                }
+
+
+                const html =
+                    [];
+
+
+                for (
+                    let i = start;
+                    i < end;
+                    i++
+                ) {
+
+                    html.push(
+                        createRow(
+                            records[i],
+                            i + 1
+                        )
+                    );
+
+                }
+
+
+                /* ==========================================
+                   ONE DOM INSERT
+                   ========================================== */
+
+                tbody.insertAdjacentHTML(
+                    "beforeend",
+                    html.join("")
+                );
+
+
+                window.__feesRendered =
+                    end;
+
+
+                /* ==========================================
+                   CHECK IF COMPLETE
+                   ========================================== */
+
+                if (
+                    end >= records.length
+                ) {
+
+                    window.__feesFinished =
+                        true;
+
+
+                    addFeeTotalsFooter(
+                        tbody,
+                        feeTypes,
+                        categoryTotals
+                    );
+
+                }
+
+
+                /*
+                 * Give browser time to paint before another
+                 * scroll-triggered batch.
+                 */
+
+                await new Promise(
+                    resolve =>
+                        requestAnimationFrame(
+                            resolve
+                        )
+                );
+
+            };
+
+
+        /* ====================================================
+           15. INITIAL BATCH
+           
+           ONLY 50 LEARNERS ENTER THE DOM.
+           ==================================================== */
+
+        await renderNextFeeBatch();
+
+
+        /* ====================================================
+           16. FIND SCROLL CONTAINER
+           ====================================================
+           
+           If your table is already inside a scrolling wrapper
+           with id "feesTableScrollContainer", it will use it.
+
+           Otherwise it falls back to the nearest scrollable
+           parent.
+           ==================================================== */
+
+        let scrollContainer =
+            document.getElementById(
+                "feesTableScrollContainer"
+            );
+
+
+        if (!scrollContainer) {
+
+            scrollContainer =
+                table.closest(
+                    ".table-responsive"
+                );
+
+        }
+
+
+        if (!scrollContainer) {
+
+            scrollContainer =
+                table.parentElement;
+
+        }
+
+
+        /* ====================================================
+           17. SCROLL-BASED LOADING
+           
+           Load another 50 only when user approaches bottom.
+           ==================================================== */
+
+        window.__feesScrollHandler =
+            async function () {
+
+                if (
+                    window.__feesFinished ||
+                    window.__feesLoadingMore
+                ) {
+
+                    return;
+
+                }
+
+
+                const container =
+                    scrollContainer;
+
+
+                if (!container) {
+
+                    return;
+
+                }
+
+
+                const distanceFromBottom =
+                    container.scrollHeight -
+                    (
+                        container.scrollTop +
+                        container.clientHeight
+                    );
+
+
+                /*
+                 * Start loading before the user actually
+                 * reaches the bottom.
+                 *
+                 * This makes scrolling feel continuous.
+                 */
+
+                if (
+                    distanceFromBottom <= 500
+                ) {
+
+                    window.__feesLoadingMore =
+                        true;
+
+
+                    try {
+
+                        await renderNextFeeBatch();
+
+                    }
+
+                    finally {
+
+                        window.__feesLoadingMore =
+                            false;
+
+                    }
+
+                }
+
+            };
+
+
+        scrollContainer.addEventListener(
+            "scroll",
+            window.__feesScrollHandler,
+            {
+                passive:true
+            }
+        );
+
+
+        /* ====================================================
+           18. SUPPORT WINDOW SCROLLING
+           
+           If there is no dedicated table scroll wrapper,
+           detect normal page scrolling as well.
+           ==================================================== */
+
+        if (
+            scrollContainer ===
+            table.parentElement
+        ) {
+
+            window.__feesWindowScrollHandler =
+                async function () {
+
+                    if (
+                        window.__feesFinished ||
+                        window.__feesLoadingMore
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const rect =
+                        table.getBoundingClientRect();
+
+
+                    if (
+                        rect.bottom <=
+                        window.innerHeight + 500
+                    ) {
+
+                        window.__feesLoadingMore =
+                            true;
+
+
+                        try {
+
+                            await renderNextFeeBatch();
+
+                        }
+
+                        finally {
+
+                            window.__feesLoadingMore =
+                                false;
+
+                        }
+
+                    }
+
+                };
+
+
+            window.addEventListener(
+                "scroll",
+                window.__feesWindowScrollHandler,
+                {
+                    passive:true
+                }
+            );
+
+        }
+
+
+        /* ====================================================
+           19. CACHE SUMMARY
+           ==================================================== */
 
         window.__feesLoadedData = {
 
@@ -28717,7 +29747,11 @@ window.loadFees = async function () {
             grade:
                 selectedGrade,
 
-            count,
+            count:
+                records.length,
+
+            rendered:
+                window.__feesRendered,
 
             feeTypes,
 
@@ -28730,29 +29764,44 @@ window.loadFees = async function () {
 
 
         /* ====================================================
-           16. PERFORMANCE
-        ==================================================== */
+           20. PERFORMANCE LOG
+           ==================================================== */
 
         const elapsed =
             Math.round(
                 performance.now() -
-                startedAt
+                started
             );
 
+
         console.log(
-            "✅ RASM 360 Fees loaded",
+            "✅ RASM TECH 360 Fee Register ready",
             {
-                year: selectedYear,
+
+                year:
+                    selectedYear,
+
                 grade:
-                    selectedGrade || "ALL",
-                records: count,
+                    selectedGrade ||
+                    "ALL",
+
+                totalRecords:
+                    records.length,
+
+                initiallyRendered:
+                    window.__feesRendered,
+
+                batchSize:
+                    window.__feesBatchSize,
+
                 elapsed:
                     `${elapsed}ms`
+
             }
         );
 
-
     }
+
 
     catch (error) {
 
@@ -28766,6 +29815,7 @@ window.loadFees = async function () {
             document.querySelector(
                 "#feesTable tbody"
             );
+
 
         if (tbody) {
 
@@ -28793,12 +29843,10 @@ window.loadFees = async function () {
                         </h3>
 
                         <p>
-                            ${
-                                escapeHTMLSafe(
-                                    error?.message ||
-                                    "Please try again."
-                                )
-                            }
+                            ${feeSafeHTML(
+                                error?.message ||
+                                "Failed to load fee records."
+                            )}
                         </p>
 
                     </td>
@@ -28806,6 +29854,30 @@ window.loadFees = async function () {
                 </tr>
 
             `;
+
+        }
+
+
+        if (
+            typeof Swal !== "undefined"
+        ) {
+
+            Swal.fire({
+
+                icon:
+                    "error",
+
+                title:
+                    "Unable to Load Fees",
+
+                text:
+                    error?.message ||
+                    "Failed to load fee records.",
+
+                confirmButtonColor:
+                    "#2563eb"
+
+            });
 
         }
 
@@ -28819,6 +29891,163 @@ window.loadFees = async function () {
     }
 
 };
+
+
+/* ============================================================
+   💰 ADD TOTALS FOOTER
+   ============================================================ */
+
+function addFeeTotalsFooter(
+    tbody,
+    feeTypes,
+    categoryTotals
+) {
+
+    if (
+        window.__feesFooterAdded
+    ) {
+
+        return;
+
+    }
+
+
+    window.__feesFooterAdded =
+        true;
+
+
+    let footerRow = `
+
+        <tr
+            class="rasm-fee-total-row"
+            style="
+                font-weight:bold;
+                background:#f3f4f6;
+            "
+        >
+
+            <td colspan="3">
+                TOTAL
+            </td>
+
+    `;
+
+
+    for (
+        const type of feeTypes
+    ) {
+
+        footerRow += `
+
+            <td>
+
+                ${
+                    (
+                        categoryTotals[type] ||
+                        0
+                    ).toLocaleString()
+                }
+
+            </td>
+
+        `;
+
+    }
+
+
+    footerRow += `
+
+            <td colspan="5"></td>
+
+        </tr>
+
+    `;
+
+
+    tbody.insertAdjacentHTML(
+        "beforeend",
+        footerRow
+    );
+
+}
+
+
+/* ============================================================
+   📜 HISTORY — LOAD BY ID
+   ============================================================ */
+
+window.openFeeHistoryById =
+    function (button) {
+
+        const feeId =
+            button?.dataset?.historyId;
+
+
+        if (!feeId) {
+
+            console.warn(
+                "⚠️ Fee history ID missing."
+            );
+
+            return;
+
+        }
+
+
+        const fee =
+            window.feeActionData?.[feeId];
+
+
+        if (!fee) {
+
+            console.warn(
+                "⚠️ Fee record no longer available:",
+                feeId
+            );
+
+
+            if (
+                typeof Swal !== "undefined"
+            ) {
+
+                Swal.fire({
+
+                    icon:
+                        "warning",
+
+                    title:
+                        "Fee Record Unavailable",
+
+                    text:
+                        "Please reload the fee register and try again.",
+
+                    confirmButtonColor:
+                        "#2563eb"
+
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        if (
+            typeof window.openFeeHistory ===
+            "function"
+        ) {
+
+            window.openFeeHistory(
+                fee
+            );
+
+        }
+
+    };
+
+
+
 /* =========================================================
 ⚙️ HANDLE FEE ACTION
 ========================================================= */
@@ -33099,130 +34328,111 @@ window.deleteLearnerFee = async function (
 
 };
 
-
 /* ============================================================
-   ♻️ RESTORE SINGLE DELETED FEE
+   ♻️ RESTORE SINGLE DELETED FEE — FAST + SAFE
    ============================================================ */
 
-window.restoreLearnerFee = async function (
-    year,
-    feeId
-) {
+window.restoreLearnerFee = async function (year, feeId) {
+
+    // Prevent accidental double-clicks
+    if (window.__restoringFee) return;
+
+    window.__restoringFee = true;
 
     try {
 
-        const deletedRef =
-            schoolRef(
-                `deletedFees/${year}/${feeId}`
-            );
+        /* =====================================================
+           1. GET DELETED RECORD
+           ===================================================== */
 
+        const deletedRef = schoolRef(
+            `deletedFees/${year}/${feeId}`
+        );
 
-        const snap =
-            await get(
-                deletedRef
-            );
+        const snap = await get(deletedRef);
 
+        if (!snap.exists()) {
 
-        if (
-            !snap.exists()
-        ) {
+            window.__restoringFee = false;
 
             return Swal.fire({
-
-                icon:
-                    "warning",
-
-                title:
-                    "Record Not Found",
-
-                text:
-                    "This deleted fee record no longer exists."
-
+                icon: "warning",
+                title: "Record Not Found",
+                text: "This deleted fee record no longer exists.",
+                confirmButtonColor: "#2563eb"
             });
 
         }
 
-
-        const deletedFee =
-            snap.val();
-
+        const deletedFee = snap.val() || {};
 
         const studentName =
-            deletedFee.studentName ||
-            "Learner";
+            deletedFee.studentName || "Learner";
 
 
-        const confirmRestore =
-            await Swal.fire({
+        /* =====================================================
+           2. CONFIRM
+           ===================================================== */
 
-                title:
-                    "Restore Fee Record?",
+        const confirmRestore = await Swal.fire({
 
-                html: `
+            title: "Restore Fee Record?",
 
-                    Restore the fee record for
+            html: `
+                Restore the fee record for
+                <br>
+                <b>${escapeHTMLSafe(studentName)}</b>
 
-                    <br>
+                <br><br>
 
-                    <b>
-                        ${escapeHTMLSafe(
-                            studentName
-                        )}
-                    </b>
+                The record will return to the
+                active fee records.
+            `,
 
-                    <br><br>
+            icon: "question",
 
-                    The record will return to
-                    the active fee records.
+            showCancelButton: true,
 
-                `,
+            confirmButtonColor: "#16a34a",
+            cancelButtonColor: "#64748b",
 
-                icon:
-                    "question",
+            confirmButtonText: "♻️ Restore",
+            cancelButtonText: "Cancel",
 
-                showCancelButton:
-                    true,
+            reverseButtons: true,
 
-                confirmButtonColor:
-                    "#16a34a",
+            focusConfirm: true,
 
-                cancelButtonColor:
-                    "#64748b",
+            allowOutsideClick: false,
 
-                confirmButtonText:
-                    "♻️ Restore",
+            allowEscapeKey: true
 
-                cancelButtonText:
-                    "Cancel"
-
-            });
+        });
 
 
-        if (
-            !confirmRestore.isConfirmed
-        ) {
+        if (!confirmRestore.isConfirmed) {
+
+            window.__restoringFee = false;
 
             return;
 
         }
 
 
-        openSweetLoader(
-            "Restoring fee record..."
-        );
+        /* =====================================================
+           3. SHOW LOADER IMMEDIATELY
+           ===================================================== */
+
+        openSweetLoader("Restoring fee record...");
 
 
-        /*
-         * Remove recycle-bin metadata before
-         * returning the original record.
-         */
+        /* =====================================================
+           4. REMOVE RECYCLE-BIN METADATA
+           ===================================================== */
 
         const restoredFee = {
-
             ...deletedFee
-
         };
-
 
         delete restoredFee.originalFeeId;
         delete restoredFee.originalYear;
@@ -33230,82 +34440,97 @@ window.restoreLearnerFee = async function (
         delete restoredFee.deletedBy;
 
 
-        const updates = {};
+        /* =====================================================
+           5. ATOMIC FIREBASE UPDATE
+           ===================================================== */
 
+        const updates = {
 
-        updates[
-            `fees/${year}/${feeId}`
-        ] =
-            restoredFee;
+            [`fees/${year}/${feeId}`]:
+                restoredFee,
 
+            [`deletedFees/${year}/${feeId}`]:
+                null
 
-        updates[
-            `deletedFees/${year}/${feeId}`
-        ] =
-            null;
+        };
 
-
-        /*
-         * ATOMIC RESTORE
-         */
 
         await update(
-
             schoolRef(""),
-
             updates
-
         );
 
+
+        /* =====================================================
+           6. CLOSE LOADER
+           ===================================================== */
 
         closeSweetLoader();
 
 
-        /*
-         * Refresh only necessary UI.
-         */
+        /* =====================================================
+           7. UNLOCK BUTTON IMMEDIATELY
+           ===================================================== */
 
-        requestAnimationFrame(
-            () => {
+        window.__restoringFee = false;
 
-                try {
 
-                    loadFees?.();
-
-                    loadFinanceSummary?.();
-
-                }
-                catch (_) {}
-
-            }
-        );
-
+        /* =====================================================
+           8. SUCCESS MESSAGE
+           ===================================================== */
 
         Swal.fire({
 
-            icon:
-                "success",
+            icon: "success",
 
-            title:
-                "Fee Restored ♻️",
+            title: "Fee Restored ♻️",
 
             html: `
-
-                <b>
-                    ${escapeHTMLSafe(
-                        studentName
-                    )}
-                </b>
-
+                <b>${escapeHTMLSafe(studentName)}</b>
                 has been restored successfully.
-
             `,
 
-            timer:
-                1800,
+            timer: 1600,
 
-            showConfirmButton:
-                false
+            showConfirmButton: false,
+
+            toast: true,
+
+            position: "top-end"
+
+        });
+
+
+        /* =====================================================
+           9. REFRESH UI WITHOUT BLOCKING THE BUTTON
+           ===================================================== */
+
+        requestAnimationFrame(() => {
+
+            setTimeout(() => {
+
+                try {
+
+                    if (typeof loadFees === "function") {
+                        loadFees();
+                    }
+
+                    if (
+                        typeof loadFinanceSummary === "function"
+                    ) {
+                        loadFinanceSummary();
+                    }
+
+                } catch (uiError) {
+
+                    console.warn(
+                        "Fee UI refresh warning:",
+                        uiError
+                    );
+
+                }
+
+            }, 0);
 
         });
 
@@ -33318,36 +34543,55 @@ window.restoreLearnerFee = async function (
             error
         );
 
-
         closeSweetLoader();
 
+        window.__restoringFee = false;
 
         Swal.fire({
 
-            icon:
-                "error",
+            icon: "error",
 
-            title:
-                "Restore Failed",
+            title: "Restore Failed",
 
             text:
                 error?.message ||
-                "Unable to restore fee record."
+                "Unable to restore fee record.",
+
+            confirmButtonColor: "#dc2626"
 
         });
+
+    }
+
+    finally {
+
+        // Absolute safety unlock
+        setTimeout(() => {
+            window.__restoringFee = false;
+        }, 300);
 
     }
 
 };
 
 
+
 /* ============================================================
-   ♻️ RESTORE ALL DELETED FEES FOR A YEAR
+   ♻️ RESTORE ALL DELETED FEES — HIGH SPEED
    ============================================================ */
 
 window.restoreAllLearnerFees = async function () {
 
+    // Prevent double-click / multiple Firebase requests
+    if (window.__restoringAllFees) return;
+
+    window.__restoringAllFees = true;
+
     try {
+
+        /* =====================================================
+           1. GET YEAR
+           ===================================================== */
 
         const year =
             document.getElementById(
@@ -33357,46 +34601,51 @@ window.restoreAllLearnerFees = async function () {
 
         if (!year) {
 
+            window.__restoringAllFees = false;
+
             return Swal.fire({
 
-                icon:
-                    "warning",
+                icon: "warning",
 
-                title:
-                    "Select Year",
+                title: "Select Year",
 
                 text:
-                    "Please select the academic year first."
+                    "Please select the academic year first.",
+
+                confirmButtonColor: "#2563eb"
 
             });
 
         }
 
 
-        const snap =
-            await get(
+        /* =====================================================
+           2. FETCH RECYCLE BIN
+           ===================================================== */
 
-                schoolRef(
-                    `deletedFees/${year}`
-                )
+        const snap = await get(
 
-            );
+            schoolRef(
+                `deletedFees/${year}`
+            )
+
+        );
 
 
-        if (
-            !snap.exists()
-        ) {
+        if (!snap.exists()) {
+
+            window.__restoringAllFees = false;
 
             return Swal.fire({
 
-                icon:
-                    "info",
+                icon: "info",
 
-                title:
-                    "Recycle Bin Empty",
+                title: "Recycle Bin Empty",
 
                 text:
-                    `There are no deleted fee records for ${year}.`
+                    `There are no deleted fee records for ${year}.`,
+
+                confirmButtonColor: "#2563eb"
 
             });
 
@@ -33408,9 +34657,33 @@ window.restoreAllLearnerFees = async function () {
 
 
         const feeIds =
-            Object.keys(
-                deletedFees
-            );
+            Object.keys(deletedFees);
+
+
+        if (!feeIds.length) {
+
+            window.__restoringAllFees = false;
+
+            return Swal.fire({
+
+                icon: "info",
+
+                title: "Recycle Bin Empty",
+
+                text:
+                    `There are no deleted fee records for ${year}.`
+
+            });
+
+        }
+
+
+        /* =====================================================
+           3. CONFIRM
+           ===================================================== */
+
+        const count =
+            feeIds.length.toLocaleString();
 
 
         const confirmRestore =
@@ -33423,79 +34696,91 @@ window.restoreAllLearnerFees = async function () {
 
                     This will restore
 
-                    <b>
-                        ${feeIds.length.toLocaleString()}
-                    </b>
+                    <b>${count}</b>
 
                     deleted fee records for
 
                     <b>
-                        ${escapeHTMLSafe(
-                            year
-                        )}
+                        ${escapeHTMLSafe(year)}
                     </b>.
+
+                    <br><br>
+
+                    All records will be restored
+                    in one operation.
 
                 `,
 
-                icon:
-                    "question",
+                icon: "question",
 
-                showCancelButton:
-                    true,
+                showCancelButton: true,
 
-                confirmButtonColor:
-                    "#16a34a",
+                confirmButtonColor: "#16a34a",
 
-                cancelButtonColor:
-                    "#64748b",
+                cancelButtonColor: "#64748b",
 
                 confirmButtonText:
                     "♻️ Restore All",
 
                 cancelButtonText:
-                    "Cancel"
+                    "Cancel",
+
+                reverseButtons: true,
+
+                allowOutsideClick: false,
+
+                focusConfirm: true
 
             });
 
 
-        if (
-            !confirmRestore.isConfirmed
-        ) {
+        if (!confirmRestore.isConfirmed) {
+
+            window.__restoringAllFees = false;
 
             return;
 
         }
 
 
+        /* =====================================================
+           4. SHOW LOADER
+           ===================================================== */
+
         openSweetLoader(
-            `Restoring ${feeIds.length.toLocaleString()} fee records...`
+            `Restoring ${count} fee records...`
         );
 
 
+        /* =====================================================
+           5. BUILD ONE ATOMIC UPDATE
+           ===================================================== */
+
         const updates = {};
 
+        let restoredCount = 0;
 
-        for (
-            const feeId
-            of feeIds
-        ) {
+
+        for (const feeId of feeIds) {
 
             const deletedFee =
-                deletedFees[
-                    feeId
-                ];
+                deletedFees[feeId];
 
 
-            if (!deletedFee)
+            if (
+                !deletedFee ||
+                typeof deletedFee !== "object"
+            ) {
                 continue;
+            }
 
 
             const restoredFee = {
-
                 ...deletedFee
-
             };
 
+
+            /* Remove recycle-bin metadata */
 
             delete restoredFee.originalFeeId;
             delete restoredFee.originalYear;
@@ -33503,26 +34788,52 @@ window.restoreAllLearnerFees = async function () {
             delete restoredFee.deletedBy;
 
 
+            /* Restore active record */
+
             updates[
                 `fees/${year}/${feeId}`
-            ] =
-                restoredFee;
+            ] = restoredFee;
 
+
+            /* Remove recycle-bin record */
 
             updates[
                 `deletedFees/${year}/${feeId}`
-            ] =
-                null;
+            ] = null;
+
+
+            restoredCount++;
 
         }
 
 
-        /*
-         * ONE ATOMIC UPDATE
-         *
-         * Much faster than restoring records
-         * one by one.
-         */
+        /* =====================================================
+           6. NOTHING VALID TO RESTORE
+           ===================================================== */
+
+        if (!restoredCount) {
+
+            closeSweetLoader();
+
+            window.__restoringAllFees = false;
+
+            return Swal.fire({
+
+                icon: "info",
+
+                title: "Nothing to Restore",
+
+                text:
+                    "No valid deleted fee records were found."
+
+            });
+
+        }
+
+
+        /* =====================================================
+           7. SINGLE ATOMIC FIREBASE WRITE
+           ===================================================== */
 
         await update(
 
@@ -33533,48 +34844,82 @@ window.restoreAllLearnerFees = async function () {
         );
 
 
+        /* =====================================================
+           8. CLOSE LOADER
+           ===================================================== */
+
         closeSweetLoader();
 
 
-        requestAnimationFrame(
-            () => {
+        /* =====================================================
+           9. UNLOCK BUTTON
+           ===================================================== */
 
-                try {
+        window.__restoringAllFees = false;
 
-                    loadFees?.();
 
-                    loadFinanceSummary?.();
-
-                }
-                catch (_) {}
-
-            }
-        );
-
+        /* =====================================================
+           10. SUCCESS TOAST
+           ===================================================== */
 
         Swal.fire({
 
-            icon:
-                "success",
+            icon: "success",
 
-            title:
-                "Fees Restored ♻️",
+            title: "Fees Restored ♻️",
 
             html: `
 
                 <b>
-                    ${feeIds.length.toLocaleString()}
+                    ${restoredCount.toLocaleString()}
                 </b>
 
                 fee records restored successfully.
 
             `,
 
-            timer:
-                2200,
+            timer: 1800,
 
-            showConfirmButton:
-                false
+            showConfirmButton: false,
+
+            toast: true,
+
+            position: "top-end"
+
+        });
+
+
+        /* =====================================================
+           11. REFRESH UI ASYNCHRONOUSLY
+           ===================================================== */
+
+        requestAnimationFrame(() => {
+
+            setTimeout(() => {
+
+                try {
+
+                    if (typeof loadFees === "function") {
+                        loadFees();
+                    }
+
+                    if (
+                        typeof loadFinanceSummary ===
+                        "function"
+                    ) {
+                        loadFinanceSummary();
+                    }
+
+                } catch (uiError) {
+
+                    console.warn(
+                        "Fee UI refresh warning:",
+                        uiError
+                    );
+
+                }
+
+            }, 0);
 
         });
 
@@ -33587,28 +34932,35 @@ window.restoreAllLearnerFees = async function () {
             error
         );
 
-
         closeSweetLoader();
 
+        window.__restoringAllFees = false;
 
         Swal.fire({
 
-            icon:
-                "error",
+            icon: "error",
 
-            title:
-                "Restore Failed",
+            title: "Restore Failed",
 
             text:
                 error?.message ||
-                "Unable to restore deleted fee records."
+                "Unable to restore deleted fee records.",
+
+            confirmButtonColor: "#dc2626"
 
         });
 
     }
 
-};
+    finally {
 
+        setTimeout(() => {
+            window.__restoringAllFees = false;
+        }, 300);
+
+    }
+
+};
 
 /* ============================================================
    🗑 DELETE ALL FEE RECORDS
@@ -35930,1237 +37282,1041 @@ document.addEventListener("DOMContentLoaded", () => {
   loadFinanceSummary();
 });
 /* =========================================================
-🧾 BULK RECEIPTS BY GRADE
-📄 4 RECEIPTS PER A4 PAGE
-========================================================= */
+   🧾 BULK RECEIPTS BY GRADE
+   ⚡ FAST + RESPONSIVE + SAFE
+   📄 4 RECEIPTS PER A4 PAGE
+   ========================================================= */
 
 window.generateBulkReceiptsByGrade = async function () {
 
-  try {
+    // Prevent double-clicks / duplicate generation
+    if (window.__generatingBulkReceipts) return;
 
-    // =====================================================
-    // 📅 SELECT YEAR
-    // =====================================================
+    window.__generatingBulkReceipts = true;
 
-    const selectedYear =
-      document.getElementById("filterFeeYear")?.value ||
-      new Date().getFullYear().toString();
+    try {
 
+        /* =====================================================
+           1. GET SELECTED YEAR
+           ===================================================== */
 
-    // =====================================================
-    // 📥 GET FEES
-    // =====================================================
+        const yearElement =
+            document.getElementById("filterFeeYear");
 
-    const feeSnap = await get(
-      schoolRef(`fees/${selectedYear}`)
-    );
+        const selectedYear =
+            yearElement?.value ||
+            String(new Date().getFullYear());
 
 
-    if (!feeSnap.exists()) {
+        /* =====================================================
+           2. SHOW FAST LOADER
+           ===================================================== */
 
-      return Swal.fire(
-        "No Fees",
-        `No fee records found for ${selectedYear}.`,
-        "warning"
-      );
-
-    }
-
-
-    const feesData =
-      feeSnap.val() || {};
-
-
-    // =====================================================
-    // 🎓 GET GRADES
-    // =====================================================
-
-    const grades = [
-      ...new Set(
-
-        Object.values(
-          feesData
-        )
-        .map(
-          fee =>
-            fee.grade
-        )
-        .filter(Boolean)
-
-      )
-    ]
-    .sort();
-
-
-    if (!grades.length) {
-
-      return Swal.fire(
-        "No Grades",
-        "No grades were found in the fee records.",
-        "warning"
-      );
-
-    }
-
-
-    // =====================================================
-    // 🎓 SELECT GRADE
-    // =====================================================
-
-    const gradeOptions =
-      grades
-        .map(
-          grade => `
-
-            <option value="${grade}">
-              ${grade}
-            </option>
-
-          `
-        )
-        .join("");
-
-
-    const result =
-      await Swal.fire({
-
-        title:
-          "🧾 Bulk Receipts",
-
-        html: `
-
-          <div style="
-            text-align:left;
-          ">
-
-            <label
-              style="
-                display:block;
-                font-weight:bold;
-                margin-bottom:6px;
-              "
-            >
-              Select Grade
-            </label>
-
-
-            <select
-              id="bulkReceiptGrade"
-              class="swal2-select"
-              style="
-                width:100%;
-                margin:0;
-              "
-            >
-
-              <option value="">
-                Select Grade
-              </option>
-
-              ${gradeOptions}
-
-            </select>
-
-          </div>
-
-        `,
-
-        showCancelButton:
-          true,
-
-        confirmButtonText:
-          "🧾 Generate Receipts",
-
-        cancelButtonText:
-          "Cancel",
-
-        confirmButtonColor:
-          "#2563eb",
-
-
-        preConfirm: () => {
-
-          const grade =
-            document.getElementById(
-              "bulkReceiptGrade"
-            )?.value;
-
-
-          if (!grade) {
-
-            Swal.showValidationMessage(
-              "Please select a grade."
-            );
-
-            return false;
-
-          }
-
-
-          return grade;
-
-        }
-
-      });
-
-
-    if (
-      !result.isConfirmed
-    ) {
-
-      return;
-
-    }
-
-
-    const selectedGrade =
-      result.value;
-
-
-    // =====================================================
-    // 📋 FILTER LEARNERS
-    // =====================================================
-
-    const selectedFees =
-      Object.entries(
-        feesData
-      )
-      .filter(
-        ([feeId, fee]) => {
-
-          return (
-            fee.grade ===
-            selectedGrade
-          );
-
-        }
-      );
-
-
-    if (!selectedFees.length) {
-
-      return Swal.fire(
-        "No Records",
-        `No fee records found for ${selectedGrade}.`,
-        "warning"
-      );
-
-    }
-
-
-    // =====================================================
-    // 🔤 SORT BY LEARNER NAME
-    // =====================================================
-
-    selectedFees.sort(
-      (
-        [, a],
-        [, b]
-      ) => {
-
-        const nameA =
-          (
-            a.studentName ||
-            ""
-          ).toLowerCase();
-
-
-        const nameB =
-          (
-            b.studentName ||
-            ""
-          ).toLowerCase();
-
-
-        return nameA.localeCompare(
-          nameB
+        openSweetLoader(
+            "Loading fee records..."
         );
 
-      }
-    );
+
+        /* =====================================================
+           3. FETCH FEES
+           ===================================================== */
+
+        const feeSnap = await get(
+            schoolRef(`fees/${selectedYear}`)
+        );
 
 
-    // =====================================================
-    // 🏫 SCHOOL DETAILS
-    // =====================================================
+        if (!feeSnap.exists()) {
 
-    const schoolName =
-      localStorage.getItem(
-        "schoolName"
-      ) ||
-      "SCHOOL MANAGEMENT SYSTEM";
+            closeSweetLoader();
 
+            window.__generatingBulkReceipts = false;
 
-    const motto =
-      localStorage.getItem(
-        "schoolMotto"
-      ) ||
-      "Education for Excellence";
+            return Swal.fire({
 
+                icon: "warning",
 
-    const printDate =
-      new Date().toLocaleString();
+                title: "No Fees",
 
+                text:
+                    `No fee records found for ${selectedYear}.`,
 
-    // =====================================================
-    // 🧾 CREATE RECEIPTS
-    // =====================================================
+                confirmButtonColor: "#2563eb"
 
-    let receiptsHTML = "";
+            });
+
+        }
 
 
-    selectedFees.forEach(
-      (
-        [feeId, fee],
-        index
-      ) => {
+        const feesData =
+            feeSnap.val() || {};
 
 
-        // ===============================================
-        // BASIC DATA
-        // ===============================================
+        /* =====================================================
+           4. GET GRADES EFFICIENTLY
+           ===================================================== */
 
-        const studentName =
-          fee.studentName ||
-          "Unknown Student";
+        const gradeSet = new Set();
 
-
-        const grade =
-          fee.grade ||
-          "N/A";
-
-
-        const year =
-          fee.year ||
-          selectedYear;
-
-
-        const amount =
-          Number(
-            fee.amount
-          ) ||
-
-          Number(
-            fee.paid
-          ) ||
-
-          Number(
-            fee.totalPaid
-          ) ||
-
-          0;
-
-
-        const balance =
-          Number(
-            fee.balance
-          ) || 0;
-
-
-        const status =
-          balance <= 0
-            ? "PAID"
-            : "PENDING";
-
-
-        // ===============================================
-        // RECEIPT ID
-        // ===============================================
-
-        const receiptId =
-          `REC-${year}-${String(
-            index + 1
-          ).padStart(4, "0")}`;
-
-
-        // ===============================================
-        // FEE BREAKDOWN
-        // ===============================================
-
-        const feesObj =
-          fee.fees || {};
-
-
-        const feeEntries =
-          Object.entries(
-            feesObj
-          );
-
-
-        let feeBreakdown = "";
-
-
-        feeEntries.forEach(
-          (
-            [key, val]
-          ) => {
-
-            let total =
-              0;
-
+        Object.values(feesData).forEach(fee => {
 
             if (
-              Array.isArray(val)
+                fee &&
+                fee.grade
             ) {
 
-              total =
-                val.reduce(
-                  (
-                    sum,
-                    item
-                  ) => {
-
-                    return sum +
-                      (
-                        Number(
-                          item?.amount
-                        ) || 0
-                      );
-
-                  },
-                  0
+                gradeSet.add(
+                    String(fee.grade)
                 );
 
             }
 
-            else if (
-              typeof val ===
-              "number"
-            ) {
-
-              total =
-                val;
-
-            }
-
-            else if (
-              val &&
-              typeof val ===
-              "object"
-            ) {
-
-              total =
-                Number(
-                  val.amount
-                ) || 0;
-
-            }
+        });
 
 
-            if (
-              total > 0
-            ) {
-
-              feeBreakdown += `
-
-                <span>
-                  ${key}: KES
-                  ${total.toLocaleString()}
-                </span>
-
-              `;
-
-            }
-
-          }
-        );
+        const grades =
+            Array.from(gradeSet).sort(
+                (a, b) =>
+                    a.localeCompare(
+                        b,
+                        undefined,
+                        {
+                            numeric: true,
+                            sensitivity: "base"
+                        }
+                    )
+            );
 
 
-        if (!feeBreakdown) {
+        if (!grades.length) {
 
-          feeBreakdown = `
-            <span>
-              No breakdown
-            </span>
-          `;
+            closeSweetLoader();
+
+            window.__generatingBulkReceipts = false;
+
+            return Swal.fire({
+
+                icon: "warning",
+
+                title: "No Grades",
+
+                text:
+                    "No grades were found in the fee records.",
+
+                confirmButtonColor: "#2563eb"
+
+            });
 
         }
 
 
-        // ===============================================
-        // RECEIPT
-        // ===============================================
+        /* =====================================================
+           5. CLOSE LOADER BEFORE SHOWING SELECTOR
+           ===================================================== */
 
-        receiptsHTML += `
+        closeSweetLoader();
 
-          <div class="receipt">
 
-            <div class="schoolName">
-              🏫 ${schoolName}
-            </div>
+        /* =====================================================
+           6. BUILD GRADE OPTIONS
+           ===================================================== */
 
+        const gradeOptions =
+            grades.map(grade => `
 
-            <div class="motto">
-              ${motto}
-            </div>
+                <option value="${escapeHTMLSafe(grade)}">
+                    ${escapeHTMLSafe(grade)}
+                </option>
 
+            `).join("");
 
-            <div class="receiptTitle">
-              FEE PAYMENT RECEIPT
-            </div>
 
+        /* =====================================================
+           7. SELECT GRADE
+           ===================================================== */
 
-            <div class="topInfo">
+        const result =
+            await Swal.fire({
 
-              <span>
-                Receipt:
-                <b>${receiptId}</b>
-              </span>
+                title:
+                    "🧾 Bulk Receipts",
 
-              <span>
-                Date:
-                <b>${printDate}</b>
-              </span>
+                html: `
 
-            </div>
+                    <div style="
+                        text-align:left;
+                    ">
 
+                        <label style="
+                            display:block;
+                            font-weight:700;
+                            margin-bottom:8px;
+                        ">
+                            Select Grade
+                        </label>
 
-            <div class="studentInfo">
+                        <select
+                            id="bulkReceiptGrade"
+                            class="swal2-select"
+                            style="
+                                width:100%;
+                                margin:0;
+                            "
+                        >
 
-              <div>
-                <b>Student:</b>
-                ${studentName}
-              </div>
+                            <option value="">
+                                Select Grade
+                            </option>
 
-              <div>
-                <b>Grade:</b>
-                ${grade}
-              </div>
+                            ${gradeOptions}
 
-              <div>
-                <b>Year:</b>
-                ${year}
-              </div>
+                        </select>
 
-            </div>
+                    </div>
 
+                `,
 
-            <div class="line"></div>
+                showCancelButton: true,
 
+                confirmButtonText:
+                    "🧾 Generate Receipts",
 
-            <div class="breakdownTitle">
-              PAYMENT BREAKDOWN
-            </div>
+                cancelButtonText:
+                    "Cancel",
 
+                confirmButtonColor:
+                    "#2563eb",
 
-            <div class="breakdown">
+                reverseButtons: true,
 
-              ${feeBreakdown}
+                focusConfirm: false,
 
-            </div>
+                allowOutsideClick: true,
 
+                preConfirm: () => {
 
-            <div class="line"></div>
+                    const grade =
+                        document.getElementById(
+                            "bulkReceiptGrade"
+                        )?.value;
 
 
-            <div class="paymentSummary">
+                    if (!grade) {
 
-              <div>
-                <b>Total Paid</b>
+                        Swal.showValidationMessage(
+                            "Please select a grade."
+                        );
 
-                <strong>
-                  KES ${amount.toLocaleString()}
-                </strong>
-              </div>
+                        return false;
 
+                    }
 
-              <div>
-                <b>Balance</b>
+                    return grade;
 
-                <strong>
-                  KES ${balance.toLocaleString()}
-                </strong>
-              </div>
+                }
 
+            });
 
-              <div>
-                <b>Status</b>
 
-                <strong
-                  class="${
-                    status === "PAID"
-                      ? "paid"
-                      : "pending"
-                  }"
-                >
-                  ${status}
-                </strong>
-              </div>
+        /* =====================================================
+           8. CANCELLED
+           ===================================================== */
 
-            </div>
+        if (!result.isConfirmed) {
 
+            window.__generatingBulkReceipts = false;
 
-            <div class="footer">
+            return;
 
-              Thank you for your payment.
+        }
 
-            </div>
 
-          </div>
+        const selectedGrade =
+            result.value;
 
-        `;
 
-      }
-    );
+        /* =====================================================
+           9. FILTER ONLY REQUIRED RECORDS
+           ===================================================== */
 
+        const selectedFees = [];
 
-    // =====================================================
-    // 🖨️ OPEN PRINT WINDOW
-    // =====================================================
+        for (
+            const [feeId, fee]
+            of Object.entries(feesData)
+        ) {
 
-    const receiptWindow =
-      window.open(
-        "",
-        "_blank"
-      );
+            if (
+                fee &&
+                String(fee.grade) ===
+                String(selectedGrade)
+            ) {
 
-
-    if (!receiptWindow) {
-
-      return Swal.fire(
-        "Popup Blocked",
-        "Please allow popups to print receipts.",
-        "warning"
-      );
-
-    }
-
-
-    // =====================================================
-    // 📄 PRINT DOCUMENT
-    // =====================================================
-
-    receiptWindow.document.write(`
-
-      <!DOCTYPE html>
-
-      <html>
-
-      <head>
-
-        <title>
-          Bulk Fee Receipts -
-          ${selectedGrade}
-        </title>
-
-
-        <style>
-
-          /* ============================================
-             A4 PAGE
-          ============================================ */
-
-          @page {
-
-            size:
-              A4 portrait;
-
-            margin:
-              8mm;
-
-          }
-
-
-          * {
-
-            box-sizing:
-              border-box;
-
-          }
-
-
-          html,
-          body {
-
-            margin:
-              0;
-
-            padding:
-              0;
-
-            width:
-              100%;
-
-            background:
-              white;
-
-            font-family:
-              Arial,
-              Helvetica,
-              sans-serif;
-
-          }
-
-
-          /* ============================================
-             EACH A4 SHEET
-          ============================================ */
-
-          .a4-page {
-
-            width:
-              194mm;
-
-            height:
-              281mm;
-
-            display:
-              grid;
-
-            grid-template-columns:
-              1fr;
-
-            grid-template-rows:
-              repeat(4, 1fr);
-
-            page-break-after:
-              always;
-
-          }
-
-
-          .a4-page:last-child {
-
-            page-break-after:
-              auto;
-
-          }
-
-
-          /* ============================================
-             RECEIPT
-          ============================================ */
-
-          .receipt {
-
-            width:
-              100%;
-
-            height:
-              100%;
-
-            padding:
-              7mm 8mm;
-
-            border:
-              1px dashed #555;
-
-            display:
-              flex;
-
-            flex-direction:
-              column;
-
-            justify-content:
-              flex-start;
-
-            overflow:
-              hidden;
-
-          }
-
-
-          /* ============================================
-             SCHOOL
-          ============================================ */
-
-          .schoolName {
-
-            text-align:
-              center;
-
-            font-size:
-              15px;
-
-            font-weight:
-              bold;
-
-            margin-bottom:
-              2px;
-
-            white-space:
-              nowrap;
-
-            overflow:
-              hidden;
-
-            text-overflow:
-              ellipsis;
-
-          }
-
-
-          .motto {
-
-            text-align:
-              center;
-
-            font-size:
-              9px;
-
-            margin-bottom:
-              3px;
-
-          }
-
-
-          .receiptTitle {
-
-            text-align:
-              center;
-
-            font-size:
-              10px;
-
-            font-weight:
-              bold;
-
-            margin-bottom:
-              4px;
-
-            text-decoration:
-              underline;
-
-          }
-
-
-          /* ============================================
-             TOP INFORMATION
-          ============================================ */
-
-          .topInfo {
-
-            display:
-              flex;
-
-            justify-content:
-              space-between;
-
-            font-size:
-              8px;
-
-            gap:
-              5px;
-
-          }
-
-
-          .studentInfo {
-
-            margin-top:
-              4px;
-
-            display:
-              grid;
-
-            grid-template-columns:
-              2fr 1fr 1fr;
-
-            gap:
-              5px;
-
-            font-size:
-              9px;
-
-          }
-
-
-          .line {
-
-            border-top:
-              1px solid #333;
-
-            margin:
-              4px 0;
-
-          }
-
-
-          /* ============================================
-             BREAKDOWN
-          ============================================ */
-
-          .breakdownTitle {
-
-            font-size:
-              8px;
-
-            font-weight:
-              bold;
-
-            margin-bottom:
-              2px;
-
-          }
-
-
-          .breakdown {
-
-            display:
-              flex;
-
-            flex-wrap:
-              wrap;
-
-            gap:
-              2px 10px;
-
-            font-size:
-              8px;
-
-            max-height:
-              25px;
-
-            overflow:
-              hidden;
-
-          }
-
-
-          .breakdown span {
-
-            white-space:
-              nowrap;
-
-          }
-
-
-          /* ============================================
-             PAYMENT SUMMARY
-          ============================================ */
-
-          .paymentSummary {
-
-            display:
-              grid;
-
-            grid-template-columns:
-              1fr 1fr 1fr;
-
-            gap:
-              5px;
-
-            font-size:
-              8px;
-
-            margin-top:
-              2px;
-
-          }
-
-
-          .paymentSummary div {
-
-            display:
-              flex;
-
-            flex-direction:
-              column;
-
-          }
-
-
-          .paymentSummary strong {
-
-            font-size:
-              10px;
-
-          }
-
-
-          .paid {
-
-            color:
-              green;
-
-          }
-
-
-          .pending {
-
-            color:
-              red;
-
-          }
-
-
-          /* ============================================
-             FOOTER
-          ============================================ */
-
-          .footer {
-
-            margin-top:
-              auto;
-
-            text-align:
-              center;
-
-            font-size:
-              8px;
-
-            font-weight:
-              bold;
-
-          }
-
-
-          /* ============================================
-             SCREEN
-          ============================================ */
-
-          @media screen {
-
-            body {
-
-              background:
-                #e5e7eb;
-
-              padding:
-                20px;
+                selectedFees.push([
+                    feeId,
+                    fee
+                ]);
 
             }
 
+        }
 
-            .a4-page {
 
-              width:
-                194mm;
+        if (!selectedFees.length) {
 
-              height:
-                281mm;
+            window.__generatingBulkReceipts = false;
 
-              margin:
-                0 auto 20px;
+            return Swal.fire({
 
-              background:
-                white;
+                icon: "warning",
 
-              box-shadow:
-                0 0 10px
-                rgba(0,0,0,.2);
+                title: "No Records",
+
+                text:
+                    `No fee records found for ${selectedGrade}.`
+
+            });
+
+        }
+
+
+        /* =====================================================
+           10. SORT BY LEARNER NAME
+           ===================================================== */
+
+        selectedFees.sort(
+            ([, a], [, b]) => {
+
+                const nameA =
+                    String(
+                        a?.studentName || ""
+                    ).trim();
+
+                const nameB =
+                    String(
+                        b?.studentName || ""
+                    ).trim();
+
+                return nameA.localeCompare(
+                    nameB,
+                    undefined,
+                    {
+                        sensitivity: "base"
+                    }
+                );
 
             }
+        );
 
-          }
+
+        /* =====================================================
+           11. SCHOOL DETAILS
+           ===================================================== */
+
+        const schoolName =
+            localStorage.getItem(
+                "schoolName"
+            ) ||
+            "SCHOOL MANAGEMENT SYSTEM";
 
 
-          /* ============================================
-             PRINT
-          ============================================ */
+        const motto =
+            localStorage.getItem(
+                "schoolMotto"
+            ) ||
+            "Education for Excellence";
 
-          @media print {
 
-            body {
+        const printDate =
+            new Date().toLocaleString();
 
-              background:
-                white;
 
-              padding:
+        /* =====================================================
+           12. SHOW GENERATION PROGRESS
+           ===================================================== */
+
+        openSweetLoader(
+            `Preparing ${selectedFees.length.toLocaleString()} receipts...`
+        );
+
+
+        /* =====================================================
+           13. BUILD RECEIPTS
+           ===================================================== */
+
+        const receiptParts = [];
+
+
+        for (
+            let index = 0;
+            index < selectedFees.length;
+            index++
+        ) {
+
+            const [
+                feeId,
+                fee
+            ] =
+                selectedFees[index];
+
+
+            /* ================================================
+               BASIC DATA
+               ================================================ */
+
+            const studentName =
+                String(
+                    fee?.studentName ||
+                    "Unknown Student"
+                );
+
+
+            const grade =
+                String(
+                    fee?.grade ||
+                    "N/A"
+                );
+
+
+            const year =
+                String(
+                    fee?.year ||
+                    selectedYear
+                );
+
+
+            const amount =
+                Number(fee?.amount) ||
+                Number(fee?.paid) ||
+                Number(fee?.totalPaid) ||
                 0;
 
+
+            const balance =
+                Number(fee?.balance) || 0;
+
+
+            const status =
+                balance <= 0
+                    ? "PAID"
+                    : "PENDING";
+
+
+            /* ================================================
+               RECEIPT ID
+               ================================================ */
+
+            const receiptId =
+                `REC-${year}-${String(
+                    index + 1
+                ).padStart(4, "0")}`;
+
+
+            /* ================================================
+               FEE BREAKDOWN
+               ================================================ */
+
+            const feesObj =
+                fee?.fees || {};
+
+
+            const breakdownParts = [];
+
+
+            for (
+                const [key, val]
+                of Object.entries(feesObj)
+            ) {
+
+                let total = 0;
+
+
+                if (
+                    Array.isArray(val)
+                ) {
+
+                    for (
+                        const item
+                        of val
+                    ) {
+
+                        total +=
+                            Number(
+                                item?.amount
+                            ) || 0;
+
+                    }
+
+                }
+
+                else if (
+                    typeof val === "number"
+                ) {
+
+                    total = val;
+
+                }
+
+                else if (
+                    val &&
+                    typeof val === "object"
+                ) {
+
+                    total =
+                        Number(
+                            val.amount
+                        ) || 0;
+
+                }
+
+
+                if (total > 0) {
+
+                    breakdownParts.push(`
+
+                        <span>
+                            ${escapeHTMLSafe(
+                                key
+                            )}: KES
+                            ${total.toLocaleString()}
+                        </span>
+
+                    `);
+
+                }
+
             }
 
 
-            .a4-page {
+            const feeBreakdown =
+                breakdownParts.length
 
-              margin:
-                0;
+                    ? breakdownParts.join("")
 
-              box-shadow:
-                none;
+                    : `
+                        <span>
+                            No breakdown
+                        </span>
+                    `;
+
+
+            /* ================================================
+               RECEIPT
+               ================================================ */
+
+            receiptParts.push(`
+
+                <div class="receipt">
+
+                    <div class="schoolName">
+                        🏫 ${escapeHTMLSafe(
+                            schoolName
+                        )}
+                    </div>
+
+
+                    <div class="motto">
+                        ${escapeHTMLSafe(
+                            motto
+                        )}
+                    </div>
+
+
+                    <div class="receiptTitle">
+                        FEE PAYMENT RECEIPT
+                    </div>
+
+
+                    <div class="topInfo">
+
+                        <span>
+                            Receipt:
+                            <b>
+                                ${escapeHTMLSafe(
+                                    receiptId
+                                )}
+                            </b>
+                        </span>
+
+                        <span>
+                            Date:
+                            <b>
+                                ${escapeHTMLSafe(
+                                    printDate
+                                )}
+                            </b>
+                        </span>
+
+                    </div>
+
+
+                    <div class="studentInfo">
+
+                        <div>
+                            <b>Student:</b>
+                            ${escapeHTMLSafe(
+                                studentName
+                            )}
+                        </div>
+
+                        <div>
+                            <b>Grade:</b>
+                            ${escapeHTMLSafe(
+                                grade
+                            )}
+                        </div>
+
+                        <div>
+                            <b>Year:</b>
+                            ${escapeHTMLSafe(
+                                year
+                            )}
+                        </div>
+
+                    </div>
+
+
+                    <div class="line"></div>
+
+
+                    <div class="breakdownTitle">
+                        PAYMENT BREAKDOWN
+                    </div>
+
+
+                    <div class="breakdown">
+                        ${feeBreakdown}
+                    </div>
+
+
+                    <div class="line"></div>
+
+
+                    <div class="paymentSummary">
+
+                        <div>
+
+                            <b>Total Paid</b>
+
+                            <strong>
+                                KES
+                                ${amount.toLocaleString()}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>Balance</b>
+
+                            <strong>
+                                KES
+                                ${balance.toLocaleString()}
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <b>Status</b>
+
+                            <strong
+                                class="${
+                                    status === "PAID"
+                                        ? "paid"
+                                        : "pending"
+                                }"
+                            >
+                                ${status}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="footer">
+                        Thank you for your payment.
+                    </div>
+
+                </div>
+
+            `);
+
+
+            /*
+             * Allow the browser to breathe every
+             * 100 receipts instead of freezing
+             * the main thread.
+             */
+
+            if (
+                index > 0 &&
+                index % 100 === 0
+            ) {
+
+                await new Promise(
+                    resolve =>
+                        setTimeout(
+                            resolve,
+                            0
+                        )
+                );
 
             }
 
-          }
-
-        </style>
-
-      </head>
+        }
 
 
-      <body>
+        /* =====================================================
+           14. CREATE FINAL HTML
+           ===================================================== */
+
+        const receiptsHTML =
+            receiptParts.join("");
 
 
-        <div id="printContainer"></div>
+        closeSweetLoader();
 
 
-        <script>
+        /* =====================================================
+           15. OPEN PRINT WINDOW
+           ===================================================== */
 
-          const receipts = [];
-
-          const temp =
-            document.querySelector(
-              "body"
+        const receiptWindow =
+            window.open(
+                "",
+                "_blank"
             );
 
 
-        <\/script>
+        if (!receiptWindow) {
+
+            window.__generatingBulkReceipts = false;
+
+            return Swal.fire({
+
+                icon: "warning",
+
+                title: "Popup Blocked",
+
+                text:
+                    "Please allow popups to print receipts.",
+
+                confirmButtonColor: "#2563eb"
+
+            });
+
+        }
 
 
-      </body>
+        /* =====================================================
+           16. WRITE CONTENT
+           ===================================================== */
 
-      </html>
-
-    `);
-
-
-    // =====================================================
-    // BUILD 4 RECEIPTS PER PAGE
-    // =====================================================
-
-    const printContainer =
-      receiptWindow.document
-        .getElementById(
-          "printContainer"
-        );
+        receiptWindow.document.open();
 
 
-    // We need to move the generated
-    // receipt HTML into groups of 4
+        receiptWindow.document.write(`
 
-    const tempDiv =
-      receiptWindow.document
-        .createElement(
-          "div"
-        );
+            <!DOCTYPE html>
 
+            <html>
 
-    tempDiv.innerHTML =
-      receiptsHTML;
+            <head>
 
+                <meta charset="UTF-8">
 
-    const receiptElements =
-      [...tempDiv.children];
+                <title>
+                    Bulk Fee Receipts -
+                    ${escapeHTMLSafe(selectedGrade)}
+                </title>
 
 
-    for (
-      let i = 0;
-      i < receiptElements.length;
-      i += 4
-    ) {
+                <style>
 
-      const page =
-        receiptWindow.document
-          .createElement(
-            "div"
-          );
+                    @page {
+                        size: A4 portrait;
+                        margin: 8mm;
+                    }
 
 
-      page.className =
-        "a4-page";
+                    * {
+                        box-sizing: border-box;
+                    }
 
 
-      for (
-        let j = i;
-        j < i + 4 &&
-        j < receiptElements.length;
-        j++
-      ) {
+                    body {
+                        margin: 0;
+                        padding: 0;
 
-        page.appendChild(
-          receiptElements[j]
-        );
+                        font-family:
+                            Arial,
+                            Helvetica,
+                            sans-serif;
 
-      }
+                        background: #fff;
+                    }
 
 
-      printContainer.appendChild(
-        page
-      );
+                    .receipt {
+                        width: 100%;
+                        border: 1px solid #222;
+
+                        padding: 10px;
+                        margin-bottom: 8px;
+
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                    }
+
+
+                    /* 4 RECEIPTS PER PAGE */
+
+                    .receipt:nth-child(4n) {
+                        page-break-after: always;
+                        break-after: page;
+                    }
+
+
+                    .schoolName {
+                        text-align: center;
+                        font-size: 16px;
+                        font-weight: 700;
+                    }
+
+
+                    .motto {
+                        text-align: center;
+                        font-size: 11px;
+                        margin-top: 2px;
+                    }
+
+
+                    .receiptTitle {
+                        text-align: center;
+                        font-size: 13px;
+                        font-weight: 700;
+                        margin: 7px 0;
+                    }
+
+
+                    .topInfo {
+                        display: flex;
+                        justify-content: space-between;
+
+                        font-size: 10px;
+                    }
+
+
+                    .studentInfo {
+                        display: grid;
+                        grid-template-columns:
+                            2fr 1fr 1fr;
+
+                        gap: 6px;
+
+                        font-size: 10px;
+
+                        margin-top: 7px;
+                    }
+
+
+                    .line {
+                        border-top: 1px solid #222;
+                        margin: 6px 0;
+                    }
+
+
+                    .breakdownTitle {
+                        font-size: 10px;
+                        font-weight: 700;
+                        margin-bottom: 3px;
+                    }
+
+
+                    .breakdown {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 5px 12px;
+
+                        font-size: 9px;
+                    }
+
+
+                    .paymentSummary {
+                        display: grid;
+                        grid-template-columns:
+                            1fr 1fr 1fr;
+
+                        gap: 8px;
+
+                        font-size: 9px;
+                    }
+
+
+                    .paymentSummary > div {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                    }
+
+
+                    .paid {
+                        color: #15803d;
+                    }
+
+
+                    .pending {
+                        color: #dc2626;
+                    }
+
+
+                    .footer {
+                        text-align: center;
+
+                        font-size: 9px;
+
+                        margin-top: 7px;
+                    }
+
+
+                    @media print {
+
+                        body {
+                            background: #fff;
+                        }
+
+                        .receipt {
+                            box-shadow: none;
+                        }
+
+                    }
+
+                </style>
+
+            </head>
+
+
+            <body>
+
+                ${receiptsHTML}
+
+            </body>
+
+            </html>
+
+        `);
+
+
+        receiptWindow.document.close();
+
+
+        /* =====================================================
+           17. PRINT AFTER PAGE LOAD
+           ===================================================== */
+
+        receiptWindow.onload = function () {
+
+            setTimeout(() => {
+
+                receiptWindow.focus();
+
+                receiptWindow.print();
+
+            }, 250);
+
+        };
+
+
+        /* =====================================================
+           18. SUCCESS MESSAGE
+           ===================================================== */
+
+        window.__generatingBulkReceipts = false;
+
+
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Receipts Ready 🧾",
+
+            html: `
+
+                <b>
+                    ${selectedFees.length.toLocaleString()}
+                </b>
+
+                receipts generated for
+
+                <b>
+                    ${escapeHTMLSafe(
+                        selectedGrade
+                    )}
+                </b>.
+
+            `,
+
+            timer: 1800,
+
+            showConfirmButton: false,
+
+            toast: true,
+
+            position: "top-end"
+
+        });
+
 
     }
 
+    catch (error) {
 
-    // =====================================================
-    // CLOSE DOCUMENT
-    // =====================================================
-
-    receiptWindow.document.close();
-
-
-    // =====================================================
-    // PRINT AFTER LOADING
-    // =====================================================
-
-    receiptWindow.onload =
-      function () {
-
-        setTimeout(
-          () => {
-
-            receiptWindow.focus();
-
-            receiptWindow.print();
-
-          },
-          500
+        console.error(
+            "❌ Bulk receipt generation error:",
+            error
         );
 
-      };
+
+        closeSweetLoader();
 
 
-    // =====================================================
-    // SUCCESS
-    // =====================================================
-
-    Swal.fire({
-
-      icon:
-        "success",
-
-      title:
-        "Receipts Ready",
-
-      html: `
-
-        <b>
-          ${selectedFees.length}
-        </b>
-
-        receipts generated for
-
-        <b>
-          ${selectedGrade}
-        </b>.
-
-        <br><br>
-
-        <b>
-          4 receipts will print on each A4 page.
-        </b>
-
-      `,
-
-      timer:
-        3000,
-
-      showConfirmButton:
-        false
-
-    });
+        window.__generatingBulkReceipts = false;
 
 
-  }
+        Swal.fire({
 
-  catch (error) {
+            icon: "error",
 
-    console.error(
-      "❌ Bulk Receipt Error:",
-      error
-    );
+            title: "Generation Failed",
 
+            text:
+                error?.message ||
+                "Unable to generate bulk receipts.",
 
-    Swal.fire(
-      "Error",
-      error.message ||
-        "Failed to generate bulk receipts.",
-      "error"
-    );
+            confirmButtonColor: "#dc2626"
 
-  }
+        });
 
-};window.loadFeeYears = async function () {
+    }
+
+    finally {
+
+        setTimeout(() => {
+
+            window.__generatingBulkReceipts =
+                false;
+
+        }, 500);
+
+    }
+
+};
+
+   window.loadFeeYears = async function () {
 
   const select =
     document.getElementById("filterFeeYear");
