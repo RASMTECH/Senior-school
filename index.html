@@ -8290,7 +8290,34 @@ style="
     >
       ⬆ Promote
     </button>
-
+<button
+    type="button"
+    onclick="generateSelectedParentMeetingNotices()"
+    style="
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:10px 16px;
+        background:linear-gradient(135deg,#0f766e,#14b8a6);
+        color:white;
+        border:none;
+        border-radius:9px;
+        cursor:pointer;
+        font-weight:700;
+        box-shadow:0 4px 12px rgba(20,184,166,.25);
+        transition:.2s;
+    "
+    onmouseover="
+        this.style.transform='translateY(-2px)';
+        this.style.boxShadow='0 7px 16px rgba(20,184,166,.35)';
+    "
+    onmouseout="
+        this.style.transform='translateY(0)';
+        this.style.boxShadow='0 4px 12px rgba(20,184,166,.25)';
+    "
+>
+    📩 Parents Meeting Notices
+</button>
 
     <!-- DELETE -->
     <button
@@ -9277,18 +9304,24 @@ font-weight:bold;
 
   <hr>
 
-  <!-- ===================================================== -->
-<!-- 💰 FINANCE SUMMARY DASHBOARD -->
-<!-- ===================================================== -->
-
 <div style="
-background:#fff;
-padding:20px;
-border-radius:14px;
-box-shadow:0 8px 25px rgba(0,0,0,.08);
-margin:20px 0;
-">
+    position:relative;
+    overflow:hidden;
 
+    background-image:url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1800&q=80');
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    padding:25px;
+    border-radius:16px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.10);
+
+    margin:20px 0;
+">
 <h2 style="
     display:inline-block;
     margin-top:0;
@@ -9370,19 +9403,18 @@ KES 0
 </div>
 
 <!-- ================= COLLECTION BY LEVEL ================= -->
-
 <h3 style="
     display:inline-block;
     margin-top:30px;
     margin-bottom:15px;
     padding:10px 18px;
-    background:#facc15;
-    color:#111827;
-    border:2px solid #eab308;
+    background:#14b8a6;
+    color:#ffffff;
+    border:2px solid #0d9488;
     border-radius:10px;
     font-size:22px;
     font-weight:800;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    box-shadow:0 4px 12px rgba(20,184,166,.30);
 ">
     🏫 COLLECTION BY SCHOOL LEVEL
 </h3>
@@ -9487,21 +9519,22 @@ Collected Fees
 <!-- ================= PAYMENT METHODS ================= -->
 
 <h3 style="
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
     margin-top:30px;
     margin-bottom:15px;
     padding:10px 18px;
-    background:#facc15;
-    color:#111827;
-    border:2px solid #eab308;
+    background:linear-gradient(135deg,#1e3a8a,#2563eb);
+    color:#ffffff;
+    border:2px solid #1d4ed8;
     border-radius:10px;
     font-size:22px;
     font-weight:800;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    box-shadow:0 4px 12px rgba(37,99,235,.30);
 ">
     💳 COLLECTION BY PAYMENT METHOD
-</h3>
-<div style="
+</h3><div style="
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:18px;
@@ -59420,6 +59453,11 @@ window.__attendancePagination = {
     finished: false
 };
 
+/* ============================================================
+   👥 DAILY ATTENDANCE REGISTER
+   🚀 CENTERED + COMPACT + SCROLL TO LOAD
+   ============================================================ */
+
 window.renderAttendanceTable = function () {
 
     const output =
@@ -59427,11 +59465,20 @@ window.renderAttendanceTable = function () {
 
     if (!output) return;
 
-    // ================= EMPTY =================
-    if (!attendanceCache || attendanceCache.length === 0) {
+
+    /* ========================================================
+       EMPTY STATE
+       ======================================================== */
+
+    if (
+        !attendanceCache ||
+        attendanceCache.length === 0
+    ) {
 
         output.innerHTML = `
             <div style="
+                width:100%;
+                box-sizing:border-box;
                 padding:25px;
                 text-align:center;
                 background:#fff;
@@ -59448,131 +59495,287 @@ window.renderAttendanceTable = function () {
         return;
     }
 
-    // ================= RESET PAGINATION =================
+
+    /* ========================================================
+       RESET PAGINATION
+       ======================================================== */
+
     window.__attendancePagination.page = 0;
     window.__attendancePagination.loading = false;
     window.__attendancePagination.finished = false;
 
-    // ================= TABLE SHELL =================
+
+    /* ========================================================
+       TABLE
+       ======================================================== */
+
     output.innerHTML = `
-    <div id="attendanceTableWrapper" style="
-        overflow:auto;
-        background:#fff;
-        border-radius:14px;
-        box-shadow:0 2px 10px rgba(0,0,0,0.08);
-        margin-top:12px;
-        border:2px solid black;
-        max-height:75vh;
-    ">
 
-        <table style="
-            width:100%;
-            border-collapse:collapse;
-            table-layout:fixed;
-            font-size:13px;
-            min-width:620px;
-            border:2px solid black;
-        ">
+        <div
+            id="attendanceTableWrapper"
+            style="
+                width:max-content;
+                max-width:95vw;
+                margin:15px auto 0 auto;
 
-            <!-- ================= HEADER ================= -->
-            <thead style="
-                position:sticky;
-                top:0;
-                z-index:10;
-            ">
-                <tr style="
-                    background:#1e40af;
-                    color:white;
-                ">
+                overflow:auto;
 
-                    <th style="
-                        padding:8px 4px;
-                        width:35px;
-                        border:1px solid black;
-                    ">
-                        #
-                    </th>
+                background:transparent;
 
-                    <th style="
-                        padding:8px 6px;
-                        width:140px;
-                        max-width:140px;
-                        border:1px solid black;
-                        font-size:12px;
-                    ">
-                        Learner Name
-                    </th>
+                border:none;
+                border-radius:0;
+                box-shadow:none;
 
-                    <th style="
-                        padding:8px 4px;
-                        width:70px;
-                        border:1px solid black;
-                    ">
-                        ADM
-                    </th>
+                max-height:75vh;
 
-                    <th style="
-                        padding:8px 4px;
-                        width:55px;
-                        border:1px solid black;
-                    ">
-                        Grade
-                    </th>
+                box-sizing:border-box;
+            "
+        >
 
-                    <th style="
-                        padding:8px 4px;
-                        width:120px;
-                        border:1px solid black;
-                    ">
-                        Attendance
-                    </th>
+            <table
+                style="
+                    width:565px;
+                    min-width:565px;
+                    max-width:565px;
 
-                </tr>
-            </thead>
+                    border-collapse:collapse;
+                    table-layout:fixed;
 
-            <tbody id="attendanceTableBody"></tbody>
+                    font-size:13px;
 
-        </table>
+                    border:2px solid black;
 
-        <div id="attendanceLoadingIndicator" style="
-            padding:12px;
-            text-align:center;
-            font-size:12px;
-            color:#64748b;
-            display:none;
-        ">
-            Loading more learners...
+                    background:#fff;
+                "
+            >
+
+                <!-- =================================================
+                     FIXED COLUMN WIDTHS
+                ================================================== -->
+
+                <colgroup>
+
+                    <!-- # -->
+                    <col style="width:45px;">
+
+                    <!-- LEARNER NAME -->
+                    <col style="width:190px;">
+
+                    <!-- ADM -->
+                    <col style="width:85px;">
+
+                    <!-- GRADE -->
+                    <col style="width:70px;">
+
+                    <!-- ATTENDANCE -->
+                    <col style="width:175px;">
+
+                </colgroup>
+
+
+                <!-- =================================================
+                     HEADER
+                ================================================== -->
+
+                <thead
+                    style="
+                        position:sticky;
+                        top:0;
+                        z-index:20;
+                    "
+                >
+
+                    <tr
+                        style="
+                            background:#1e40af;
+                            color:white;
+                        "
+                    >
+
+                        <!-- NUMBER -->
+
+                        <th
+                            style="
+                                padding:8px 4px;
+                                width:45px;
+                                border:1px solid black;
+                                text-align:center;
+                                white-space:nowrap;
+                            "
+                        >
+                            #
+                        </th>
+
+
+                        <!-- LEARNER -->
+
+                        <th
+                            style="
+                                padding:8px 7px;
+                                width:190px;
+                                border:1px solid black;
+                                text-align:left;
+                                font-size:12px;
+                                white-space:nowrap;
+                                overflow:hidden;
+                                text-overflow:ellipsis;
+                            "
+                            title="Learner Name"
+                        >
+                            Learner Name
+                        </th>
+
+
+                        <!-- ADM -->
+
+                        <th
+                            style="
+                                padding:8px 4px;
+                                width:85px;
+                                border:1px solid black;
+                                text-align:center;
+                                white-space:nowrap;
+                            "
+                        >
+                            ADM
+                        </th>
+
+
+                        <!-- GRADE -->
+
+                        <th
+                            style="
+                                padding:8px 4px;
+                                width:70px;
+                                border:1px solid black;
+                                text-align:center;
+                                white-space:nowrap;
+                            "
+                        >
+                            Grade
+                        </th>
+
+
+                        <!-- ATTENDANCE -->
+
+                        <th
+                            style="
+                                padding:8px 5px;
+                                width:175px;
+                                border:1px solid black;
+                                text-align:center;
+                                white-space:nowrap;
+                            "
+                        >
+                            Attendance
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <!-- =================================================
+                     DATA
+                ================================================== -->
+
+                <tbody
+                    id="attendanceTableBody"
+                ></tbody>
+
+            </table>
+
+
+            <!-- =================================================
+                 LOAD MORE
+            ================================================== -->
+
+            <div
+                id="attendanceLoadingIndicator"
+                style="
+                    width:100%;
+                    padding:10px;
+
+                    box-sizing:border-box;
+
+                    text-align:center;
+
+                    font-size:12px;
+                    color:#64748b;
+
+                    display:none;
+
+                    background:#fff;
+
+                    border-left:2px solid black;
+                    border-right:2px solid black;
+                    border-bottom:2px solid black;
+                "
+            >
+                Loading more learners...
+            </div>
+
         </div>
 
-    </div>
     `;
 
-    // ================= FIRST BATCH =================
+
+    /* ========================================================
+       FIRST BATCH
+       ======================================================== */
+
     renderNextAttendanceBatch();
 
-    // ================= SCROLL LOAD =================
+
+    /* ========================================================
+       SCROLL LOAD
+       ======================================================== */
+
     const wrapper =
-        document.getElementById("attendanceTableWrapper");
+        document.getElementById(
+            "attendanceTableWrapper"
+        );
 
     if (!wrapper) return;
 
-    wrapper.onscroll = () => {
 
-        const state = window.__attendancePagination;
+    wrapper.onscroll = function () {
 
-        if (state.loading || state.finished) return;
+        const state =
+            window.__attendancePagination;
+
+
+        if (
+            !state ||
+            state.loading ||
+            state.finished
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * Load more when the user gets close
+         * to the bottom of the attendance table.
+         */
 
         const nearBottom =
-            wrapper.scrollTop + wrapper.clientHeight >=
+            wrapper.scrollTop +
+            wrapper.clientHeight >=
             wrapper.scrollHeight - 150;
 
+
         if (nearBottom) {
+
             renderNextAttendanceBatch();
+
         }
+
     };
+
 };
-
-
 // ================= APPEND BATCH =================
 window.renderNextAttendanceBatch = function () {
 
@@ -59876,7 +60079,11 @@ window.saveAttendance = async function () {
         showAttendanceAI();
     }
 };
-// ================= ATTENDANCE REGISTER REPORT (BOYS + GIRLS) =================
+// ============================================================
+// 📊 RASM TECH 360 — ATTENDANCE REGISTER REPORT
+// 👦 BOYS + 👧 GIRLS + 📊 GRADE SUMMARY
+// ============================================================
+
 window.viewAttendanceReport = async function () {
 
     const output =
@@ -59889,9 +60096,37 @@ window.viewAttendanceReport = async function () {
         document.getElementById("attendanceEndDate")?.value;
 
     const selectedGrade =
-        document.getElementById("attendanceGrade")?.value;
+        document.getElementById("attendanceGrade")?.value || "";
+
 
     if (!output) return;
+
+
+    // ========================================================
+    // 🔐 SAFE HTML
+    // ========================================================
+
+    const safeHTML = value => {
+
+        if (typeof feeSafeHTML === "function") {
+
+            return feeSafeHTML(value);
+
+        }
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+
+    };
+
+
+    // ========================================================
+    // 📅 VALIDATE DATES
+    // ========================================================
 
     if (!startDate || !endDate) {
 
@@ -59902,26 +60137,58 @@ window.viewAttendanceReport = async function () {
         );
 
         return;
+
     }
 
+
+    // ========================================================
+    // ⏳ LOADING
+    // ========================================================
+
     output.innerHTML = `
+
         <div style="
-            padding:20px;
+            padding:30px;
             text-align:center;
-            font-weight:bold;
+            font-weight:700;
             color:#2563eb;
+            background:#fff;
+            border:1px solid #dbeafe;
+            border-radius:12px;
+            margin-top:15px;
         ">
+
+            <div style="
+                font-size:30px;
+                margin-bottom:8px;
+            ">
+                📊
+            </div>
+
             Loading attendance register...
+
         </div>
+
     `;
+
 
     try {
 
+        // ====================================================
+        // 🔥 LOAD FIREBASE DATA
+        // ====================================================
+
         const attendanceSnap =
-            await get(schoolRef("attendance"));
+            await get(
+                schoolRef("attendance")
+            );
+
 
         const studentSnap =
-            await get(schoolRef("students"));
+            await get(
+                schoolRef("students")
+            );
+
 
         if (
             !attendanceSnap.exists() ||
@@ -59929,291 +60196,1416 @@ window.viewAttendanceReport = async function () {
         ) {
 
             output.innerHTML = `
+
                 <div style="
-                    padding:20px;
-                    color:red;
+                    padding:30px;
+                    color:#dc2626;
                     font-weight:bold;
+                    text-align:center;
+                    background:#fff;
+                    border:2px solid #dc2626;
+                    border-radius:12px;
                 ">
-                    No attendance data found
+
+                    ⚠️ No attendance data found
+
                 </div>
+
             `;
+
             return;
+
         }
+
+
+        // ====================================================
+        // 📅 DAYS
+        // ====================================================
 
         const weekOrder = [
-            "Monday","Tuesday","Wednesday","Thursday","Friday"
+
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+
         ];
+
 
         const dayNames = [
-            "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"
+
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+
         ];
 
-        const startObj = new Date(startDate);
+
+        const startObj =
+            new Date(startDate);
+
 
         const monthName =
-            startObj.toLocaleString("default",{ month:"long" });
+            startObj.toLocaleString(
+                "default",
+                {
+                    month: "long"
+                }
+            );
+
 
         const weekNumber =
-            Math.ceil(startObj.getDate() / 7);
+            Math.ceil(
+                startObj.getDate() / 7
+            );
 
-        const buildReport = (genderFilter, title, headerColor) => {
 
-            const capturedDays = {};
-            const attendanceMap = {};
-            const students = [];
+        // ====================================================
+        // 📚 BUILD MASTER STUDENT LIST
+        // ====================================================
 
-            // ================= STUDENTS =================
-            studentSnap.forEach(child => {
+        const allStudents = [];
 
-                const s = child.val();
 
-                if (selectedGrade && s.grade !== selectedGrade) return;
+        studentSnap.forEach(
+            child => {
+
+                const s =
+                    child.val() || {};
+
+
+                if (
+                    selectedGrade &&
+                    String(s.grade || "") !==
+                    String(selectedGrade)
+                ) {
+
+                    return;
+
+                }
+
 
                 const gender =
-                    (s.gender || "").trim().toLowerCase();
+                    String(
+                        s.gender || ""
+                    )
+                    .trim()
+                    .toLowerCase();
 
-                if (genderFilter && gender !== gender) return;
 
-                if (genderFilter && gender !== genderFilter) return;
+                allStudents.push({
 
-                students.push({
-                    id: child.key,
-                    name: s.name || "-",
-                    grade: s.grade || "-",
-                    adm: s.adm || "-",
-                    gender: s.gender || "-"
+                    id:
+                        child.key,
+
+                    name:
+                        s.name || "-",
+
+                    grade:
+                        s.grade || "-",
+
+                    adm:
+                        s.adm || "-",
+
+                    gender
+
                 });
-            });
 
-            // ================= ATTENDANCE =================
-            attendanceSnap.forEach(item => {
+            }
+        );
 
-                const data = item.val();
 
-                if (!data.date || !data.records) return;
+        // ====================================================
+        // 📋 MASTER ATTENDANCE MAP
+        // ====================================================
 
-                if (data.date < startDate || data.date > endDate) return;
+        const masterAttendanceMap = {};
 
-                const dateObj = new Date(data.date);
-                const dayName = dayNames[dateObj.getDay()];
+        const capturedDays = {};
 
-                if (!weekOrder.includes(dayName)) return;
 
-                capturedDays[dayName] = true;
+        attendanceSnap.forEach(
+            item => {
 
-                data.records.forEach(r => {
+                const data =
+                    item.val();
 
-                    if (!attendanceMap[r.studentId]) {
-                        attendanceMap[r.studentId] = {};
+
+                if (
+                    !data.date ||
+                    !Array.isArray(data.records)
+                ) {
+
+                    return;
+
+                }
+
+
+                // --------------------------------------------
+                // DATE FILTER
+                // --------------------------------------------
+
+                if (
+                    data.date < startDate ||
+                    data.date > endDate
+                ) {
+
+                    return;
+
+                }
+
+
+                const dateObj =
+                    new Date(data.date);
+
+
+                const dayName =
+                    dayNames[
+                        dateObj.getDay()
+                    ];
+
+
+                if (
+                    !weekOrder.includes(
+                        dayName
+                    )
+                ) {
+
+                    return;
+
+                }
+
+
+                capturedDays[
+                    dayName
+                ] = true;
+
+
+                data.records.forEach(
+                    record => {
+
+                        if (
+                            !record?.studentId
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        if (
+                            !masterAttendanceMap[
+                                record.studentId
+                            ]
+                        ) {
+
+                            masterAttendanceMap[
+                                record.studentId
+                            ] = {};
+
+                        }
+
+
+                        masterAttendanceMap[
+                            record.studentId
+                        ][
+                            dayName
+                        ] =
+                            record.status;
+
                     }
+                );
 
-                    attendanceMap[r.studentId][dayName] = r.status;
-                });
-            });
+            }
+        );
 
-            const orderedDays =
-                weekOrder.filter(d => capturedDays[d]);
 
-            // ================= DAILY TOTALS =================
-            const dailyTotals = {};
+        // ====================================================
+        // 📅 ORDERED DAYS
+        // ====================================================
 
-            orderedDays.forEach(day => {
+        const orderedDays =
+            weekOrder.filter(
+                day =>
+                    capturedDays[day]
+            );
 
-                dailyTotals[day] = {
+
+        // ====================================================
+        // 📊 BUILD GRADE SUMMARY
+        // ALL LEARNERS — BOYS + GIRLS
+        // ====================================================
+
+        const gradeDailyTotals = {};
+
+
+        orderedDays.forEach(
+            day => {
+
+                gradeDailyTotals[day] = {
+
                     morning: 0,
+
                     evening: 0,
+
                     total: 0
+
                 };
 
-                students.forEach(s => {
 
-                    const status = attendanceMap[s.id]?.[day];
+                allStudents.forEach(
+                    student => {
 
-                    if (!status) return;
+                        const status =
+                            masterAttendanceMap[
+                                student.id
+                            ]?.[
+                                day
+                            ];
 
-                    if (status === "Present" || status === "Late") {
-                        dailyTotals[day].morning++;
-                        dailyTotals[day].evening++;
+
+                        if (
+                            status === "Present" ||
+                            status === "Late"
+                        ) {
+
+                            gradeDailyTotals[
+                                day
+                            ].morning++;
+
+
+                            gradeDailyTotals[
+                                day
+                            ].evening++;
+
+                        }
+
                     }
-                });
+                );
 
-                dailyTotals[day].total =
-                    dailyTotals[day].morning +
-                    dailyTotals[day].evening;
-            });
 
-            // ================= TABLE =================
+                gradeDailyTotals[
+                    day
+                ].total =
+
+                    gradeDailyTotals[
+                        day
+                    ].morning +
+
+                    gradeDailyTotals[
+                        day
+                    ].evening;
+
+            }
+        );
+
+
+        // ====================================================
+        // 📊 GRADE SUMMARY FUNCTION
+        // ====================================================
+
+        function renderGradeSummary(
+            gradeDays = [],
+            gradeDailyTotals = {},
+            students = []
+        ) {
+
             let html = `
-<div style="margin-top:20px;border:2px solid black;border-radius:10px;overflow:hidden;">
 
-<div style="background:${headerColor};color:white;padding:10px;font-size:18px;font-weight:bold;">
-    ${title}
-</div>
+                <div style="
+                    margin-top:25px;
+                    border:2px solid #111827;
+                    border-radius:12px;
+                    overflow:hidden;
+                    background:#fff;
+                ">
 
-<div style="padding:10px;font-weight:bold;">
-    Week ${weekNumber} | ${monthName} | Grade: ${selectedGrade || "All"}
-</div>
+                    <div style="
+                        background:#111827;
+                        color:white;
+                        padding:12px 15px;
+                        font-weight:800;
+                        text-align:center;
+                        font-size:16px;
+                    ">
 
-<div style="overflow-x:auto;">
-<table style="
-    width:auto;
-    min-width:100%;
-    border-collapse:collapse;
-    font-size:12px;
-    border:1px solid black;
-    white-space:nowrap;
-">
-<thead>
-<thead>
-<tr style="background:#1e40af;color:white;">
+                        📊 GRADE DAILY ATTENDANCE SUMMARY
 
-<th style="width:40px;">NO</th>
+                    </div>
 
-<th style="width:220px;text-align:left;padding:6px;">
-    Name
-</th>
 
-<th style="width:60px;text-align:center;">
-    Grd
-</th>
+                    <div style="
+                        padding:10px 14px;
+                        background:#f8fafc;
+                        border-bottom:1px solid #111827;
+                        font-size:12px;
+                        font-weight:700;
+                        color:#374151;
+                        text-align:center;
+                    ">
 
-<th style="width:70px;text-align:center;">
-    ADM
-</th>
+                        Week ${weekNumber}
+                        &nbsp; | &nbsp;
+                        ${monthName}
+                        &nbsp; | &nbsp;
+                        Grade:
+                        ${safeHTML(
+                            selectedGrade || "All"
+                        )}
+                        &nbsp; | &nbsp;
+                        Learners:
+                        ${students.length}
 
-<th style="width:80px;text-align:center;">
-    Gender
-</th>
-`;
+                    </div>
 
-           orderedDays.forEach(day => {
-    html += `
-        <th style="width:45px;text-align:center;">
-            ${day.substring(0,3)}
-        </th>
-    `;
-});
 
-html += `
-<th style="width:60px;text-align:center;">
-    Total
-</th>
+                    <div style="
+                        width:100%;
+                        overflow-x:auto;
+                    ">
 
-</tr>
-</thead>
-<tbody>
-`;
+                        <table style="
+                            width:100%;
+                            min-width:420px;
+                            border-collapse:collapse;
+                            table-layout:fixed;
+                            font-size:13px;
+                            border:1px solid #111827;
+                        ">
 
-// ================= STUDENTS =================
-students.forEach((s,i) => {
+                            <colgroup>
 
-    let attendedDays = 0;
+                                <col style="width:40%;">
 
-    html += `<tr>
-<td style="text-align:center">${i+1}</td>
-<td style="padding:5px;text-align:left;">
-    ${s.name}
-</td>
+                                <col style="width:20%;">
 
-<td style="text-align:center;">
-    ${s.grade}
-</td>
+                                <col style="width:20%;">
 
-<td style="text-align:center;">
-    ${s.adm}
-</td>
+                                <col style="width:20%;">
 
-<td style="
-    text-align:center;
-    text-transform:capitalize;
-">
-    ${s.gender}
-</td>
-`;
+                            </colgroup>
 
-    orderedDays.forEach(day => {
 
-        const status = attendanceMap[s.id]?.[day];
+                            <thead>
 
-        let display = "-";
+                                <tr style="
+                                    background:#e5e7eb;
+                                    color:#111827;
+                                ">
 
-        if (status === "Present") {
-            display = "X";
-            attendedDays++;
-        } else if (status === "Late") {
-            display = "L";
-            attendedDays++;
-        } else if (status === "Absent") {
-            display = "0";
-        }
+                                    <th style="
+                                        padding:9px 6px;
+                                        border:1px solid #111827;
+                                        text-align:left;
+                                    ">
+                                        Day
+                                    </th>
 
-        html += `<td style="text-align:center">${display}</td>`;
-    });
+                                    <th style="
+                                        padding:9px 4px;
+                                        border:1px solid #111827;
+                                        text-align:center;
+                                    ">
+                                        Morning
+                                    </th>
 
-    html += `<td style="text-align:center;font-weight:bold;background:#fef3c7;">
-        ${String(attendedDays * 2).padStart(2,"0")}
-    </td></tr>`;
-});
+                                    <th style="
+                                        padding:9px 4px;
+                                        border:1px solid #111827;
+                                        text-align:center;
+                                    ">
+                                        Evening
+                                    </th>
 
-// ================= SUMMARY ROWS =================
+                                    <th style="
+                                        padding:9px 4px;
+                                        border:1px solid #111827;
+                                        text-align:center;
+                                    ">
+                                        Total
+                                    </th>
 
-// Morning
-html += `<tr style="background:#dcfce7;font-weight:bold;">
-<td colspan="5">PRESENT MORNING</td>`;
+                                </tr>
 
-orderedDays.forEach(day => {
-    html += `<td style="text-align:center">${String(dailyTotals[day].morning).padStart(2,"0")}</td>`;
-});
-html += `<td></td></tr>`;
+                            </thead>
 
-// Evening
-html += `<tr style="background:#dbeafe;font-weight:bold;">
-<td colspan="5">PRESENT EVENING</td>`;
 
-orderedDays.forEach(day => {
-    html += `<td style="text-align:center">${String(dailyTotals[day].evening).padStart(2,"0")}</td>`;
-});
-html += `<td></td></tr>`;
+                            <tbody>
+            `;
 
-// TOTAL
-html += `<tr style="background:#e5e7eb;font-weight:bold;">
-<td colspan="5">TOTAL</td>`;
 
-orderedDays.forEach(day => {
-    html += `<td style="text-align:center">${String(dailyTotals[day].total).padStart(2,"0")}</td>`;
-});
+            if (
+                gradeDays.length === 0
+            ) {
 
-html += `<td></td></tr>`;
+                html += `
 
-html += `
-</tbody>
-</table>
-</div>
-</div>
-`;
+                    <tr>
+
+                        <td
+                            colspan="4"
+                            style="
+                                padding:18px;
+                                text-align:center;
+                                border:1px solid #111827;
+                                color:#64748b;
+                                font-weight:600;
+                            "
+                        >
+
+                            No attendance days found
+                            for the selected period.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+            else {
+
+                gradeDays.forEach(
+                    (day, index) => {
+
+                        const m =
+                            Number(
+                                gradeDailyTotals[
+                                    day
+                                ]?.morning
+                            ) || 0;
+
+
+                        const e =
+                            Number(
+                                gradeDailyTotals[
+                                    day
+                                ]?.evening
+                            ) || 0;
+
+
+                        const t =
+                            m + e;
+
+
+                        html += `
+
+                            <tr style="
+                                background:${
+                                    index % 2 === 0
+                                        ? "#ffffff"
+                                        : "#f8fafc"
+                                };
+                            ">
+
+                                <td style="
+                                    padding:9px 7px;
+                                    border:1px solid #111827;
+                                    font-weight:700;
+                                    text-align:left;
+                                ">
+
+                                    ${day}
+
+                                </td>
+
+
+                                <td style="
+                                    padding:9px 4px;
+                                    border:1px solid #111827;
+                                    text-align:center;
+                                    color:#15803d;
+                                    font-weight:800;
+                                ">
+
+                                    ${String(
+                                        m
+                                    ).padStart(2,"0")}
+
+                                </td>
+
+
+                                <td style="
+                                    padding:9px 4px;
+                                    border:1px solid #111827;
+                                    text-align:center;
+                                    color:#2563eb;
+                                    font-weight:800;
+                                ">
+
+                                    ${String(
+                                        e
+                                    ).padStart(2,"0")}
+
+                                </td>
+
+
+                                <td style="
+                                    padding:9px 4px;
+                                    border:1px solid #111827;
+                                    text-align:center;
+                                    color:#dc2626;
+                                    font-weight:800;
+                                    background:#fef3c7;
+                                ">
+
+                                    ${String(
+                                        t
+                                    ).padStart(2,"0")}
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // GRAND TOTAL ROW
+            // =================================================
+
+            let grandMorning = 0;
+            let grandEvening = 0;
+
+
+            gradeDays.forEach(
+                day => {
+
+                    grandMorning +=
+                        Number(
+                            gradeDailyTotals[
+                                day
+                            ]?.morning
+                        ) || 0;
+
+
+                    grandEvening +=
+                        Number(
+                            gradeDailyTotals[
+                                day
+                            ]?.evening
+                        ) || 0;
+
+                }
+            );
+
+
+            const grandTotal =
+                grandMorning +
+                grandEvening;
+
+
+            html += `
+
+                <tr style="
+                    background:#111827;
+                    color:white;
+                    font-weight:800;
+                ">
+
+                    <td style="
+                        padding:10px 7px;
+                        border:1px solid #000;
+                    ">
+
+                        GRAND TOTAL
+
+                    </td>
+
+                    <td style="
+                        padding:10px 4px;
+                        border:1px solid #000;
+                        text-align:center;
+                    ">
+
+                        ${String(
+                            grandMorning
+                        ).padStart(2,"0")}
+
+                    </td>
+
+                    <td style="
+                        padding:10px 4px;
+                        border:1px solid #000;
+                        text-align:center;
+                    ">
+
+                        ${String(
+                            grandEvening
+                        ).padStart(2,"0")}
+
+                    </td>
+
+                    <td style="
+                        padding:10px 4px;
+                        border:1px solid #000;
+                        text-align:center;
+                    ">
+
+                        ${String(
+                            grandTotal
+                        ).padStart(2,"0")}
+
+                    </td>
+
+                </tr>
+
+            `;
+
+
+            html += `
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            `;
+
 
             return html;
-        };
 
-        const boysReport = buildReport("male","👦 BOYS ATTENDANCE REPORT","#1e40af");
-        const girlsReport = buildReport("female","👧 GIRLS ATTENDANCE REPORT","#db2777");
+        }
+
+
+        // ====================================================
+        // 👦 / 👧 REPORT BUILDER
+        // ====================================================
+
+        const buildReport =
+            (
+                genderFilter,
+                title,
+                headerColor
+            ) => {
+
+                const students =
+                    allStudents.filter(
+                        student =>
+                            student.gender ===
+                            genderFilter
+                    );
+
+
+                // ============================================
+                // REPORT CONTAINER
+                // ============================================
+
+                let html = `
+
+                    <div style="
+                        margin-top:20px;
+                        border:2px solid #000;
+                        border-radius:10px;
+                        overflow:hidden;
+                        background:#fff;
+                    ">
+
+                        <div style="
+                            background:${headerColor};
+                            color:#fff;
+                            padding:11px 14px;
+                            font-size:17px;
+                            font-weight:800;
+                        ">
+
+                            ${title}
+
+                        </div>
+
+
+                        <div style="
+                            padding:9px 14px;
+                            font-size:12px;
+                            font-weight:700;
+                            color:#374151;
+                            background:#f8fafc;
+                            border-bottom:1px solid #000;
+                        ">
+
+                            Week ${weekNumber}
+                            &nbsp; | &nbsp;
+                            ${monthName}
+                            &nbsp; | &nbsp;
+                            Grade:
+                            ${safeHTML(
+                                selectedGrade || "All"
+                            )}
+                            &nbsp; | &nbsp;
+                            Learners:
+                            ${students.length}
+
+                        </div>
+
+
+                        <div style="
+                            width:100%;
+                            max-width:100%;
+                            overflow-x:auto;
+                            overflow-y:visible;
+                        ">
+
+                            <table style="
+                                width:max-content;
+                                min-width:100%;
+                                border-collapse:collapse;
+                                table-layout:fixed;
+                                font-size:12px;
+                                border:1px solid #000;
+                                white-space:nowrap;
+                            ">
+
+                                <colgroup>
+
+                                    <col style="width:38px;">
+
+                                    <col style="width:145px;">
+
+                                    <col style="width:52px;">
+
+                                    <col style="width:75px;">
+
+                                    <col style="width:65px;">
+                `;
+
+
+                // DAY WIDTHS
+
+                orderedDays.forEach(
+                    () => {
+
+                        html += `
+                            <col style="width:45px;">
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                                    <col style="width:60px;">
+
+                                </colgroup>
+
+
+                                <thead style="
+                                    position:sticky;
+                                    top:0;
+                                    z-index:5;
+                                ">
+
+                                    <tr style="
+                                        background:#1e40af;
+                                        color:#fff;
+                                    ">
+
+                                        <th style="
+                                            width:38px;
+                                            padding:7px 3px;
+                                            border:1px solid #000;
+                                            text-align:center;
+                                        ">
+                                            NO
+                                        </th>
+
+
+                                        <th style="
+                                            width:145px;
+                                            padding:7px 5px;
+                                            border:1px solid #000;
+                                            text-align:left;
+                                        ">
+                                            Learner Name
+                                        </th>
+
+
+                                        <th style="
+                                            width:52px;
+                                            padding:7px 3px;
+                                            border:1px solid #000;
+                                            text-align:center;
+                                        ">
+                                            Grd
+                                        </th>
+
+
+                                        <th style="
+                                            width:75px;
+                                            padding:7px 3px;
+                                            border:1px solid #000;
+                                            text-align:center;
+                                        ">
+                                            ADM
+                                        </th>
+
+
+                                        <th style="
+                                            width:65px;
+                                            padding:7px 3px;
+                                            border:1px solid #000;
+                                            text-align:center;
+                                        ">
+                                            Gender
+                                        </th>
+
+                `;
+
+
+                // =================================================
+                // DAY HEADERS
+                // =================================================
+
+                orderedDays.forEach(
+                    day => {
+
+                        html += `
+
+                            <th style="
+                                width:45px;
+                                padding:7px 2px;
+                                border:1px solid #000;
+                                text-align:center;
+                            "
+                            title="${safeHTML(day)}"
+                            >
+
+                                ${day.substring(0,3)}
+
+                            </th>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                                    <th style="
+                                        width:60px;
+                                        padding:7px 3px;
+                                        border:1px solid #000;
+                                        text-align:center;
+                                    ">
+                                        Total
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                `;
+
+
+                // =================================================
+                // STUDENTS
+                // =================================================
+
+                students.forEach(
+                    (student, index) => {
+
+                        let attendedDays = 0;
+
+
+                        html += `
+
+                            <tr style="
+                                background:${
+                                    index % 2 === 0
+                                        ? "#ffffff"
+                                        : "#f8fafc"
+                                };
+                            ">
+
+                                <td style="
+                                    width:38px;
+                                    padding:7px 3px;
+                                    border:1px solid #000;
+                                    text-align:center;
+                                    font-weight:600;
+                                ">
+
+                                    ${index + 1}
+
+                                </td>
+
+
+                                <td style="
+                                    width:145px;
+                                    max-width:145px;
+                                    padding:7px 5px;
+                                    border:1px solid #000;
+                                    text-align:left;
+                                    overflow:hidden;
+                                    text-overflow:ellipsis;
+                                    white-space:nowrap;
+                                    font-weight:600;
+                                "
+                                title="${safeHTML(
+                                    student.name
+                                )}"
+                                >
+
+                                    ${safeHTML(
+                                        student.name
+                                    )}
+
+                                </td>
+
+
+                                <td style="
+                                    width:52px;
+                                    padding:7px 3px;
+                                    border:1px solid #000;
+                                    text-align:center;
+                                ">
+
+                                    ${safeHTML(
+                                        student.grade
+                                    )}
+
+                                </td>
+
+
+                                <td style="
+                                    width:75px;
+                                    padding:7px 3px;
+                                    border:1px solid #000;
+                                    text-align:center;
+                                ">
+
+                                    ${safeHTML(
+                                        student.adm
+                                    )}
+
+                                </td>
+
+
+                                <td style="
+                                    width:65px;
+                                    padding:7px 3px;
+                                    border:1px solid #000;
+                                    text-align:center;
+                                    text-transform:capitalize;
+                                ">
+
+                                    ${safeHTML(
+                                        student.gender
+                                    )}
+
+                                </td>
+
+                        `;
+
+
+                        // =========================================
+                        // DAILY STATUS
+                        // =========================================
+
+                        orderedDays.forEach(
+                            day => {
+
+                                const status =
+                                    masterAttendanceMap[
+                                        student.id
+                                    ]?.[
+                                        day
+                                    ];
+
+
+                                let display = "-";
+
+
+                                if (
+                                    status === "Present"
+                                ) {
+
+                                    display = "X";
+
+                                    attendedDays++;
+
+                                }
+
+                                else if (
+                                    status === "Late"
+                                ) {
+
+                                    display = "L";
+
+                                    attendedDays++;
+
+                                }
+
+                                else if (
+                                    status === "Absent"
+                                ) {
+
+                                    display = "0";
+
+                                }
+
+
+                                html += `
+
+                                    <td style="
+                                        width:45px;
+                                        padding:7px 2px;
+                                        border:1px solid #000;
+                                        text-align:center;
+                                        font-weight:800;
+                                    ">
+
+                                        ${display}
+
+                                    </td>
+
+                                `;
+
+                            }
+                        );
+
+
+                        // =========================================
+                        // TOTAL
+                        // =========================================
+
+                        html += `
+
+                                <td style="
+                                    width:60px;
+                                    padding:7px 3px;
+                                    border:1px solid #000;
+                                    text-align:center;
+                                    font-weight:800;
+                                    background:#fef3c7;
+                                ">
+
+                                    ${String(
+                                        attendedDays * 2
+                                    ).padStart(2,"0")}
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }
+                );
+
+
+                // =================================================
+                // MORNING SUMMARY
+                // =================================================
+
+                html += `
+
+                    <tr style="
+                        background:#dcfce7;
+                        font-weight:800;
+                    ">
+
+                        <td
+                            colspan="5"
+                            style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:left;
+                            "
+                        >
+
+                            PRESENT MORNING
+
+                        </td>
+
+                `;
+
+
+                orderedDays.forEach(
+                    day => {
+
+                        html += `
+
+                            <td style="
+                                padding:7px 2px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${String(
+                                    gradeDailyTotals[
+                                        day
+                                    ]?.morning || 0
+                                ).padStart(
+                                    2,
+                                    "0"
+                                )}
+
+                            </td>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                        <td style="
+                            border:1px solid #000;
+                        "></td>
+
+                    </tr>
+
+                `;
+
+
+                // =================================================
+                // EVENING SUMMARY
+                // =================================================
+
+                html += `
+
+                    <tr style="
+                        background:#dbeafe;
+                        font-weight:800;
+                    ">
+
+                        <td
+                            colspan="5"
+                            style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:left;
+                            "
+                        >
+
+                            PRESENT EVENING
+
+                        </td>
+
+                `;
+
+
+                orderedDays.forEach(
+                    day => {
+
+                        html += `
+
+                            <td style="
+                                padding:7px 2px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${String(
+                                    gradeDailyTotals[
+                                        day
+                                    ]?.evening || 0
+                                ).padStart(
+                                    2,
+                                    "0"
+                                )}
+
+                            </td>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                        <td style="
+                            border:1px solid #000;
+                        "></td>
+
+                    </tr>
+
+                `;
+
+
+                // =================================================
+                // TOTAL
+                // =================================================
+
+                html += `
+
+                    <tr style="
+                        background:#e5e7eb;
+                        font-weight:800;
+                    ">
+
+                        <td
+                            colspan="5"
+                            style="
+                                padding:8px;
+                                border:1px solid #000;
+                                text-align:left;
+                            "
+                        >
+
+                            TOTAL
+
+                        </td>
+
+                `;
+
+
+                orderedDays.forEach(
+                    day => {
+
+                        html += `
+
+                            <td style="
+                                padding:7px 2px;
+                                border:1px solid #000;
+                                text-align:center;
+                            ">
+
+                                ${String(
+                                    gradeDailyTotals[
+                                        day
+                                    ]?.total || 0
+                                ).padStart(
+                                    2,
+                                    "0"
+                                )}
+
+                            </td>
+
+                        `;
+
+                    }
+                );
+
+
+                html += `
+
+                        <td style="
+                            border:1px solid #000;
+                        "></td>
+
+                    </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                `;
+
+
+                return html;
+
+            };
+
+
+        // ====================================================
+        // 👦 BOYS
+        // ====================================================
+
+        const boysReport =
+            buildReport(
+                "male",
+                "👦 BOYS ATTENDANCE REPORT",
+                "#1e40af"
+            );
+
+
+        // ====================================================
+        // 👧 GIRLS
+        // ====================================================
+
+        const girlsReport =
+            buildReport(
+                "female",
+                "👧 GIRLS ATTENDANCE REPORT",
+                "#db2777"
+            );
+
+
+        // ====================================================
+        // 📊 GRADE SUMMARY
+        // ====================================================
+
+        const gradeSummary =
+            renderGradeSummary(
+                orderedDays,
+                gradeDailyTotals,
+                allStudents
+            );
+
+
+        // ====================================================
+        // 🚀 DISPLAY EVERYTHING
+        // ====================================================
 
         output.innerHTML =
+
             boysReport +
+
             girlsReport +
-            renderGradeSummary();
 
-    } catch (err) {
+            gradeSummary;
 
-        console.error("Attendance Register Error:", err);
+
+    }
+    catch (err) {
+
+        console.error(
+            "Attendance Register Error:",
+            err
+        );
+
 
         output.innerHTML = `
-            <div style="padding:20px;color:red;font-weight:bold;">
-                Error loading attendance report<br><br>
-                ${err.message || err}
+
+            <div style="
+                padding:25px;
+                color:#dc2626;
+                font-weight:bold;
+                border:2px solid #dc2626;
+                border-radius:10px;
+                background:#fff;
+                text-align:center;
+            ">
+
+                ⚠️ Error loading attendance report
+
+                <br><br>
+
+                ${safeHTML(
+                    err?.message || err
+                )}
+
             </div>
+
         `;
+
     }
+
 };
 // ================= SUMMARY =================
 window.updateAttendanceSummary = async function () {
@@ -60555,76 +61947,364 @@ window.loadAttendanceGrades = function () {
         grades
     );
 };
-function renderGradeSummary(gradeDays = [], gradeDailyTotals = {}, students = []) {
+/* ============================================================
+   📊 GRADE DAILY ATTENDANCE SUMMARY
+   ============================================================ */
 
-    // rebuild totals safely if needed
-    const summaryTotals = {};
+function renderGradeSummary(
+    gradeDays = [],
+    gradeDailyTotals = {}
+) {
 
-    gradeDays.forEach(day => {
+    /* ========================================================
+       SAFETY
+       ======================================================== */
 
-        summaryTotals[day] = { morning: 0, evening: 0 };
+    if (
+        !Array.isArray(gradeDays) ||
+        gradeDays.length === 0
+    ) {
 
-        students.forEach(() => {
+        return `
+            <div style="
+                margin-top:20px;
+                padding:20px;
+                text-align:center;
+                background:#fff;
+                border:2px solid #111827;
+                border-radius:10px;
+                color:#64748b;
+                font-weight:600;
+            ">
+                📊 No attendance summary data available.
+            </div>
+        `;
 
-            const m = gradeDailyTotals?.[day]?.morning || 0;
-            const e = gradeDailyTotals?.[day]?.afternoon || 0;
+    }
 
-            summaryTotals[day].morning = m;
-            summaryTotals[day].evening = e;
-        });
-    });
+
+    /* ========================================================
+       BUILD SUMMARY
+       ======================================================== */
 
     let html = `
-<br>
 
-<div style="margin-top:25px;border:2px solid #111827;border-radius:10px;overflow:hidden;">
+        <div style="
+            width:100%;
+            margin-top:25px;
+            border:2px solid #111827;
+            border-radius:10px;
+            overflow:hidden;
+            background:#fff;
+            box-sizing:border-box;
+        ">
 
-<div style="background:#111827;color:white;padding:12px;font-weight:bold;text-align:center;">
-📊 GRADE DAILY ATTENDANCE SUMMARY (ALL LEARNERS)
-</div>
+            <!-- HEADER -->
 
-<div style="overflow-x:auto;">
-<table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <div style="
+                background:#111827;
+                color:white;
+                padding:12px;
+                font-weight:bold;
+                text-align:center;
+                font-size:15px;
+            ">
 
-<thead>
-<tr style="background:#e5e7eb;font-weight:bold;">
-<th>Day</th>
-<th>Morning</th>
-<th>Evening</th>
-<th>Total</th>
-</tr>
-</thead>
+                📊 GRADE DAILY ATTENDANCE SUMMARY
+                (ALL LEARNERS)
 
-<tbody>
-`;
+            </div>
+
+
+            <!-- TABLE CONTAINER -->
+
+            <div style="
+                overflow-x:auto;
+                width:100%;
+            ">
+
+                <table style="
+                    width:100%;
+                    min-width:500px;
+                    border-collapse:collapse;
+                    font-size:13px;
+                ">
+
+                    <thead>
+
+                        <tr style="
+                            background:#e5e7eb;
+                            color:#111827;
+                            font-weight:bold;
+                        ">
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #9ca3af;
+                                text-align:center;
+                            ">
+                                Day
+                            </th>
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #9ca3af;
+                                text-align:center;
+                            ">
+                                Morning
+                            </th>
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #9ca3af;
+                                text-align:center;
+                            ">
+                                Evening
+                            </th>
+
+                            <th style="
+                                padding:9px;
+                                border:1px solid #9ca3af;
+                                text-align:center;
+                            ">
+                                Total
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+    `;
+
+
+    /* ========================================================
+       DAYS
+       ======================================================== */
 
     gradeDays.forEach(day => {
 
-        const m = summaryTotals[day]?.morning || 0;
-        const e = summaryTotals[day]?.evening || 0;
-        const t = m + e;
+        const dayData =
+            gradeDailyTotals?.[day] || {};
+
+
+        /*
+         * Your attendance report uses:
+         *
+         * morning
+         * evening
+         * total
+         *
+         * NOT afternoon.
+         */
+
+        const morning =
+            Number(
+                dayData.morning
+            ) || 0;
+
+
+        const evening =
+            Number(
+                dayData.evening
+            ) || 0;
+
+
+        const total =
+            Number(
+                dayData.total
+            ) ||
+            (
+                morning +
+                evening
+            );
+
 
         html += `
-<tr style="text-align:center;">
-<td style="padding:8px;font-weight:bold;">${day}</td>
-<td style="color:green;font-weight:bold;">${m}</td>
-<td style="color:#2563eb;font-weight:bold;">${e}</td>
-<td style="color:red;font-weight:bold;">${t}</td>
-</tr>
-`;
+
+            <tr>
+
+                <td style="
+                    padding:9px;
+                    border:1px solid #d1d5db;
+                    text-align:center;
+                    font-weight:bold;
+                ">
+
+                    ${feeSafeHTML(day)}
+
+                </td>
+
+
+                <td style="
+                    padding:9px;
+                    border:1px solid #d1d5db;
+                    text-align:center;
+                    color:#15803d;
+                    font-weight:bold;
+                ">
+
+                    ${morning}
+
+                </td>
+
+
+                <td style="
+                    padding:9px;
+                    border:1px solid #d1d5db;
+                    text-align:center;
+                    color:#2563eb;
+                    font-weight:bold;
+                ">
+
+                    ${evening}
+
+                </td>
+
+
+                <td style="
+                    padding:9px;
+                    border:1px solid #d1d5db;
+                    text-align:center;
+                    color:#dc2626;
+                    font-weight:bold;
+                    background:#fef3c7;
+                ">
+
+                    ${total}
+
+                </td>
+
+            </tr>
+
+        `;
+
     });
 
-    html += `
-</tbody>
-</table>
-</div>
 
-</div>
-`;
+    /* ========================================================
+       GRAND TOTAL
+       ======================================================== */
+
+    let grandMorning = 0;
+    let grandEvening = 0;
+    let grandTotal = 0;
+
+
+    gradeDays.forEach(day => {
+
+        const dayData =
+            gradeDailyTotals?.[day] || {};
+
+
+        const morning =
+            Number(
+                dayData.morning
+            ) || 0;
+
+
+        const evening =
+            Number(
+                dayData.evening
+            ) || 0;
+
+
+        const total =
+            Number(
+                dayData.total
+            ) ||
+            (
+                morning +
+                evening
+            );
+
+
+        grandMorning += morning;
+        grandEvening += evening;
+        grandTotal += total;
+
+    });
+
+
+    /* ========================================================
+       GRAND TOTAL ROW
+       ======================================================== */
+
+    html += `
+
+        <tr style="
+            background:#f3f4f6;
+            font-weight:bold;
+        ">
+
+            <td style="
+                padding:10px;
+                border:1px solid #9ca3af;
+                text-align:center;
+            ">
+
+                GRAND TOTAL
+
+            </td>
+
+
+            <td style="
+                padding:10px;
+                border:1px solid #9ca3af;
+                text-align:center;
+                color:#15803d;
+            ">
+
+                ${grandMorning}
+
+            </td>
+
+
+            <td style="
+                padding:10px;
+                border:1px solid #9ca3af;
+                text-align:center;
+                color:#2563eb;
+            ">
+
+                ${grandEvening}
+
+            </td>
+
+
+            <td style="
+                padding:10px;
+                border:1px solid #9ca3af;
+                text-align:center;
+                color:#dc2626;
+                background:#fef3c7;
+            ">
+
+                ${grandTotal}
+
+            </td>
+
+        </tr>
+
+    `;
+
+
+    html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    `;
+
 
     return html;
-}
-window.applyStudentFilters = function () {
+}window.applyStudentFilters = function () {
 
   // ===============================
   // GET FILTERED DATA
@@ -107476,7 +109156,1595 @@ window.assignSelectedToNewGrade = async function () {
 
 })();
 
+// ============================================================
+// 📩 PARENTS MEETING NOTICE
+// USES EXISTING REGISTERED LEARNERS + EXISTING CHECKBOXES
+// 4 NOTICES PER A4 PAGE
+// ============================================================
 
+window.generateSelectedParentMeetingNotices = async function () {
+
+    try {
+
+        // =====================================================
+        // 1. GET SELECTED LEARNER IDS
+        // =====================================================
+
+        const selectedIds =
+            typeof getSelectedStudents === "function"
+                ? getSelectedStudents()
+                : [
+                    ...document.querySelectorAll(
+                        ".studentCheckbox:checked"
+                    )
+                ].map(cb => cb.dataset.id);
+
+
+        if (!selectedIds.length) {
+
+            return Swal.fire({
+                icon: "warning",
+                title: "No Learners Selected",
+                text:
+                    "Please tick the learners who should receive a Parents Meeting Notice.",
+                confirmButtonColor: "#0f766e"
+            });
+
+        }
+
+
+        // =====================================================
+        // 2. FIND SELECTED LEARNERS FROM REGISTERED LEARNERS
+        // =====================================================
+
+        const registeredLearners =
+            Array.isArray(window.allStudents)
+                ? window.allStudents
+                : [];
+
+
+        if (!registeredLearners.length) {
+
+            return Swal.fire({
+                icon: "error",
+                title: "Learners Not Loaded",
+                text:
+                    "The registered learners list is not currently available.",
+                confirmButtonColor: "#dc2626"
+            });
+
+        }
+
+
+        const selectedLearners =
+            selectedIds
+                .map(id =>
+                    registeredLearners.find(
+                        learner =>
+                            String(learner.id) === String(id)
+                    )
+                )
+                .filter(Boolean);
+
+
+        if (!selectedLearners.length) {
+
+            return Swal.fire({
+                icon: "error",
+                title: "Learners Not Found",
+                text:
+                    "The selected learners could not be found in the registered learners list.",
+                confirmButtonColor: "#dc2626"
+            });
+
+        }
+
+
+        // =====================================================
+        // 3. GET CURRENT GRADE
+        // =====================================================
+
+        const filterGrade =
+            document.getElementById("filterGrade")?.value ||
+            "";
+
+
+        const detectedGrades = [
+            ...new Set(
+                selectedLearners
+                    .map(s =>
+                        String(s.grade || "").trim()
+                    )
+                    .filter(Boolean)
+            )
+        ];
+
+
+        const selectedGrade =
+            filterGrade ||
+            (
+                detectedGrades.length === 1
+                    ? detectedGrades[0]
+                    : "Selected Learners"
+            );
+
+
+        // =====================================================
+        // 4. ASK FOR MEETING DETAILS
+        // =====================================================
+
+        const result =
+            await Swal.fire({
+
+                title:
+                    "📩 Parents Meeting Notice",
+
+                width:
+                    600,
+
+                html: `
+
+<div style="
+    text-align:left;
+">
+
+    <div style="
+        background:#ecfeff;
+        border:1px solid #99f6e4;
+        border-left:5px solid #0f766e;
+        padding:12px 14px;
+        border-radius:8px;
+        margin-bottom:18px;
+        color:#134e4a;
+        font-size:13px;
+    ">
+
+        <b>
+            ${selectedLearners.length}
+            learner(s) selected
+        </b>
+
+        <br>
+
+        Grade:
+        <b>
+            ${escapeParentNoticeHTML(selectedGrade)}
+        </b>
+
+    </div>
+
+
+    <!-- MEETING DATE -->
+
+    <label style="
+        display:block;
+        font-weight:700;
+        margin-bottom:5px;
+    ">
+        📅 Meeting Date
+    </label>
+
+    <input
+        id="parentMeetingDate"
+        type="date"
+        style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:8px;
+            margin-bottom:14px;
+        "
+    >
+
+
+    <!-- MEETING TIME -->
+
+    <label style="
+        display:block;
+        font-weight:700;
+        margin-bottom:5px;
+    ">
+        ⏰ Meeting Time
+    </label>
+
+    <input
+        id="parentMeetingTime"
+        type="text"
+        placeholder="e.g. 8:00 AM"
+        value="8:00 AM"
+        style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:8px;
+            margin-bottom:14px;
+        "
+    >
+
+
+    <!-- VENUE -->
+
+    <label style="
+        display:block;
+        font-weight:700;
+        margin-bottom:5px;
+    ">
+        📍 Venue
+    </label>
+
+    <input
+        id="parentMeetingVenue"
+        type="text"
+        placeholder="e.g. School Hall"
+        value="School Hall"
+        style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:8px;
+            margin-bottom:14px;
+        "
+    >
+
+
+    <!-- PURPOSE -->
+
+    <label style="
+        display:block;
+        font-weight:700;
+        margin-bottom:5px;
+    ">
+        📝 Meeting Purpose
+    </label>
+
+    <textarea
+        id="parentMeetingPurpose"
+        rows="3"
+        style="
+            width:100%;
+            padding:10px;
+            border:1px solid #cbd5e1;
+            border-radius:8px;
+            resize:vertical;
+        "
+    >Parents are kindly requested to attend a meeting to discuss the progress, welfare and academic development of their child.</textarea>
+
+</div>
+
+                `,
+
+                showCancelButton:
+                    true,
+
+                confirmButtonText:
+                    "🖨️ Generate Notices",
+
+                cancelButtonText:
+                    "Cancel",
+
+                confirmButtonColor:
+                    "#0f766e",
+
+                preConfirm: () => {
+
+                    const date =
+                        document
+                            .getElementById(
+                                "parentMeetingDate"
+                            )
+                            ?.value;
+
+                    const time =
+                        document
+                            .getElementById(
+                                "parentMeetingTime"
+                            )
+                            ?.value
+                            ?.trim();
+
+                    const venue =
+                        document
+                            .getElementById(
+                                "parentMeetingVenue"
+                            )
+                            ?.value
+                            ?.trim();
+
+                    const purpose =
+                        document
+                            .getElementById(
+                                "parentMeetingPurpose"
+                            )
+                            ?.value
+                            ?.trim();
+
+
+                    if (!date) {
+
+                        Swal.showValidationMessage(
+                            "Please select the meeting date."
+                        );
+
+                        return false;
+
+                    }
+
+
+                    if (!time) {
+
+                        Swal.showValidationMessage(
+                            "Please enter the meeting time."
+                        );
+
+                        return false;
+
+                    }
+
+
+                    if (!venue) {
+
+                        Swal.showValidationMessage(
+                            "Please enter the meeting venue."
+                        );
+
+                        return false;
+
+                    }
+
+
+                    return {
+                        date,
+                        time,
+                        venue,
+                        purpose
+                    };
+
+                }
+
+            });
+
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+
+        // =====================================================
+        // 5. MEETING DETAILS
+        // =====================================================
+
+        const meeting =
+            result.value;
+
+
+        // =====================================================
+        // 6. SCHOOL INFORMATION
+        // =====================================================
+
+        const schoolName =
+            localStorage.getItem("schoolName") ||
+            "SCHOOL";
+
+
+        const schoolMotto =
+            localStorage.getItem("schoolMotto") ||
+            "";
+
+
+        // =====================================================
+        // SCHOOL LOGO
+        // =====================================================
+
+        const schoolLogo =
+            localStorage.getItem("schoolLogo") ||
+            localStorage.getItem("logoUrl") ||
+            "";
+
+
+        // =====================================================
+        // 7. FORMAT DATE
+        // =====================================================
+
+        const meetingDate =
+            new Date(
+                meeting.date + "T00:00:00"
+            )
+            .toLocaleDateString(
+                "en-GB",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+
+        // =====================================================
+        // 8. SAFE HTML
+        // =====================================================
+
+        const safe =
+            value =>
+                escapeParentNoticeHTML(
+                    value || ""
+                );
+
+
+        // =====================================================
+        // 9. BUILD FOUR NOTICES PER A4
+        // =====================================================
+
+        let noticesHTML = "";
+
+
+        selectedLearners.forEach(
+            (learner, index) => {
+
+                const learnerName =
+                    learner.name ||
+                    learner.fullName ||
+                    "Learner";
+
+
+                const parentName =
+                    learner.parentName ||
+                    learner.guardianName ||
+                    learner.parent ||
+                    "Parent / Guardian";
+
+
+                const grade =
+                    learner.grade ||
+                    selectedGrade ||
+                    "-";
+
+
+                const adm =
+                    learner.adm ||
+                    learner.admissionNo ||
+                    learner.admissionNumber ||
+                    "-";
+
+
+                noticesHTML += `
+
+<div class="meeting-notice">
+
+    <!-- NOTICE HEADER -->
+
+    <div class="notice-header">
+
+        ${
+            schoolLogo
+                ?
+                `
+                <img
+                    src="${safe(schoolLogo)}"
+                    class="school-logo"
+                    alt="School Logo"
+                >
+                `
+                :
+                `
+                <div class="school-logo-placeholder">
+                    🏫
+                </div>
+                `
+        }
+
+        <div class="school-details">
+
+            <div class="school-name">
+                ${safe(schoolName)}
+            </div>
+
+            ${
+                schoolMotto
+                    ?
+                    `
+                    <div class="school-motto">
+                        ${safe(schoolMotto)}
+                    </div>
+                    `
+                    :
+                    ""
+            }
+
+        </div>
+
+    </div>
+
+
+    <!-- TITLE -->
+
+    <div class="notice-title">
+        PARENTS MEETING NOTICE
+    </div>
+
+
+    <div class="notice-line"></div>
+
+
+    <!-- LEARNER DETAILS -->
+
+    <div class="learner-box">
+
+        <div>
+            <span>Learner</span>
+            <b>${safe(learnerName)}</b>
+        </div>
+
+        <div>
+            <span>Grade</span>
+            <b>${safe(grade)}</b>
+        </div>
+
+        <div>
+            <span>ADM No.</span>
+            <b>${safe(adm)}</b>
+        </div>
+
+    </div>
+
+
+    <!-- PARENT -->
+
+    <p class="greeting">
+
+        Dear
+        <b>
+            ${safe(parentName)}
+        </b>,
+
+    </p>
+
+
+    <p class="notice-message">
+
+        You are kindly invited to attend a
+        <b>Parents Meeting</b>
+        concerning the progress and welfare of your child.
+
+    </p>
+
+
+    <!-- MEETING DETAILS -->
+
+    <div class="meeting-details">
+
+        <div>
+            <span>📅 DATE</span>
+            <b>${safe(meetingDate)}</b>
+        </div>
+
+        <div>
+            <span>⏰ TIME</span>
+            <b>${safe(meeting.time)}</b>
+        </div>
+
+        <div>
+            <span>📍 VENUE</span>
+            <b>${safe(meeting.venue)}</b>
+        </div>
+
+    </div>
+
+
+    <!-- PURPOSE -->
+
+    <div class="purpose">
+
+        <b>Purpose:</b>
+
+        ${safe(meeting.purpose)}
+
+    </div>
+
+
+    <p class="closing">
+
+        Your attendance will be highly appreciated.
+
+    </p>
+
+
+    <div class="signature">
+
+        <div>
+            __________________________
+            <br>
+            <span>School Administration</span>
+        </div>
+
+        <div>
+            __________________________
+            <br>
+            <span>Parent / Guardian</span>
+        </div>
+
+    </div>
+
+
+    <div class="notice-footer">
+
+        ${safe(schoolName)}
+        &nbsp; • &nbsp;
+        Parents Meeting Notice
+
+    </div>
+
+</div>
+
+                `;
+
+            }
+        );
+
+
+        // =====================================================
+        // 10. OPEN PRINT WINDOW
+        // =====================================================
+
+        const printWindow =
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if (!printWindow) {
+
+            return Swal.fire({
+                icon: "warning",
+                title: "Popup Blocked",
+                text:
+                    "Please allow popups so the notices can be printed."
+            });
+
+        }
+
+
+        // =====================================================
+        // 11. PRINT DOCUMENT
+        // =====================================================
+
+        printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Parents Meeting Notices - ${safe(selectedGrade)}
+</title>
+
+
+<style>
+
+/* =====================================================
+   A4 PAGE
+===================================================== */
+
+@page {
+
+    size: A4 portrait;
+
+    margin: 5mm;
+
+}
+
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    padding: 0;
+
+    width: 100%;
+
+    background: #ffffff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: #111827;
+
+    -webkit-print-color-adjust: exact !important;
+
+    print-color-adjust: exact !important;
+
+}
+
+
+/* =====================================================
+   A4 SHEET
+===================================================== */
+
+.a4-sheet {
+
+    width: 200mm;
+
+    height: 287mm;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows:
+        repeat(4, 1fr);
+
+    page-break-after: always;
+
+}
+
+
+.a4-sheet:last-child {
+
+    page-break-after: auto;
+
+}
+
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.meeting-notice {
+
+    width: 100%;
+
+    height: 100%;
+
+    padding:
+        4mm 6mm;
+
+    border:
+        1px dashed #64748b;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* =====================================================
+   SCHOOL HEADER
+===================================================== */
+
+.notice-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+}
+
+
+.school-logo {
+
+    width: 32px;
+
+    height: 32px;
+
+    object-fit: contain;
+
+}
+
+
+.school-logo-placeholder {
+
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+
+}
+
+
+.school-details {
+
+    text-align: center;
+
+}
+
+
+.school-name {
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+}
+
+
+.school-motto {
+
+    font-size: 7px;
+
+    color: #64748b;
+
+    margin-top: 1px;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.notice-title {
+
+    text-align: center;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    margin-top: 3px;
+
+    color: #0f766e;
+
+}
+
+
+.notice-line {
+
+    border-top:
+        1.5px solid #0f766e;
+
+    margin:
+        3px 0 4px;
+
+}
+
+
+/* =====================================================
+   LEARNER INFORMATION
+===================================================== */
+
+.learner-box {
+
+    display: grid;
+
+    grid-template-columns:
+        2.2fr 1fr 1fr;
+
+    gap: 5px;
+
+    padding: 4px;
+
+    background: #f0fdfa;
+
+    border:
+        1px solid #99f6e4;
+
+    border-radius: 4px;
+
+}
+
+
+.learner-box span {
+
+    display: block;
+
+    font-size: 6px;
+
+    color: #64748b;
+
+    font-weight: 700;
+
+}
+
+
+.learner-box b {
+
+    display: block;
+
+    font-size: 8px;
+
+    margin-top: 1px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+.greeting {
+
+    font-size: 8px;
+
+    margin:
+        5px 0 3px;
+
+}
+
+
+.notice-message {
+
+    font-size: 7.5px;
+
+    line-height: 1.4;
+
+    margin:
+        2px 0 4px;
+
+}
+
+
+/* =====================================================
+   MEETING DETAILS
+===================================================== */
+
+.meeting-details {
+
+    display: grid;
+
+    grid-template-columns:
+        1.3fr 1fr 1.5fr;
+
+    gap: 4px;
+
+    margin:
+        3px 0 4px;
+
+}
+
+
+.meeting-details div {
+
+    padding: 4px;
+
+    background: #f8fafc;
+
+    border:
+        1px solid #cbd5e1;
+
+    border-radius: 4px;
+
+}
+
+
+.meeting-details span {
+
+    display: block;
+
+    font-size: 5.5px;
+
+    font-weight: 800;
+
+    color: #64748b;
+
+}
+
+
+.meeting-details b {
+
+    display: block;
+
+    font-size: 7px;
+
+    margin-top: 1px;
+
+}
+
+
+/* =====================================================
+   PURPOSE
+===================================================== */
+
+.purpose {
+
+    padding: 4px;
+
+    background: #f8fafc;
+
+    border-left:
+        3px solid #0f766e;
+
+    font-size: 7px;
+
+    line-height: 1.35;
+
+}
+
+
+/* =====================================================
+   CLOSING
+===================================================== */
+
+.closing {
+
+    font-size: 7px;
+
+    margin:
+        4px 0;
+
+}
+
+
+/* =====================================================
+   SIGNATURE
+===================================================== */
+
+.signature {
+
+    margin-top: auto;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    font-size: 7px;
+
+    text-align: center;
+
+}
+
+
+.signature span {
+
+    font-size: 6px;
+
+    color: #64748b;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.notice-footer {
+
+    text-align: center;
+
+    font-size: 5.5px;
+
+    color: #94a3b8;
+
+    margin-top: 3px;
+
+}
+
+
+/* =====================================================
+   SCREEN
+===================================================== */
+
+@media screen {
+
+    body {
+
+        padding: 15px;
+
+        background: #e5e7eb;
+
+    }
+
+    .a4-sheet {
+
+        margin:
+            0 auto 15px;
+
+        background: #fff;
+
+        box-shadow:
+            0 5px 20px rgba(0,0,0,.15);
+
+    }
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print {
+
+    body {
+
+        padding: 0;
+
+        background: #fff;
+
+    }
+
+    .a4-sheet {
+
+        margin: 0;
+
+        box-shadow: none;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+`);
+
+
+/* =====================================================
+   12. SPLIT INTO FOUR NOTICES PER A4
+===================================================== */
+
+for (
+    let i = 0;
+    i < selectedLearners.length;
+    i += 4
+) {
+
+    const pageLearners =
+        selectedLearners.slice(
+            i,
+            i + 4
+        );
+
+
+    printWindow.document.write(`
+
+        <div class="a4-sheet">
+
+            ${
+
+                pageLearners
+                    .map(
+                        learner => {
+
+                            /*
+                             * We already generated the notices
+                             * in order. Locate them by index.
+                             */
+
+                            const learnerIndex =
+                                selectedLearners.indexOf(
+                                    learner
+                                );
+
+                            const parts =
+                                noticesHTML.split(
+                                    '<div class="meeting-notice">'
+                                );
+
+                            return `
+                                <div class="meeting-notice">
+                                    ${
+                                        parts[
+                                            learnerIndex + 1
+                                        ]
+                                            ?.split(
+                                                '</div>'
+                                            )
+                                            .length
+                                            ? parts[
+                                                learnerIndex + 1
+                                              ]
+                                            : ""
+                                    }
+                                </div>
+                            `;
+
+                        }
+                    )
+                    .join("")
+
+            }
+
+        </div>
+
+    `);
+
+}
+
+
+/*
+ * The split method above can be fragile when notice HTML
+ * itself contains nested divs, so replace the generated
+ * content with a cleaner direct renderer.
+ */
+
+printWindow.document.close();
+
+
+// =====================================================
+// 13. REBUILD PRINT CONTENT SAFELY
+// =====================================================
+
+setTimeout(() => {
+
+    const body =
+        printWindow.document.body;
+
+    body.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < selectedLearners.length;
+        i += 4
+    ) {
+
+        const page =
+            printWindow.document.createElement(
+                "div"
+            );
+
+        page.className =
+            "a4-sheet";
+
+
+        selectedLearners
+            .slice(i, i + 4)
+            .forEach(
+                learner => {
+
+                    const notice =
+                        buildParentNoticeElement(
+                            learner,
+                            meeting,
+                            selectedGrade,
+                            schoolName,
+                            schoolMotto,
+                            schoolLogo,
+                            printWindow
+                        );
+
+                    page.appendChild(
+                        notice
+                    );
+
+                }
+            );
+
+
+        body.appendChild(page);
+
+    }
+
+
+    setTimeout(() => {
+
+        printWindow.focus();
+
+        printWindow.print();
+
+        printWindow.onafterprint = () => {
+
+            printWindow.close();
+
+        };
+
+    }, 500);
+
+
+}, 100);
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Parent Meeting Notice Error:",
+            error
+        );
+
+        Swal.fire({
+            icon: "error",
+            title: "Generation Failed",
+            text:
+                error.message ||
+                "Unable to generate parent meeting notices."
+        });
+
+    }
+
+};
+
+
+// ============================================================
+// 🔒 SAFE HTML
+// ============================================================
+
+function escapeParentNoticeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// ============================================================
+// 🧾 BUILD ONE NOTICE
+// ============================================================
+
+function buildParentNoticeElement(
+    learner,
+    meeting,
+    selectedGrade,
+    schoolName,
+    schoolMotto,
+    schoolLogo,
+    printWindow
+) {
+
+    const doc =
+        printWindow.document;
+
+    const notice =
+        doc.createElement("div");
+
+    notice.className =
+        "meeting-notice";
+
+
+    const learnerName =
+        learner.name ||
+        learner.fullName ||
+        "Learner";
+
+
+    const parentName =
+        learner.parentName ||
+        learner.guardianName ||
+        learner.parent ||
+        "Parent / Guardian";
+
+
+    const grade =
+        learner.grade ||
+        selectedGrade ||
+        "-";
+
+
+    const adm =
+        learner.adm ||
+        learner.admissionNo ||
+        learner.admissionNumber ||
+        "-";
+
+
+    const meetingDate =
+        new Date(
+            meeting.date + "T00:00:00"
+        )
+        .toLocaleDateString(
+            "en-GB",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    notice.innerHTML = `
+
+        <div class="notice-header">
+
+            ${
+                schoolLogo
+                    ?
+                    `
+                    <img
+                        src="${escapeParentNoticeHTML(schoolLogo)}"
+                        class="school-logo"
+                    >
+                    `
+                    :
+                    `
+                    <div class="school-logo-placeholder">
+                        🏫
+                    </div>
+                    `
+            }
+
+            <div class="school-details">
+
+                <div class="school-name">
+                    ${escapeParentNoticeHTML(schoolName)}
+                </div>
+
+                ${
+                    schoolMotto
+                        ?
+                        `
+                        <div class="school-motto">
+                            ${escapeParentNoticeHTML(schoolMotto)}
+                        </div>
+                        `
+                        :
+                        ""
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="notice-title">
+            PARENTS MEETING NOTICE
+        </div>
+
+
+        <div class="notice-line"></div>
+
+
+        <div class="learner-box">
+
+            <div>
+                <span>Learner</span>
+                <b>
+                    ${escapeParentNoticeHTML(learnerName)}
+                </b>
+            </div>
+
+            <div>
+                <span>Grade</span>
+                <b>
+                    ${escapeParentNoticeHTML(grade)}
+                </b>
+            </div>
+
+            <div>
+                <span>ADM No.</span>
+                <b>
+                    ${escapeParentNoticeHTML(adm)}
+                </b>
+            </div>
+
+        </div>
+
+
+        <p class="greeting">
+
+            Dear
+            <b>
+                ${escapeParentNoticeHTML(parentName)}
+            </b>,
+
+        </p>
+
+
+        <p class="notice-message">
+
+            You are kindly invited to attend a
+            <b>Parents Meeting</b>
+            concerning the progress, welfare and academic
+            development of your child.
+
+        </p>
+
+
+        <div class="meeting-details">
+
+            <div>
+                <span>📅 DATE</span>
+                <b>
+                    ${escapeParentNoticeHTML(meetingDate)}
+                </b>
+            </div>
+
+            <div>
+                <span>⏰ TIME</span>
+                <b>
+                    ${escapeParentNoticeHTML(meeting.time)}
+                </b>
+            </div>
+
+            <div>
+                <span>📍 VENUE</span>
+                <b>
+                    ${escapeParentNoticeHTML(meeting.venue)}
+                </b>
+            </div>
+
+        </div>
+
+
+        <div class="purpose">
+
+            <b>Purpose:</b>
+
+            ${escapeParentNoticeHTML(meeting.purpose)}
+
+        </div>
+
+
+        <p class="closing">
+
+            Your attendance will be highly appreciated.
+
+        </p>
+
+
+        <div class="signature">
+
+            <div>
+                __________________________
+                <br>
+                <span>
+                    School Administration
+                </span>
+            </div>
+
+            <div>
+                __________________________
+                <br>
+                <span>
+                    Parent / Guardian
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="notice-footer">
+
+            ${escapeParentNoticeHTML(schoolName)}
+            &nbsp; • &nbsp;
+            Parents Meeting Notice
+
+        </div>
+
+    `;
+
+
+    return notice;
+
+}
 function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
