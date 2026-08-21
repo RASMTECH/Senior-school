@@ -3050,7 +3050,145 @@ button.primary{
     background:#f3f4f6;
 
 }
+/* =====================================================
+   📤 RESULTS ACTIONS
+   EACH BUTTON HAS ITS OWN COLOUR
+   ===================================================== */
 
+/* MASTER */
+.results-master-btn {
+    background: #7c3aed !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.results-master-btn:hover {
+    background: #6d28d9 !important;
+}
+
+
+/* ✅ SEND SELECTED */
+.btn-send-selected {
+    background: #2563eb !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-send-selected:hover {
+    background: #1d4ed8 !important;
+}
+
+
+/* 📤 SEND LOADED GRADE */
+.btn-send-grade {
+    background: #16a34a !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-send-grade:hover {
+    background: #15803d !important;
+}
+
+
+/* 🗑️ DELETE SELECTED */
+.btn-delete-selected {
+    background: #f97316 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-delete-selected:hover {
+    background: #ea580c !important;
+}
+
+
+/* 🗑️ DELETE SUBJECT */
+.btn-delete-subject {
+    background: #dc2626 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-delete-subject:hover {
+    background: #b91c1c !important;
+}
+
+/* =====================================================
+   📊 REPORTS & ANALYSIS BUTTONS
+   EACH BUTTON HAS ITS OWN COLOUR
+   ===================================================== */
+
+/* MASTER BUTTON */
+.reports-btn {
+    background: #7c3aed !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.reports-btn:hover {
+    background: #6d28d9 !important;
+}
+
+
+/* 🎓 TOP 5 CERTIFICATES */
+.btn-certificates {
+    background: #f59e0b !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-certificates:hover {
+    background: #d97706 !important;
+}
+
+
+/* 🏆 PERFORMANCE */
+.btn-performance {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-performance:hover {
+    background: #1d4ed8 !important;
+}
+
+
+/* 🥇 TOP GRADE */
+.btn-grade {
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-grade:hover {
+    background: #15803d !important;
+}
+
+
+/* 👨‍🎓 TOP STUDENTS */
+.btn-students {
+    background: #db2777 !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-students:hover {
+    background: #be185d !important;
+}
+
+
+/* 📊 TERM PERFORMANCE */
+.btn-term {
+    background: #0891b2 !important;
+    color: #ffffff !important;
+    border: none;
+}
+
+.btn-term:hover {
+    background: #0e7490 !important;
+}
 /*=========================================================
   MOBILE
 =========================================================*/
@@ -9624,9 +9762,18 @@ margin:80px auto;
 padding:20px;
 border-radius:10px;
 ">
-
-<h2>⚙️ Set School Fee Amount</h2>
-
+<h2>
+  ⚙️
+  <span style="
+    background:#facc15;
+    color:#000;
+    padding:4px 10px;
+    border-radius:6px;
+    font-weight:700;
+  ">
+    Set School Fee Amount
+  </span>
+</h2>
 <!-- Academic Year -->
 <label>Academic Year</label>
 
@@ -9823,7 +9970,9 @@ onmouseout="
 ">
 
     📋
-    <span>Fee Collection Report</span>
+<span style="background:#facc15; color:#000; padding:4px 8px; border-radius:5px; font-weight:700;">
+  Fee Collection Report
+</span>
 
 </button>
 
@@ -9840,7 +9989,10 @@ onmouseout="
     font-weight:600;
   "
 >
-  🧾 Bulk Receipts by Grade
+🧾
+<span style="background:#facc15; color:#000; padding:4px 8px; border-radius:5px; font-weight:700;">
+  Bulk Receipts by Grade
+</span>
 </button>
 
 <button
@@ -10330,45 +10482,51 @@ margin-bottom:18px;
        
     </div>
 
-    <!-- RIGHT SIDE -->
-    <div class="action-group">
+ <!-- RIGHT SIDE -->
+<div class="action-group">
 
-        <button class="action-master-btn reports-btn">
-            📊 Reports & Analysis
+    <button class="action-master-btn reports-btn">
+        📊 Reports & Analysis
+    </button>
+
+    <div class="action-panel">
+
+        <!-- TOP 5 CERTIFICATES -->
+        <button
+            class="action-btn btn-certificates"
+            data-target="certificatesSection">
+            🎓 Top 5 Certificates
         </button>
 
-        <div class="action-panel">
+        <!-- PERFORMANCE -->
+        <button
+            class="action-btn btn-performance"
+            data-target="performanceSection">
+            🏆 Performance
+        </button>
 
-            <button
-                class="action-btn btn-gold"
-                data-target="certificatesSection">
-                🎓 Top 5 Certificates
-            </button>
+        <!-- TOP GRADE -->
+        <button
+            class="action-btn btn-grade"
+            data-target="topGradeSection">
+            🥇 Top Grade
+        </button>
 
-            <button
-                class="action-btn btn-performance"
-                data-target="performanceSection">
-                🏆 Performance
-            </button>
+        <!-- TOP STUDENTS -->
+        <button
+            class="action-btn btn-students"
+            data-target="topStudentsSection">
+            👨‍🎓 Top Students
+        </button>
 
-            <button
-                class="action-btn btn-grade"
-                data-target="topGradeSection">
-                🥇 Top Grade
-            </button>
+        <!-- TERM PERFORMANCE -->
+        <button
+            class="action-btn btn-term"
+            data-target="termPerformanceSection">
+            📊 Term Performance
+        </button>
 
-            <button
-                class="action-btn btn-students"
-                data-target="topStudentsSection">
-                👨‍🎓 Top Students
-            </button>
-
-            <button
-                class="action-btn btn-term"
-                data-target="termPerformanceSection">
-                📊 Term Performance
-            </button>
-
+  
         </div>
 
     </div>
@@ -10382,48 +10540,42 @@ margin-bottom:18px;
     <!-- RESULTS ACTIONS -->
     <div class="action-group">
 
-        <button class="action-master-btn">
+        <button class="action-master-btn results-master-btn">
             📤 Results Actions
         </button>
 
         <div class="action-panel">
 
-            <button onclick="sendSelectedResults()" class="action-btn btn-blue">
+            <!-- SEND SELECTED -->
+            <button
+                onclick="sendSelectedResults()"
+                class="action-btn btn-send-selected">
                 ✅ Send Selected
             </button>
 
-            <button onclick="sendLoadedResults()" class="action-btn btn-green">
+            <!-- SEND LOADED GRADE -->
+            <button
+                onclick="sendLoadedResults()"
+                class="action-btn btn-send-grade">
                 📤 Send Loaded Grade
             </button>
 
-            <button onclick="deleteSelectedLearnersMarks()" class="action-btn delete-btn">
+            <!-- DELETE SELECTED -->
+            <button
+                onclick="deleteSelectedLearnersMarks()"
+                class="action-btn btn-delete-selected">
                 <i class="fa fa-trash"></i>
                 Delete Selected
             </button>
- </button>
 
-        <!-- DELETE SUBJECT -->
-        <button
-            onclick="deleteClassSubjectMarks()"
-            style="
-            height:42px;
-            background:#dc2626;
-            color:#fff;
-            border:none;
-            padding:0 18px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:bold;
-            display:flex;
-            align-items:center;
-            gap:8px;
-            white-space:nowrap;
-            ">
+            <!-- DELETE SUBJECT -->
+            <button
+                onclick="deleteClassSubjectMarks()"
+                class="action-btn btn-delete-subject">
+                <i class="fas fa-trash"></i>
+                Delete Subject
+            </button>
 
-            <i class="fas fa-trash"></i>
-            Delete Subject
-
-        </button>
 
         </div>
 
@@ -51380,7 +51532,7 @@ function getLevelName(score) {
     let html = `
 
 ${window.getSchoolPrintHeader(
-"SUBJECT RANKING REPORT"
+"LEARNERS PROGRESS RECORD"
 )}
 
 <div style="
@@ -58951,7 +59103,7 @@ const { value: subjectKey } = await Swal.fire({
             box-shadow:0 3px 8px rgba(245,158,11,.15);
         ">
             📝 <span style="color:#b45309;">
-                Choose a subject to generate ranking report
+                Choose a subject to generate learners progress record
             </span>
         </div>
     `,
@@ -59168,7 +59320,7 @@ return {
   // ======================================================
   let html = `
 
-${window.getSchoolPrintHeader("SUBJECT RANKING REPORT")}
+${window.getSchoolPrintHeader("LEARNERS PROGRESS RECORD")}
 
 <div style="
 text-align:center;
@@ -63987,22 +64139,542 @@ window.paySupportSalary = async function (staffId) {
     );
 
 
-    // ===============================
-    // 🔄 REFRESH PAYROLL DASHBOARD
-    // ===============================
+    // =====================================================
+    // 🔄 REFRESH PAYROLL DASHBOARD — SAFE
+    // =====================================================
 
-    loadPayrollDashboard();
+    try {
+
+      if (typeof loadPayrollDashboard === "function") {
+
+        await loadPayrollDashboard();
+
+      } else {
+
+        console.warn(
+          "⚠️ loadPayrollDashboard() is not defined. Salary payment was saved successfully."
+        );
+
+        // Refresh available Support Staff data if available
+        if (typeof loadSupportStaff === "function") {
+
+          await loadSupportStaff();
+
+        }
+
+        // Refresh available Payroll data if available
+        if (typeof loadPayroll === "function") {
+
+          await loadPayroll();
+
+        }
+
+      }
+
+    } catch (refreshError) {
+
+      console.warn(
+        "⚠️ Salary payment was saved, but the payroll dashboard could not refresh:",
+        refreshError
+      );
+
+    }
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error("❌ PAY_SUPPORT_SALARY_ERROR:", error);
 
     Swal.fire(
       "Error",
-      error.message,
+      error.message || "Unable to complete salary payment.",
       "error"
     );
+
+  }
+
+};
+// =========================================================
+// 💵 PAYROLL DASHBOARD
+// =========================================================
+window.loadPayrollDashboard = async function () {
+
+  try {
+
+    // =====================================================
+    // 📅 CURRENT PERIOD
+    // =====================================================
+
+    const now = new Date();
+
+    const year =
+      now.getFullYear().toString();
+
+    const month =
+      now.toLocaleString("default", {
+        month: "long"
+      });
+
+    const monthKey =
+      now.toISOString().slice(0, 7);
+
+
+    // =====================================================
+    // 📥 LOAD CURRENT MONTH PAYROLL
+    // =====================================================
+
+    const payrollSnap = await get(
+      schoolRef(
+        `supportPayroll/${year}/${month}`
+      )
+    );
+
+
+    // =====================================================
+    // 📊 DEFAULT VALUES
+    // =====================================================
+
+    let payrollRecords = [];
+
+    let totalStaff = 0;
+
+    let totalGross = 0;
+
+    let totalDeductions = 0;
+
+    let totalNet = 0;
+
+
+    // =====================================================
+    // 📌 READ PAYROLL RECORDS
+    // =====================================================
+
+    if (payrollSnap.exists()) {
+
+      const data =
+        payrollSnap.val() || {};
+
+      payrollRecords =
+        Object.values(data)
+          .filter(Boolean);
+
+    }
+
+
+    // =====================================================
+    // 💰 CALCULATE TOTALS
+    // =====================================================
+
+    payrollRecords.forEach(payment => {
+
+      totalStaff++;
+
+      totalGross +=
+        Number(
+          payment.grossSalary ||
+          payment.basicSalary ||
+          0
+        );
+
+      totalDeductions +=
+        Number(
+          payment.totalDeductions ||
+          0
+        );
+
+      totalNet +=
+        Number(
+          payment.netSalary ||
+          0
+        );
+
+    });
+
+
+    // =====================================================
+    // 📊 UPDATE EXISTING DASHBOARD ELEMENTS
+    // =====================================================
+
+    const setText = (
+      ids,
+      value
+    ) => {
+
+      ids.forEach(id => {
+
+        const element =
+          document.getElementById(id);
+
+        if (element) {
+
+          element.textContent =
+            value;
+
+        }
+
+      });
+
+    };
+
+
+    setText(
+      [
+        "payrollTotalStaff",
+        "totalPayrollStaff",
+        "payrollStaffCount"
+      ],
+      totalStaff.toLocaleString()
+    );
+
+
+    setText(
+      [
+        "payrollGross",
+        "totalGrossSalary",
+        "payrollTotalGross"
+      ],
+      `KES ${totalGross.toLocaleString()}`
+    );
+
+
+    setText(
+      [
+        "payrollDeductions",
+        "totalPayrollDeductions",
+        "payrollTotalDeductions"
+      ],
+      `KES ${totalDeductions.toLocaleString()}`
+    );
+
+
+    setText(
+      [
+        "payrollNet",
+        "totalNetSalary",
+        "payrollTotalNet"
+      ],
+      `KES ${totalNet.toLocaleString()}`
+    );
+
+
+    setText(
+      [
+        "payrollMonth",
+        "currentPayrollMonth"
+      ],
+      `${month} ${year}`
+    );
+
+
+    // =====================================================
+    // 📋 RENDER PAYROLL TABLE IF AVAILABLE
+    // =====================================================
+
+    const tableBody =
+      document.getElementById(
+        "payrollTableBody"
+      );
+
+
+    if (tableBody) {
+
+      if (!payrollRecords.length) {
+
+        tableBody.innerHTML = `
+          <tr>
+            <td
+              colspan="10"
+              style="
+                text-align:center;
+                padding:25px;
+                color:#64748b;
+              "
+            >
+              No salary payments recorded
+              for ${month} ${year}.
+            </td>
+          </tr>
+        `;
+
+      } else {
+
+        tableBody.innerHTML =
+          payrollRecords
+            .sort(
+              (a, b) =>
+                Number(b.createdAt || b.paidAt || 0) -
+                Number(a.createdAt || a.paidAt || 0)
+            )
+            .map(payment => {
+
+              const deductions =
+                Number(
+                  payment.totalDeductions || 0
+                );
+
+              const net =
+                Number(
+                  payment.netSalary || 0
+                );
+
+              return `
+
+                <tr>
+
+                  <td>
+                    ${payment.staffName || "-"}
+                  </td>
+
+                  <td>
+                    ${payment.staffNumber || "-"}
+                  </td>
+
+                  <td>
+                    ${payment.department || "-"}
+                  </td>
+
+                  <td>
+                    ${payment.role || "-"}
+                  </td>
+
+                  <td>
+                    KES ${Number(
+                      payment.basicSalary || 0
+                    ).toLocaleString()}
+                  </td>
+
+                  <td>
+                    KES ${deductions.toLocaleString()}
+                  </td>
+
+                  <td>
+                    <strong>
+                      KES ${net.toLocaleString()}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${payment.paymentMethod || "Cash"}
+                  </td>
+
+                  <td>
+                    ${payment.paymentDate || "-"}
+                  </td>
+
+                  <td>
+                    <span
+                      style="
+                        background:#dcfce7;
+                        color:#166534;
+                        padding:5px 10px;
+                        border-radius:20px;
+                        font-weight:700;
+                        font-size:12px;
+                      "
+                    >
+                      ${payment.status || "Paid"}
+                    </span>
+                  </td>
+
+                </tr>
+
+              `;
+
+            })
+            .join("");
+
+      }
+
+    }
+
+
+    // =====================================================
+    // 📊 OPTIONAL AUTOMATIC DASHBOARD
+    // =====================================================
+
+    const dashboard =
+      document.getElementById(
+        "payrollDashboard"
+      );
+
+
+    if (dashboard) {
+
+      dashboard.innerHTML = `
+
+        <div style="
+          display:grid;
+          grid-template-columns:
+            repeat(auto-fit,minmax(200px,1fr));
+          gap:15px;
+          margin-bottom:20px;
+        ">
+
+          <div style="
+            background:#eff6ff;
+            padding:18px;
+            border-radius:12px;
+            border-left:5px solid #2563eb;
+          ">
+
+            <div style="
+              color:#64748b;
+              font-size:13px;
+              font-weight:700;
+            ">
+              STAFF PAID
+            </div>
+
+            <div style="
+              font-size:25px;
+              font-weight:800;
+              color:#1e3a8a;
+              margin-top:5px;
+            ">
+              ${totalStaff.toLocaleString()}
+            </div>
+
+          </div>
+
+
+          <div style="
+            background:#f0fdf4;
+            padding:18px;
+            border-radius:12px;
+            border-left:5px solid #16a34a;
+          ">
+
+            <div style="
+              color:#64748b;
+              font-size:13px;
+              font-weight:700;
+            ">
+              GROSS SALARY
+            </div>
+
+            <div style="
+              font-size:22px;
+              font-weight:800;
+              color:#166534;
+              margin-top:5px;
+            ">
+              KES ${totalGross.toLocaleString()}
+            </div>
+
+          </div>
+
+
+          <div style="
+            background:#fff7ed;
+            padding:18px;
+            border-radius:12px;
+            border-left:5px solid #f97316;
+          ">
+
+            <div style="
+              color:#64748b;
+              font-size:13px;
+              font-weight:700;
+            ">
+              TOTAL DEDUCTIONS
+            </div>
+
+            <div style="
+              font-size:22px;
+              font-weight:800;
+              color:#9a3412;
+              margin-top:5px;
+            ">
+              KES ${totalDeductions.toLocaleString()}
+            </div>
+
+          </div>
+
+
+          <div style="
+            background:#fefce8;
+            padding:18px;
+            border-radius:12px;
+            border-left:5px solid #eab308;
+          ">
+
+            <div style="
+              color:#64748b;
+              font-size:13px;
+              font-weight:700;
+            ">
+              NET PAYROLL
+            </div>
+
+            <div style="
+              font-size:22px;
+              font-weight:800;
+              color:#854d0e;
+              margin-top:5px;
+            ">
+              KES ${totalNet.toLocaleString()}
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    // =====================================================
+    // 🕐 UPDATE LAST REFRESH TIME
+    // =====================================================
+
+    const refreshElement =
+      document.getElementById(
+        "payrollLastRefresh"
+      );
+
+    if (refreshElement) {
+
+      refreshElement.textContent =
+        `Last updated: ${new Date().toLocaleString()}`;
+
+    }
+
+
+    // =====================================================
+    // ✅ RETURN DATA
+    // =====================================================
+
+    return {
+
+      year,
+
+      month,
+
+      monthKey,
+
+      totalStaff,
+
+      totalGross,
+
+      totalDeductions,
+
+      totalNet,
+
+      records:
+        payrollRecords
+
+    };
+
+
+  } catch (error) {
+
+    console.error(
+      "❌ LOAD_PAYROLL_DASHBOARD_ERROR:",
+      error
+    );
+
+    throw error;
 
   }
 
