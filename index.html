@@ -10006,7 +10006,34 @@ onmouseout="
 
 </button>
 
-
+<button
+    type="button"
+    onclick="generateFeeBalanceNotices()"
+    style="
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        background:linear-gradient(135deg,#b45309,#f59e0b);
+        color:#fff;
+        border:none;
+        padding:10px 16px;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:700;
+        box-shadow:0 4px 12px rgba(245,158,11,.25);
+        transition:.2s;
+    "
+    onmouseover="
+        this.style.transform='translateY(-2px)';
+        this.style.boxShadow='0 7px 16px rgba(245,158,11,.35)';
+    "
+    onmouseout="
+        this.style.transform='translateY(0)';
+        this.style.boxShadow='0 4px 12px rgba(245,158,11,.25)';
+    "
+>
+    💰 Fee Balance Notices
+</button>
   </div>
 
   <!-- Right Side Filters -->
@@ -48249,22 +48276,39 @@ batch.forEach((data, index) => {
           ">
       </td>
 
-      <!-- Learner Name -->
-      <td style="min-width:220px;">
-        <input
-          type="text"
-          value="${data.name || ''}"
-          onchange="updateStudentField('${data.id}','name',this.value)"
-          placeholder="Learner Name"
-          style="
+     <!-- Learner Name - CLICK TO VIEW DETAILS -->
+<!-- Learner Name - CLICK TO VIEW DETAILS -->
+<td style="min-width:180x;">
+    <button
+        type="button"
+        onclick="showLearnerDetails('${data.id}')"
+        title="Click to view learner details"
+        style="
             width:100%;
             min-width:200px;
-            padding:8px;
-            border:1px solid #ddd;
+            padding:9px 12px;
+            border:none;
+            background:transparent;
+            color:#2563eb;
+            font-size:14px;
+            font-weight:700;
+            text-align:left;
+            cursor:pointer;
             border-radius:6px;
-            box-sizing:border-box;
-          ">
-      </td>
+            transition:all .2s ease;
+        "
+        onmouseover="
+            this.style.background='#eff6ff';
+            this.style.textDecoration='underline';
+        "
+        onmouseout="
+            this.style.background='transparent';
+            this.style.textDecoration='none';
+        "
+    >
+        👤 ${data.name || 'Unnamed Learner'}
+    </button>
+</td>
 
       <!-- Gender -->
       <td style="min-width:130px;">
@@ -48432,6 +48476,452 @@ window.updateStudentField = async function(studentId, field, value) {
             "Unable to save changes.",
             "error"
         );
+
+    }
+
+};
+
+// ======================================================
+// 👨‍🎓 SHOW LEARNER DETAILS
+// ======================================================
+window.showLearnerDetails = function(studentId) {
+
+    const students = Array.isArray(window.allStudents)
+        ? window.allStudents
+        : [];
+
+    const learner = students.find(
+        student => String(student.id) === String(studentId)
+    );
+
+    if (!learner) {
+        Swal.fire({
+            icon: "error",
+            title: "Learner Not Found",
+            text: "The selected learner could not be found.",
+            confirmButtonColor: "#2563eb"
+        });
+        return;
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    const name =
+        learner.name ||
+        learner.fullName ||
+        "Unnamed Learner";
+
+    const photo =
+        learner.photo ||
+        "https://via.placeholder.com/120";
+
+    const admissionNo =
+        learner.admissionNo ||
+        learner.adm ||
+        learner.admissionNumber ||
+        "-";
+
+    const grade =
+        learner.grade || "-";
+
+    const gender =
+        learner.gender || "-";
+
+    const age =
+        learner.age || "-";
+
+    const parentName =
+        learner.parentName ||
+        learner.guardianName ||
+        learner.parent ||
+        "-";
+
+    const parentPhone =
+        learner.parentPhone || "-";
+
+    const birthCert =
+        learner.birthCert ||
+        learner.birthCertificate ||
+        "-";
+
+
+    Swal.fire({
+
+        title: "👨‍🎓 Learner Details",
+
+        width: 720,
+
+        showCloseButton: true,
+
+        confirmButtonText: "Close",
+
+        confirmButtonColor: "#2563eb",
+
+        html: `
+
+            <div style="
+                text-align:left;
+                font-family:Arial,sans-serif;
+            ">
+
+                <!-- PROFILE HEADER -->
+                <div style="
+                    display:flex;
+                    align-items:center;
+                    gap:18px;
+                    padding:18px;
+                    margin-bottom:18px;
+                    background:linear-gradient(
+                        135deg,
+                        #eff6ff,
+                        #dbeafe
+                    );
+                    border-radius:14px;
+                    border:1px solid #bfdbfe;
+                ">
+
+                    <img
+                        src="${escapeHTML(photo)}"
+                        onerror="
+                            this.src='https://via.placeholder.com/120'
+                        "
+                        style="
+                            width:90px;
+                            height:90px;
+                            border-radius:50%;
+                            object-fit:cover;
+                            border:4px solid #fff;
+                            box-shadow:
+                                0 4px 12px rgba(0,0,0,.15);
+                            flex-shrink:0;
+                        "
+                    >
+
+                    <div style="flex:1;">
+
+                        <div style="
+                            font-size:21px;
+                            font-weight:800;
+                            color:#111827;
+                            margin-bottom:5px;
+                        ">
+                            ${escapeHTML(name)}
+                        </div>
+
+                        <div style="
+                            color:#2563eb;
+                            font-size:13px;
+                            font-weight:700;
+                        ">
+                            Admission No:
+                            ${escapeHTML(admissionNo)}
+                        </div>
+
+                        <div style="
+                            color:#64748b;
+                            font-size:13px;
+                            margin-top:4px;
+                        ">
+                            Grade:
+                            ${escapeHTML(grade)}
+                        </div>
+
+                        <!-- EDIT NAME BUTTON -->
+                        <button
+                            type="button"
+                            onclick="editLearnerName('${learner.id}')"
+                            style="
+                                margin-top:10px;
+                                padding:8px 15px;
+                                border:none;
+                                border-radius:7px;
+                                background:#2563eb;
+                                color:#fff;
+                                font-weight:700;
+                                cursor:pointer;
+                            "
+                        >
+                            ✏️ Edit Name
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DETAILS GRID -->
+                <div style="
+                    display:grid;
+                    grid-template-columns:
+                        repeat(2,minmax(0,1fr));
+                    gap:12px;
+                ">
+
+                    ${learnerDetailCard(
+                        "👤",
+                        "Full Name",
+                        name
+                    )}
+
+                    ${learnerDetailCard(
+                        "🪪",
+                        "Admission Number",
+                        admissionNo
+                    )}
+
+                    ${learnerDetailCard(
+                        "🎓",
+                        "Grade",
+                        grade
+                    )}
+
+                    ${learnerDetailCard(
+                        "⚧",
+                        "Gender",
+                        gender
+                    )}
+
+                    ${learnerDetailCard(
+                        "🎂",
+                        "Age",
+                        age
+                    )}
+
+                    ${learnerDetailCard(
+                        "👨‍👩‍👦",
+                        "Parent / Guardian",
+                        parentName
+                    )}
+
+                    ${learnerDetailCard(
+                        "📱",
+                        "Parent Phone",
+                        parentPhone
+                    )}
+
+                    ${learnerDetailCard(
+                        "🪪",
+                        "Birth Certificate",
+                        birthCert
+                    )}
+
+                </div>
+
+            </div>
+        `
+
+    });
+
+};
+
+
+// ======================================================
+// 🧾 DETAIL CARD
+// ======================================================
+function learnerDetailCard(icon, label, value) {
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    return `
+
+        <div style="
+            padding:13px;
+            background:#f8fafc;
+            border:1px solid #e2e8f0;
+            border-radius:10px;
+        ">
+
+            <div style="
+                font-size:11px;
+                color:#64748b;
+                font-weight:700;
+                text-transform:uppercase;
+                margin-bottom:5px;
+            ">
+                ${icon} ${escapeHTML(label)}
+            </div>
+
+            <div style="
+                font-size:14px;
+                color:#111827;
+                font-weight:600;
+                word-break:break-word;
+            ">
+                ${escapeHTML(value || "-")}
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+// ======================================================
+// ✏️ EDIT LEARNER NAME
+// ======================================================
+window.editLearnerName = async function(studentId) {
+
+    const students = Array.isArray(window.allStudents)
+        ? window.allStudents
+        : [];
+
+    const learner = students.find(
+        student => String(student.id) === String(studentId)
+    );
+
+    if (!learner) {
+
+        Swal.fire(
+            "Error",
+            "Learner not found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const result = await Swal.fire({
+
+        title: "✏️ Edit Learner Name",
+
+        input: "text",
+
+        inputValue:
+            learner.name ||
+            learner.fullName ||
+            "",
+
+        inputLabel: "Learner Name",
+
+        inputPlaceholder:
+            "Enter learner's full name",
+
+        showCancelButton: true,
+
+        confirmButtonText: "💾 Save Name",
+
+        cancelButtonText: "Cancel",
+
+        confirmButtonColor: "#2563eb",
+
+        cancelButtonColor: "#64748b",
+
+        inputValidator: value => {
+
+            if (!value || !value.trim()) {
+                return "Please enter the learner's name.";
+            }
+
+        }
+
+    });
+
+
+    if (!result.isConfirmed) {
+        return;
+    }
+
+
+    const newName =
+        result.value.trim();
+
+
+    try {
+
+        // ------------------------------------------
+        // SAVE TO FIREBASE
+        // ------------------------------------------
+        await updateStudentField(
+            studentId,
+            "name",
+            newName
+        );
+
+
+        // ------------------------------------------
+        // UPDATE LOCAL DATA
+        // ------------------------------------------
+        learner.name = newName;
+
+
+        // ------------------------------------------
+        // SUCCESS MESSAGE
+        // ------------------------------------------
+        await Swal.fire({
+
+            icon: "success",
+
+            title: "Name Updated",
+
+            text:
+                `${newName} has been saved successfully.`,
+
+            timer: 1500,
+
+            showConfirmButton: false
+
+        });
+
+
+        // ------------------------------------------
+        // REFRESH LEARNERS LIST
+        // ------------------------------------------
+        const tbody =
+            document.getElementById(
+                "learnersList"
+            );
+
+        if (tbody) {
+
+            tbody.innerHTML = "";
+
+            if (window.__studentPagination) {
+
+                window.__studentPagination.page = 0;
+
+                window.__studentPagination.loading = false;
+
+                window.__studentPagination.finished = false;
+
+            }
+
+            renderNextStudentsBatch();
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Learner name update failed:",
+            error
+        );
+
+        Swal.fire({
+
+            icon: "error",
+
+            title: "Update Failed",
+
+            text:
+                "Unable to update the learner's name."
+
+        });
 
     }
 
@@ -56794,33 +57284,172 @@ window.generateParentList = async () => {
   // ===============================
   // 🔥 HEADER (IMPROVED)
   // ===============================
-  const headerHtml = `
-    <div style="
-      text-align:center;
-      margin-bottom:25px;
-      border-bottom:3px solid #000;
-      padding-bottom:15px;
-    ">
+// =====================================================
+// 🏫 STANDARD SCHOOL PROFILE HEADER
+// USE THE SAME HEADER AS OTHER REPORTS
+// =====================================================
+let headerHtml = "";
 
-      <div style="font-size:22px;font-weight:bold;">
-        RASM 360 SCHOOL SYSTEM
-      </div>
+if (typeof window.getSchoolPrintHeader === "function") {
 
-      <div style="font-size:18px;font-weight:bold;margin-top:5px;">
-        PARENTS ATTENDANCE REGISTER
-      </div>
+    headerHtml = window.getSchoolPrintHeader(
+        "PARENTS ATTENDANCE REGISTER"
+    );
 
-      <div style="margin-top:8px;font-size:14px;">
-        YEAR: <b>${currentYear}</b> |
-        GRADE: <b>${selectedGrade}</b>
-      </div>
+} else {
 
-      <div style="font-size:12px;color:#555;margin-top:5px;">
-        Generated: ${new Date().toLocaleString()}
-      </div>
+    // =================================================
+    // FALLBACK ONLY
+    // =================================================
+    const school = window.currentSchool || {};
 
-    </div>
-  `;
+    function escapeHeaderHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    headerHtml = `
+        <div style="
+            width:100%;
+            border-bottom:3px solid #000;
+            padding-bottom:15px;
+            margin-bottom:20px;
+        ">
+
+            <div style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                width:100%;
+            ">
+
+                <!-- LEFT SPACE -->
+                <div style="
+                    width:100px;
+                "></div>
+
+
+                <!-- SCHOOL DETAILS -->
+                <div style="
+                    flex:1;
+                    text-align:center;
+                ">
+
+                    <h1 style="
+                        margin:0;
+                        font-size:30px;
+                        font-weight:800;
+                    ">
+                        ${escapeHeaderHTML(
+                            school.name ||
+                            "SCHOOL NAME"
+                        )}
+                    </h1>
+
+
+                    ${
+                        school.motto
+                            ? `
+                                <div style="
+                                    font-size:15px;
+                                    margin-top:6px;
+                                    font-style:italic;
+                                ">
+                                    ${escapeHeaderHTML(
+                                        school.motto
+                                    )}
+                                </div>
+                              `
+                            : ""
+                    }
+
+
+                    ${
+                        school.address
+                            ? `
+                                <div style="
+                                    font-size:14px;
+                                    margin-top:4px;
+                                ">
+                                    ${escapeHeaderHTML(
+                                        school.address
+                                    )}
+                                </div>
+                              `
+                            : ""
+                    }
+
+                </div>
+
+
+                <!-- SCHOOL LOGO -->
+                <div style="
+                    width:100px;
+                    text-align:right;
+                ">
+
+                    ${
+                        school.logo
+                            ? `
+                                <img
+                                    src="${escapeHeaderHTML(
+                                        school.logo
+                                    )}"
+                                    style="
+                                        width:90px;
+                                        height:90px;
+                                        object-fit:cover;
+                                        border-radius:50%;
+                                    "
+                                >
+                              `
+                            : ""
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORT TITLE -->
+            <h2 style="
+                text-align:center;
+                margin-top:15px;
+                margin-bottom:8px;
+                font-size:22px;
+            ">
+                PARENTS ATTENDANCE REGISTER
+            </h2>
+
+
+            <!-- REPORT INFO -->
+            <div style="
+                text-align:center;
+                font-size:13px;
+            ">
+                YEAR:
+                <b>${escapeHeaderHTML(currentYear)}</b>
+
+                &nbsp; | &nbsp;
+
+                GRADE:
+                <b>${escapeHeaderHTML(selectedGrade)}</b>
+
+                &nbsp; | &nbsp;
+
+                Generated:
+                <b>${escapeHeaderHTML(
+                    new Date().toLocaleString()
+                )}</b>
+            </div>
+
+        </div>
+    `;
+}
 
   // ===============================
   // 🔥 TABLE (IMPROVED)
@@ -111417,6 +112046,1300 @@ function buildParentNoticeElement(
     return notice;
 
 }
+// ============================================================
+// 💰 FEE BALANCE NOTICES
+// ============================================================
+// Uses the Fees Table Academic Year + Grade filters
+// Finds learners with outstanding balances
+// Generates individual parent notices
+// 4 notices per A4 page
+// Uses school profile information
+// ============================================================
+
+window.generateFeeBalanceNotices = async function () {
+
+    try {
+
+        // =====================================================
+        // 1. GET FEES TABLE FILTERS
+        // =====================================================
+
+        const year =
+            document.getElementById("filterFeeYear")?.value ||
+            new Date().getFullYear().toString();
+
+        const selectedGrade =
+            document.getElementById("filterFeeGrade")?.value ||
+            "";
+
+
+        // =====================================================
+        // 2. SHOW LOADING
+        // =====================================================
+
+        Swal.fire({
+
+            title: "💰 Preparing Fee Balance Notices...",
+
+            html: `
+                <div style="
+                    font-size:14px;
+                    color:#64748b;
+                ">
+                    Reading outstanding learner balances...
+                </div>
+            `,
+
+            allowOutsideClick: false,
+
+            allowEscapeKey: false,
+
+            showConfirmButton: false,
+
+            didOpen: () => {
+                Swal.showLoading();
+            }
+
+        });
+
+
+        // =====================================================
+        // 3. READ FEE RECORDS
+        // =====================================================
+
+        const snap =
+            await get(
+                schoolRef(`fees/${year}`)
+            );
+
+
+        if (!snap.exists()) {
+
+            Swal.close();
+
+            return Swal.fire({
+
+                icon: "info",
+
+                title: "No Fee Records",
+
+                text:
+                    `No fee records were found for ${year}.`,
+
+                confirmButtonColor: "#2563eb"
+
+            });
+
+        }
+
+
+        const feeData =
+            snap.val() || {};
+
+
+        // =====================================================
+        // 4. REGISTERED LEARNERS
+        // =====================================================
+
+        const registeredLearners =
+            Array.isArray(window.allStudents)
+                ? window.allStudents
+                : [];
+
+
+        // Fast learner lookup
+        const learnerMap =
+            new Map(
+                registeredLearners.map(
+                    learner => [
+                        String(learner.id),
+                        learner
+                    ]
+                )
+            );
+
+
+        // =====================================================
+        // 5. FIND LEARNERS WITH BALANCES
+        // =====================================================
+
+        const balanceLearners = [];
+
+
+        Object.entries(feeData).forEach(
+            ([studentId, fee]) => {
+
+                if (!fee) return;
+
+
+                // -----------------------------
+                // BALANCE
+                // -----------------------------
+
+                const balance =
+                    Number(
+                        fee.balance || 0
+                    );
+
+
+                // Only learners owing money
+                if (balance <= 0) {
+                    return;
+                }
+
+
+                // -----------------------------
+                // GRADE FILTER
+                // -----------------------------
+
+                const feeGrade =
+                    String(
+                        fee.grade || ""
+                    ).trim();
+
+
+                if (
+                    selectedGrade &&
+                    feeGrade !==
+                    String(selectedGrade).trim()
+                ) {
+                    return;
+                }
+
+
+                // -----------------------------
+                // LEARNER RECORD
+                // -----------------------------
+
+                const learner =
+                    learnerMap.get(
+                        String(studentId)
+                    ) || {};
+
+
+                balanceLearners.push({
+
+                    id:
+                        studentId,
+
+                    learner,
+
+                    fee,
+
+                    balance
+
+                });
+
+            }
+        );
+
+
+        // =====================================================
+        // 6. NO BALANCES
+        // =====================================================
+
+        if (!balanceLearners.length) {
+
+            Swal.close();
+
+            return Swal.fire({
+
+                icon: "success",
+
+                title: "🎉 No Outstanding Balances",
+
+                html: `
+                    No learners with outstanding
+                    fee balances were found for
+                    <b>${escapeFeeNoticeHTML(
+                        selectedGrade ||
+                        "all grades"
+                    )}</b>
+                    in
+                    <b>${escapeFeeNoticeHTML(
+                        year
+                    )}</b>.
+                `,
+
+                confirmButtonColor: "#16a34a"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 7. SCHOOL PROFILE
+        // =====================================================
+
+        const school =
+            window.currentSchool || {};
+
+
+        const schoolName =
+            school.name ||
+            localStorage.getItem("schoolName") ||
+            "SCHOOL";
+
+
+        const schoolMotto =
+            school.motto ||
+            localStorage.getItem("schoolMotto") ||
+            "";
+
+
+        const schoolLogo =
+            school.logo ||
+            localStorage.getItem("schoolLogo") ||
+            localStorage.getItem("logoUrl") ||
+            "";
+
+
+        const schoolAddress =
+            school.address ||
+            school.location ||
+            school.town ||
+            school.city ||
+            "";
+
+
+        // =====================================================
+        // 8. SAFE HTML
+        // =====================================================
+
+        const safe =
+            value =>
+                escapeFeeNoticeHTML(
+                    value ?? ""
+                );
+
+
+        // =====================================================
+        // 9. BUILD NOTICES
+        // =====================================================
+
+        let noticesHTML = "";
+
+
+        balanceLearners.forEach(
+            (record, index) => {
+
+                const fee =
+                    record.fee || {};
+
+                const learner =
+                    record.learner || {};
+
+
+                // -----------------------------
+                // LEARNER NAME
+                // -----------------------------
+
+                const learnerName =
+                    fee.studentName ||
+                    learner.name ||
+                    learner.fullName ||
+                    "Learner";
+
+
+                // -----------------------------
+                // PARENT NAME
+                // -----------------------------
+
+                const parentName =
+                    fee.parentName ||
+                    fee.guardianName ||
+                    learner.parentName ||
+                    learner.guardianName ||
+                    learner.parent ||
+                    "Parent / Guardian";
+
+
+                // -----------------------------
+                // GRADE
+                // -----------------------------
+
+                const grade =
+                    fee.grade ||
+                    learner.grade ||
+                    "-";
+
+
+                // -----------------------------
+                // ADMISSION NUMBER
+                // -----------------------------
+
+                const admissionNo =
+                    fee.admissionNo ||
+                    fee.adm ||
+                    fee.admissionNumber ||
+                    learner.admissionNo ||
+                    learner.adm ||
+                    learner.admissionNumber ||
+                    "-";
+
+
+                // -----------------------------
+                // FEES
+                // -----------------------------
+
+                const expectedTotal =
+                    Number(
+                        fee.expectedTotal || 0
+                    );
+
+
+                const totalPaid =
+                    Number(
+                        fee.totalPaid || 0
+                    );
+
+
+                const balance =
+                    Number(
+                        fee.balance || 0
+                    );
+
+
+                noticesHTML += `
+
+                <div class="fee-notice">
+
+                    <!-- SCHOOL HEADER -->
+                    <div class="fee-notice-header">
+
+                        ${
+                            schoolLogo
+                                ?
+                                `
+                                <img
+                                    src="${safe(schoolLogo)}"
+                                    class="fee-school-logo"
+                                    alt="School Logo"
+                                >
+                                `
+                                :
+                                `
+                                <div class="
+                                    fee-school-placeholder
+                                ">
+                                    🏫
+                                </div>
+                                `
+                        }
+
+
+                        <div class="
+                            fee-school-details
+                        ">
+
+                            <div class="
+                                fee-school-name
+                            ">
+                                ${safe(schoolName)}
+                            </div>
+
+
+                            ${
+                                schoolMotto
+                                    ?
+                                    `
+                                    <div class="
+                                        fee-school-motto
+                                    ">
+                                        ${safe(
+                                            schoolMotto
+                                        )}
+                                    </div>
+                                    `
+                                    :
+                                    ""
+                            }
+
+
+                            ${
+                                schoolAddress
+                                    ?
+                                    `
+                                    <div class="
+                                        fee-school-address
+                                    ">
+                                        ${safe(
+                                            schoolAddress
+                                        )}
+                                    </div>
+                                    `
+                                    :
+                                    ""
+                            }
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TITLE -->
+                    <div class="
+                        fee-notice-title
+                    ">
+                        💰 FEE BALANCE NOTICE
+                    </div>
+
+
+                    <div class="
+                        fee-notice-line
+                    "></div>
+
+
+                    <!-- LEARNER DETAILS -->
+                    <div class="
+                        fee-learner-box
+                    ">
+
+                        <div>
+
+                            <span>
+                                Learner
+                            </span>
+
+                            <b>
+                                ${safe(
+                                    learnerName
+                                )}
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Grade
+                            </span>
+
+                            <b>
+                                ${safe(grade)}
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                ADM No.
+                            </span>
+
+                            <b>
+                                ${safe(
+                                    admissionNo
+                                )}
+                            </b>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PARENT -->
+                    <p class="
+                        fee-greeting
+                    ">
+
+                        Dear
+                        <b>
+                            ${safe(parentName)}
+                        </b>,
+
+                    </p>
+
+
+                    <!-- MESSAGE -->
+                    <p class="
+                        fee-message
+                    ">
+
+                        This is a reminder that your
+                        child has an outstanding
+                        school fee balance.
+
+                    </p>
+
+
+                    <!-- FEE SUMMARY -->
+                    <div class="
+                        fee-summary
+                    ">
+
+                        <div>
+
+                            <span>
+                                Expected Fees
+                            </span>
+
+                            <b>
+                                KES
+                                ${expectedTotal.toLocaleString()}
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Amount Paid
+                            </span>
+
+                            <b>
+                                KES
+                                ${totalPaid.toLocaleString()}
+                            </b>
+
+                        </div>
+
+
+                        <div class="
+                            outstanding
+                        ">
+
+                            <span>
+                                OUTSTANDING BALANCE
+                            </span>
+
+                            <b>
+                                KES
+                                ${balance.toLocaleString()}
+                            </b>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REMINDER -->
+                    <p class="
+                        fee-reminder
+                    ">
+
+                        Kindly clear the outstanding
+                        balance at your earliest
+                        convenience.
+
+                    </p>
+
+
+                    <p class="
+                        fee-thankyou
+                    ">
+
+                        Thank you for your continued
+                        support of the school.
+
+                    </p>
+
+
+                    <!-- SIGNATURE -->
+                    <div class="
+                        fee-signature
+                    ">
+
+                        <div>
+                            ____________________
+                            <br>
+                            <span>
+                                School Administration
+                            </span>
+                        </div>
+
+                        <div>
+                            ____________________
+                            <br>
+                            <span>
+                                Parent / Guardian
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- FOOTER -->
+                    <div class="
+                        fee-notice-footer
+                    ">
+
+                        ${safe(schoolName)}
+                        &nbsp; • &nbsp;
+                        Fee Balance Notice
+                        &nbsp; • &nbsp;
+                        ${safe(year)}
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        );
+
+
+        // =====================================================
+        // 10. OPEN PRINT WINDOW
+        // =====================================================
+
+        Swal.close();
+
+
+        const printWindow =
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if (!printWindow) {
+
+            return Swal.fire({
+
+                icon: "warning",
+
+                title: "Popup Blocked",
+
+                text:
+                    "Please allow popups so the fee balance notices can be printed.",
+
+                confirmButtonColor: "#2563eb"
+
+            });
+
+        }
+
+
+        // =====================================================
+        // 11. PRINT DOCUMENT
+        // =====================================================
+
+        printWindow.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Fee Balance Notices -
+    ${safe(year)}
+</title>
+
+
+<style>
+
+/* =====================================================
+   A4
+===================================================== */
+
+@page {
+
+    size:A4 portrait;
+
+    margin:5mm;
+
+}
+
+
+* {
+
+    box-sizing:border-box;
+
+}
+
+
+html,
+body {
+
+    margin:0;
+
+    padding:0;
+
+    width:100%;
+
+    background:#fff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:#111827;
+
+    -webkit-print-color-adjust:exact !important;
+
+    print-color-adjust:exact !important;
+
+}
+
+
+/* =====================================================
+   A4 SHEET
+===================================================== */
+
+.a4-sheet {
+
+    width:200mm;
+
+    height:287mm;
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    grid-template-rows:
+        repeat(4,1fr);
+
+    page-break-after:always;
+
+}
+
+
+.a4-sheet:last-child {
+
+    page-break-after:auto;
+
+}
+
+
+/* =====================================================
+   NOTICE
+===================================================== */
+
+.fee-notice {
+
+    width:100%;
+
+    height:100%;
+
+    padding:
+        4mm 6mm;
+
+    border:
+        1px dashed #94a3b8;
+
+    background:#fff;
+
+    overflow:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+/* =====================================================
+   SCHOOL HEADER
+===================================================== */
+
+.fee-notice-header {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+}
+
+
+.fee-school-logo {
+
+    width:32px;
+
+    height:32px;
+
+    object-fit:contain;
+
+}
+
+
+.fee-school-placeholder {
+
+    width:32px;
+
+    height:32px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:23px;
+
+}
+
+
+.fee-school-details {
+
+    text-align:center;
+
+}
+
+
+.fee-school-name {
+
+    font-size:14px;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+}
+
+
+.fee-school-motto {
+
+    font-size:7px;
+
+    color:#64748b;
+
+    margin-top:1px;
+
+}
+
+
+.fee-school-address {
+
+    font-size:6px;
+
+    color:#475569;
+
+    margin-top:1px;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.fee-notice-title {
+
+    text-align:center;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    margin-top:3px;
+
+    color:#b45309;
+
+}
+
+
+.fee-notice-line {
+
+    border-top:
+        1.5px solid #f59e0b;
+
+    margin:
+        3px 0 4px;
+
+}
+
+
+/* =====================================================
+   LEARNER
+===================================================== */
+
+.fee-learner-box {
+
+    display:grid;
+
+    grid-template-columns:
+        2.2fr 1fr 1fr;
+
+    gap:5px;
+
+    padding:4px;
+
+    background:#fffbeb;
+
+    border:
+        1px solid #fcd34d;
+
+    border-radius:4px;
+
+}
+
+
+.fee-learner-box span {
+
+    display:block;
+
+    font-size:6px;
+
+    color:#64748b;
+
+    font-weight:700;
+
+}
+
+
+.fee-learner-box b {
+
+    display:block;
+
+    font-size:8px;
+
+    margin-top:1px;
+
+    color:#111827;
+
+}
+
+
+/* =====================================================
+   GREETING
+===================================================== */
+
+.fee-greeting {
+
+    font-size:8px;
+
+    margin:
+        5px 0 2px;
+
+}
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+.fee-message {
+
+    font-size:7px;
+
+    line-height:1.3;
+
+    margin:
+        2px 0 4px;
+
+}
+
+
+/* =====================================================
+   FEE SUMMARY
+===================================================== */
+
+.fee-summary {
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr 1.25fr;
+
+    gap:4px;
+
+    margin:
+        2px 0 4px;
+
+}
+
+
+.fee-summary > div {
+
+    padding:4px;
+
+    border:
+        1px solid #e2e8f0;
+
+    background:#f8fafc;
+
+    border-radius:4px;
+
+}
+
+
+.fee-summary span {
+
+    display:block;
+
+    font-size:6px;
+
+    color:#64748b;
+
+    font-weight:700;
+
+}
+
+
+.fee-summary b {
+
+    display:block;
+
+    margin-top:2px;
+
+    font-size:8px;
+
+}
+
+
+.fee-summary .outstanding {
+
+    background:#fef2f2;
+
+    border-color:#fecaca;
+
+}
+
+
+.fee-summary .outstanding span {
+
+    color:#b91c1c;
+
+}
+
+
+.fee-summary .outstanding b {
+
+    color:#dc2626;
+
+    font-size:9px;
+
+}
+
+
+/* =====================================================
+   REMINDER
+===================================================== */
+
+.fee-reminder {
+
+    font-size:7px;
+
+    line-height:1.3;
+
+    margin:
+        2px 0;
+
+    font-weight:600;
+
+}
+
+
+.fee-thankyou {
+
+    font-size:7px;
+
+    margin:
+        2px 0;
+
+}
+
+
+/* =====================================================
+   SIGNATURE
+===================================================== */
+
+.fee-signature {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin-top:auto;
+
+    padding-top:4px;
+
+    font-size:6px;
+
+    text-align:center;
+
+}
+
+
+.fee-signature span {
+
+    font-size:6px;
+
+    color:#64748b;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.fee-notice-footer {
+
+    margin-top:4px;
+
+    padding-top:3px;
+
+    border-top:
+        1px solid #e2e8f0;
+
+    text-align:center;
+
+    font-size:6px;
+
+    color:#64748b;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+`);
+
+
+/* =====================================================
+   GROUP 4 NOTICES PER A4
+===================================================== */
+
+for (
+    let i = 0;
+    i < balanceLearners.length;
+    i += 4
+) {
+
+    const pageNotices =
+        balanceLearners
+            .slice(i, i + 4)
+            .map(
+                (_, index) =>
+                    noticesHTML
+                        .split(
+                            '<div class="fee-notice">'
+                        )
+                        .slice(1)
+                        [i + index]
+            )
+            .filter(Boolean)
+            .map(
+                notice =>
+                    `<div class="fee-notice">
+                        ${notice
+                            .replace(
+                                /<\/div>\s*$/,
+                                ""
+                            )}
+                    </div>`
+            )
+            .join("");
+
+
+    printWindow.document.write(`
+
+        <div class="a4-sheet">
+
+            ${pageNotices}
+
+        </div>
+
+    `);
+
+}
+
+
+printWindow.document.write(`
+
+</body>
+
+</html>
+
+`);
+
+
+        printWindow.document.close();
+
+
+        setTimeout(
+            () => {
+
+                printWindow.focus();
+
+                printWindow.print();
+
+            },
+            600
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Fee balance notices error:",
+            error
+        );
+
+
+        Swal.close();
+
+
+        Swal.fire({
+
+            icon: "error",
+
+            title: "Generation Failed",
+
+            text:
+                error?.message ||
+                "Unable to generate fee balance notices.",
+
+            confirmButtonColor: "#dc2626"
+
+        });
+
+    }
+
+};
+
+
+// ============================================================
+// SAFE HTML FOR FEE NOTICES
+// ============================================================
+
+function escapeFeeNoticeHTML(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
 function showRandomPopup(){
 
     const popup=document.getElementById("rasmPopup");
@@ -111448,7 +113371,46 @@ function showRandomPopup(){
     },5000);
 
 }
+printWindow.document.write(`
 
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Fee Balance Notices - ${safe(year)}
+</title>
+
+<style>
+
+/* PUT THE PRINT CSS FROM ABOVE HERE */
+
+</style>
+
+</head>
+
+<body>
+
+${pagesHTML}
+
+</body>
+
+</html>
+
+`);
+
+printWindow.document.close();
+
+setTimeout(() => {
+
+    printWindow.focus();
+    printWindow.print();
+
+}, 600);
 /* First popup after login */
 setTimeout(showRandomPopup,4000);
 
